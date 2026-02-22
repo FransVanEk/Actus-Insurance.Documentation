@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { MagnifyingGlassIcon, Bars3Icon, XMarkIcon, ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+import { MagnifyingGlassIcon, Bars3Icon, XMarkIcon, ChevronDownIcon, ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/outline'
 import { SearchModal } from './SearchModal'
+import { useLayout } from './LayoutContext'
 
 interface NavigationItem {
   title: string
@@ -28,6 +29,7 @@ export function Sidebar({ navigation }: SidebarProps) {
   const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set())
   const [collapsedItems, setCollapsedItems] = useState<Set<string>>(new Set())
   const pathname = usePathname()
+  const { isSidebarCollapsed, setSidebarCollapsed } = useLayout()
 
   // Detect current section from pathname
   const getCurrentSection = () => {
@@ -107,6 +109,74 @@ export function Sidebar({ navigation }: SidebarProps) {
     setCollapsedItems(newCollapsed)
   }
 
+  const collapseAll = () => {
+    const allCategories = new Set(Object.keys(filteredNavigation))
+    setCollapsedCategories(allCategories)
+    const allItems = new Set<string>()
+    const collectSlugs = (items: NavigationItem[]) => {
+      items.forEach(item => {
+        if (item.children && item.children.length > 0) {
+          allItems.add(item.slug)
+          collectSlugs(item.children)
+        }
+      })
+    }
+    Object.values(filteredNavigation).forEach(items => collectSlugs(items))
+    setCollapsedItems(allItems)
+  }
+
+  // Collapse the category itself and deep-collapse all its descendants (no state preserved)
+  const collapseCategoryLevel = (category: string) => {
+    setCollapsedCategories(prev => new Set([...prev, category]))
+    setCollapsedItems(prev => {
+      const next = new Set(prev)
+      const deepCollect = (items: NavigationItem[]) => {
+        items.forEach(item => {
+          if (item.children && item.children.length > 0) {
+            next.add(item.slug)
+            deepCollect(item.children)
+          }
+        })
+      }
+      deepCollect(filteredNavigation[category] ?? [])
+      return next
+    })
+  }
+
+  // Auto-expand the category/item for the current pathname (e.g. after navigating from search)
+  useEffect(() => {
+    const slug = pathname.replace(/^\/docs\//, '')
+    if (!slug) return
+
+    // Find and expand the category containing this slug
+    Object.entries(filteredNavigation).forEach(([category, items]) => {
+      const findInItems = (list: NavigationItem[]): boolean => {
+        for (const item of list) {
+          if (item.slug === slug) return true
+          if (item.children && findInItems(item.children)) {
+            // Expand parent item if it was collapsed
+            setCollapsedItems(prev => {
+              const next = new Set(prev)
+              next.delete(item.slug)
+              return next
+            })
+            return true
+          }
+        }
+        return false
+      }
+      if (findInItems(items)) {
+        // Expand this category if it was collapsed
+        setCollapsedCategories(prev => {
+          const next = new Set(prev)
+          next.delete(category)
+          return next
+        })
+      }
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
+
   const SidebarContent = () => (
     <div className="flex h-full flex-col">
       {/* Logo */}
@@ -166,14 +236,22 @@ export function Sidebar({ navigation }: SidebarProps) {
       </div>
 
       {/* Search Button */}
-      <div className="px-6 pt-4 pb-4">`
+      <div className="px-6 pt-4 pb-4 flex items-center gap-2">
         <button
           onClick={() => setIsSearchOpen(true)}
-          className="flex w-full items-center rounded-md px-3 py-2 text-left text-sm shadow-sm transition-colors"
+          className="flex flex-1 items-center rounded-md px-3 py-2 text-left text-sm shadow-sm transition-colors"
           style={{ border: '1px solid #D4891A30', backgroundColor: '#1A3550', color: '#9FB8D0' }}
         >
           <MagnifyingGlassIcon className="mr-3 h-4 w-4" />
           Search documentation...
+        </button>
+        <button
+          onClick={collapseAll}
+          className="flex-shrink-0 text-xs transition-colors hover:text-white whitespace-nowrap"
+          style={{ color: '#4A6580' }}
+          title="Collapse all"
+        >
+          ⊟
         </button>
       </div>
 
@@ -184,19 +262,37 @@ export function Sidebar({ navigation }: SidebarProps) {
             const isCollapsed = collapsedCategories.has(category)
             return (
               <li key={category}>
-                <div className="mb-2 mt-6 first:mt-0">
+                <div className="mb-2 mt-6 first:mt-0 flex items-center justify-between">
                   <button
                     onClick={() => toggleCategory(category)}
-                    className="flex w-full items-center justify-between text-xs font-semibold uppercase tracking-wide hover:text-white"
+                    className="flex-1 text-left text-xs font-semibold uppercase tracking-wide hover:text-white"
                     style={{ color: '#9FB8D0' }}
                   >
-                    <span>{category}</span>
-                    {isCollapsed ? (
-                      <ChevronRightIcon className="h-3 w-3" />
-                    ) : (
-                      <ChevronDownIcon className="h-3 w-3" />
-                    )}
+                    {category}
                   </button>
+                  <div className="group flex items-center gap-1">
+                    {!isCollapsed && (
+                      <button
+                        onClick={() => collapseCategoryLevel(category)}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity hover:text-white leading-none"
+                        style={{ color: '#4A6580', fontSize: '14px' }}
+                        title={`Collapse & reset ${category}`}
+                      >
+                        &#8863;
+                      </button>
+                    )}
+                    <button
+                      onClick={() => toggleCategory(category)}
+                      className="transition-colors hover:text-white"
+                      style={{ color: '#9FB8D0' }}
+                    >
+                      {isCollapsed ? (
+                        <ChevronRightIcon className="h-3 w-3" />
+                      ) : (
+                        <ChevronDownIcon className="h-3 w-3" />
+                      )}
+                    </button>
+                  </div>
                 </div>
                 {!isCollapsed && (
                   <ul className="space-y-1">
@@ -246,11 +342,38 @@ export function Sidebar({ navigation }: SidebarProps) {
       </div>
 
       {/* Desktop sidebar */}
-      <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-80 lg:flex-col">
+      <div
+        className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-80 lg:flex-col transition-transform duration-300 ease-in-out"
+        style={{ transform: isSidebarCollapsed ? 'translateX(-100%)' : 'translateX(0)' }}
+      >
         <div className="flex grow flex-col overflow-y-auto" style={{ backgroundColor: '#0D2038', borderRight: '1px solid #D4891A20' }}>
           <SidebarContent />
         </div>
       </div>
+
+      {/* Collapse tab — fixed at 40% on the right edge of the sidebar, only when expanded */}
+      {!isSidebarCollapsed && (
+        <button
+          onClick={() => setSidebarCollapsed(true)}
+          className="hidden lg:flex fixed z-50 -translate-y-1/2 items-center justify-center rounded-r-md transition-opacity opacity-30 hover:opacity-100"
+          style={{ top: '40%', left: '320px', backgroundColor: '#1A3550', color: '#9FB8D0', width: '20px', height: '48px', borderRight: '1px solid #D4891A40', borderTop: '1px solid #D4891A40', borderBottom: '1px solid #D4891A40' }}
+          title="Collapse sidebar"
+        >
+          <ChevronLeftIcon className="h-3 w-3" />
+        </button>
+      )}
+
+      {/* Expand tab — fixed at 40% on the left edge, only when collapsed */}
+      {isSidebarCollapsed && (
+        <button
+          onClick={() => setSidebarCollapsed(false)}
+          className="hidden lg:flex fixed z-50 -translate-y-1/2 items-center justify-center rounded-r-md transition-opacity opacity-30 hover:opacity-100"
+          style={{ top: '40%', left: '0', backgroundColor: '#1A3550', color: '#9FB8D0', width: '20px', height: '48px', borderRight: '1px solid #D4891A40', borderTop: '1px solid #D4891A40', borderBottom: '1px solid #D4891A40' }}
+          title="Expand sidebar"
+        >
+          <ChevronRightIcon className="h-3 w-3" />
+        </button>
+      )}
 
       {/* Mobile sidebar */}
       {isMobileMenuOpen && (
