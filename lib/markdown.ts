@@ -119,7 +119,7 @@ export function getDocNavigation() {
   // Build hierarchy within each category
   Object.keys(itemsByCategory).forEach(category => {
     const categoryItems = itemsByCategory[category]
-    const itemsMap = new Map(categoryItems.map(item => [item.slug, { ...item, children: [] }]))
+    const itemsMap = new Map(categoryItems.map(item => [item.slug, { ...item, children: [] as any[] }]))
     const rootItems: any[] = []
     
     // Sort all items by order first
