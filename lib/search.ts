@@ -1,13 +1,13 @@
-import Fuse from 'fuse.js'
+import Fuse, { type FuseResultMatch, type IFuseOptions } from 'fuse.js'
 import { DocContent } from './markdown'
 
 export interface SearchResult {
   item: DocContent
-  matches?: Fuse.FuseResultMatch[]
+  matches?: readonly FuseResultMatch[]
   score?: number
 }
 
-const fuseOptions: Fuse.IFuseOptions<DocContent> = {
+const fuseOptions: IFuseOptions<DocContent> = {
   keys: [
     { name: 'metadata.title', weight: 2 },
     { name: 'metadata.description', weight: 1.5 },
@@ -50,9 +50,9 @@ export function searchDocs(query: string): SearchResult[] {
       allResults.push({
         item: doc,
         matches: [
-          ...(titleMatch ? [{ key: 'metadata.title', value: doc.metadata.title, indices: [[0, 1]] }] : []),
-          ...(descriptionMatch ? [{ key: 'metadata.description', value: doc.metadata.description || '', indices: [[0, 1]] }] : []),
-          ...(contentMatch ? [{ key: 'content', value: doc.content, indices: [[0, 1]] }] : [])
+          ...(titleMatch ? [{ key: 'metadata.title', value: doc.metadata.title, indices: [[0, 1] as [number, number]] }] : []),
+          ...(descriptionMatch ? [{ key: 'metadata.description', value: doc.metadata.description || '', indices: [[0, 1] as [number, number]] }] : []),
+          ...(contentMatch ? [{ key: 'content', value: doc.content, indices: [[0, 1] as [number, number]] }] : [])
         ],
         score: 0
       })
@@ -61,7 +61,7 @@ export function searchDocs(query: string): SearchResult[] {
   
   // If no exact matches found, fall back to fuzzy search
   if (allResults.length === 0) {
-    const fuseResults = fuse.search(searchQuery, { limit: 10, threshold: 0.4 })
+    const fuseResults = fuse.search(searchQuery, { limit: 10 })
     return fuseResults.map(result => ({
       item: result.item,
       matches: result.matches,
@@ -77,7 +77,7 @@ export function searchDocs(query: string): SearchResult[] {
   }).slice(0, 10)
 }
 
-export function highlightMatch(text: string, matches?: Fuse.FuseResultMatch[], originalQuery?: string): string {
+export function highlightMatch(text: string, matches?: FuseResultMatch[], originalQuery?: string): string {
   if (!originalQuery || originalQuery.trim().length < 2) {
     return text
   }
