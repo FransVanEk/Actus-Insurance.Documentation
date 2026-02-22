@@ -29,8 +29,8 @@ jobs:
         with:
           images: neobluetechlabs/actus-insurance-documentation
           tags: |
+            type=raw,value=preview-${{ github.run_number }}
             type=raw,value=preview
-            type=sha,prefix=sha-
 
       - name: Build and push
         uses: docker/build-push-action@v6
