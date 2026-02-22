@@ -9,12 +9,15 @@ import { DocContent } from '../lib/markdown'
 import 'highlight.js/styles/github-dark.css'
 import { TableOfContents } from './TableOfContents'
 import { MermaidChart } from './MermaidChart'
+import { useLayout } from './LayoutContext'
+import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/outline'
 
 interface DocumentRendererProps {
   doc: DocContent
 }
 
 export function DocumentRenderer({ doc }: DocumentRendererProps) {
+  const { isTocCollapsed, setTocCollapsed } = useLayout()
   // Pre-generate unique IDs from content to ensure server/client consistency
   const headingIds = React.useMemo(() => {
     const headingRegex = /^(#{1,6})\s+(.+?)$/gm
@@ -225,8 +228,24 @@ export function DocumentRenderer({ doc }: DocumentRendererProps) {
       </div>
       
       {/* Table of Contents */}
-      <div className="hidden xl:block w-64 flex-shrink-0 pr-8 py-8">
-        <TableOfContents content={doc.content} />
+      <div className={`hidden xl:flex flex-col flex-shrink-0 py-8 transition-all duration-300 ${isTocCollapsed ? 'w-6 pr-0' : 'w-64 pr-8'}`}>
+        {/* Fixed toggle button always at 40% of screen height on the right edge */}
+        <button
+          onClick={() => setTocCollapsed(!isTocCollapsed)}
+          className="fixed z-50 -translate-y-1/2 flex items-center justify-center rounded-l-md transition-opacity opacity-30 hover:opacity-100"
+          style={{ top: '40%', right: '0', backgroundColor: '#e5e7eb', color: '#6b7280', width: '16px', height: '48px', borderLeft: '1px solid #d1d5db', borderTop: '1px solid #d1d5db', borderBottom: '1px solid #d1d5db' }}
+          title={isTocCollapsed ? 'Expand table of contents' : 'Collapse table of contents'}
+        >
+          {isTocCollapsed
+            ? <ChevronLeftIcon className="h-3 w-3" />
+            : <ChevronRightIcon className="h-3 w-3" />
+          }
+        </button>
+        {!isTocCollapsed && (
+          <div className="sticky top-8">
+            <TableOfContents content={doc.content} />
+          </div>
+        )}
       </div>
     </div>
   )
