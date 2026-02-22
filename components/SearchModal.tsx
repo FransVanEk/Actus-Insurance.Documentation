@@ -92,14 +92,18 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
       <div className="fixed inset-0 bg-gray-500 bg-opacity-25" />
       
       <div className="fixed inset-0 overflow-y-auto p-4 sm:p-6 md:p-20">
-        <Dialog.Panel className="mx-auto max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-2xl ring-1 ring-black ring-opacity-5 transition-all dark:divide-gray-800 dark:bg-gray-900">
+        <Dialog.Panel
+          className="mx-auto max-w-xl transform overflow-hidden rounded-xl shadow-2xl ring-1 transition-all"
+          style={{ backgroundColor: '#0D2038', borderColor: '#D4891A30' }}
+        >
           {/* Search Input */}
-          <div className="relative">
-            <MagnifyingGlassIcon className="pointer-events-none absolute left-4 top-3.5 h-5 w-5 text-gray-400" />
+          <div className="relative" style={{ borderBottom: '1px solid #D4891A20' }}>
+            <MagnifyingGlassIcon className="pointer-events-none absolute left-4 top-3.5 h-5 w-5" style={{ color: '#D4891A' }} />
             <input
               ref={inputRef}
               type="text"
-              className="h-12 w-full border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder-gray-400 focus:ring-0 dark:text-white dark:placeholder-gray-500 sm:text-sm"
+              className="h-12 w-full border-0 bg-transparent pl-11 pr-4 focus:ring-0 sm:text-sm"
+              style={{ color: 'white' }}
               placeholder="Search documentation..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -108,60 +112,65 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
           {/* Loading State */}
           {isLoading && (
-            <div className="px-6 py-14 text-center text-sm text-gray-500 dark:text-gray-400">
+            <div className="px-6 py-14 text-center text-sm" style={{ color: '#9FB8D0' }}>
               Initializing search...
             </div>
           )}
 
           {/* No Query */}
           {!isLoading && !query.trim() && (
-            <div className="px-6 py-14 text-center text-sm text-gray-500 dark:text-gray-400">
+            <div className="px-6 py-14 text-center text-sm" style={{ color: '#9FB8D0' }}>
               Type to search documentation
             </div>
           )}
 
           {/* No Results */}
           {!isLoading && query.trim() && results.length === 0 && docsInitialized && (
-            <div className="px-6 py-14 text-center text-sm text-gray-500 dark:text-gray-400">
+            <div className="px-6 py-14 text-center text-sm" style={{ color: '#9FB8D0' }}>
               No results found for &ldquo;{query}&rdquo;
             </div>
           )}
 
           {/* Results */}
           {results.length > 0 && (
-            <ul className="max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm text-gray-800 dark:text-gray-200">
+            <ul className="max-h-72 scroll-py-2 overflow-y-auto py-2 text-sm" style={{ borderTop: '1px solid #D4891A20', color: 'white' }}>
               {results.map((result, index) => (
                 <li key={`${result.item.metadata.slug}-${index}`}>
                   <Link
                     href={`/docs/${result.item.metadata.slug}`}
-                    className="block cursor-pointer select-none px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800"
+                    className="block cursor-pointer select-none px-4 py-3 hover:bg-[#1A3550] transition-colors"
                     onClick={handleClose}
                   >
                     <div className="flex items-start">
                       <div className="flex-1">
                         <h3
-                          className="font-medium text-gray-900 dark:text-white"
+                          className="font-medium text-white"
                           dangerouslySetInnerHTML={{
                             __html: highlightMatch(result.item.metadata.title, result.matches?.filter(m => m.key === 'metadata.title'), query)
                           }}
                         />
                         {result.item.metadata.description && (
                           <p
-                            className="mt-1 text-gray-600 dark:text-gray-400"
+                            className="mt-1"
+                            style={{ color: '#9FB8D0' }}
                             dangerouslySetInnerHTML={{
                               __html: highlightMatch(result.item.metadata.description, result.matches?.filter(m => m.key === 'metadata.description'), query)
                             }}
                           />
                         )}
                         <p
-                          className="mt-1 text-xs text-gray-500 dark:text-gray-500"
+                          className="mt-1 text-xs"
+                          style={{ color: '#9FB8D0' }}
                           dangerouslySetInnerHTML={{
                             __html: highlightMatch(generatePreview(result.item.content, 200, query), result.matches?.filter(m => m.key === 'content'), query)
                           }}
                         />
                         {result.item.metadata.category && (
                           <div className="mt-2">
-                            <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                            <span
+                              className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium"
+                              style={{ backgroundColor: '#D4891A25', color: '#D4891A' }}
+                            >
                               {result.item.metadata.category}
                             </span>
                           </div>

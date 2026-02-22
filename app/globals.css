@@ -5,6 +5,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Brand colours */
+  --color-navy-dark:  #0D2038;
+  --color-navy:       #1A3550;
+  --color-amber:      #D4891A;
+  --color-amber-light:#F0A83A;
 }
 
 @theme inline {
@@ -117,12 +123,18 @@ body {
 
 /* Professional blockquote styling */
 .prose blockquote {
-  @apply bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-4 my-4;
+  @apply border-l-4 p-4 my-4;
+  background-color: #D4891A18;
+  border-left-color: #D4891A;
 }
 
 /* Enhanced link styling */
 .prose a {
-  @apply text-blue-600 dark:text-blue-400 no-underline hover:underline font-medium hover:text-blue-700 dark:hover:text-blue-300;
+  @apply no-underline hover:underline font-medium;
+  color: #D4891A;
+}
+.prose a:hover {
+  color: #F0A83A;
 }
 
 /* Professional heading anchors */
@@ -132,7 +144,9 @@ body {
 
 /* Search result highlighting */
 mark {
-  @apply bg-yellow-200 dark:bg-yellow-900 px-1 py-0.5 rounded;
+  background-color: #D4891A30;
+  color: #0D2038;
+  @apply px-1 py-0.5 rounded;
 }
 
 /* Loading states */
@@ -147,14 +161,15 @@ mark {
 
 /* Search highlighting */
 mark {
-  background-color: rgb(254 240 138); /* yellow-200 */
+  background-color: #D4891A30;
+  color: #0D2038;
   padding: 0;
   border-radius: 2px;
 }
 
 @media (prefers-color-scheme: dark) {
   mark {
-    background-color: rgb(113 63 18); /* yellow-900 */
-    color: rgb(254 243 199); /* yellow-100 */
+    background-color: #D4891A40;
+    color: #F0A83A;
   }
 }
