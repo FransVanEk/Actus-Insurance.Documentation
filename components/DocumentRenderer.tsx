@@ -6,10 +6,9 @@ import remarkGfm from 'remark-gfm'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeRaw from 'rehype-raw'
 import { DocContent } from '../lib/markdown'
+import 'highlight.js/styles/github-dark.css'
 import { TableOfContents } from './TableOfContents'
-
-// Import highlight.js CSS
-import 'highlight.js/styles/github.css'
+import { MermaidChart } from './MermaidChart'
 
 interface DocumentRendererProps {
   doc: DocContent
@@ -119,12 +118,42 @@ export function DocumentRenderer({ doc }: DocumentRendererProps) {
                 </a>
               )
             },
-            // Enhanced code blocks
-            pre: ({ node, children, ...props }) => (
-              <pre {...props} className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4 overflow-x-auto">
-                {children}
-              </pre>
-            ),
+            // Code blocks: mermaid → diagram, everything else → syntax-highlighted block
+            code: ({ node, className, children, ...props }) => {
+              const inline = !(node?.position?.start.line !== node?.position?.end.line || String(children).includes('\n'))
+              const language = (className || '').replace(/.*language-/, '')
+
+              if (!inline && language === 'mermaid') {
+                const chart = String(children).replace(/\n$/, '')
+                return <MermaidChart chart={chart} />
+              }
+
+              if (inline) {
+                return (
+                  <code className="bg-gray-100 dark:bg-gray-800 text-pink-600 dark:text-pink-400 rounded px-1.5 py-0.5 text-sm font-mono">
+                    {children}
+                  </code>
+                )
+              }
+
+              // Block code: wrap in a styled container, pass hljs className through for colors
+              return (
+                <div className="not-prose my-4 rounded-lg overflow-hidden border border-gray-700">
+                  {language && language !== 'mermaid' && (
+                    <div className="bg-gray-800 px-4 py-1.5 text-xs text-gray-400 font-mono border-b border-gray-700">
+                      {language}
+                    </div>
+                  )}
+                  <pre className="bg-gray-900 p-4 overflow-x-auto m-0 rounded-none">
+                    <code className={`${className || ''} text-sm leading-relaxed`}>
+                      {children}
+                    </code>
+                  </pre>
+                </div>
+              )
+            },
+            // Transparent passthrough — styling is handled entirely in the code renderer above
+            pre: ({ node, children }) => <>{children}</>,
             // Enhanced tables
             table: ({ node, children, ...props }) => (
               <div className="overflow-x-auto my-4">
