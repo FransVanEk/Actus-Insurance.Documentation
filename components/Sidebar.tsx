@@ -1,0 +1,369 @@
+'use client'
+
+import React, { useState } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { MagnifyingGlassIcon, Bars3Icon, XMarkIcon, ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/24/outline'
+import { SearchModal } from './SearchModal'
+
+interface NavigationItem {
+  title: string
+  slug: string
+  order: number
+  parent?: string
+  children?: NavigationItem[]
+}
+
+interface Navigation {
+  [category: string]: NavigationItem[]
+}
+
+interface SidebarProps {
+  navigation: Navigation
+}
+
+export function Sidebar({ navigation }: SidebarProps) {
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set())
+  const [collapsedItems, setCollapsedItems] = useState<Set<string>>(new Set())
+  const pathname = usePathname()
+
+  // Detect current section from pathname
+  const getCurrentSection = () => {
+    if (pathname.startsWith('/docs/financial')) return 'financial'
+    if (pathname.startsWith('/docs/framework')) return 'framework'
+    if (pathname.startsWith('/docs/insurance')) return 'insurance'
+    return 'framework' // default
+  }
+
+  const currentSection = getCurrentSection()
+
+  // Filter navigation based on current section
+  const getFilteredNavigation = () => {
+    const filtered: Navigation = {}
+    
+    Object.entries(navigation).forEach(([category, items]) => {
+      // Filter items based on current section
+      const filteredItems = items.filter(item => {
+        if (currentSection === 'financial') {
+          return item.slug.startsWith('financial/')
+        } else if (currentSection === 'framework') {
+          return item.slug.startsWith('framework/')
+        } else if (currentSection === 'insurance') {
+          return item.slug.startsWith('insurance/')
+        }
+        return false
+      })
+
+      if (filteredItems.length > 0) {
+        filtered[category] = filteredItems
+      }
+    })
+
+    return filtered
+  }
+
+  const filteredNavigation = getFilteredNavigation()
+
+  // Dynamic category sorting - prioritize main section categories, then alphabetical
+  const sortedCategories = Object.keys(filteredNavigation).sort((a, b) => {
+    // Main section categories come first
+    const isMainCategoryA = a.toLowerCase().includes(currentSection.toLowerCase())
+    const isMainCategoryB = b.toLowerCase().includes(currentSection.toLowerCase())
+    
+    if (isMainCategoryA && !isMainCategoryB) return -1
+    if (!isMainCategoryA && isMainCategoryB) return 1
+    
+    // Then sort alphabetically
+    return a.localeCompare(b)
+  })
+
+  // Get section title for logo
+  const getSectionTitle = () => {
+    if (currentSection === 'financial') return 'ACTUS Financial'
+    if (currentSection === 'framework') return 'ACTUS Framework'  
+    if (currentSection === 'insurance') return 'ACTUS Insurance'
+    return 'ACTUS Docs'
+  }
+
+  const toggleCategory = (category: string) => {
+    const newCollapsed = new Set(collapsedCategories)
+    if (newCollapsed.has(category)) {
+      newCollapsed.delete(category)
+    } else {
+      newCollapsed.add(category)
+    }
+    setCollapsedCategories(newCollapsed)
+  }
+
+  const toggleItem = (itemSlug: string) => {
+    const newCollapsed = new Set(collapsedItems)
+    if (newCollapsed.has(itemSlug)) {
+      newCollapsed.delete(itemSlug)
+    } else {
+      newCollapsed.add(itemSlug)
+    }
+    setCollapsedItems(newCollapsed)
+  }
+
+  const SidebarContent = () => (
+    <div className="flex h-full flex-col">
+      {/* Logo */}
+      <div className="flex h-16 items-center justify-between px-6">
+        <div className="flex items-center">
+          <div className="flex h-8 w-8 items-center justify-center rounded bg-blue-600 text-white font-bold">
+            A
+          </div>
+          <span className="ml-3 text-xl font-semibold text-gray-900 dark:text-white">
+            {getSectionTitle()}
+          </span>
+        </div>
+        <Link 
+          href="/"
+          className="flex h-8 w-8 items-center justify-center rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 transition-colors"
+          title="Go to main page"
+        >
+          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
+        </Link>
+      </div>
+
+      {/* Section switcher */}
+      <div className="px-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex space-x-1">
+          <Link 
+            href="/docs/framework"
+            className={`px-3 py-1 text-xs font-medium rounded-md ${
+              currentSection === 'framework' 
+                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-200' 
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800'
+            }`}
+          >
+            Framework
+          </Link>
+          <Link 
+            href="/docs/financial"
+            className={`px-3 py-1 text-xs font-medium rounded-md ${
+              currentSection === 'financial' 
+                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-200' 
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800'
+            }`}
+          >
+            Financial
+          </Link>
+          <Link 
+            href="/docs/insurance"
+            className={`px-3 py-1 text-xs font-medium rounded-md ${
+              currentSection === 'insurance' 
+                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-200' 
+                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800'
+            }`}
+          >
+            Insurance
+          </Link>
+        </div>
+      </div>
+
+      {/* Search Button */}
+      <div className="px-6 pt-4 pb-4">`
+        <button
+          onClick={() => setIsSearchOpen(true)}
+          className="flex w-full items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-left text-sm text-gray-500 shadow-sm hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+        >
+          <MagnifyingGlassIcon className="mr-3 h-4 w-4" />
+          Search documentation...
+        </button>
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto px-6 pb-4">
+        <ul className="space-y-1">
+          {sortedCategories.map((category) => {
+            const isCollapsed = collapsedCategories.has(category)
+            return (
+              <li key={category}>
+                <div className="mb-2 mt-6 first:mt-0">
+                  <button
+                    onClick={() => toggleCategory(category)}
+                    className="flex w-full items-center justify-between text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                  >
+                    <span>{category}</span>
+                    {isCollapsed ? (
+                      <ChevronRightIcon className="h-3 w-3" />
+                    ) : (
+                      <ChevronDownIcon className="h-3 w-3" />
+                    )}
+                  </button>
+                </div>
+                {!isCollapsed && (
+                  <ul className="space-y-1">
+                    {filteredNavigation[category].map((item) => {
+                      return (
+                        <li key={item.slug}>
+                          <NavigationItemComponent 
+                            item={item}
+                            level={0}
+                            collapsedItems={collapsedItems}
+                            toggleItem={toggleItem}
+                            pathname={pathname}
+                            setIsMobileMenuOpen={setIsMobileMenuOpen}
+                          />
+                        </li>
+                      )
+                    })}
+                  </ul>
+                )}
+              </li>
+            )
+          })}
+        </ul>
+      </nav>
+    </div>
+  )
+
+  return (
+    <>
+      {/* Mobile menu button */}
+      <div className="sticky top-0 z-40 lg:hidden">
+        <div className="flex h-16 items-center justify-between bg-white px-4 shadow-sm dark:bg-gray-900">
+          <Link href="/" className="flex items-center">
+            <div className="flex h-8 w-8 items-center justify-center rounded bg-blue-600 text-white font-bold text-sm">
+              A
+            </div>
+            <span className="ml-3 text-xl font-semibold text-gray-900 dark:text-white">
+              ACTUS Docs
+            </span>
+          </Link>
+          <button
+            type="button"
+            className="text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
+            onClick={() => setIsMobileMenuOpen(true)}
+          >
+            <Bars3Icon className="h-6 w-6" />
+          </button>
+        </div>
+      </div>
+
+      {/* Desktop sidebar */}
+      <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-80 lg:flex-col">
+        <div className="flex grow flex-col overflow-y-auto border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+          <SidebarContent />
+        </div>
+      </div>
+
+      {/* Mobile sidebar */}
+      {isMobileMenuOpen && (
+        <div className="relative z-50 lg:hidden">
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setIsMobileMenuOpen(false)} />
+          <div className="fixed inset-0 flex">
+            <div className="relative mr-16 flex w-full max-w-xs flex-1">
+              <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
+                <button
+                  type="button"
+                  className="text-white hover:text-gray-300"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <XMarkIcon className="h-6 w-6" />
+                </button>
+              </div>
+              <div className="flex grow flex-col overflow-y-auto bg-white dark:bg-gray-900">
+                <SidebarContent />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Search Modal */}
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+    </>
+  )
+}
+
+// Component for rendering hierarchical navigation items
+interface NavigationItemProps {
+  item: NavigationItem
+  level: number
+  collapsedItems: Set<string>
+  toggleItem: (itemSlug: string) => void
+  pathname: string
+  setIsMobileMenuOpen: (open: boolean) => void
+}
+
+function NavigationItemComponent({ 
+  item, 
+  level, 
+  collapsedItems, 
+  toggleItem, 
+  pathname, 
+  setIsMobileMenuOpen 
+}: NavigationItemProps) {
+  const href = `/docs/${item.slug}`
+  const isActive = pathname === href
+  const hasChildren = item.children && item.children.length > 0
+  const isCollapsed = collapsedItems.has(item.slug)
+  const indentStyle = { paddingLeft: `${level * 16 + 12}px` }
+
+  return (
+    <>
+      <div className="flex items-center" style={level > 0 ? indentStyle : undefined}>
+        {hasChildren ? (
+          <div className="flex items-center w-full">
+            <button
+              onClick={() => toggleItem(item.slug)}
+              className={`flex items-center justify-between w-full rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                isActive
+                  ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-200'
+                  : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
+              }`}
+            >
+              <Link
+                href={href}
+                className="flex-1 text-left"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {item.title}
+              </Link>
+              {isCollapsed ? (
+                <ChevronRightIcon className="h-4 w-4 flex-shrink-0 ml-2" />
+              ) : (
+                <ChevronDownIcon className="h-4 w-4 flex-shrink-0 ml-2" />
+              )}
+            </button>
+          </div>
+        ) : (
+          <Link
+            href={href}
+            className={`block w-full rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+              isActive
+                ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-200'
+                : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
+            }`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            {item.title}
+          </Link>
+        )}
+      </div>
+      
+      {hasChildren && !isCollapsed && (
+        <ul className="space-y-1 mt-1">
+          {item.children!.map((child) => (
+            <li key={child.slug}>
+              <NavigationItemComponent
+                item={child}
+                level={level + 1}
+                collapsedItems={collapsedItems}
+                toggleItem={toggleItem}
+                pathname={pathname}
+                setIsMobileMenuOpen={setIsMobileMenuOpen}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  )
+}

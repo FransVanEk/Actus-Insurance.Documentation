@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "prismjs/themes/prism.css";
+@import "prismjs/themes/prism-tomorrow.css";
 
 :root {
   --background: #ffffff;
@@ -23,4 +25,136 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Professional code block styling */
+.prose pre {
+  @apply bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4 overflow-x-auto font-mono text-sm leading-relaxed;
+}
+
+.prose code {
+  @apply bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0 text-sm text-gray-800 dark:text-gray-200;
+}
+
+/* Code language indicators */
+.prose pre[class*="language-"]::before {
+  @apply absolute top-2 right-2 text-xs text-gray-500 dark:text-gray-400 font-sans;
+  content: attr(data-language);
+}
+
+.prose pre {
+  @apply relative;
+}
+
+/* Enhanced table styling for professional documentation */
+.prose table {
+  @apply border-collapse border border-gray-300 dark:border-gray-600 w-full my-4;
+}
+
+.prose th {
+  @apply bg-gray-50 dark:bg-gray-800 font-semibold border border-gray-300 dark:border-gray-600 px-4 py-2;
+}
+
+.prose td {
+  @apply border border-gray-300 dark:border-gray-600 px-4 py-2;
+}
+
+/* Enhanced list styling */
+.prose ul, .prose ol {
+  @apply my-4 pl-6;
+}
+
+.prose ul {
+  @apply list-disc;
+}
+
+.prose ol {
+  @apply list-decimal;
+}
+
+.prose li {
+  @apply my-1 pl-1;
+}
+
+.prose ul ul, .prose ol ol, .prose ul ol, .prose ol ul {
+  @apply my-2 pl-4;
+}
+
+/* Nested list styling */
+.prose ul ul {
+  @apply list-[circle];
+}
+
+.prose ul ul ul {
+  @apply list-[square];
+}
+
+/* Headers with better spacing */
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  @apply mt-8 mb-4 first:mt-0;
+}
+
+.prose h1 {
+  @apply text-3xl font-bold border-b border-gray-200 dark:border-gray-700 pb-2;
+}
+
+.prose h2 {
+  @apply text-2xl font-semibold;
+}
+
+.prose h3 {
+  @apply text-xl font-semibold;
+}
+
+/* Better paragraph spacing */
+.prose p {
+  @apply my-4 leading-relaxed;
+}
+
+/* Professional blockquote styling */
+.prose blockquote {
+  @apply bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 p-4 my-4;
+}
+
+/* Enhanced link styling */
+.prose a {
+  @apply text-blue-600 dark:text-blue-400 no-underline hover:underline font-medium hover:text-blue-700 dark:hover:text-blue-300;
+}
+
+/* Professional heading anchors */
+.prose h2, .prose h3, .prose h4 {
+  @apply scroll-mt-20;
+}
+
+/* Search result highlighting */
+mark {
+  @apply bg-yellow-200 dark:bg-yellow-900 px-1 py-0.5 rounded;
+}
+
+/* Loading states */
+.loading-skeleton {
+  @apply animate-pulse bg-gray-200 dark:bg-gray-700 rounded;
+}
+
+/* Focus states for accessibility */
+.focus-visible:focus-visible {
+  @apply outline-2 outline-blue-500 outline-offset-2;
+}
+
+/* Search highlighting */
+mark {
+  background-color: rgb(254 240 138); /* yellow-200 */
+  padding: 0;
+  border-radius: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+  mark {
+    background-color: rgb(113 63 18); /* yellow-900 */
+    color: rgb(254 243 199); /* yellow-100 */
+  }
 }
