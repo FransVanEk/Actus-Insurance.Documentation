@@ -112,16 +112,15 @@ export function Sidebar({ navigation }: SidebarProps) {
       {/* Logo */}
       <div className="flex h-16 items-center justify-between px-6">
         <div className="flex items-center">
-          <div className="flex h-8 w-8 items-center justify-center rounded bg-blue-600 text-white font-bold">
-            A
-          </div>
-          <span className="ml-3 text-xl font-semibold text-gray-900 dark:text-white">
+          <img src="/logo_A_dark.svg" alt="ACTUS Logo" className="h-10 w-9 object-contain" />
+          <span className="ml-3 text-xl font-semibold text-white">
             {getSectionTitle()}
           </span>
         </div>
         <Link 
           href="/"
-          className="flex h-8 w-8 items-center justify-center rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-200 transition-colors"
+          className="flex h-8 w-8 items-center justify-center rounded-md transition-colors"
+          style={{ backgroundColor: '#1A3550', color: '#9FB8D0' }}
           title="Go to main page"
         >
           <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -131,35 +130,35 @@ export function Sidebar({ navigation }: SidebarProps) {
       </div>
 
       {/* Section switcher */}
-      <div className="px-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+      <div className="px-6 pb-4 border-b" style={{ borderColor: '#D4891A30' }}>
         <div className="flex space-x-1">
           <Link 
             href="/docs/framework"
-            className={`px-3 py-1 text-xs font-medium rounded-md ${
-              currentSection === 'framework' 
-                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-200' 
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800'
-            }`}
+            className="px-3 py-1 text-xs font-medium rounded-md transition-colors"
+            style={currentSection === 'framework'
+              ? { backgroundColor: '#D4891A25', color: '#D4891A' }
+              : { color: '#9FB8D0' }
+            }
           >
             Framework
           </Link>
           <Link 
             href="/docs/financial"
-            className={`px-3 py-1 text-xs font-medium rounded-md ${
-              currentSection === 'financial' 
-                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-200' 
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800'
-            }`}
+            className="px-3 py-1 text-xs font-medium rounded-md transition-colors"
+            style={currentSection === 'financial'
+              ? { backgroundColor: '#D4891A25', color: '#D4891A' }
+              : { color: '#9FB8D0' }
+            }
           >
             Financial
           </Link>
           <Link 
             href="/docs/insurance"
-            className={`px-3 py-1 text-xs font-medium rounded-md ${
-              currentSection === 'insurance' 
-                ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/50 dark:text-blue-200' 
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-gray-800'
-            }`}
+            className="px-3 py-1 text-xs font-medium rounded-md transition-colors"
+            style={currentSection === 'insurance'
+              ? { backgroundColor: '#D4891A25', color: '#D4891A' }
+              : { color: '#9FB8D0' }
+            }
           >
             Insurance
           </Link>
@@ -170,7 +169,8 @@ export function Sidebar({ navigation }: SidebarProps) {
       <div className="px-6 pt-4 pb-4">`
         <button
           onClick={() => setIsSearchOpen(true)}
-          className="flex w-full items-center rounded-md border border-gray-300 bg-white px-3 py-2 text-left text-sm text-gray-500 shadow-sm hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700"
+          className="flex w-full items-center rounded-md px-3 py-2 text-left text-sm shadow-sm transition-colors"
+          style={{ border: '1px solid #D4891A30', backgroundColor: '#1A3550', color: '#9FB8D0' }}
         >
           <MagnifyingGlassIcon className="mr-3 h-4 w-4" />
           Search documentation...
@@ -187,7 +187,8 @@ export function Sidebar({ navigation }: SidebarProps) {
                 <div className="mb-2 mt-6 first:mt-0">
                   <button
                     onClick={() => toggleCategory(category)}
-                    className="flex w-full items-center justify-between text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                    className="flex w-full items-center justify-between text-xs font-semibold uppercase tracking-wide hover:text-white"
+                    style={{ color: '#9FB8D0' }}
                   >
                     <span>{category}</span>
                     {isCollapsed ? (
@@ -227,18 +228,16 @@ export function Sidebar({ navigation }: SidebarProps) {
     <>
       {/* Mobile menu button */}
       <div className="sticky top-0 z-40 lg:hidden">
-        <div className="flex h-16 items-center justify-between bg-white px-4 shadow-sm dark:bg-gray-900">
+        <div className="flex h-16 items-center justify-between px-4 shadow-sm" style={{ backgroundColor: '#0D2038' }}>
           <Link href="/" className="flex items-center">
-            <div className="flex h-8 w-8 items-center justify-center rounded bg-blue-600 text-white font-bold text-sm">
-              A
-            </div>
-            <span className="ml-3 text-xl font-semibold text-gray-900 dark:text-white">
+            <img src="/logo_A_dark.svg" alt="ACTUS Logo" className="h-10 w-9 object-contain" />
+            <span className="ml-3 text-xl font-semibold text-white">
               ACTUS Docs
             </span>
           </Link>
           <button
             type="button"
-            className="text-gray-500 hover:text-gray-600 dark:text-gray-400 dark:hover:text-gray-300"
+            className="text-[#9FB8D0] hover:text-white"
             onClick={() => setIsMobileMenuOpen(true)}
           >
             <Bars3Icon className="h-6 w-6" />
@@ -248,7 +247,7 @@ export function Sidebar({ navigation }: SidebarProps) {
 
       {/* Desktop sidebar */}
       <div className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-80 lg:flex-col">
-        <div className="flex grow flex-col overflow-y-auto border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900">
+        <div className="flex grow flex-col overflow-y-auto" style={{ backgroundColor: '#0D2038', borderRight: '1px solid #D4891A20' }}>
           <SidebarContent />
         </div>
       </div>
@@ -268,7 +267,7 @@ export function Sidebar({ navigation }: SidebarProps) {
                   <XMarkIcon className="h-6 w-6" />
                 </button>
               </div>
-              <div className="flex grow flex-col overflow-y-auto bg-white dark:bg-gray-900">
+              <div className="flex grow flex-col overflow-y-auto" style={{ backgroundColor: '#0D2038' }}>
                 <SidebarContent />
               </div>
             </div>
@@ -315,9 +314,10 @@ function NavigationItemComponent({
               onClick={() => toggleItem(item.slug)}
               className={`flex items-center justify-between w-full rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                 isActive
-                  ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-200'
-                  : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
+                  ? 'text-[#D4891A]'
+                  : 'text-[#9FB8D0] hover:bg-[#1A3550] hover:text-white'
               }`}
+              style={isActive ? { backgroundColor: '#D4891A20' } : {}}
             >
               <Link
                 href={href}
@@ -338,9 +338,10 @@ function NavigationItemComponent({
             href={href}
             className={`block w-full rounded-md px-3 py-2 text-sm font-medium transition-colors ${
               isActive
-                ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/50 dark:text-blue-200'
-                : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-white'
+                ? 'text-[#D4891A]'
+                : 'text-[#9FB8D0] hover:bg-[#1A3550] hover:text-white'
             }`}
+            style={isActive ? { backgroundColor: '#D4891A20' } : {}}
             onClick={() => setIsMobileMenuOpen(false)}
           >
             {item.title}
