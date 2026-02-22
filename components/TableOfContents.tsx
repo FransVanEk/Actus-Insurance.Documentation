@@ -18,13 +18,18 @@ export function TableOfContents({ content }: TableOfContentsProps) {
   const [isManualClick, setIsManualClick] = useState(false)
 
   useEffect(() => {
+    // Strip fenced code blocks before extracting headings so that
+    // comment lines like "# Register your application" inside ```bash
+    // blocks are not mistaken for markdown headings.
+    const contentWithoutCode = content.replace(/^```[\s\S]*?^```/gm, '')
+
     // Extract headings from markdown content
     const headingRegex = /^(#{1,6})\s+(.+?)$/gm
     const items: TocItem[] = []
     const usedIds = new Set<string>()
     let match
 
-    while ((match = headingRegex.exec(content)) !== null) {
+    while ((match = headingRegex.exec(contentWithoutCode)) !== null) {
       const level = match[1].length
       // Clean the text by removing markdown formatting
       const rawText = match[2].trim()
