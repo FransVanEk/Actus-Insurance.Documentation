@@ -16,6 +16,45 @@ interface DocumentRendererProps {
   doc: DocContent
 }
 
+/**
+ * Resolve a possibly-relative markdown link to an absolute /docs/... path.
+ * Handles:
+ *   ./domain-model.md  →  /docs/{folder}/domain-model
+ *   ./modules/contracts.md  →  /docs/{folder}/modules/contracts
+ *   ../other-section/page  →  /docs/other-section/page
+ *   plain-name (no ./ or .md)  →  /docs/{folder}/plain-name
+ */
+function resolveDocLink(href: string, fileDir: string): string {
+  if (!href) return href
+  // Leave external URLs, absolute paths, anchors, and mailto alone
+  if (href.startsWith('http') || href.startsWith('/') || href.startsWith('#') || href.startsWith('mailto:')) {
+    return href
+  }
+
+  // Strip .md extension
+  let rel = href.replace(/\.md$/i, '')
+
+  // Treat README (without extension) as the directory itself
+  rel = rel.replace(/\/README$/i, '').replace(/^README$/i, '.')
+
+  // Use the actual directory of the source file for resolution
+  // fileDir is e.g. 'financial', 'financial/modules', or '' for root files
+  const baseParts = fileDir ? fileDir.split('/') : []
+
+  // Walk the relative segments
+  const relParts = rel.split('/')
+  const resultParts = [...baseParts]
+  for (const part of relParts) {
+    if (part === '..') {
+      resultParts.pop()
+    } else if (part !== '.' && part !== '') {
+      resultParts.push(part)
+    }
+  }
+
+  return `/docs/${resultParts.join('/')}`
+}
+
 export function DocumentRenderer({ doc }: DocumentRendererProps) {
   const { isTocCollapsed, setTocCollapsed } = useLayout()
   // Pre-generate unique IDs from content to ensure server/client consistency
@@ -108,15 +147,16 @@ export function DocumentRenderer({ doc }: DocumentRendererProps) {
           components={{
             // Custom link rendering for internal links
             a: ({ node, href, children, ...props }) => {
-              if (href && href.startsWith('/')) {
+              const resolvedHref = resolveDocLink(href || '', doc.metadata.fileDir ?? '')
+              if (resolvedHref && (resolvedHref.startsWith('/') || resolvedHref.startsWith('#'))) {
                 return (
-                  <a href={href} {...props} className="text-blue-600 dark:text-blue-400 hover:underline">
+                  <a href={resolvedHref} {...props} className="text-blue-600 dark:text-blue-400 hover:underline">
                     {children}
                   </a>
                 )
               }
               return (
-                <a href={href} {...props} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
+                <a href={resolvedHref} {...props} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
                   {children}
                 </a>
               )
