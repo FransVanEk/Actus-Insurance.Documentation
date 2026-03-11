@@ -15,6 +15,19 @@ When I learned about the **ACTUS Algorithmic Financial Contracts Use Case Compet
 
 I started in December 2025. The competition deadline was March 16, 2026. This is the story of what I built.
 
+> A note on the Technical Concepts
+>
+> Before going deeper, it is worth acknowledging something important.
+>
+>The implementation behind this project involves concepts such as CPU parallelism, GPU computing, vectorization, and large-scale simulation pipelines. These are common topics in high-performance computing, but they are not concepts everyone works with daily — especially in finance, insurance, or business roles where the focus is usually on models, contracts, and outcomes rather than hardware execution strategies.
+>
+>Because of that, I will not explain the system purely in technical terms.
+>
+> Instead, I will use an analogy to explain both the reasoning and the architecture behind the implementation. The analogy is intentionally simple, but it maps directly to how the system actually works. If you understand the analogy, you will understand the design decisions that made the system fast.
+>
+> For readers who are interested in the deeper technical details — GPUs, thread blocks, memory layouts, and simulation kernels — those will be explained later as well. But first, the analogy.
+
+
 ## Imagine a Car Factory
 
 You run a car factory. You have built 100,000 different car models and you need to know how every single one of them performs — on dry roads, wet roads, icy roads, in extreme heat, in extreme cold, uphill, downhill, fully loaded, and empty. Each combination of car and road condition is a test run that produces data: fuel consumption, brake wear, tyre grip, engine temperature, and dozens more measurements.
@@ -25,7 +38,11 @@ With 100,000 contracts and 1,000 scenarios, that is **100 million test runs**.
 
 If you have one test track and run them one by one, it takes hours. This project was about building a **thousand-lane highway** that runs them all at the same time — and proving that every car still produces exactly the same test results as it would on the original single track.
 
+
+
 ![The Car Factory — From Single Track to Highway](./car-factory-highway.svg)
+
+
 
 ## What is ACTUS?
 
@@ -41,20 +58,17 @@ Working largely on my own, with a little help from one other person, I followed 
 
 ```mermaid
 graph TD
-    A["🏁 Study the<br/>single-lane track"] -->|Build| B["Build my own<br/>test track"]
+    A["Study the<br/>single-lane track"] -->|Build| B["Build my own<br/>test track"]
     B -->|Verify| C["Prove it gives<br/>identical results"]
     C -->|Optimise| D["Tune the track<br/>for speed"]
     D -->|Scale| E["Build the<br/>thousand-lane highway"]
     E -->|Extend| F["Add insurance<br/>car models"]
     F -->|Deliver| G["Reports, demos<br/>& documentation"]
 
-    style A fill:#334155,stroke:#94a3b8,color:#e2e8f0
-    style B fill:#1e3a5f,stroke:#60a5fa,color:#e2e8f0
-    style C fill:#1e3a5f,stroke:#60a5fa,color:#e2e8f0
-    style D fill:#1e3a5f,stroke:#60a5fa,color:#e2e8f0
-    style E fill:#7c2d12,stroke:#fb923c,color:#e2e8f0
-    style F fill:#14532d,stroke:#4ade80,color:#e2e8f0
-    style G fill:#14532d,stroke:#4ade80,color:#e2e8f0
+    class A nodeNeutral
+    class B,C,D nodeNavy
+    class E nodeAmber
+    class F,G nodeSuccess
 ```
 
 The result:

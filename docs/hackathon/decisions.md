@@ -34,7 +34,7 @@ I built a translation layer — an automated preparation station at the on-ramp 
 ```mermaid
 graph LR
     subgraph "Before the On-Ramp"
-        NATURAL["🚗 Contract as designed:<br/>text labels, dates,<br/>nested structures,<br/>optional fields"]
+        NATURAL["Contract as designed:<br/>text labels, dates,<br/>nested structures,<br/>optional fields"]
     end
 
     subgraph "Preparation Station"
@@ -42,7 +42,7 @@ graph LR
     end
 
     subgraph "On the Highway"
-        COMPACT["🏎️ Compact package:<br/>fixed size, all numbers,<br/>uniform shape"]
+        COMPACT["Compact package:<br/>fixed size, all numbers,<br/>uniform shape"]
     end
 
     NATURAL --> STRIP --> COMPACT

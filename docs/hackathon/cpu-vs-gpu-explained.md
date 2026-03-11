@@ -39,9 +39,9 @@ In the simplest setup, you have a single test track. One car goes out, drives th
 ```mermaid
 graph LR
     subgraph "Single Test Track"
-        S["🏁 Start"] --> C1["🚗 Car 1 runs"] --> D1["📋 Collect data"]
-        D1 --> C2["🚗 Car 2 runs"] --> D2["📋 Collect data"]
-        D2 --> C3["🚗 Car 3 runs"] --> D3["📋 Collect data"]
+        S["Start"] --> C1["Car 1 runs"] --> D1["Collect data"]
+        D1 --> C2["Car 2 runs"] --> D2["Collect data"]
+        D2 --> C3["Car 3 runs"] --> D3["Collect data"]
     end
 ```
 
@@ -58,14 +58,14 @@ A modern computer processor — the CPU — is not one track. It has multiple co
 ```mermaid
 graph TD
     subgraph "CPU: 8 Parallel Tracks"
-        T1["Track 1 → 🚗 Car A"]
-        T2["Track 2 → 🚗 Car B"]
-        T3["Track 3 → 🚗 Car C"]
-        T4["Track 4 → 🚗 Car D"]
-        T5["Track 5 → 🚗 Car E"]
-        T6["Track 6 → 🚗 Car F"]
-        T7["Track 7 → 🚗 Car G"]
-        T8["Track 8 → 🚗 Car H"]
+        T1["Track 1 → Car A"]
+        T2["Track 2 → Car B"]
+        T3["Track 3 → Car C"]
+        T4["Track 4 → Car D"]
+        T5["Track 5 → Car E"]
+        T6["Track 6 → Car F"]
+        T7["Track 7 → Car G"]
+        T8["Track 8 → Car H"]
     end
 ```
 
@@ -83,14 +83,14 @@ A GPU is a fundamentally different kind of facility. Instead of 8 sophisticated 
 
 ```mermaid
 graph LR
-    subgraph "GPU Highway — 1,000+ Lanes"
-        L1["Lane 1 🚗"]
-        L2["Lane 2 🚗"]
-        L3["Lane 3 🚗"]
-        L4["Lane 4 🚗"]
+    subgraph "GPU Highway — 1k+ Lanes"
+        L1["Lane 1"]
+        L2["Lane 2"]
+        L3["Lane 3"]
+        L4["Lane 4"]
         L5["..."]
-        L6["Lane 999 🚗"]
-        L7["Lane 1000 🚗"]
+        L6["Lane 999"]
+        L7["Lane 1000"]
     end
 ```
 
@@ -113,9 +113,9 @@ The highway lanes are uniform and standardised. They do not accept cars with cus
 ```mermaid
 graph LR
     subgraph "Parking Lot (CPU Memory)"
-        C1["🚗 Contract 1<br/>with all the details"]
-        C2["🚗 Contract 2<br/>with all the details"]
-        C3["🚗 Contract 3<br/>with all the details"]
+        C1["Contract 1<br/>with all the details"]
+        C2["Contract 2<br/>with all the details"]
+        C3["Contract 3<br/>with all the details"]
     end
 
     subgraph "On-Ramp"
@@ -164,10 +164,10 @@ The much better approach: **keep the car on the highway.** After completing one 
 ```mermaid
 graph LR
     subgraph "GPU Highway — One Lane"
-        START["🏁 Start"] --> R1["Run Scenario 1<br/>(dry road)"]
+        START["Start"] --> R1["Run Scenario 1<br/>(dry road)"]
         R1 --> R2["Run Scenario 2<br/>(wet road)"]
         R2 --> R3["Run Scenario 3<br/>(icy road)"]
-        R3 --> LOOP["🔄 Loop back"]
+        R3 --> LOOP["Loop back"]
         LOOP -.-> R1
     end
 ```
@@ -194,11 +194,11 @@ graph LR
     end
 
     subgraph "Off-Ramp"
-        BOTTLE["🚧 Congestion!<br/>5 billion data points<br/>all trying to exit"]
+        BOTTLE["Congestion!<br/>5 billion data points<br/>all trying to exit"]
     end
 
     subgraph "Analysis Centre (CPU)"
-        REPORT["📊 Reports"]
+        REPORT["Reports"]
     end
 
     L1 --> BOTTLE
@@ -222,7 +222,7 @@ graph LR
     end
 
     subgraph "Sinks"
-        SINK["📐 Compute per car:<br/>• Average value<br/>• Spread of outcomes<br/>• Best & worst case<br/>• Key risk thresholds"]
+        SINK["Compute per car:<br/>• Average value<br/>• Spread of outcomes<br/>• Best & worst case<br/>• Key risk thresholds"]
     end
 
     subgraph "Off-Ramp"
@@ -230,7 +230,7 @@ graph LR
     end
 
     subgraph "Analysis Centre"
-        REPORT["📊 Final Report"]
+        REPORT["Final Report"]
     end
 
     L1 --> SINK
