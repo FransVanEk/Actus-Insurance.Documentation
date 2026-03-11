@@ -178,3 +178,129 @@ mark {
     color: #F0A83A;
   }
 }
+
+/* ─── Mermaid diagram styling ────────────────────────────────────────────────
+   The base theme sets the palette via themeVariables in MermaidChart.tsx.
+   These rules handle layout, subgraph appearance, and edge labels so every
+   diagram looks consistent with the site's navy/amber theme without any
+   per-diagram inline style declarations.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.mermaid-diagram svg {
+  /* overflow:visible prevents text from being clipped by the SVG viewport
+     boundary when Mermaid underestimates a label's rendered width. */
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+  border-radius: 0.5rem;
+}
+
+/* Subgraph / cluster boxes */
+.mermaid-diagram svg .cluster rect {
+  fill: #f0f4f8 !important;
+  stroke: #1A3550 !important;
+  stroke-width: 1.5px !important;
+  rx: 6px !important;
+}
+
+.mermaid-diagram svg .cluster .cluster-label,
+.mermaid-diagram svg .cluster span {
+  color: #0D2038 !important;
+}
+
+/* Prevent subgraph titles from wrapping. Mermaid wraps them to fit the cluster
+   box width during JS layout — CSS can override this because htmlLabels:true
+   renders titles as HTML inside a foreignObject. The SVG overflow:visible
+   above ensures the title is never clipped even if it extends past the box. */
+.mermaid-diagram svg .cluster-label foreignObject div,
+.mermaid-diagram svg .cluster-label foreignObject span,
+.mermaid-diagram svg .cluster-label foreignObject p {
+  white-space: nowrap !important;
+}
+
+/* Edge labels */
+.mermaid-diagram svg .edgeLabel {
+  isolation: isolate;
+}
+
+.mermaid-diagram svg .edgeLabel .label rect {
+  fill: #1a2836 !important;
+}
+
+.mermaid-diagram svg .edgeLabel foreignObject > div,
+.mermaid-diagram svg .edgeLabel foreignObject > div > span,
+.mermaid-diagram svg .edgeLabel foreignObject > div > p {
+  background: #1a2836 !important;
+  background-color: #1a2836 !important;
+  color: #D4891A !important;
+}
+
+.mermaid-diagram svg .edgeLabel span,
+.mermaid-diagram svg .edgeLabel foreignObject div,
+.mermaid-diagram svg .edgeLabel foreignObject p {
+  color: #D4891A !important;
+  background: #1a2836 !important;
+  background-color: #1a2836 !important;
+}
+
+/* Default node text */
+.mermaid-diagram svg .nodeLabel,
+.mermaid-diagram svg .label foreignObject div {
+  color: #0D2038;
+}
+
+/* Arrows / edges */
+.mermaid-diagram svg .edgePath .path {
+  stroke: #D4891A !important;
+  stroke-width: 2px !important;
+}
+
+.mermaid-diagram svg marker path {
+  fill: #D4891A !important;
+  stroke: #D4891A !important;
+}
+
+/* xychart title and axis labels */
+.mermaid-diagram svg text.title {
+  fill: #0D2038 !important;
+  font-weight: 600 !important;
+}
+
+.mermaid-diagram svg .xyChart .xTitle,
+.mermaid-diagram svg .xyChart .yTitle,
+.mermaid-diagram svg .xyChart text {
+  fill: #0D2038 !important;
+}
+
+/* Gantt chart */
+.mermaid-diagram svg .mermaid-gantt .section0,
+.mermaid-diagram svg rect.task0 {
+  fill: #1A3550 !important;
+}
+
+.mermaid-diagram svg .titleText,
+.mermaid-diagram svg text.sectionTitle {
+  fill: #0D2038 !important;
+  font-weight: 600 !important;
+}
+
+/* State diagram */
+.mermaid-diagram svg .state-start circle,
+.mermaid-diagram svg .state-end circle {
+  fill: #1A3550 !important;
+}
+
+.mermaid-diagram svg .stateBox rect,
+.mermaid-diagram svg .stateGroup rect {
+  fill: #e8f0f7 !important;
+  stroke: #1A3550 !important;
+}
+
+/* Outer container — very subtle tint, no card border */
+.mermaid-diagram {
+  background: rgba(232, 240, 247, 0.25);
+  border-radius: 0.5rem;
+  padding: 1.25rem 0.5rem;
+}

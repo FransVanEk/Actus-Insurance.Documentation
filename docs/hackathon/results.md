@@ -141,12 +141,10 @@ graph LR
     SINKS --> OFFRAMP["Off-ramp<br/>transfer"]
     OFFRAMP --> REPORT["Report<br/>centre"]
 
-    style FLEET fill:#334155,stroke:#94a3b8,color:#e2e8f0
-    style ONRAMP fill:#1e3a5f,stroke:#60a5fa,color:#e2e8f0
-    style HWY fill:#7c2d12,stroke:#fb923c,color:#e2e8f0
-    style SINKS fill:#7c2d12,stroke:#fb923c,color:#e2e8f0
-    style OFFRAMP fill:#1e3a5f,stroke:#60a5fa,color:#e2e8f0
-    style REPORT fill:#14532d,stroke:#4ade80,color:#e2e8f0
+    class FLEET nodeNeutral
+    class ONRAMP,OFFRAMP nodeNavy
+    class HWY,SINKS nodeAmber
+    class REPORT nodeSuccess
 ```
 
 | Component | What It Does |
