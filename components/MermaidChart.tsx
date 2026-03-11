@@ -36,6 +36,12 @@ function initMermaid() {
         fontFamily: 'Arial, Helvetica, sans-serif',
       },
       securityLevel: 'loose',
+      flowchart: {
+        // Only wrap node/subgraph label text when it is genuinely very long.
+        // Default is 200 which causes short-ish subgraph titles to wrap when
+        // the container happens to be narrower than the title string.
+        wrappingWidth: 600,
+      },
     })
     initialized = true
   }

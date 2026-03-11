@@ -17,6 +17,25 @@ interface DocumentRendererProps {
 }
 
 /**
+ * Resolve a relative image src from a doc file to the docs-assets API route.
+ * e.g. ./car-factory-highway.svg + fileDir 'hackathon'
+ *      → /api/docs-assets/hackathon/car-factory-highway.svg
+ */
+function resolveImageSrc(src: string, fileDir: string): string {
+  if (!src) return src
+  if (src.startsWith('http') || src.startsWith('/') || src.startsWith('data:')) return src
+
+  const baseParts = fileDir ? fileDir.split('/') : []
+  const relParts  = src.split('/')
+  const result    = [...baseParts]
+  for (const part of relParts) {
+    if (part === '..') result.pop()
+    else if (part !== '.' && part !== '') result.push(part)
+  }
+  return `/api/docs-assets/${result.join('/')}`
+}
+
+/**
  * Resolve a possibly-relative markdown link to an absolute /docs/... path.
  * Handles:
  *   ./domain-model.md  →  /docs/{folder}/domain-model
@@ -160,6 +179,12 @@ export function DocumentRenderer({ doc }: DocumentRendererProps) {
                   {children}
                 </a>
               )
+            },
+            // Resolve relative image paths through the docs-assets API route
+            img: ({ node, src, alt, ...props }) => {
+              const resolvedSrc = resolveImageSrc(src || '', doc.metadata.fileDir ?? '')
+              // eslint-disable-next-line @next/next/no-img-element
+              return <img src={resolvedSrc} alt={alt || ''} {...props} className="max-w-full h-auto rounded-lg my-4" />
             },
             // Code blocks: mermaid → diagram, everything else → syntax-highlighted block
             code: ({ node, className, children, ...props }) => {

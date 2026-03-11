@@ -232,7 +232,7 @@
   </g>
 
   <!-- ========================================= -->
-  <!-- SECTION 4: On-Ramp & Off-Ramp (right) -->
+  <!-- SECTION 4: On-Ramp &amp; Off-Ramp (right) -->
   <!-- ========================================= -->
   <g transform="translate(0, 0)">
     <!-- On-Ramp label -->
@@ -254,7 +254,7 @@
     <path d="M 960 220 L 865 250" stroke="#D4891A" stroke-width="1.5" marker-end="url(#arrowGold)"/>
 
     <text x="960" y="240" text-anchor="middle" fill="#8FAAB8" font-size="9">strip down</text>
-    <text x="960" y="252" text-anchor="middle" fill="#8FAAB8" font-size="9">& compact</text>
+    <text x="960" y="252" text-anchor="middle" fill="#8FAAB8" font-size="9">&amp; compact</text>
 
     <!-- Off-Ramp / Sinks -->
     <rect x="895" y="305" width="130" height="28" rx="4" fill="#243344" stroke="#D4891A" stroke-width="1.5"/>
