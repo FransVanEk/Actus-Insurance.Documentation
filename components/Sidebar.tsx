@@ -3,9 +3,34 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { MagnifyingGlassIcon, Bars3Icon, XMarkIcon, ChevronDownIcon, ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/outline'
+import {
+  MagnifyingGlassIcon, Bars3Icon, XMarkIcon,
+  ChevronDownIcon, ChevronRightIcon, ChevronLeftIcon,
+  BuildingOfficeIcon, CurrencyDollarIcon, HeartIcon,
+  DocumentTextIcon, ShieldCheckIcon, BeakerIcon,
+  ChartBarIcon, GlobeAltIcon, CogIcon, LightBulbIcon,
+  CommandLineIcon, WrenchScrewdriverIcon, SparklesIcon,
+} from '@heroicons/react/24/outline'
 import { SearchModal } from './SearchModal'
 import { useLayout } from './LayoutContext'
+import sectionsData from '../config/sections.json'
+
+const ICON_MAP: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
+  BuildingOffice: BuildingOfficeIcon,
+  CurrencyDollar: CurrencyDollarIcon,
+  Heart: HeartIcon,
+  DocumentText: DocumentTextIcon,
+  ShieldCheck: ShieldCheckIcon,
+  Beaker: BeakerIcon,
+  ChartBar: ChartBarIcon,
+  GlobeAlt: GlobeAltIcon,
+  Cog: CogIcon,
+  LightBulb: LightBulbIcon,
+  CommandLine: CommandLineIcon,
+  WrenchScrewdriver: WrenchScrewdriverIcon,
+  Sparkles: SparklesIcon,
+  Worker: WrenchScrewdriverIcon, // friendly fallback for unknown names
+}
 
 interface NavigationItem {
   title: string
@@ -26,6 +51,7 @@ interface SidebarProps {
 export function Sidebar({ navigation }: SidebarProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isSectionDropdownOpen, setIsSectionDropdownOpen] = useState(false)
   const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set())
   const [collapsedItems, setCollapsedItems] = useState<Set<string>>(new Set())
   const pathname = usePathname()
@@ -33,10 +59,10 @@ export function Sidebar({ navigation }: SidebarProps) {
 
   // Detect current section from pathname
   const getCurrentSection = () => {
-    if (pathname.startsWith('/docs/financial')) return 'financial'
-    if (pathname.startsWith('/docs/framework')) return 'framework'
-    if (pathname.startsWith('/docs/insurance')) return 'insurance'
-    return 'framework' // default
+    for (const section of sectionsData) {
+      if (pathname.startsWith(`/docs/${section.id}`)) return section.id
+    }
+    return sectionsData[0]?.id ?? ''
   }
 
   const currentSection = getCurrentSection()
@@ -44,20 +70,11 @@ export function Sidebar({ navigation }: SidebarProps) {
   // Filter navigation based on current section
   const getFilteredNavigation = () => {
     const filtered: Navigation = {}
-    
-    Object.entries(navigation).forEach(([category, items]) => {
-      // Filter items based on current section
-      const filteredItems = items.filter(item => {
-        if (currentSection === 'financial') {
-          return item.slug.startsWith('financial/')
-        } else if (currentSection === 'framework') {
-          return item.slug.startsWith('framework/')
-        } else if (currentSection === 'insurance') {
-          return item.slug.startsWith('insurance/')
-        }
-        return false
-      })
 
+    Object.entries(navigation).forEach(([category, items]) => {
+      const filteredItems = items.filter(item =>
+        currentSection ? item.slug.startsWith(`${currentSection}/`) : false
+      )
       if (filteredItems.length > 0) {
         filtered[category] = filteredItems
       }
@@ -83,10 +100,7 @@ export function Sidebar({ navigation }: SidebarProps) {
 
   // Get section title for logo
   const getSectionTitle = () => {
-    if (currentSection === 'financial') return 'ACTUS Financial'
-    if (currentSection === 'framework') return 'ACTUS Framework'  
-    if (currentSection === 'insurance') return 'ACTUS Insurance'
-    return 'ACTUS Docs'
+    return sectionsData.find(s => s.id === currentSection)?.title ?? 'ACTUS Docs'
   }
 
   const toggleCategory = (category: string) => {
@@ -177,61 +191,68 @@ export function Sidebar({ navigation }: SidebarProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
-  const SidebarContent = () => (
-    <div className="flex h-full flex-col">
-      {/* Logo */}
-      <div className="flex h-16 items-center justify-between px-6">
-        <div className="flex items-center">
-          <img src="/logo_A_dark.svg" alt="ACTUS Logo" className="h-10 w-9 object-contain" />
-          <span className="ml-3 text-xl font-semibold text-white">
-            {getSectionTitle()}
-          </span>
-        </div>
-        <Link 
-          href="/"
-          className="flex h-8 w-8 items-center justify-center rounded-md transition-colors"
-          style={{ backgroundColor: '#1A3550', color: '#9FB8D0' }}
-          title="Go to main page"
-        >
-          <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-          </svg>
-        </Link>
-      </div>
+  const SidebarContent = () => {
+    const activeSection = sectionsData.find(s => s.id === currentSection)
+    const ActiveIcon = activeSection ? (ICON_MAP[activeSection.icon] ?? DocumentTextIcon) : DocumentTextIcon
 
-      {/* Section switcher */}
-      <div className="px-6 pb-4 border-b" style={{ borderColor: '#D4891A30' }}>
-        <div className="flex space-x-1">
-          <Link 
-            href="/docs/framework"
-            className="px-3 py-1 text-xs font-medium rounded-md transition-colors"
-            style={currentSection === 'framework'
-              ? { backgroundColor: '#D4891A25', color: '#D4891A' }
-              : { color: '#9FB8D0' }
-            }
-          >
-            Framework
+    return (
+    <div className="flex h-full flex-col">
+      {/* Header: brand + section picker in one row */}
+      <div className="border-b" style={{ borderColor: '#D4891A30' }}>
+        <div className="flex h-14 items-center gap-2 px-3">
+          {/* Home link */}
+          <Link href="/" title="Go to home" className="flex items-center gap-2 flex-shrink-0">
+            <img src="/logo_A_dark.svg" alt="ACTUS Logo" style={{ height: 32, width: 28, objectFit: 'contain' }} />
+            <span className="text-sm font-bold text-white tracking-wide">ACTUS</span>
           </Link>
-          <Link 
-            href="/docs/financial"
-            className="px-3 py-1 text-xs font-medium rounded-md transition-colors"
-            style={currentSection === 'financial'
-              ? { backgroundColor: '#D4891A25', color: '#D4891A' }
-              : { color: '#9FB8D0' }
-            }
-          >
-            Financial
-          </Link>
-          <Link 
-            href="/docs/insurance"
-            className="px-3 py-1 text-xs font-medium rounded-md transition-colors"
-            style={currentSection === 'insurance'
-              ? { backgroundColor: '#D4891A25', color: '#D4891A' }
-              : { color: '#9FB8D0' }
-            }
-          >
-            Insurance
-          </Link>
+
+          <div className="flex-1" />
+
+          {/* Section dropdown trigger */}
+          <div className="relative">
+            <button
+              onClick={() => setIsSectionDropdownOpen(prev => !prev)}
+              className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors"
+              style={{ backgroundColor: '#1A3550', color: '#D4891A', border: '1px solid #D4891A30' }}
+            >
+              <ActiveIcon style={{ width: 16, height: 16, flexShrink: 0, marginRight: 2 }} />
+              <span className="max-w-[100px] truncate">{activeSection?.shortTitle ?? '—'}</span>
+              <ChevronDownIcon style={{
+                width: 13, height: 13, flexShrink: 0,
+                transform: isSectionDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 150ms',
+              }} />
+            </button>
+
+            {isSectionDropdownOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setIsSectionDropdownOpen(false)} />
+                <div
+                  className="absolute right-0 z-50 mt-1 rounded-md shadow-xl overflow-hidden"
+                  style={{ minWidth: 160, backgroundColor: '#0D2038', border: '1px solid #D4891A40', top: '100%' }}
+                >
+                  <div className="max-h-72 overflow-y-auto py-1">
+                    {sectionsData.map(section => {
+                      const Icon = ICON_MAP[section.icon] ?? DocumentTextIcon
+                      const isActive = currentSection === section.id
+                      return (
+                        <Link
+                          key={section.id}
+                          href={`/docs/${section.id}`}
+                          onClick={() => setIsSectionDropdownOpen(false)}
+                          className="flex items-center gap-4 px-4 py-3 text-sm font-medium transition-colors hover:bg-[#1A3550]"
+                          style={{ color: isActive ? '#D4891A' : '#9FB8D0' }}
+                        >
+                          <Icon style={{ width: 16, height: 16, flexShrink: 0, marginRight: 8 }} />
+                          <span>{section.shortTitle}</span>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
@@ -319,6 +340,7 @@ export function Sidebar({ navigation }: SidebarProps) {
       </nav>
     </div>
   )
+  }
 
   return (
     <>
