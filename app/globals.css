@@ -221,12 +221,28 @@ mark {
 }
 
 /* Edge labels */
-.mermaid-diagram svg .edgeLabel .label rect {
-  fill: #ffffff !important;
+.mermaid-diagram svg .edgeLabel {
+  isolation: isolate;
 }
 
-.mermaid-diagram svg .edgeLabel span {
-  color: #0D2038 !important;
+.mermaid-diagram svg .edgeLabel .label rect {
+  fill: #1a2836 !important;
+}
+
+.mermaid-diagram svg .edgeLabel foreignObject > div,
+.mermaid-diagram svg .edgeLabel foreignObject > div > span,
+.mermaid-diagram svg .edgeLabel foreignObject > div > p {
+  background: #1a2836 !important;
+  background-color: #1a2836 !important;
+  color: #D4891A !important;
+}
+
+.mermaid-diagram svg .edgeLabel span,
+.mermaid-diagram svg .edgeLabel foreignObject div,
+.mermaid-diagram svg .edgeLabel foreignObject p {
+  color: #D4891A !important;
+  background: #1a2836 !important;
+  background-color: #1a2836 !important;
 }
 
 /* Default node text */
@@ -237,13 +253,13 @@ mark {
 
 /* Arrows / edges */
 .mermaid-diagram svg .edgePath .path {
-  stroke: #1A3550 !important;
+  stroke: #D4891A !important;
   stroke-width: 2px !important;
 }
 
 .mermaid-diagram svg marker path {
-  fill: #1A3550 !important;
-  stroke: #1A3550 !important;
+  fill: #D4891A !important;
+  stroke: #D4891A !important;
 }
 
 /* xychart title and axis labels */
