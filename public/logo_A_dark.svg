@@ -5,8 +5,8 @@
     <stop offset="100%" stop-color="#00000000"/>
   </linearGradient>
   <linearGradient id="shield" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%" stop-color="#1A3550"/>
-    <stop offset="100%" stop-color="#0D2038"/>
+    <stop offset="0%" stop-color="#FFFFFFFF"/>
+    <stop offset="100%" stop-color="#FFFFFFFF"/>
   </linearGradient>
   <linearGradient id="wv" x1="0" y1="0" x2="1" y2="0">
     <stop offset="0%"   stop-color="#D4891A" stop-opacity="0.1"/>
@@ -46,7 +46,7 @@
   <circle cx="262" cy="190" r="4" fill="#FFFFFF"/>
 </g>
 
-<!-- Wordmark below shield -->
+<!-- Wordmark below shield 
 <text x="300" y="600"
       font-family="Poppins, Segoe UI, sans-serif"
       font-size="54" font-weight="900" letter-spacing="4"
@@ -55,4 +55,5 @@
       font-family="Poppins, Segoe UI, sans-serif"
       font-size="14" font-weight="400" letter-spacing="9"
       fill="#1A3550" text-anchor="middle">insurance forecasting</text>
+-->
 </svg>
