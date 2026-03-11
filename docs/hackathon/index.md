@@ -41,20 +41,17 @@ Working largely on my own, with a little help from one other person, I followed 
 
 ```mermaid
 graph TD
-    A["🏁 Study the<br/>single-lane track"] -->|Build| B["Build my own<br/>test track"]
+    A["Study the<br/>single-lane track"] -->|Build| B["Build my own<br/>test track"]
     B -->|Verify| C["Prove it gives<br/>identical results"]
     C -->|Optimise| D["Tune the track<br/>for speed"]
     D -->|Scale| E["Build the<br/>thousand-lane highway"]
     E -->|Extend| F["Add insurance<br/>car models"]
     F -->|Deliver| G["Reports, demos<br/>& documentation"]
 
-    style A fill:#334155,stroke:#94a3b8,color:#e2e8f0
-    style B fill:#1e3a5f,stroke:#60a5fa,color:#e2e8f0
-    style C fill:#1e3a5f,stroke:#60a5fa,color:#e2e8f0
-    style D fill:#1e3a5f,stroke:#60a5fa,color:#e2e8f0
-    style E fill:#7c2d12,stroke:#fb923c,color:#e2e8f0
-    style F fill:#14532d,stroke:#4ade80,color:#e2e8f0
-    style G fill:#14532d,stroke:#4ade80,color:#e2e8f0
+    class A nodeNeutral
+    class B,C,D nodeNavy
+    class E nodeAmber
+    class F,G nodeSuccess
 ```
 
 The result:
