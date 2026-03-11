@@ -210,6 +210,16 @@ mark {
   color: #0D2038 !important;
 }
 
+/* Prevent subgraph titles from wrapping. Mermaid wraps them to fit the cluster
+   box width during JS layout — CSS can override this because htmlLabels:true
+   renders titles as HTML inside a foreignObject. The SVG overflow:visible
+   above ensures the title is never clipped even if it extends past the box. */
+.mermaid-diagram svg .cluster-label foreignObject div,
+.mermaid-diagram svg .cluster-label foreignObject span,
+.mermaid-diagram svg .cluster-label foreignObject p {
+  white-space: nowrap !important;
+}
+
 /* Edge labels */
 .mermaid-diagram svg .edgeLabel .label rect {
   fill: #ffffff !important;

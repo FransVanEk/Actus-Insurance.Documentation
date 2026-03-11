@@ -83,7 +83,7 @@ A GPU is a fundamentally different kind of facility. Instead of 8 sophisticated 
 
 ```mermaid
 graph LR
-    subgraph "GPU Highway — 1,000+ Lanes"
+    subgraph "GPU Highway — 1k+ Lanes"
         L1["Lane 1"]
         L2["Lane 2"]
         L3["Lane 3"]
