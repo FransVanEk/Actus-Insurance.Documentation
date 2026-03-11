@@ -1,0 +1,89 @@
+[
+  {
+    "id": "hackathon",
+    "title": "The Hackathon Story",
+    "shortTitle": "Hackathon",
+    "icon": "Rocket",
+    "description": "The project story from start to finish — how a single-lane test track became a thousand-lane highway for financial contract evaluation, told through the car factory analogy.",
+    "blurb": "project story, objectives, timeline, decisions, challenges, and outcomes",
+    "features": [
+      "Car Factory & Highway Analogy",
+      "Development Timeline & Milestones",
+      "Key Decisions & Trade-Offs",
+      "Challenges & Solutions",
+      "Results & Performance Benchmarks"
+    ]
+  },
+  {
+    "id": "background-gpu",
+    "title": "Background — GPU Computing",
+    "shortTitle": "GPU Background",
+    "icon": "Cpu",
+    "description": "What a GPU is, how it differs from a CPU, and why GPU architecture is well-suited for large-scale financial contract evaluation using ILGPU.",
+    "blurb": "GPU computing fundamentals, CPU vs GPU architecture, and the ILGPU framework",
+    "features": [
+      "CPU vs GPU Architecture Comparison",
+      "Why GPU for Financial Contracts",
+      "ILGPU Framework — C# to CUDA/OpenCL",
+      "Hardware Specifications & Constraints"
+    ]
+  },
+  {
+    "id": "actus-financial",
+    "title": "ACTUS Financial Contracts",
+    "shortTitle": "ACTUS Financial",
+    "icon": "CurrencyDollar",
+    "description": "The ACTUS standard as implemented in this project — contract types, the event system, state transitions, and risk factor handling.",
+    "blurb": "ACTUS contract standard, PAM contract type, events, and risk factors",
+    "features": [
+      "PAM Contract Type (Principal at Maturity)",
+      "Event System & State Transitions",
+      "Risk Factor Handling",
+      "42 Official Reference Test Cases"
+    ]
+  },
+  {
+    "id": "technical",
+    "title": "Technical Documentation",
+    "shortTitle": "Technical",
+    "icon": "CodeBracket",
+    "description": "Full implementation reference — core engine architecture, PAM contract processor, state machine, financial conventions, schedule generation, GPU acceleration, demos, and testing.",
+    "blurb": "implementation details, code architecture, GPU acceleration, and testing",
+    "features": [
+      "Core Engine — PAM Contract, State Machine, Conventions",
+      "Schedule Generation & Cycle Parsing",
+      "Risk Factor Model & Market Data",
+      "GPU Acceleration — Data Structures, Kernels, Executors",
+      "Demos & Sample Applications",
+      "Testing — 42 PAM Tests, GPU Validation",
+      "Technical Reference — Types, Enums, Interfaces"
+    ]
+  },
+  {
+    "id": "actus-insurance",
+    "title": "ACTUS Insurance Extensions",
+    "shortTitle": "ACTUS Insurance",
+    "icon": "ShieldCheck",
+    "description": "How the ACTUS framework was extended to model insurance contracts — life insurance projection, Markov state transitions, and a domain-specific language for product rules.",
+    "blurb": "life insurance modeling, Markov transitions, and DSL for product rules",
+    "features": [
+      "Life Insurance Projection on GPU",
+      "Markov State Transition Model",
+      "Domain-Specific Language for Product Rules",
+      "LifeProjectionCube Data Structure"
+    ]
+  },
+  {
+    "id": "shared",
+    "title": "Shared Reference",
+    "shortTitle": "Shared",
+    "icon": "BookOpen",
+    "description": "Cross-cutting reference material — documentation navigation map and terminology glossary used across all sections.",
+    "blurb": "navigation map, terminology glossary, and cross-references",
+    "features": [
+      "Documentation Navigation Map",
+      "Terminology Glossary",
+      "Section Quick Paths"
+    ]
+  }
+]
