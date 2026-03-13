@@ -1,0 +1,47 @@
+[
+  {
+    "id": "actus-overview-pdf",
+    "title": "ACTUS Standard Overview",
+    "description": "High-level introduction to the ACTUS standard, contract taxonomy, and the financial contract representation model.",
+    "type": "pdf",
+    "size": "",
+    "url": "/downloads/actus-overview.pdf",
+    "viewUrl": "/downloads/actus-overview.pdf"
+  },
+  {
+    "id": "hackathon-slides",
+    "title": "Hackathon Presentation Slides",
+    "description": "Slide deck from the GPU-accelerated ACTUS hackathon — problem statement, solution design, architecture, and benchmark results.",
+    "type": "powerpoint",
+    "size": "",
+    "url": "/downloads/Hackathon–2025-CPU-GPU.pptx",
+    "viewUrl": ""
+  },
+  {
+    "id": "gpu-architecture-diagram",
+    "title": "GPU Architecture Diagram",
+    "description": "Full-resolution architecture diagram of the GPU compute pipeline — kernel layout, data structures, and executor flow.",
+    "type": "pdf",
+    "size": "",
+    "url": "/downloads/gpu-architecture.pdf",
+    "viewUrl": "/downloads/gpu-architecture.pdf"
+  },
+  {
+    "id": "demo-video",
+    "title": "Live Demo Recording",
+    "description": "Screen recording of the web-based scenario demo running PAM contracts with live risk factor injection.",
+    "type": "video",
+    "size": "",
+    "url": "/downloads/demo.mp4",
+    "viewUrl": "/downloads/demo.mp4"
+  },
+  {
+    "id": "pam-test-data",
+    "title": "PAM Test Data (Excel)",
+    "description": "All 42 PAM test cases in an Excel workbook — input terms, expected cash flows, and state vectors per event type.",
+    "type": "excel",
+    "size": "",
+    "url": "/downloads/pam-test-data.xlsx",
+    "viewUrl": ""
+  }
+]
