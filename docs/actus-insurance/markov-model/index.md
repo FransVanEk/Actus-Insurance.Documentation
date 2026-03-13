@@ -184,6 +184,39 @@ By changing the graph definition, different insurance product structures can be 
 
 ---
 
+## One Graph Per Product Type
+
+Each product type carries its own Markov graph. The graph is bundled inside the rule pack alongside the DSL rules and actuarial table references, so when a policy is processed, the engine loads the rule pack for *that* product and uses *that* product's graph. A term life policy and a disability income policy can have entirely different state structures running simultaneously in the same portfolio projection.
+
+This matters because different products genuinely need different topologies. A term life policy is relatively simple — Active, Lapsed, Death Claim Paid, Terminated are the meaningful states. A disability income policy needs additional states such as Disabled, Benefit Paying, and Rehabilitation, plus recovery transitions back to Active that term life does not have at all. A single-premium critical illness contract may not have a Lapsed state at all, since there are no ongoing premiums to miss. Forcing all of these into one universal graph would mean carrying unreachable states and impossible transitions for every product — unnecessary complexity with no benefit.
+
+```mermaid
+graph TD
+    subgraph "Term Life rule pack"
+        TL_G["Graph: Active, Lapsed,\nDeath Claim Paid, Terminated\n4 states, 6 transitions"]
+        TL_R["Rules: mortality loading,\ngrace period length"]
+    end
+    subgraph "Disability Income rule pack"
+        DI_G["Graph: Active, Disabled,\nBenefit Paying, Rehabilitation,\nLapsed, Terminated\n6 states, 11 transitions"]
+        DI_R["Rules: disability incidence,\nwaiting period, benefit period,\nrecovery probability"]
+    end
+    subgraph "Critical Illness rule pack"
+        CI_G["Graph: Active, Claim Open,\nClaim Paid, Terminated\n4 states, 4 transitions"]
+        CI_R["Rules: illness-specific\nclaim triggers, exclusion periods"]
+    end
+    TL_G --> ENGINE["Projection engine\n(common kernel)"]
+    DI_G --> ENGINE
+    CI_G --> ENGINE
+```
+
+The projection engine itself is indifferent to which graph it receives. It reads the hazard matrix, steps the probability distribution forward, and writes the cash flows. The graph tells it the shape of the matrix; the rule pack tells it the values. Neither the shape nor the values are baked into the engine.
+
+**Mixed portfolios work naturally.** When a portfolio contains policies of different product types, each policy is projected using its own rule pack. A batch of 10,000 policies — some term life, some disability income, some critical illness — runs in a single pass. Each policy carries a reference to its product type; the engine resolves the correct rule pack and graph for each one before the projection starts.
+
+**The kernel constraint.** The kernel's data structures have a fixed maximum state count, since GPU memory layouts are static. In practice this is resolved by padding: smaller graphs are padded to the maximum size with states that have zero transition probabilities everywhere and are never entered. The projection is mathematically correct regardless — zero-probability states contribute nothing to the probability distribution or the cash flows. The maximum state count is a deployment parameter, not a fundamental limit, and can be increased when a new product requires more states than the current ceiling allows.
+
+---
+
 ## Competing Risks
 
 When multiple transitions are possible from the same state (e.g., from Active, a policy could die, lapse, or become disabled), the model uses **competing-risk decrements**. The total transition probability out of a state is the sum of all individual hazard rates, capped at 1.0 to maintain valid probabilities.
