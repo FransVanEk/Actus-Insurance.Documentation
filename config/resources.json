@@ -32,8 +32,8 @@
     "description": "Screen recording of the web-based scenario demo running PAM contracts with live risk factor injection.",
     "type": "video",
     "size": "",
-    "url": "/downloads/demo.mp4",
-    "viewUrl": "/downloads/demo.mp4"
+    "url": "/downloads/actus-Video-presentation.mp4",
+    "viewUrl": "/downloads/actus-Video-presentation.mp4"
   },
   {
     "id": "pam-test-data",
@@ -41,7 +41,7 @@
     "description": "All 42 PAM test cases in an Excel workbook — input terms, expected cash flows, and state vectors per event type.",
     "type": "excel",
     "size": "",
-    "url": "/downloads/pam-test-data.xlsx",
+    "url": "/downloads/pam-test-data.xlsx",http://localhost:3000/downloads/Hackathon%E2%80%932025-CPU-GPU.pptx
     "viewUrl": ""
   }
 ]

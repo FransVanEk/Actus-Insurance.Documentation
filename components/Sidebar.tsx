@@ -286,8 +286,8 @@ export function Sidebar({ navigation }: SidebarProps) {
                 <div className="mb-2 mt-6 first:mt-0 flex items-center justify-between">
                   <button
                     onClick={() => toggleCategory(category)}
-                    className="flex-1 text-left text-xs font-semibold uppercase tracking-wide hover:text-white"
-                    style={{ color: '#9FB8D0' }}
+                    className="flex-1 text-left text-xs font-semibold uppercase tracking-wide"
+                    style={{ color: '#F0A83A' }}
                   >
                     {category}
                   </button>
@@ -295,8 +295,8 @@ export function Sidebar({ navigation }: SidebarProps) {
                     {!isCollapsed && (
                       <button
                         onClick={() => collapseCategoryLevel(category)}
-                        className="opacity-0 group-hover:opacity-100 transition-opacity hover:text-white leading-none"
-                        style={{ color: '#4A6580', fontSize: '14px' }}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity leading-none"
+                        style={{ color: '#F0A83A', fontSize: '14px' }}
                         title={`Collapse & reset ${category}`}
                       >
                         &#8863;
@@ -304,8 +304,8 @@ export function Sidebar({ navigation }: SidebarProps) {
                     )}
                     <button
                       onClick={() => toggleCategory(category)}
-                      className="transition-colors hover:text-white"
-                      style={{ color: '#9FB8D0' }}
+                      className="transition-colors"
+                      style={{ color: '#F0A83A' }}
                     >
                       {isCollapsed ? (
                         <ChevronRightIcon className="h-3 w-3" />
@@ -378,7 +378,7 @@ export function Sidebar({ navigation }: SidebarProps) {
         <button
           onClick={() => setSidebarCollapsed(true)}
           className="hidden lg:flex fixed z-50 -translate-y-1/2 items-center justify-center rounded-r-md transition-opacity opacity-30 hover:opacity-100"
-          style={{ top: '40%', left: '320px', backgroundColor: '#1A3550', color: '#9FB8D0', width: '20px', height: '48px', borderRight: '1px solid #D4891A40', borderTop: '1px solid #D4891A40', borderBottom: '1px solid #D4891A40' }}
+          style={{ top: '40%', left: '320px', backgroundColor: 'transparent', color: '#D4891A', width: '20px', height: '48px', borderRight: '2px solid #D4891A', borderTop: '2px solid #D4891A', borderBottom: '2px solid #D4891A' }}
           title="Collapse sidebar"
         >
           <ChevronLeftIcon className="h-3 w-3" />
@@ -390,7 +390,7 @@ export function Sidebar({ navigation }: SidebarProps) {
         <button
           onClick={() => setSidebarCollapsed(false)}
           className="hidden lg:flex fixed z-50 -translate-y-1/2 items-center justify-center rounded-r-md transition-opacity opacity-30 hover:opacity-100"
-          style={{ top: '40%', left: '0', backgroundColor: '#1A3550', color: '#9FB8D0', width: '20px', height: '48px', borderRight: '1px solid #D4891A40', borderTop: '1px solid #D4891A40', borderBottom: '1px solid #D4891A40' }}
+          style={{ top: '40%', left: '0', backgroundColor: 'transparent', color: '#D4891A', width: '20px', height: '48px', borderRight: '2px solid #D4891A', borderTop: '2px solid #D4891A', borderBottom: '2px solid #D4891A' }}
           title="Expand sidebar"
         >
           <ChevronRightIcon className="h-3 w-3" />
@@ -459,10 +459,10 @@ function NavigationItemComponent({
               onClick={() => toggleItem(item.slug)}
               className={`flex items-center justify-between w-full rounded-md px-3 py-2 text-sm font-medium transition-colors ${
                 isActive
-                  ? 'text-[#D4891A]'
+                  ? ''
                   : 'text-[#9FB8D0] hover:bg-[#1A3550] hover:text-white'
               }`}
-              style={isActive ? { backgroundColor: '#D4891A20' } : {}}
+              style={isActive ? { color: '#F0A83A', backgroundColor: '#F0A83A15' } : {}}
             >
               <Link
                 href={href}
@@ -483,10 +483,10 @@ function NavigationItemComponent({
             href={href}
             className={`block w-full rounded-md px-3 py-2 text-sm font-medium transition-colors ${
               isActive
-                ? 'text-[#D4891A]'
+                ? ''
                 : 'text-[#9FB8D0] hover:bg-[#1A3550] hover:text-white'
             }`}
-            style={isActive ? { backgroundColor: '#D4891A20' } : {}}
+            style={isActive ? { color: '#F0A83A', backgroundColor: '#F0A83A15' } : {}}
             onClick={() => setIsMobileMenuOpen(false)}
           >
             {item.title}
