@@ -1,11 +1,10 @@
 ---
 title: Terminology & Glossary
 description: Reference glossary of all key terms, abbreviations, and concepts used throughout the documentation.
-category: Shared
-order: 1
+category: Hackathon
+order: 99
 ---
 
-# Terminology & Glossary
 
 This document defines every term, abbreviation, and concept used across the documentation. When a term appears for the first time in any document, it links back here. Use this page as a reference whenever you encounter an unfamiliar concept.
 

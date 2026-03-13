@@ -6,6 +6,8 @@ order: 1
 source: https://www.actusfrf.org/
 ---
 
+> This is the current documentation, now improved with a new style and technical structure. It demonstrates how Markdown can be used as a technology to make website updates easier to maintain and manage.
+
 # ACTUS — Algorithmic Contract Types Unified Standards
 
 ACTUS — the Algorithmic Contract Types Unified Standards — is a global initiative to bring clarity, consistency, and precision to the way financial contracts are represented and analyzed.
