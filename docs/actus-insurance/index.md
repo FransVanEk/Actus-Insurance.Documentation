@@ -60,5 +60,6 @@ The key insight: while individual policy paths are uncertain, the **expected** c
 ## Continue Reading
 
 - [Life Insurance Model](./life-insurance/index.md) — how life insurance policies are projected on the GPU
-- [Markov State Transitions](./markov-model/index.md) — the state diagram and transition probabilities
+- [Markov State Transitions](./markov-model/index.md) — why the Markov model is used, how it steps forward, and how rules fill the gaps that tables cannot
 - [DSL & Product Rules](./dsl-and-rules/index.md) — the domain-specific language for configurable insurance products
+- [Monte Carlo Simulation](./monte-carlo/index.md) — running thousands of scenarios to build a distribution of outcomes and quantify tail risk
