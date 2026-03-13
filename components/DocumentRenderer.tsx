@@ -314,7 +314,7 @@ export function DocumentRenderer({ doc }: DocumentRendererProps) {
         <button
           onClick={() => setTocCollapsed(!isTocCollapsed)}
           className="fixed z-50 -translate-y-1/2 flex items-center justify-center rounded-l-md transition-opacity opacity-30 hover:opacity-100"
-          style={{ top: '40%', right: '0', backgroundColor: '#e5e7eb', color: '#6b7280', width: '16px', height: '48px', borderLeft: '1px solid #d1d5db', borderTop: '1px solid #d1d5db', borderBottom: '1px solid #d1d5db' }}
+          style={{ top: '40%', right: '0', backgroundColor: 'transparent', color: 'var(--color-amber)', width: '16px', height: '48px', borderLeft: '2px solid var(--color-amber)', borderTop: '2px solid var(--color-amber)', borderBottom: '2px solid var(--color-amber)' }}
           title={isTocCollapsed ? 'Expand table of contents' : 'Collapse table of contents'}
         >
           {isTocCollapsed
