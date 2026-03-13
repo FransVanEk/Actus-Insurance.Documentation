@@ -1,8 +1,8 @@
 ---
 title: Competition Submission — ACTUS-I
 description: Submission responses for the ACTUS competition proposal "Extending Algorithmic Financial Contracts into Insurance with High-Performance Portfolio Projections."
-category: ACTUS Organization
-order: 20
+category: Hackathon
+order: 21
 ---
 
 # Competition Submission
@@ -27,14 +27,21 @@ order: 20
 
 [TODO: Add each team member with the following pattern]
 
-**[Name]** — [Role on project]
-[2–3 sentences on background and specific contributions: e.g., designed the Markov model, implemented the GPU kernel, built the DSL interpreter, developed the insurance contract adapter, etc.]
+**Frans Van Ek** — Led the core setup, programmed the GPU kernels, converted the site documentation into the new layout, and developed the PAM and insurance contract extensions. 
+
+**Cristina Mudura** - Contributed on the deployment, creation of the base documentation site, and validation of the implementations.
 
 ---
 
 ## Key Innovations and Unique Value Proposition
 
-The central innovation is the **principled extension of the ACTUS standard into the insurance domain** — something that has not previously existed in a production-grade open implementation.
+A major innovation lies in the execution architecture of the projection engine. Large-scale portfolio valuation requires enormous computational throughput: projecting millions of policies across hundreds of time steps with stochastic decrements is inherently parallel and naturally suited for GPU acceleration. However, GPU-only implementations introduce a serious practical problem: calculation drift.
+
+In most actuarial systems, individual contract calculations (for example policy servicing, illustration, or audit checks) are executed on the CPU, while portfolio projections run on specialized GPU code. Even when both implementations aim to follow the same formulas, small differences in code paths, floating-point behavior, or update order inevitably appear over time. This creates reconciliation problems: the projection engine may produce results that cannot be reproduced by the single-policy calculation engine.
+
+The innovation in this project is that the exact same computational kernel is used for both CPU and GPU execution.
+
+The other innovation is the **principled extension of the ACTUS standard into the insurance domain** — something that has not previously existed in a production-grade open implementation.
 
 ACTUS was designed for banking contracts, where every cash flow follows a deterministic schedule. Insurance contracts are fundamentally different: whether a policy pays a death benefit, lapses, or matures depends on probabilities, not on a fixed date. Bridging these two paradigms required solving several distinct problems simultaneously.
 
@@ -80,45 +87,63 @@ The work completed in the competition establishes a foundation that can be exten
 
 ## Challenges in Realising the Solution
 
-[TODO: describe the specific challenges encountered — the answers below are structured prompts; fill in with your team's actual experience]
+**Conceptual challenge — bridging deterministic and probabilistic contract paradigms.**
+ACTUS is designed for deterministic financial contracts with predefined event schedules. Insurance contracts behave differently: policy outcomes depend on probabilistic events such as death, lapse, or disability. The challenge was to extend the ACTUS framework without losing its key property of reproducibility. This required introducing a Markov state-machine representation of the insurance lifecycle while ensuring that the final projected cash flows remain deterministic expected values.
 
-**Conceptual challenge — bridging deterministic and probabilistic contract paradigms.** The ACTUS standard is built around deterministic event schedules. Extending it to insurance required developing a new formal representation — the Markov state machine — that preserves the standard's reproducibility guarantee while accommodating probabilistic state transitions. Defining the interface between the deterministic scheduling logic and the probabilistic projection loop required careful architectural work.
+**Technical challenge — high‑performance computation with consistent results.**
+The engine needed to support large-scale GPU parallelism while maintaining exact agreement with CPU calculations. Financial contracts also contain heterogeneous data structures (dates, text labels, variable-length events) that GPUs cannot process directly. In addition, floating‑point rounding differences between execution environments created small numerical discrepancies during validation.
 
-**Technical challenge — [TODO: e.g., GPU parallelism, DSL implementation, numerical precision in competing-risk calculations, handling edge cases in the Markov graph, large-scale test coverage]**
+**Data challenge — reliable and consistent inputs.**
+Financial models are highly sensitive to input interpretation. Even minor differences in numeric formatting or configuration could lead to large calculation errors. Ensuring that interest rates, actuarial tables, and reference datasets were interpreted consistently across environments required strict standardisation of numeric parsing and data handling.
 
-**Data challenge — [TODO: e.g., sourcing or constructing actuarial tables, designing realistic test portfolios, validating outputs against known actuarial benchmarks]**
-
-**Scope challenge — [TODO: describe any tension between ambition and the competition timeline — what had to be deferred, what trade-offs were made]**
+**Scope challenge — balancing performance goals with practical constraints.**
+GPU acceleration offers significant performance gains for large portfolios but introduces setup overhead. For small workloads this overhead can outweigh the performance benefits, making CPU execution faster.
 
 ---
 
 ## How Challenges Were Overcome
 
-[TODO: for each challenge listed above, describe the specific approach taken]
+**On the paradigm bridge:**
+Insurance contracts were represented as a Markov state machine driven by actuarial hazard tables. Instead of simulating individual stochastic paths, the engine propagates state probabilities and computes expected cash flows. This preserves the deterministic ACTUS guarantee: identical inputs always produce identical outputs.
 
-**On the paradigm bridge:** [TODO — e.g., the solution was to treat the Markov model as a source of transition probabilities that feed a hazard matrix, which is conceptually analogous to the risk factor model in ACTUS banking contracts. This reframing allowed the existing infrastructure to be reused with minimal modification.]
+**On the technical challenges:**
+A dedicated transformation layer converts contracts into compact numeric structures suitable for parallel execution. Sensitive calculations such as discount factors are computed once and reused to avoid numerical drift, and explicit event priority rules ensure deterministic processing when multiple events occur on the same date.
 
-**On [technical challenge]:** [TODO]
+**On the data challenge:**
+All numeric inputs are parsed using a fixed, locale‑independent convention. Reference tests were executed across different system configurations to confirm consistent results.
 
-**On [data challenge]:** [TODO]
+**On scope and performance:**
+The system supports both CPU and GPU execution. Smaller workloads run efficiently on the CPU, while large portfolios benefit from GPU parallelism, allowing the platform to scale without sacrificing practicality.
 
-**On scope:** [TODO — e.g., the DSL was implemented with a deliberately minimal feature set for the competition, sufficient to demonstrate configurability, with more advanced features deferred to post-competition development.]
-
----
 
 ## Results and Success Rating
 
-[TODO: describe outcomes — what was built, what was demonstrated, what works end to end]
+The project delivered a working prototype that demonstrates the feasibility of **ACTUS-I — extending the ACTUS algorithmic financial contract framework into the insurance domain while maintaining the standard’s deterministic and reproducible design principles**.
 
-The project delivered a working implementation of the ACTUS insurance extension across all core components: the Markov state model, actuarial hazard tables, the DSL interpreter, Monte Carlo scenario simulation, and integration with the existing ACTUS banking contract infrastructure.
+The implementation includes the core architectural elements required to validate the vision of a unified contract projection framework:
 
-[TODO: add any quantitative results — e.g., projection throughput numbers, portfolio sizes tested, number of scenarios demonstrated, test coverage statistics]
+* **Markov state-machine model** representing the lifecycle of insurance contracts.
+* Integration of **actuarial hazard tables** and probability-based state transitions.
+* **domain-specific language (DSL)** enabling product rules to be defined independently of the projection engine.
+* **Monte Carlo scenario simulation** integrated with the ACTUS execution infrastructure.
+* **GPU-enabled projection engine** capable of processing portfolio-scale calculations while preserving deterministic results consistent with CPU execution.
 
-**Self-assessed success rating:** [TODO: e.g., 4/5 — all core objectives met; the following stretch goals were not fully completed: ...]
 
-The primary objective — demonstrating that the ACTUS framework can be extended to cover insurance contracts in a standards-compatible, reproducible, and computationally efficient way — was [TODO: achieved / substantially achieved / partially achieved], as evidenced by [TODO: specific demonstration or test result].
+Most importantly, the system demonstrates that **banking contracts and insurance contracts can be processed within the same ACTUS-based projection engine**, supporting the broader vision of a unified algorithmic financial contract standard capable of large-scale forward-looking portfolio analysis.
 
----
+The project also produced a structured **documentation and demonstration website** that explains the architecture, implementation decisions, and results. This website serves as the primary evidence artifact for the project and documents the complete design and working prototype.
+
+The insurance extension has been **implemented and validated using a full working product example**, proving the technical feasibility of the ACTUS-I contract model. While only one product type was implemented within the available timeframe, the DSL-based architecture allows additional products to be added without changes to the projection engine.
+
+The reporting and monitoring infrastructure described in the vision has been **partially implemented**. Initial reporting pipelines and demonstration outputs exist, but the full automated reporting, alerting, and early-warning framework remains future work.
+
+The primary objective — **demonstrating that ACTUS can be extended into the insurance domain while remaining standards-compatible, reproducible, and computationally scalable** — was successfully achieved. The working prototype executes insurance projections within the ACTUS engine and demonstrates GPU-accelerated portfolio calculations.
+
+**Self-assessed success rating: 4 / 5**
+
+All core architectural objectives were achieved: the ACTUS-I insurance extension, unified projection engine, GPU-enabled portfolio processing, and demonstration of insurance contract projections. Remaining stretch goals mainly concern completing the automated reporting and early-warning capabilities envisioned for the platform.
+
+
 
 ## Additional Materials
 
@@ -154,7 +179,5 @@ The value demonstrated is concrete and at multiple levels.
 
 ## Available to Pitch Virtually?
 
-[TODO: select one]
-
-- [ ] Yes
+- [X] Yes
 - [ ] No
