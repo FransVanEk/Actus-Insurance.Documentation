@@ -10,6 +10,19 @@ order: 21
 **Selected Proposal:** ACTUS-I — Extending Algorithmic Financial Contracts into Insurance with High-Performance Portfolio Projections
 
 ---
+**Project Solution Description (≤2000 characters)**
+
+The project introduces **ACTUS-I**, an extension of the ACTUS Algorithmic Financial Contract Standard that enables insurance contracts to be represented and projected using the same deterministic, machine-readable framework already used for banking products. The solution demonstrates that banking and insurance contracts can be modeled, simulated, and analyzed within a **single unified projection engine**, enabling transparent and scalable financial risk analysis. 
+
+ACTUS-I defines insurance-specific contract structures while preserving the core ACTUS lifecycle model. It introduces insurance attributes such as premiums, coverage limits, deductibles, and reinsurance terms, together with state variables for claims, benefits, reserves, and policy status. Contract lifecycles are represented through events such as premium payments, claim triggers, benefit payouts, and policy state transitions, allowing insurance cash flows to be computed deterministically from contract definitions. 
+
+To model the probabilistic nature of insurance outcomes, the system incorporates a **Markov state-machine representation of policy lifecycles**. At each time step, the model propagates probabilities across states (for example active, lapsed, claim open, or benefit paid) using actuarial hazard tables for mortality, lapse, and disability. This produces probability-weighted expected cash flows while preserving the reproducibility required by the ACTUS standard. 
+
+The contracts are executed in a **high-performance projection engine** capable of processing large portfolios of mixed banking and insurance contracts. The engine supports both deterministic projections and Monte Carlo scenario simulations, enabling forward-looking portfolio analysis, tail-risk measurement, and economic capital estimation. To ensure consistency between portfolio projections and individual contract calculations, the same computational kernel can run on both CPU and GPU architectures. 
+
+By combining a standardized contract representation with scalable projection technology, the solution enables institutions to perform fast, transparent, and reproducible portfolio analysis across both assets and liabilities. The result is a unified analytical framework that supports risk management, regulatory reporting, and forward-looking financial decision-making at scale. 
+
+---
 
 ## URL to Demonstration Video
 
@@ -145,7 +158,23 @@ All core architectural objectives were achieved: the ACTUS-I insurance extension
 
 ## Additional Materials
 
-[TODO: list any supplementary materials not covered by the video and solution URL]
+### Repositories
+
+- **[Actus-Insurance.Documentation](https://github.com/FransVanEk/Actus-Insurance.Documentation)** — Public
+
+  - The documentation you are reading now. Contains all conceptual and technical documentation for the insurance extension: the Markov model, DSL and product rules, Monte Carlo simulation, and the life insurance projection model.
+
+- **[Actus-Insurance.Core](https://github.com/FransVanEk/Actus-Insurance.Core)** — Public
+
+  - The C# implementation of the insurance contract extensions. Contains the Markov state machine, the DSL interpreter, actuarial lookup tables, the rule pack loader, and the insurance contract adapter that connects to the ACTUS contract engine.
+
+- **[Actus-Insurance.GPU](https://github.com/FransVanEk/Actus-Insurance.GPU)** — Private
+
+  - The high-performance GPU kernel that runs the portfolio projection. This repository is proprietary and not publicly available. It publishes compiled packages to GitHub Packages, which the other repositories consume as dependencies.
+
+- **[Actus-Insurance.DemoAndSamples](https://github.com/FransVanEk/Actus-Insurance.DemoAndSamples)** — Public
+
+  - End-to-end examples showing how to use the insurance extension in your own solution. This is the recommended starting point for implementers. It consumes the published GPU packages as a dependency and demonstrates how the Core, GPU, and Documentation components work together in practice.
 
 Suggested materials to include if available:
 
@@ -171,7 +200,7 @@ The value demonstrated is concrete and at multiple levels.
 
 **For regulators and supervisors**, a standardised machine-readable representation of insurance contracts offers the same benefits it provides in banking: the ability to collect and compare contract data across institutions in a common format, and to apply scenario analysis systematically rather than institution by institution.
 
-**For the broader fintech and insurtech ecosystem**, demonstrating a working open implementation lowers the barrier for other developers to build on the standard — whether as analytics tools, pricing engines, ALM systems, or regulatory reporting solutions.
+**For the broader fintech and insurtech ecosystem**, demonstrating a working open implementation lowers the barrier for other developers to build on the standard — whether as analytics tools, pricing engines, ALM systems, or regulatory reporting solutions. There is access needed to be able to run this repo. it is merely for showcasing the code.
 
 ---
 

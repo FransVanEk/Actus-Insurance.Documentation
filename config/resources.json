@@ -41,7 +41,7 @@
     "description": "All 42 PAM test cases in an Excel workbook — input terms, expected cash flows, and state vectors per event type.",
     "type": "excel",
     "size": "",
-    "url": "/downloads/pam-test-data.xlsx",http://localhost:3000/downloads/Hackathon%E2%80%932025-CPU-GPU.pptx
+    "url": "/downloads/pam-test-data.xlsx",
     "viewUrl": ""
   }
 ]
