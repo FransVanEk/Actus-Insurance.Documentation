@@ -154,9 +154,9 @@ export function TableOfContents({ content }: TableOfContentsProps) {
                 ? 'font-medium'
                 : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
             }`}
-            style={activeId === item.id ? { color: 'var(--color-amber-light)' } : undefined}
             style={{
               paddingLeft: `${(item.level - 1) * 12}px`,
+              ...(activeId === item.id ? { color: 'var(--color-amber-light)' } : {}),
             }}
           >
             {item.text}
