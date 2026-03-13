@@ -13,19 +13,17 @@ order: 21
 
 ## URL to Demonstration Video
 
-[TODO: insert link to demonstration video]
+[Video of the presentationapplication demo](https://actus-insurance-documentation-iuybsndtx-fransvaneks-projects.vercel.app/downloads/demo-video.mp4)
 
 ---
 
 ## URL to Solution
 
-[TODO: insert link to live demo, GitHub repository, or hosted application — e.g., https://github.com/[org]/actus-final]
+[Demo site with information and resources](https://actus-insurance-documentation-iuybsndtx-fransvaneks-projects.vercel.app/){:target="_blank"}
 
 ---
 
 ## Core Team Members
-
-[TODO: Add each team member with the following pattern]
 
 **Frans Van Ek** — Led the core setup, programmed the GPU kernels, converted the site documentation into the new layout, and developed the PAM and insurance contract extensions. 
 
