@@ -15,6 +15,23 @@
     ]
   },
   {
+    "id": "actus-org",
+    "title": "ACTUS Organization",
+    "shortTitle": "ACTUS Org",
+    "icon": "BuildingLibrary",
+    "description": "The ACTUS Financial Research Foundation — the open standard for financial contract representation, its taxonomy, data dictionary, technical specification, and the organizations behind it.",
+    "blurb": "Converted current documentation of ACTUS standard, contract taxonomy, data dictionary, technical specification, and foundation",
+    "features": [
+      "ACTUS Standard Overview",
+      "Contract Type Taxonomy — ~32 Types",
+      "Data Dictionary — CT Attributes & Applicability",
+      "Technical Specification & State Transition Functions",
+      "Business Rules Notation",
+      "Developer Access & Reference Implementation",
+      "Membership & Resources"
+    ]
+  },
+  {
     "id": "background-gpu",
     "title": "Background — GPU Computing",
     "shortTitle": "GPU Background",
@@ -26,20 +43,6 @@
       "Why GPU for Financial Contracts",
       "ILGPU Framework — C# to CUDA/OpenCL",
       "Hardware Specifications & Constraints"
-    ]
-  },
-  {
-    "id": "actus-financial",
-    "title": "ACTUS Financial Contracts",
-    "shortTitle": "ACTUS Financial",
-    "icon": "CurrencyDollar",
-    "description": "The ACTUS standard as implemented in this project — contract types, the event system, state transitions, and risk factor handling.",
-    "blurb": "ACTUS contract standard, PAM contract type, events, and risk factors",
-    "features": [
-      "PAM Contract Type (Principal at Maturity)",
-      "Event System & State Transitions",
-      "Risk Factor Handling",
-      "42 Official Reference Test Cases"
     ]
   },
   {
@@ -71,19 +74,6 @@
       "Markov State Transition Model",
       "Domain-Specific Language for Product Rules",
       "LifeProjectionCube Data Structure"
-    ]
-  },
-  {
-    "id": "shared",
-    "title": "Shared Reference",
-    "shortTitle": "Shared",
-    "icon": "BookOpen",
-    "description": "Cross-cutting reference material — documentation navigation map and terminology glossary used across all sections.",
-    "blurb": "navigation map, terminology glossary, and cross-references",
-    "features": [
-      "Documentation Navigation Map",
-      "Terminology Glossary",
-      "Section Quick Paths"
     ]
   }
 ]

@@ -9,6 +9,7 @@ import { DocContent } from '../lib/markdown'
 import 'highlight.js/styles/github-dark.css'
 import { TableOfContents } from './TableOfContents'
 import { MermaidChart } from './MermaidChart'
+import { ResourceList } from './ResourceList'
 import { useLayout } from './LayoutContext'
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/outline'
 
@@ -74,8 +75,17 @@ function resolveDocLink(href: string, fileDir: string): string {
   return `/docs/${resultParts.join('/')}`
 }
 
+/** Convert <ResourceList ids="..." /> to a plain div so ReactMarkdown can handle it without type errors. */
+function preprocessContent(content: string): string {
+  return content.replace(
+    /<ResourceList\s+ids=["']([^"']*)["']\s*\/>/g,
+    (_match, ids: string) => `<div data-resourcelist="${ids}"></div>`
+  )
+}
+
 export function DocumentRenderer({ doc }: DocumentRendererProps) {
   const { isTocCollapsed, setTocCollapsed } = useLayout()
+  const processedContent = React.useMemo(() => preprocessContent(doc.content), [doc.content])
   // Pre-generate unique IDs from content to ensure server/client consistency
   const headingIds = React.useMemo(() => {
     const headingRegex = /^(#{1,6})\s+(.+?)$/gm
@@ -182,7 +192,7 @@ export function DocumentRenderer({ doc }: DocumentRendererProps) {
             },
             // Resolve relative image paths through the docs-assets API route
             img: ({ node, src, alt, ...props }) => {
-              const resolvedSrc = resolveImageSrc(src || '', doc.metadata.fileDir ?? '')
+              const resolvedSrc = resolveImageSrc(typeof src === 'string' ? src : '', doc.metadata.fileDir ?? '')
               // eslint-disable-next-line @next/next/no-img-element
               return <img src={resolvedSrc} alt={alt || ''} {...props} className="max-w-full h-auto rounded-lg my-4" />
             },
@@ -222,6 +232,12 @@ export function DocumentRenderer({ doc }: DocumentRendererProps) {
             },
             // Transparent passthrough — styling is handled entirely in the code renderer above
             pre: ({ node, children }) => <>{children}</>,
+            // <div data-resourcelist="id1,id2"> → styled download card grid
+            div: ({ node, children, ...props }) => {
+              const ids = (props as Record<string, unknown>)['data-resourcelist'] as string | undefined
+              if (ids) return <ResourceList ids={ids} />
+              return <div {...props}>{children}</div>
+            },
             // Enhanced tables
             table: ({ node, children, ...props }) => (
               <div className="overflow-x-auto my-4">
@@ -275,7 +291,7 @@ export function DocumentRenderer({ doc }: DocumentRendererProps) {
             },
           }}
         >
-          {doc.content}
+          {processedContent}
         </ReactMarkdown>
       </div>
 
