@@ -34,6 +34,23 @@ function initMermaid() {
         titleColor: '#0D2038',
         edgeLabelBackground: '#1a2836',
         fontFamily: 'Arial, Helvetica, sans-serif',
+        // Sequence diagram variables
+        actorBkg: '#1A3550',
+        actorBorder: '#D4891A',
+        actorTextColor: '#F0A83A',
+        actorLineColor: '#D4891A',
+        signalColor: '#D4891A',
+        signalTextColor: '#F0A83A',
+        labelBoxBkgColor: '#1A3550',
+        labelBoxBorderColor: '#D4891A',
+        labelTextColor: '#F0A83A',
+        loopTextColor: '#F0A83A',
+        noteBorderColor: '#D4891A',
+        noteBkgColor: '#1A3550',
+        noteTextColor: '#F0A83A',
+        activationBorderColor: '#D4891A',
+        activationBkgColor: '#243344',
+        sequenceNumberColor: '#F0A83A',
       },
       securityLevel: 'loose',
       flowchart: {
@@ -79,9 +96,20 @@ export function MermaidChart({ chart }: MermaidChartProps) {
           const svgEl = ref.current.querySelector('svg')
           if (svgEl) {
             svgEl.style.overflow = 'visible'
-            // Thicken all arrow/edge paths
+            // Thicken all arrow/edge paths (flowchart)
             svgEl.querySelectorAll('.flowchart-link, .edge-path, path.path').forEach((el) => {
               ;(el as SVGElement).style.strokeWidth = '2.5px'
+            })
+            // Sequence diagram: actor lifelines, signals, and arrowheads → amber
+            svgEl.querySelectorAll('.actor-line, line, .messageLine0, .messageLine1').forEach((el) => {
+              const e = el as SVGElement
+              e.style.stroke = '#D4891A'
+              if (!e.style.strokeWidth) e.style.strokeWidth = '1.5px'
+            })
+            svgEl.querySelectorAll('marker path, marker polygon').forEach((el) => {
+              const e = el as SVGElement
+              e.style.fill = '#D4891A'
+              e.style.stroke = '#D4891A'
             })
             // Move all edgeLabel groups to end of their parent so they render on top in SVG z-order
             svgEl.querySelectorAll('.edgeLabel').forEach((el) => {

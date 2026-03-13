@@ -63,57 +63,47 @@ export function TableOfContents({ content }: TableOfContentsProps) {
   }, [content])
 
   useEffect(() => {
-    // Create intersection observer to highlight active section
-    let timeoutId: NodeJS.Timeout
-    
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Don't auto-update if user just clicked something
-        if (isManualClick) {
+    if (tocItems.length === 0) return
+
+    let rafId: number
+
+    const onScroll = () => {
+      if (isManualClick) return
+      cancelAnimationFrame(rafId)
+      rafId = requestAnimationFrame(() => {
+        const headings = Array.from(
+          document.querySelectorAll<HTMLElement>('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]')
+        )
+        if (headings.length === 0) return
+
+        // At (or very near) the bottom of the page → activate the last heading
+        const scrollBottom = window.scrollY + window.innerHeight
+        const pageHeight = document.documentElement.scrollHeight
+        if (pageHeight - scrollBottom < 8) {
+          setActiveId(headings[headings.length - 1].id)
           return
         }
-        
-        // Clear any existing timeout
-        if (timeoutId) {
-          clearTimeout(timeoutId)
-        }
-        
-        // Add a small delay to prevent rapid switching
-        timeoutId = setTimeout(() => {
-          // Find the entry that's most visible or the first intersecting one
-          const intersectingEntries = entries.filter(entry => entry.isIntersecting)
-          
-          if (intersectingEntries.length > 0) {
-            // Sort by intersection ratio and position (topmost wins in ties)
-            const sortedEntries = intersectingEntries.sort((a, b) => {
-              if (Math.abs(a.intersectionRatio - b.intersectionRatio) < 0.1) {
-                // If ratios are similar, prefer the one higher on the page
-                return a.boundingClientRect.top - b.boundingClientRect.top
-              }
-              return b.intersectionRatio - a.intersectionRatio
-            })
-            
-            setActiveId(sortedEntries[0].target.id)
-          }
-        }, 100)
-      },
-      {
-        rootMargin: '-10% 0% -60% 0%',
-        threshold: [0, 0.25, 0.5, 0.75, 1.0]
-      }
-    )
 
-    // Observe all headings that actually exist in the DOM
-    const headingElements = document.querySelectorAll('h1[id], h2[id], h3[id], h4[id], h5[id], h6[id]')
-    headingElements.forEach((element) => {
-      observer.observe(element)
-    })
+        // Otherwise: last heading whose top edge is at or above 30% down the viewport
+        const threshold = window.scrollY + window.innerHeight * 0.3
+        let active = headings[0]
+        for (const h of headings) {
+          if (h.offsetTop <= threshold) {
+            active = h
+          } else {
+            break
+          }
+        }
+        setActiveId(active.id)
+      })
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll() // initialise on mount
 
     return () => {
-      observer.disconnect()
-      if (timeoutId) {
-        clearTimeout(timeoutId)
-      }
+      window.removeEventListener('scroll', onScroll)
+      cancelAnimationFrame(rafId)
     }
   }, [tocItems, isManualClick])
 
@@ -151,7 +141,7 @@ export function TableOfContents({ content }: TableOfContentsProps) {
 
   return (
     <div className="sticky top-8 space-y-1">
-      <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+      <h3 className="text-sm font-semibold mb-3" style={{ color: 'var(--color-amber-light)' }}>
         On this page
       </h3>
       <nav className="space-y-1">
@@ -159,11 +149,12 @@ export function TableOfContents({ content }: TableOfContentsProps) {
           <button
             key={item.id}
             onClick={() => handleClick(item.id)}
-            className={`block w-full text-left text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors ${
+            className={`block w-full text-left text-sm transition-colors ${
               activeId === item.id
-                ? 'text-blue-600 dark:text-blue-400 font-medium'
-                : 'text-gray-600 dark:text-gray-300'
+                ? 'font-medium'
+                : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
             }`}
+            style={activeId === item.id ? { color: 'var(--color-amber-light)' } : undefined}
             style={{
               paddingLeft: `${(item.level - 1) * 12}px`,
             }}
