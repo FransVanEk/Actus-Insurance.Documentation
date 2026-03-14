@@ -358,12 +358,23 @@
       text-align: center;
     }
 
-    /* Rendered state: SVG replaces the <pre> */
+    /* Pre-rendered SVG (server-side) */
+    .mermaid-rendered svg,
     .mermaid-wrap svg {
       max-width: 100%;
       height: auto;
       display: block;
       margin: 0 auto;
+    }
+
+    .mermaid-rendered {
+      text-align: center;
+      padding: 0.5em 0;
+    }
+
+    /* Hide the "diagram source" label for pre-rendered blocks */
+    .mermaid-rendered::before {
+      display: none !important;
     }
 
     /* Unrendered / WeasyPrint fallback: show source as a styled block */
@@ -529,19 +540,48 @@
 <p>The ACTUS standard already had a reference implementation — a working single-lane test track written in Java. It is correct and well-tested. But it processes one contract at a time. For institutional-scale portfolios, it is simply too slow.</p>
 <h2>What I Built</h2>
 <p>Working largely on my own, with a little help from one other person, I followed a disciplined sequence — like upgrading a test facility one step at a time, verifying that test results stay identical at every stage:</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    A["Study the&#x3C;br/>single-lane track"] -->|Build| B["Build my own&#x3C;br/>test track"]
-    B -->|Verify| C["Prove it gives&#x3C;br/>identical results"]
-    C -->|Optimise| D["Tune the track&#x3C;br/>for speed"]
-    D -->|Scale| E["Build the&#x3C;br/>thousand-lane highway"]
-    E -->|Extend| F["Add insurance&#x3C;br/>car models"]
-    F -->|Deliver| G["Reports, demos&#x3C;br/>&#x26; documentation"]
-
-    class A nodeNeutral
-    class B,C,D nodeNavy
-    class E nodeAmber
-    class F,G nodeSuccess
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 442 706" width="442" height="706" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-1-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-1-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="201.0,58.0 201.0,88.0 201.0,118.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-1-arr)"/>
+<rect x="183.5" y="78.0" width="41.0" height="14" fill="white" opacity="0.85"/>
+<text x="201.0" y="88.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">Build</text>
+<polyline points="201.0,156.0 201.0,186.0 201.0,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-1-arr)"/>
+<rect x="180.0" y="176.0" width="48.0" height="14" fill="white" opacity="0.85"/>
+<text x="201.0" y="186.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">Verify</text>
+<polyline points="201.0,254.0 201.0,284.0 201.0,314.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-1-arr)"/>
+<rect x="173.0" y="274.0" width="62.0" height="14" fill="white" opacity="0.85"/>
+<text x="201.0" y="284.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">Optimise</text>
+<polyline points="201.0,352.0 201.0,382.0 201.0,412.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-1-arr)"/>
+<rect x="183.5" y="372.0" width="41.0" height="14" fill="white" opacity="0.85"/>
+<text x="201.0" y="382.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">Scale</text>
+<polyline points="201.0,450.0 201.0,480.0 201.0,510.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-1-arr)"/>
+<rect x="180.0" y="470.0" width="48.0" height="14" fill="white" opacity="0.85"/>
+<text x="201.0" y="480.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">Extend</text>
+<polyline points="201.0,548.0 201.0,578.0 201.0,608.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-1-arr)"/>
+<rect x="176.5" y="568.0" width="55.0" height="14" fill="white" opacity="0.85"/>
+<text x="201.0" y="578.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">Deliver</text>
+<rect x="50.0" y="20.0" width="302.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="201.0" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Study the&amp;#x3C;br/&gt;single-lane track</text>
+<rect x="65.0" y="118.0" width="272.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="201.0" y="140.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Build my own&amp;#x3C;br/&gt;test track</text>
+<rect x="31.3" y="216.0" width="339.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="201.0" y="238.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Prove it gives&amp;#x3C;br/&gt;identical results</text>
+<rect x="61.3" y="314.0" width="279.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="201.0" y="336.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Tune the track&amp;#x3C;br/&gt;for speed</text>
+<rect x="35.0" y="412.0" width="332.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="201.0" y="434.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Build the&amp;#x3C;br/&gt;thousand-lane highway</text>
+<rect x="61.3" y="510.0" width="279.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="201.0" y="532.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Add insurance&amp;#x3C;br/&gt;car models</text>
+<rect x="20.0" y="608.0" width="362.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="201.0" y="630.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Reports, demos&amp;#x3C;br/&gt;&amp;#x26; documentation</text>
+</svg></div>
 <p>The result:</p>
 <table>
 <thead>
@@ -783,47 +823,98 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <hr>
 <h2>Stage 1 — One Car, One Track</h2>
 <p>In the simplest setup, you have a single test track. One car goes out, drives the scenario, comes back. The next car goes out. One at a time.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    subgraph "Single Test Track"
-        S["Start"] --> C1["Car 1 runs"] --> D1["Collect data"]
-        D1 --> C2["Car 2 runs"] --> D2["Collect data"]
-        D2 --> C3["Car 3 runs"] --> D3["Collect data"]
-    end
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 376.5 334" width="376.5" height="334" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-2-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-2-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="8.0" width="320.5" height="278.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">Single Test Track</text>
+<polyline points="119.5,69.0 149.5,69.0 179.5,69.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-2-arr)"/>
+<polyline points="114.8,147.0 149.5,147.0 179.5,147.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-2-arr)"/>
+<polyline points="114.8,225.0 149.5,225.0 179.5,225.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-2-arr)"/>
+<rect x="50.0" y="50.0" width="69.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="84.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Start</text>
+<rect x="179.5" y="50.0" width="107.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="233.0" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Car 1 runs</text>
+<rect x="54.8" y="128.0" width="60.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="84.8" y="150.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">D1</text>
+<rect x="179.5" y="128.0" width="107.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="233.0" y="150.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Car 2 runs</text>
+<rect x="54.8" y="206.0" width="60.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="84.8" y="228.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">D2</text>
+<rect x="179.5" y="206.0" width="107.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="233.0" y="228.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Car 3 runs</text>
+</svg></div>
 <p>For 100,000 cars under 1,000 road conditions, that is 100 million runs. Sequentially. You will be here for a very long time.</p>
 <p><strong>This is how the original ACTUS reference implementation works.</strong> It evaluates one contract at a time, one scenario at a time. The results are correct — the track itself is excellent — but the throughput is limited to the speed of one track.</p>
 <hr>
 <h2>Stage 2 — Eight Parallel Tracks (the CPU)</h2>
 <p>A modern computer processor — the CPU — is not one track. It has multiple cores, typically 8 to 16, each of which can run a test independently. Think of it as upgrading your facility from one track to eight:</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    subgraph "CPU: 8 Parallel Tracks"
-        T1["Track 1 → Car A"]
-        T2["Track 2 → Car B"]
-        T3["Track 3 → Car C"]
-        T4["Track 4 → Car D"]
-        T5["Track 5 → Car E"]
-        T6["Track 6 → Car F"]
-        T7["Track 7 → Car G"]
-        T8["Track 8 → Car H"]
-    end
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1576 178" width="1576" height="178" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-3-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-3-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="8.0" width="1520.0" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">CPU: 8 Parallel Tracks</text>
+<rect x="50.0" y="50.0" width="144.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="122.3" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Track 1 → Car A</text>
+<rect x="234.5" y="50.0" width="144.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="306.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Track 2 → Car B</text>
+<rect x="419.0" y="50.0" width="144.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="491.3" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Track 3 → Car C</text>
+<rect x="603.5" y="50.0" width="144.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="675.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Track 4 → Car D</text>
+<rect x="788.0" y="50.0" width="144.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="860.3" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Track 5 → Car E</text>
+<rect x="972.5" y="50.0" width="144.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1044.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Track 6 → Car F</text>
+<rect x="1157.0" y="50.0" width="144.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1229.3" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Track 7 → Car G</text>
+<rect x="1341.5" y="50.0" width="144.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1413.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Track 8 → Car H</text>
+</svg></div>
 <p>Now 8 cars are tested at the same time. Each track is powerful and versatile — it can handle complex test programmes, change conditions mid-run, and adapt to very different car types. But there are only 8 tracks.</p>
 <p>For 100,000 cars, this is 8 times faster than before. "Impossibly long" becomes "long but feasible."</p>
 <p><strong>This is the optimised CPU engine I built during the hackathon.</strong> Same ACTUS calculations, but running on all available processor cores simultaneously.</p>
 <hr>
 <h2>Stage 3 — The Thousand-Lane Highway (the GPU)</h2>
 <p>A GPU is a fundamentally different kind of facility. Instead of 8 sophisticated tracks, it is a <strong>massive highway with thousands of lanes</strong> where thousands of cars drive at the same time.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    subgraph "GPU Highway — 1k+ Lanes"
-        L1["Lane 1"]
-        L2["Lane 2"]
-        L3["Lane 3"]
-        L4["Lane 4"]
-        L5["..."]
-        L6["Lane 999"]
-        L7["Lane 1000"]
-    end
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 239.5 646" width="239.5" height="646" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-4-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-4-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="8.0" width="183.5" height="590.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">GPU Highway — 1k+ Lanes</text>
+<rect x="61.3" y="50.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="99.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lane 1</text>
+<rect x="61.3" y="128.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="99.8" y="150.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lane 2</text>
+<rect x="61.3" y="206.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="99.8" y="228.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lane 3</text>
+<rect x="61.3" y="284.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="99.8" y="306.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lane 4</text>
+<rect x="69.8" y="362.0" width="60.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="99.8" y="384.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">...</text>
+<rect x="53.8" y="440.0" width="92.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="99.8" y="462.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lane 999</text>
+<rect x="50.0" y="518.0" width="99.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="99.8" y="540.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lane 1000</text>
+</svg></div>
 <p>Each individual lane is simpler than a CPU track. A lane cannot handle complex mid-run changes the way a CPU track can. But the sheer number of lanes — a thousand or more running at once — means you can test the entire fleet in a fraction of the time.</p>
 <p>There is one crucial property that makes this possible: <strong>every car's test is independent.</strong> The result of testing Car A on wet roads has no effect on the result of testing Car B on icy roads. They do not need to wait for each other or share information. This kind of workload — thousands of completely independent tasks — is exactly what a highway is built for.</p>
 <p><strong>This is the GPU engine.</strong> The same ACTUS calculations, but running on thousands of GPU lanes simultaneously.</p>
@@ -832,32 +923,45 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <p>Here is where it gets interesting. The highway is enormously fast, but the on-ramp is narrow.</p>
 <p>Before a car can enter the highway, it has to be prepared. In a real factory, that might mean fuelling up, checking tyre pressure, and programming the navigation system. In the financial world, it means <strong>converting each contract from its natural, human-readable format into the compact format the highway demands</strong>.</p>
 <p>The highway lanes are uniform and standardised. They do not accept cars with custom bodywork sticking out, trailers attached, or luggage strapped to the roof. Every car must be stripped down to a sleek, uniform shape that fits perfectly into a lane.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    subgraph "Parking Lot (CPU Memory)"
-        C1["Contract 1&#x3C;br/>with all the details"]
-        C2["Contract 2&#x3C;br/>with all the details"]
-        C3["Contract 3&#x3C;br/>with all the details"]
-    end
-
-    subgraph "On-Ramp"
-        PACK["Strip down &#x26;&#x3C;br/>standardise"]
-        XFER["Merge onto&#x3C;br/>highway"]
-    end
-
-    subgraph "Highway (GPU Memory)"
-        L1["Lane 1"]
-        L2["Lane 2"]
-        L3["Lane 3"]
-    end
-
-    C1 --> PACK
-    C2 --> PACK
-    C3 --> PACK
-    PACK --> XFER
-    XFER --> L1
-    XFER --> L2
-    XFER --> L3
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400.5 374" width="1400.5" height="374" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-5-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-5-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="38.0" width="416.0" height="278.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="54.0" font-size="11" fill="#1A3550" font-weight="600">Parking Lot (CPU Memory)</text>
+<rect x="460.0" y="8.0" width="695.5" height="318.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="468.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">On-Ramp</text>
+<rect x="1191.5" y="38.0" width="161.0" height="278.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="1199.5" y="54.0" font-size="11" fill="#1A3550" font-weight="600">Highway (GPU Memory)</text>
+<polyline points="382.0,99.0 412.0,99.0 442.0,99.0 472.0,99.0 614.6,158.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-5-arr)"/>
+<polyline points="382.0,177.0 412.0,177.0 442.0,177.0 472.0,177.0 502.0,177.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-5-arr)"/>
+<polyline points="382.0,255.0 412.0,255.0 442.0,255.0 472.0,255.0 614.6,196.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-5-arr)"/>
+<polyline points="819.0,177.0 849.0,177.0 879.0,177.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-5-arr)"/>
+<polyline points="1032.1,196.0 1143.5,255.0 1173.5,255.0 1203.5,255.0 1233.5,255.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-5-arr)"/>
+<polyline points="1113.5,177.0 1143.5,177.0 1173.5,177.0 1203.5,177.0 1233.5,177.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-5-arr)"/>
+<polyline points="1032.1,158.0 1143.5,99.0 1173.5,99.0 1203.5,99.0 1233.5,99.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-5-arr)"/>
+<rect x="50.0" y="80.0" width="332.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="216.0" y="102.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Contract 1&amp;#x3C;br/&gt;with all the details</text>
+<rect x="50.0" y="158.0" width="332.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="216.0" y="180.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Contract 2&amp;#x3C;br/&gt;with all the details</text>
+<rect x="50.0" y="236.0" width="332.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="216.0" y="258.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Contract 3&amp;#x3C;br/&gt;with all the details</text>
+<rect x="502.0" y="158.0" width="317.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="660.5" y="180.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Strip down &amp;#x26;&amp;#x3C;br/&gt;standardise</text>
+<rect x="879.0" y="158.0" width="234.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="996.3" y="180.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Merge onto&amp;#x3C;br/&gt;highway</text>
+<rect x="1233.5" y="236.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1272.0" y="258.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lane 1</text>
+<rect x="1233.5" y="158.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1272.0" y="180.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lane 2</text>
+<rect x="1233.5" y="80.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1272.0" y="102.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lane 3</text>
+</svg></div>
 <p>No matter how many lanes the highway has, if the on-ramp is congested, lanes sit empty waiting for traffic. <strong>The on-ramp is often the real bottleneck — not the highway itself.</strong></p>
 <h3>The solution: make the cars as small and uniform as possible.</h3>
 <p>In the financial world, this means converting contract data into the most compact possible form:</p>
@@ -892,102 +996,162 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <h2>Staying on the Highway</h2>
 <p>After a car completes one test run, it needs to run the next scenario. If it exits the highway, drives all the way back to the parking lot, gets re-prepared, and enters through the on-ramp again — you have just doubled the on-ramp congestion.</p>
 <p>The much better approach: <strong>keep the car on the highway.</strong> After completing one run, each car loops back to the start of its lane and begins the next scenario immediately. No off-ramp, no parking lot, no on-ramp. Just a change of road conditions.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    subgraph "GPU Highway — One Lane"
-        START["Start"] --> R1["Run Scenario 1&#x3C;br/>(dry road)"]
-        R1 --> R2["Run Scenario 2&#x3C;br/>(wet road)"]
-        R2 --> R3["Run Scenario 3&#x3C;br/>(icy road)"]
-        R3 --> LOOP["Loop back"]
-        LOOP -.-> R1
-    end
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1410 212.5" width="1410" height="212.5" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-6-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-6-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="8.0" width="1354.0" height="156.5" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">GPU Highway — One Lane</text>
+<polyline points="119.5,79.0 149.5,79.0 179.5,79.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-6-arr)"/>
+<polyline points="457.6,98.0 496.5,103.5 526.5,103.5" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-6-arr)"/>
+<polyline points="813.5,103.5 843.5,103.5 873.5,103.5" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-6-arr)"/>
+<polyline points="1160.5,103.5 1190.5,103.5 1220.5,94.3" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-6-arr)"/>
+<polyline points="1220.5,63.7 1190.5,54.5 1017.0,54.5 843.5,54.5 670.0,54.5 496.5,54.5 457.6,60.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-6-arr-d)"/>
+<rect x="50.0" y="60.0" width="69.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="84.8" y="82.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Start</text>
+<rect x="179.5" y="60.0" width="287.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="323.0" y="82.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Run Scenario 1&amp;#x3C;br/&gt;(dry road)</text>
+<rect x="526.5" y="84.5" width="287.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="670.0" y="107.0" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Run Scenario 2&amp;#x3C;br/&gt;(wet road)</text>
+<rect x="873.5" y="84.5" width="287.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1017.0" y="107.0" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Run Scenario 3&amp;#x3C;br/&gt;(icy road)</text>
+<rect x="1220.5" y="60.0" width="99.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1270.3" y="82.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Loop back</text>
+</svg></div>
 <p>The contract data stays on the highway — it is loaded once and reused for every scenario. Only the scenario parameters (the road conditions) change between runs. This is a lightweight update: instead of moving the entire car, you just change the weather on the track.</p>
 <p>This is enormously powerful for Monte Carlo simulation, where the same portfolio of 100,000 contracts is tested under 1,000 or even 10,000 different interest rate scenarios. The portfolio crosses the on-ramp once. The scenarios flow in as small, fast updates.</p>
 <hr>
 <h2>The Second Bottleneck: The Off-Ramp</h2>
 <p>Now the highway is running at full speed. Thousands of cars are completing their runs and producing data. But here is the new problem: <strong>every car generates a huge number of measurements during its run.</strong></p>
 <p>For 100,000 cars, each producing 50 data points per scenario, under 1,000 scenarios, that is <strong>5 billion individual measurements</strong> trying to get off the highway and back to the analysis centre.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    subgraph "Highway"
-        L1["Lane 1&#x3C;br/>50 metrics × 1000 scenarios"]
-        L2["Lane 2&#x3C;br/>50 metrics × 1000 scenarios"]
-        L3["..."]
-        L4["Lane 100,000&#x3C;br/>50 metrics × 1000 scenarios"]
-    end
-
-    subgraph "Off-Ramp"
-        BOTTLE["Congestion!&#x3C;br/>5 billion data points&#x3C;br/>all trying to exit"]
-    end
-
-    subgraph "Analysis Centre (CPU)"
-        REPORT["Reports"]
-    end
-
-    L1 --> BOTTLE
-    L2 --> BOTTLE
-    L4 --> BOTTLE
-    BOTTLE --> REPORT
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1421 412" width="1421" height="412" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-7-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-7-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="8.0" width="483.5" height="356.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">Highway</text>
+<rect x="527.5" y="17.0" width="641.0" height="318.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="535.5" y="33.0" font-size="11" fill="#1A3550" font-weight="600">Off-Ramp</text>
+<rect x="1204.5" y="86.0" width="168.5" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="1212.5" y="102.0" font-size="11" fill="#1A3550" font-weight="600">Analysis Centre (CPU)</text>
+<polyline points="427.0,69.0 479.5,69.0 509.5,69.0 539.5,69.0 772.9,128.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-7-arr)"/>
+<polyline points="427.0,147.0 479.5,147.0 509.5,147.0 539.5,147.0 569.5,147.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-7-arr)"/>
+<polyline points="449.5,303.0 479.5,303.0 509.5,303.0 539.5,303.0 810.4,166.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-7-arr)"/>
+<polyline points="1126.5,147.0 1156.5,147.0 1186.5,147.0 1216.5,147.0 1246.5,147.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-7-arr)"/>
+<rect x="72.5" y="50.0" width="354.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="249.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lane 1&amp;#x3C;br/&gt;50 metrics × 1000 scenarios</text>
+<rect x="72.5" y="128.0" width="354.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="249.8" y="150.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lane 2&amp;#x3C;br/&gt;50 metrics × 1000 scenarios</text>
+<rect x="219.8" y="206.0" width="60.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="249.8" y="228.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">...</text>
+<rect x="50.0" y="284.0" width="399.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="249.8" y="306.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lane 100,000&amp;#x3C;br/&gt;50 metrics × 1000 scenarios</text>
+<rect x="569.5" y="128.0" width="557.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="848.0" y="150.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Congestion!&amp;#x3C;br/&gt;5 billion data points&amp;#x3C;br/&gt;all trying to exit</text>
+<rect x="1246.5" y="128.0" width="84.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1288.8" y="150.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Reports</text>
+</svg></div>
 <p>The off-ramp becomes the new bottleneck. If you are not careful, the time spent getting data off the highway exceeds the time saved by running on it.</p>
 <h3>The solution: aggregate before leaving the highway.</h3>
 <p>Instead of sending every raw measurement off the highway, I built <strong>sinks</strong> — structured collection points that gather the raw results and then compute compact summaries. Each sink takes the thousand scenario results for one car and produces just a handful of numbers: the average, the spread, the best case, the worst case, and a few key risk percentiles.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    subgraph "Highway"
-        L1["Lane 1&#x3C;br/>1,000 raw results"]
-        L2["Lane 2&#x3C;br/>1,000 raw results"]
-        L3["Lane 3&#x3C;br/>1,000 raw results"]
-    end
-
-    subgraph "Sinks"
-        SINK["Compute per car:&#x3C;br/>• Average value&#x3C;br/>• Spread of outcomes&#x3C;br/>• Best &#x26; worst case&#x3C;br/>• Key risk thresholds"]
-    end
-
-    subgraph "Off-Ramp"
-        SMALL["Only 5 summary&#x3C;br/>numbers per car"]
-    end
-
-    subgraph "Analysis Centre"
-        REPORT["Final Report"]
-    end
-
-    L1 --> SINK
-    L2 --> SINK
-    L3 --> SINK
-    SINK --> SMALL
-    SMALL --> REPORT
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2278 334" width="2278" height="334" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-8-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-8-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="8.0" width="363.5" height="278.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">Highway</text>
+<rect x="407.5" y="17.0" width="1136.0" height="240.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="415.5" y="33.0" font-size="11" fill="#1A3550" font-weight="600">Sinks</text>
+<rect x="1579.5" y="86.0" width="408.5" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="1587.5" y="102.0" font-size="11" fill="#1A3550" font-weight="600">Off-Ramp</text>
+<rect x="2024.0" y="86.0" width="206.0" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="2032.0" y="102.0" font-size="11" fill="#1A3550" font-weight="600">Analysis Centre</text>
+<polyline points="329.5,69.0 359.5,69.0 389.5,69.0 419.5,69.0 840.1,128.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-8-arr)"/>
+<polyline points="329.5,147.0 359.5,147.0 389.5,147.0 419.5,147.0 449.5,147.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-8-arr)"/>
+<polyline points="329.5,225.0 359.5,225.0 389.5,225.0 419.5,225.0 840.1,166.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-8-arr)"/>
+<polyline points="1501.5,147.0 1531.5,147.0 1561.5,147.0 1591.5,147.0 1621.5,147.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-8-arr)"/>
+<polyline points="1946.0,147.0 1976.0,147.0 2006.0,147.0 2036.0,147.0 2066.0,147.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-8-arr)"/>
+<rect x="50.0" y="50.0" width="279.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="189.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lane 1&amp;#x3C;br/&gt;1,000 raw results</text>
+<rect x="50.0" y="128.0" width="279.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="189.8" y="150.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lane 2&amp;#x3C;br/&gt;1,000 raw results</text>
+<rect x="50.0" y="206.0" width="279.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="189.8" y="228.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lane 3&amp;#x3C;br/&gt;1,000 raw results</text>
+<rect x="449.5" y="128.0" width="1052.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="975.5" y="150.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Compute per car:&amp;#x3C;br/&gt;• Average value&amp;#x3C;br/&gt;• Spread of outcomes&amp;#x3C;br/&gt;• Best &amp;#x26; worst case&amp;#x3C;br/&gt;• Key risk thresholds</text>
+<rect x="1621.5" y="128.0" width="324.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1783.8" y="150.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Only 5 summary&amp;#x3C;br/&gt;numbers per car</text>
+<rect x="2066.0" y="128.0" width="122.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="2127.0" y="150.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Final Report</text>
+</svg></div>
 <p>Now instead of 5 billion raw data points, only 500,000 summary values cross the off-ramp (5 numbers per car × 100,000 cars). That is a <strong>10,000× reduction</strong> in off-ramp traffic. The analysis centre receives exactly what it needs for reporting — compact, pre-digested, ready to use.</p>
 <p>The key design insight is that the raw measurements are collected in a structured, flat format that makes aggregation extremely efficient. The sinks are not an afterthought — they are a core part of the highway architecture, designed from the start to prevent the off-ramp from becoming the bottleneck.</p>
 <hr>
 <h2>The Complete Journey</h2>
 <p>Here is the full picture, from fleet to final report:</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    subgraph "1. The Fleet (CPU)"
-        FLEET["100,000 contracts&#x3C;br/>in the portfolio"] --> PREP["Strip down &#x26; standardise&#x3C;br/>each contract"]
-        SCENARIOS["1,000 market scenarios&#x3C;br/>(road conditions)"] --> SCENPREP["Package scenario&#x3C;br/>parameters"]
-    end
-
-    subgraph "2. On-Ramp (CPU → GPU)"
-        PREP --> ONRAMP["Transfer compact&#x3C;br/>contracts to highway"]
-        SCENPREP --> ONRAMP
-    end
-
-    subgraph "3. The Highway (GPU)"
-        ONRAMP --> DRIVE["Every contract runs&#x3C;br/>in its own lane,&#x3C;br/>through every scenario,&#x3C;br/>looping without exiting"]
-    end
-
-    subgraph "4. The Sinks"
-        DRIVE --> SINKS["Aggregate results&#x3C;br/>per contract:&#x3C;br/>average, spread,&#x3C;br/>risk thresholds"]
-    end
-
-    subgraph "5. Off-Ramp (GPU → CPU)"
-        SINKS --> OFFRAMP["Transfer compact&#x3C;br/>summaries only"]
-    end
-
-    subgraph "6. The Report (CPU)"
-        OFFRAMP --> REPORT["Generate final reports,&#x3C;br/>exports, dashboards"]
-    end
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-9" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1004.5 1066" width="1004.5" height="1066" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-9-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-9-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="20.8" y="8.0" width="911.8" height="220.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="28.8" y="24.0" font-size="11" fill="#1A3550" font-weight="600">1. The Fleet (CPU)</text>
+<rect x="132.5" y="264.0" width="689.5" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="140.5" y="280.0" font-size="11" fill="#1A3550" font-weight="600">2. On-Ramp (CPU → GPU)</text>
+<rect x="8.0" y="422.0" width="948.5" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="438.0" font-size="11" fill="#1A3550" font-weight="600">3. The Highway (GPU)</text>
+<rect x="83.0" y="580.0" width="798.5" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="91.0" y="596.0" font-size="11" fill="#1A3550" font-weight="600">4. The Sinks</text>
+<rect x="274.3" y="738.0" width="416.0" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="282.3" y="754.0" font-size="11" fill="#1A3550" font-weight="600">5. Off-Ramp (GPU → CPU)</text>
+<rect x="229.3" y="896.0" width="506.0" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="237.3" y="912.0" font-size="11" fill="#1A3550" font-weight="600">6. The Report (CPU)</text>
+<polyline points="273.8,88.0 273.8,118.0 273.8,148.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-9-arr)"/>
+<polyline points="690.8,88.0 690.8,118.0 690.8,148.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-9-arr)"/>
+<polyline points="273.8,186.0 273.8,216.0 273.8,246.0 273.8,276.0 401.4,306.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-9-arr)"/>
+<polyline points="690.8,186.0 690.8,216.0 690.8,246.0 690.8,276.0 563.1,306.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-9-arr)"/>
+<polyline points="482.3,344.0 482.3,374.0 482.3,404.0 482.3,434.0 482.3,464.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-9-arr)"/>
+<polyline points="482.3,502.0 482.3,532.0 482.3,562.0 482.3,592.0 482.3,622.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-9-arr)"/>
+<polyline points="482.3,660.0 482.3,690.0 482.3,720.0 482.3,750.0 482.3,780.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-9-arr)"/>
+<polyline points="482.3,818.0 482.3,848.0 482.3,878.0 482.3,908.0 482.3,938.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-9-arr)"/>
+<rect x="96.5" y="50.0" width="354.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="273.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">100,000 contracts&amp;#x3C;br/&gt;in the portfolio</text>
+<rect x="62.8" y="148.0" width="422.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="273.8" y="170.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Strip down &amp;#x26; standardise&amp;#x3C;br/&gt;each contract</text>
+<rect x="491.0" y="50.0" width="399.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="690.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">1,000 market scenarios&amp;#x3C;br/&gt;(road conditions)</text>
+<rect x="539.8" y="148.0" width="302.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="690.8" y="170.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Package scenario&amp;#x3C;br/&gt;parameters</text>
+<rect x="293.8" y="306.0" width="377.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="482.3" y="328.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Transfer compact&amp;#x3C;br/&gt;contracts to highway</text>
+<rect x="50.0" y="464.0" width="864.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="482.3" y="486.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Every contract runs&amp;#x3C;br/&gt;in its own lane,&amp;#x3C;br/&gt;through every scenario,&amp;#x3C;br/&gt;looping without exiting</text>
+<rect x="125.0" y="622.0" width="714.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="482.3" y="644.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Aggregate results&amp;#x3C;br/&gt;per contract:&amp;#x3C;br/&gt;average, spread,&amp;#x3C;br/&gt;risk thresholds</text>
+<rect x="316.3" y="780.0" width="332.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="482.3" y="802.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Transfer compact&amp;#x3C;br/&gt;summaries only</text>
+<rect x="271.3" y="938.0" width="422.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="482.3" y="960.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Generate final reports,&amp;#x3C;br/&gt;exports, dashboards</text>
+</svg></div>
 <p>The bottlenecks are never on the highway itself — the GPU handles the raw computation easily. The engineering challenge is entirely in the <strong>on-ramp</strong> (getting data onto the highway efficiently) and the <strong>off-ramp</strong> (getting results back without congestion):</p>
 <table>
 <thead>
@@ -1095,32 +1259,13 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <p>I started this project in December 2025, after being introduced to ACTUS by Francis Gross and Willi Brammertz. The competition deadline was March 16, 2026 — roughly three and a half months to go from knowing nothing about ACTUS to delivering a working GPU-accelerated engine with insurance extensions.</p>
 <p>The project followed a strict rule: before upgrading the facility, prove that the current version produces correct results. Before adding lanes, prove the single track works. Before opening the highway, prove the 8-track facility matches. Before adding new car types, prove the highway matches the 8-track facility.</p>
 <p>This discipline means every layer of the system stands on a verified foundation.</p>
-<div class="mermaid-wrap"><pre class="mermaid">gantt
-    title Construction Phases
-    dateFormat  YYYY-MM-DD
-    axisFormat  %b %d
-
-    section Learning &#x26; Foundation
-    Study the existing test track    :done, a1, 2025-12-01, 14d
-    Build my own test track          :done, a2, after a1, 14d
-    Prove it matches the original    :done, a3, after a2, 7d
-
-    section The 8-Track Facility
-    Tune for speed                   :done, b1, after a3, 7d
-    Open 8 parallel tracks (CPU)     :done, b2, after b1, 5d
-
-    section The Highway
-    Build the on-ramp                :done, c1, after b2, 7d
-    Open 1,000 lanes (GPU)           :done, c2, after c1, 7d
-    Add scenario looping             :done, c3, after c2, 5d
-
-    section New Car Types
-    Add insurance vehicles           :done, d1, after c3, 14d
-
-    section The Report Centre
-    Demo tools &#x26; reporting           :done, e1, after c3, 10d
-    Documentation site               :done, e2, after e1, 10d
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 90" width="600" height="90" style="font-family:Arial,sans-serif;font-size:12px;max-width:100%;">
+<rect width="600" height="90" fill="white"/>
+<rect x="0" y="20" width="600" height="30" fill="#f8fafc"/>
+<text x="174" y="36" text-anchor="end" dominant-baseline="middle" font-size="11" fill="#1a202c">Learning &amp;#x26; Foundation / Study the existing test track</text>
+<rect x="200" y="25" width="209" height="20" rx="3" fill="#1A3550"/>
+<text x="414" y="36" dominant-baseline="middle" font-size="10" fill="#9FB8D0">14d</text>
+</svg></div>
 <h2>Phase 1: Studying the Existing Track</h2>
 <p>The ACTUS standard already had a working test track — the reference implementation in Java. Before building anything new, I needed to understand exactly how it works: how cars enter the track, what measurements are taken at each checkpoint, and how the results are computed.</p>
 <p>This was my first encounter with ACTUS. I had no prior experience with financial contract projections, Monte Carlo simulations, or deterministic cash flow modelling. But I could relate it to what I knew from insurance — where accuracy and speed are equally critical — and the car factory analogy quickly took shape in my mind.</p>
@@ -1192,21 +1337,29 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <p>Contracts in their natural form carry rich, human-friendly descriptions: text labels like "Annual" for payment frequency, date objects, nested lists of events, and optional fields. On the 8-track facility (CPU), this is fine — each track is powerful enough to handle the complexity.</p>
 <p>The highway (GPU) cannot work with this kind of data. Its lanes are simple and uniform. Every car must be the same shape, the same size, with no loose parts.</p>
 <p>I built a translation layer — an automated preparation station at the on-ramp — that converts every contract into the most compact possible form:</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    subgraph "Before the On-Ramp"
-        NATURAL["Contract as designed:&#x3C;br/>text labels, dates,&#x3C;br/>nested structures,&#x3C;br/>optional fields"]
-    end
-
-    subgraph "Preparation Station"
-        STRIP["Strip to numbers:&#x3C;br/>labels → codes&#x3C;br/>dates → ticks&#x3C;br/>lists → flat arrays&#x3C;br/>optional → flags"]
-    end
-
-    subgraph "On the Highway"
-        COMPACT["Compact package:&#x3C;br/>fixed size, all numbers,&#x3C;br/>uniform shape"]
-    end
-
-    NATURAL --> STRIP --> COMPACT
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-11" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1989 296" width="1989" height="296" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-11-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-11-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="8.0" width="888.5" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">Before the On-Ramp</text>
+<rect x="932.5" y="8.0" width="1008.5" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="940.5" y="24.0" font-size="11" fill="#1A3550" font-weight="600">Preparation Station</text>
+<rect x="8.0" y="126.0" width="888.5" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="142.0" font-size="11" fill="#1A3550" font-weight="600">On the Highway</text>
+<polyline points="854.5,69.0 884.5,69.0 914.5,69.0 944.5,69.0 974.5,69.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-11-arr)"/>
+<rect x="50.0" y="50.0" width="804.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="452.3" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Contract as designed:&amp;#x3C;br/&gt;text labels, dates,&amp;#x3C;br/&gt;nested structures,&amp;#x3C;br/&gt;optional fields</text>
+<rect x="974.5" y="50.0" width="924.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1436.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Strip to numbers:&amp;#x3C;br/&gt;labels → codes&amp;#x3C;br/&gt;dates → ticks&amp;#x3C;br/&gt;lists → flat arrays&amp;#x3C;br/&gt;optional → flags</text>
+<rect x="162.5" y="168.0" width="579.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="452.3" y="190.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Compact package:&amp;#x3C;br/&gt;fixed size, all numbers,&amp;#x3C;br/&gt;uniform shape</text>
+</svg></div>
 <p>This means the engine works with contracts in their natural, readable form for everything except highway execution. The stripping happens automatically and transparently.</p>
 <h2>Decision 3: One Car Per Lane</h2>
 <p>How should work be divided across the highway? There were two options:</p>
@@ -1214,19 +1367,39 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <p><strong>Option B: One car per lane.</strong> Each lane handles one car, running all its checkpoints sequentially from start to finish. The car goes through checkpoint 1, then 2, then 3, in order — as it must, because each checkpoint depends on the state left by the previous one.</p>
 <p>I chose <strong>Option B</strong>. The parallelism comes not from splitting one car's work, but from running <strong>thousands of cars simultaneously</strong>, each in its own lane. Since cars are completely independent of each other, there is no waiting, no coordination, no bottleneck between lanes.</p>
 <p>For Monte Carlo scenarios, the parallelism becomes two-dimensional: each combination of (car, road condition) gets its own lane. For 10,000 cars under 1,000 scenarios, that is 10 million independent lanes — exactly what the highway was designed for.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    subgraph "Highway: Each car runs its full test in one lane"
-        subgraph "Lane 1 — Loan A"
-            A1["Start"] --> A2["Interest payment"] --> A3["Rate reset"] --> A4["Maturity"]
-        end
-        subgraph "Lane 2 — Loan B"
-            B1["Start"] --> B2["Fee payment"] --> B3["Interest payment"] --> B4["Maturity"]
-        end
-        subgraph "Lane 3 — Policy C"
-            C1["Start"] --> C2["Premium due"] --> C3["Claim event"] --> C4["Benefit paid"]
-        end
-    end
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 711 276" width="711" height="276" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-12-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-12-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="NaN" y="NaN" width="124.0" height="84.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="NaN" y="NaN" font-size="11" fill="#1A3550" font-weight="600">Highway: Each car runs its full test in one lane</text>
+<rect x="38.0" y="8.0" width="236.0" height="220.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="46.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">Lane 1 — Loan A</text>
+<rect x="270.0" y="8.0" width="198.5" height="220.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="278.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">Lane 2 — Loan B</text>
+<rect x="464.5" y="8.0" width="198.5" height="220.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="472.5" y="24.0" font-size="11" fill="#1A3550" font-weight="600">Lane 3 — Policy C</text>
+<polyline points="156.0,88.0 156.0,118.0 156.0,148.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-12-arr)"/>
+<polyline points="369.3,88.0 369.3,118.0 369.3,148.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-12-arr)"/>
+<polyline points="563.8,88.0 563.8,118.0 563.8,148.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-12-arr)"/>
+<rect x="121.3" y="50.0" width="69.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="156.0" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Start</text>
+<rect x="80.0" y="148.0" width="152.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="156.0" y="170.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Interest payment</text>
+<rect x="334.5" y="50.0" width="69.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="369.3" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Start</text>
+<rect x="312.0" y="148.0" width="114.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="369.3" y="170.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Fee payment</text>
+<rect x="529.0" y="50.0" width="69.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="563.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Start</text>
+<rect x="506.5" y="148.0" width="114.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="563.8" y="170.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Premium due</text>
+</svg></div>
 <h2>Decision 4: The Highway Runs on Any Road Surface</h2>
 <p>GPU hardware comes from different manufacturers — NVIDIA, AMD, Intel — and each has its own highway specification. Some facilities do not have a highway at all.</p>
 <p>I chose a construction method that builds the same highway design on whatever surface is available:</p>
@@ -1265,14 +1438,38 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <h2>Decision 6: Re-Certify After Every Change</h2>
 <p>Many construction projects do a final safety inspection at the end. I inspected at every stage.</p>
 <p>After every change — every track modification, every on-ramp optimisation, every lane adjustment — all 42 reference cars were re-run and their measurements compared to the certified values. If even one measurement drifted by more than a billionth, the change was rejected.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    CHANGE["Make a change&#x3C;br/>to the facility"] --> TEST["Run all 42&#x3C;br/>reference cars"]
-    TEST -->|"All measurements&#x3C;br/>match ✓"| KEEP["Keep the change"]
-    TEST -->|"Any measurement&#x3C;br/>differs ✗"| REJECT["Reject the change"]
-    KEEP --> NEXT["Continue"]
-    REJECT --> FIX["Investigate &#x26; fix"]
-    FIX --> TEST
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-13" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 502.75 412" width="502.75" height="412" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-13-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-13-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="178.5,58.0 178.5,88.0 178.5,118.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-13-arr)"/>
+<polyline points="252.9,156.0 370.5,186.0 370.5,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-13-arr)"/>
+<rect x="248.0" y="176.0" width="251.0" height="14" fill="white" opacity="0.85"/>
+<text x="370.5" y="186.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">&quot;All measurements&amp;#x3C;br/&gt;match ✓&quot;</text>
+<polyline points="178.5,156.0 178.5,186.0 178.5,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-13-arr)"/>
+<rect x="52.5" y="176.0" width="258.0" height="14" fill="white" opacity="0.85"/>
+<text x="178.5" y="186.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">&quot;Any measurement&amp;#x3C;br/&gt;differs ✗&quot;</text>
+<polyline points="370.5,254.0 370.5,284.0 370.5,314.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-13-arr)"/>
+<polyline points="178.5,254.0 178.5,284.0 144.9,314.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-13-arr)"/>
+<polyline points="102.3,314.0 68.8,284.0 68.8,235.0 68.8,186.0 135.9,156.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-13-arr)"/>
+<rect x="20.0" y="20.0" width="317.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="178.5" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Make a change&amp;#x3C;br/&gt;to the facility</text>
+<rect x="35.0" y="118.0" width="287.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="178.5" y="140.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Run all 42&amp;#x3C;br/&gt;reference cars</text>
+<rect x="298.3" y="216.0" width="144.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="370.5" y="238.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Keep the change</text>
+<rect x="98.8" y="216.0" width="159.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="178.5" y="238.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Reject the change</text>
+<rect x="324.5" y="314.0" width="92.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="370.5" y="336.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Continue</text>
+<rect x="25.1" y="314.0" width="197.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="123.6" y="336.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Investigate &amp;#x26; fix</text>
+</svg></div>
 <p>This means the facility was never in an incorrect state. Every version, from the first to the last, passes all tests.</p>
 <h2>Decision 7: Insurance Products Are Templates, Not Hard-Wired</h2>
 <p>Insurance car models behave differently from banking car models. A loan follows a fixed route; an insurance policy can take different turns at each intersection. The rules governing these turns — premium calculations, claim eligibility, benefit formulas — vary by product.</p>
@@ -1304,20 +1501,36 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <h2>Decision 8: Insurance Vehicles Use a State Map</h2>
 <p>Banking cars follow a pre-programmed route: start → periodic checkpoints → destination. Every turn is known in advance.</p>
 <p>Insurance vehicles need a <strong>state map</strong> — a diagram of all the places the car might be (Active, Grace Period, Claim Pending, Lapsed, Terminated) and the probabilities of moving from one place to another at each intersection.</p>
-<div class="mermaid-wrap"><pre class="mermaid">stateDiagram-v2
-    [*] --> Active
-    Active --> GracePeriod: Missed premium
-    Active --> ClaimPending: Claim filed
-    Active --> DeathBenefit: Death event
-    Active --> Lapsed: Policy cancelled
-    GracePeriod --> Active: Premium paid
-    GracePeriod --> Lapsed: Grace expired
-    ClaimPending --> ClaimPaid: Approved
-    ClaimPending --> Active: Denied
-    Lapsed --> [*]
-    ClaimPaid --> [*]
-    DeathBenefit --> [*]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 498.5 294" width="498.5" height="294" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-14-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-14-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="80.6,93.5 127.0,53.5 160.8,48.1" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-14-arr)"/>
+<polyline points="70.1,131.5 127.0,225.0 157.0,221.7" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-14-arr)"/>
+<polyline points="97.0,126.3 127.0,137.0 157.0,137.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-14-arr)"/>
+<polyline points="97.0,98.7 127.0,88.0 218.0,88.0 309.0,88.0 350.3,75.3" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-14-arr)"/>
+<polyline points="160.8,32.7 127.0,29.0 74.1,93.5" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-14-arr)"/>
+<polyline points="275.3,39.0 309.0,39.0 350.3,51.7" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-14-arr)"/>
+<polyline points="279.0,215.0 309.0,215.0 339.0,215.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-14-arr)"/>
+<polyline points="158.4,196.0 127.0,186.0 76.2,131.5" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-14-arr)"/>
+<rect x="20.0" y="93.5" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="58.5" y="116.0" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Active</text>
+<rect x="160.8" y="20.0" width="114.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="218.0" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">GracePeriod</text>
+<rect x="157.0" y="196.0" width="122.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="218.0" y="218.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ClaimPending</text>
+<rect x="157.0" y="118.0" width="122.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="218.0" y="140.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">DeathBenefit</text>
+<rect x="350.3" y="44.5" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="388.8" y="67.0" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Lapsed</text>
+<rect x="339.0" y="196.0" width="99.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="388.8" y="218.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ClaimPaid</text>
+</svg></div>
 <p>The probabilities come from actuarial tables — the same tables insurers use to set premiums. At each checkpoint, the highway looks up the probability of each transition and computes the expected cash flow as a weighted average across all possible paths.</p>
 <p>This approach is mathematically precise, widely used in actuarial science, and works naturally on the highway — the table lookups are fast, uniform operations that the GPU lanes handle efficiently.</p>
 
@@ -1504,13 +1717,21 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <h3>Single-Scenario Fleet Testing</h3>
 <p>The 8-track facility (CPU) and the highway (GPU) were benchmarked at different fleet sizes:</p>
 <p>These benchmarks use PAM (Principal-at-Maturity) contracts — 50-year monthly schedules, the most event-dense contract type in the ACTUS standard, with around 600 cash-flow events per contract.</p>
-<div class="mermaid-wrap"><pre class="mermaid">xychart-beta
-    title "Fleet Processing Time: 8-Track Facility vs. Highway (PAM, 50-year monthly)"
-    x-axis ["10,000 cars", "100,000 cars", "200,000 cars"]
-    y-axis "Time (seconds)" 0 --> 30
-    bar [1.355, 13.864, 28.651]
-    bar [0.892, 8.323, 20.270]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-15" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 290" width="560" height="290" style="font-family:Arial,sans-serif;font-size:12px;max-width:100%;">
+<rect width="560" height="290" fill="white"/>
+<text x="280" y="18" text-anchor="middle" font-size="13" font-weight="600" fill="#1A3550">Fleet Processing Time: 8-Track Facility vs. Highway (PAM, 50-year monthly)</text>
+<line x1="40" y1="40" x2="40" y2="220" stroke="#1A3550" stroke-width="1.5"/>
+<line x1="40" y1="220" x2="520" y2="220" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="50" y="212.1" width="60" height="7.9" rx="3" fill="#1A3550"/>
+<text x="80" y="208.1" text-anchor="middle" font-size="10" fill="#1A3550">0.892</text>
+<text x="80" y="236" text-anchor="middle" font-size="10" fill="#1a202c">10</text>
+<rect x="130" y="146.1" width="60" height="73.9" rx="3" fill="#1A3550"/>
+<text x="160" y="142.1" text-anchor="middle" font-size="10" fill="#1A3550">8.323</text>
+<text x="160" y="236" text-anchor="middle" font-size="10" fill="#1a202c">000 cars</text>
+<rect x="210" y="40.0" width="60" height="180.0" rx="3" fill="#1A3550"/>
+<text x="240" y="36.0" text-anchor="middle" font-size="10" fill="#1A3550">20.27</text>
+<text x="240" y="236" text-anchor="middle" font-size="10" fill="#1a202c">100</text>
+</svg></div>
 <table>
 <thead>
 <tr>
@@ -1577,12 +1798,21 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 </tbody>
 </table>
 <p>The advantage grows with the number of scenarios because the fleet stays on the highway and loops through each scenario without re-entering the on-ramp. At 10,000 scenarios, the highway is handling <strong>100 million independent test runs</strong> — and finishing in under 30 seconds.</p>
-<div class="mermaid-wrap"><pre class="mermaid">xychart-beta
-    title "Highway Advantage by Number of Scenarios (10K fleet)"
-    x-axis ["100", "1,000", "10,000"]
-    y-axis "Speedup (× faster)" 0 --> 6
-    bar [1.7, 4.7, 5.4]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 290" width="480" height="290" style="font-family:Arial,sans-serif;font-size:12px;max-width:100%;">
+<rect width="480" height="290" fill="white"/>
+<text x="240" y="18" text-anchor="middle" font-size="13" font-weight="600" fill="#1A3550">Highway Advantage by Number of Scenarios (10K fleet)</text>
+<line x1="40" y1="40" x2="40" y2="220" stroke="#1A3550" stroke-width="1.5"/>
+<line x1="40" y1="220" x2="440" y2="220" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="50" y="163.3" width="60" height="56.7" rx="3" fill="#1A3550"/>
+<text x="80" y="159.3" text-anchor="middle" font-size="10" fill="#1A3550">1.7</text>
+<text x="80" y="236" text-anchor="middle" font-size="10" fill="#1a202c">100</text>
+<rect x="130" y="63.3" width="60" height="156.7" rx="3" fill="#1A3550"/>
+<text x="160" y="59.3" text-anchor="middle" font-size="10" fill="#1A3550">4.7</text>
+<text x="160" y="236" text-anchor="middle" font-size="10" fill="#1a202c">1</text>
+<rect x="210" y="40.0" width="60" height="180.0" rx="3" fill="#1A3550"/>
+<text x="240" y="36.0" text-anchor="middle" font-size="10" fill="#1A3550">5.4</text>
+<text x="240" y="236" text-anchor="middle" font-size="10" fill="#1a202c">000</text>
+</svg></div>
 <h3>Insurance Fleet Projections</h3>
 <p>Insurance vehicles — running the state transition model with actuarial table lookups — were also tested on the highway. Times shown are for the GPU compute path (results aggregated on device before PCIe transfer). End-to-end wall-clock time including PCIe data transfer is shown separately.</p>
 <table>
@@ -1660,18 +1890,33 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <p>These benchmarks were produced on an NVIDIA RTX 3060 Ti — a mid-range consumer GPU with 8 GB of memory. Institutional-grade GPUs (like NVIDIA A100 or H100) have 10–20 times more compute power and memory bandwidth. The highway architecture is designed to scale with the hardware — more lanes mean proportionally faster results.</p>
 <h3>The System Is Complete</h3>
 <p>The project did not just build a highway. It built the full infrastructure around it:</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    FLEET["Fleet&#x3C;br/>generation"] --> ONRAMP["On-ramp&#x3C;br/>preparation"]
-    ONRAMP --> HWY["Highway&#x3C;br/>evaluation"]
-    HWY --> SINKS["Sink&#x3C;br/>aggregation"]
-    SINKS --> OFFRAMP["Off-ramp&#x3C;br/>transfer"]
-    OFFRAMP --> REPORT["Report&#x3C;br/>centre"]
-
-    class FLEET nodeNeutral
-    class ONRAMP,OFFRAMP nodeNavy
-    class HWY,SINKS nodeAmber
-    class REPORT nodeSuccess
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-17" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1719.5 118" width="1719.5" height="118" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-17-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-17-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="239.5,39.0 269.5,39.0 299.5,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-17-arr)"/>
+<polyline points="541.5,39.0 571.5,39.0 601.5,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-17-arr)"/>
+<polyline points="836.0,39.0 866.0,39.0 896.0,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-17-arr)"/>
+<polyline points="1115.5,39.0 1145.5,39.0 1175.5,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-17-arr)"/>
+<polyline points="1402.5,39.0 1432.5,39.0 1462.5,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-17-arr)"/>
+<rect x="20.0" y="20.0" width="219.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="129.8" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Fleet&amp;#x3C;br/&gt;generation</text>
+<rect x="299.5" y="20.0" width="242.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="420.5" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">On-ramp&amp;#x3C;br/&gt;preparation</text>
+<rect x="601.5" y="20.0" width="234.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="718.8" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Highway&amp;#x3C;br/&gt;evaluation</text>
+<rect x="896.0" y="20.0" width="219.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1005.8" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Sink&amp;#x3C;br/&gt;aggregation</text>
+<rect x="1175.5" y="20.0" width="227.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1289.0" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Off-ramp&amp;#x3C;br/&gt;transfer</text>
+<rect x="1462.5" y="20.0" width="197.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1561.0" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Report&amp;#x3C;br/&gt;centre</text>
+</svg></div>
 <table>
 <thead>
 <tr>
@@ -2219,18 +2464,41 @@ BatchSize=200k    101,352  GPU compute
 <p>End-to-end examples showing how to use the insurance extension in your own solution. This is the recommended starting point for implementers. It consumes the published GPU packages as a dependency and demonstrates how the Core, GPU, and Documentation components work together in practice.</p>
 <hr>
 <h2>How They Fit Together</h2>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    GPU["Actus-Insurance.GPU\n(private — published as packages)"]
-    CORE["Actus-Insurance.Core\n(public)"]
-    DEMO["Actus-Insurance.DemoAndSamples\n(public — start here)"]
-    DOCS["Actus-Insurance.Documentation\n(public)"]
-
-    GPU -- "NuGet / GitHub Packages" --> DEMO
-    CORE --> DEMO
-    DOCS -. "explains" .-> CORE
-    DOCS -. "explains" .-> GPU
-    DOCS -. "explains" .-> DEMO
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 581.5 368" width="581.5" height="368" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-18-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-18-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="159.8,192.0 159.8,222.0 159.8,252.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-18-arr)"/>
+<rect x="72.3" y="212.0" width="181.0" height="14" fill="white" opacity="0.85"/>
+<text x="159.8" y="222.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">&quot;NuGet / GitHub Packages&quot;</text>
+<polyline points="430.5,192.0 430.5,222.0 288.3,252.5" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-18-arr)"/>
+<polyline points="284.5,74.7 430.5,106.0 430.5,136.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-18-arr-d)"/>
+<rect x="395.5" y="96.0" width="76.0" height="14" fill="white" opacity="0.85"/>
+<text x="430.5" y="106.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">&quot;explains&quot;</text>
+<polyline points="159.8,76.0 159.8,106.0 159.8,136.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-18-arr-d)"/>
+<rect x="124.8" y="96.0" width="76.0" height="14" fill="white" opacity="0.85"/>
+<text x="159.8" y="106.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">&quot;explains&quot;</text>
+<polyline points="77.8,76.0 -10.0,106.0 -10.0,164.0 -10.0,222.0 77.8,252.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-18-arr-d)"/>
+<rect x="-45.0" y="154.0" width="76.0" height="14" fill="white" opacity="0.85"/>
+<text x="-10.0" y="164.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">&quot;explains&quot;</text>
+<rect x="20.0" y="136.0" width="279.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="159.8" y="159.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Actus-Insurance.GPU</text>
+<text x="159.8" y="175.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(private — published as packages)</text>
+<rect x="339.5" y="136.0" width="182.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="430.5" y="159.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Actus-Insurance.Core</text>
+<text x="430.5" y="175.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(public)</text>
+<rect x="31.3" y="252.0" width="257.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="159.8" y="275.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Actus-Insurance.DemoAndSamples</text>
+<text x="159.8" y="291.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(public — start here)</text>
+<rect x="35.0" y="20.0" width="249.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="159.8" y="43.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Actus-Insurance.Documentation</text>
+<text x="159.8" y="59.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(public)</text>
+</svg></div>
 <p>The GPU component is the only proprietary piece. Because it ships as a package, you can build and run the demo and samples without access to the GPU source — the compiled package is sufficient. The Core and DemoAndSamples repositories are fully open and show the complete integration pattern.</p>
 
       </article>
@@ -2277,18 +2545,41 @@ BatchSize=200k    101,352  GPU compute
 </tr>
 </tbody>
 </table>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    GPU["Actus-Insurance.GPU\n(private — compiled packages only)"]
-    CORE["Actus-Insurance.Core\n(public)"]
-    DEMO["Actus-Insurance.DemoAndSamples\n(public — start here for the demo)"]
-    DOCS["Actus-Insurance.Documentation\n(public — the site you're reading)"]
-
-    GPU -- "NuGet / GitHub Packages" --> DEMO
-    CORE --> DEMO
-    DOCS -. "explains" .-> CORE
-    DOCS -. "explains" .-> GPU
-    DOCS -. "explains" .-> DEMO
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-19" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 589 368" width="589" height="368" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-19-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-19-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="163.5,192.0 163.5,222.0 163.5,252.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-19-arr)"/>
+<rect x="76.0" y="212.0" width="181.0" height="14" fill="white" opacity="0.85"/>
+<text x="163.5" y="222.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">&quot;NuGet / GitHub Packages&quot;</text>
+<polyline points="438.0,192.0 438.0,222.0 296.0,252.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-19-arr)"/>
+<polyline points="296.0,76.0 438.0,106.0 438.0,136.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-19-arr-d)"/>
+<rect x="403.0" y="96.0" width="76.0" height="14" fill="white" opacity="0.85"/>
+<text x="438.0" y="106.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">&quot;explains&quot;</text>
+<polyline points="163.5,76.0 163.5,106.0 163.5,136.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-19-arr-d)"/>
+<rect x="128.5" y="96.0" width="76.0" height="14" fill="white" opacity="0.85"/>
+<text x="163.5" y="106.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">&quot;explains&quot;</text>
+<polyline points="79.7,76.0 -10.0,106.0 -10.0,164.0 -10.0,222.0 79.7,252.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-19-arr-d)"/>
+<rect x="-45.0" y="154.0" width="76.0" height="14" fill="white" opacity="0.85"/>
+<text x="-10.0" y="164.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">&quot;explains&quot;</text>
+<rect x="20.0" y="136.0" width="287.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="163.5" y="159.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Actus-Insurance.GPU</text>
+<text x="163.5" y="175.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(private — compiled packages only)</text>
+<rect x="347.0" y="136.0" width="182.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="438.0" y="159.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Actus-Insurance.Core</text>
+<text x="438.0" y="175.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(public)</text>
+<rect x="20.0" y="252.0" width="287.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="163.5" y="275.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Actus-Insurance.DemoAndSamples</text>
+<text x="163.5" y="291.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(public — start here for the demo)</text>
+<rect x="20.0" y="20.0" width="287.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="163.5" y="43.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Actus-Insurance.Documentation</text>
+<text x="163.5" y="59.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(public — the site you're reading)</text>
+</svg></div>
 <p>The GPU component is the only proprietary piece. It ships as compiled packages, so you can build and run everything else without access to the GPU source.</p>
 <hr>
 <h2>Prerequisites</h2>

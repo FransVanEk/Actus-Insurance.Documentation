@@ -358,12 +358,23 @@
       text-align: center;
     }
 
-    /* Rendered state: SVG replaces the <pre> */
+    /* Pre-rendered SVG (server-side) */
+    .mermaid-rendered svg,
     .mermaid-wrap svg {
       max-width: 100%;
       height: auto;
       display: block;
       margin: 0 auto;
+    }
+
+    .mermaid-rendered {
+      text-align: center;
+      padding: 0.5em 0;
+    }
+
+    /* Hide the "diagram source" label for pre-rendered blocks */
+    .mermaid-rendered::before {
+      display: none !important;
     }
 
     /* Unrendered / WeasyPrint fallback: show source as a styled block */
@@ -503,22 +514,38 @@
 <p>A GPU (Graphics Processing Unit) is a processor that was originally designed to render images for computer displays. Rendering a frame of video or a 3D scene involves performing the same mathematical operation (a colour or lighting calculation) on millions of pixels simultaneously. To handle this workload, GPUs evolved a fundamentally different architecture from CPUs.</p>
 <p>A CPU has a small number of powerful cores (typically 4–16 on consumer hardware, up to 128 on server hardware). Each core is optimised for complex, branching logic and can execute different instructions independently. A CPU is like a small team of highly skilled specialists — each one can handle any task, but there are only a few of them.</p>
 <p>A GPU has thousands of smaller, simpler cores (typically 2,000–16,000). Each core is less powerful than a CPU core, but they work together in lockstep, all executing the same instruction on different data. A GPU is like a factory floor with thousands of workers — each one performs a simple, repetitive task, but together they achieve enormous throughput.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    subgraph CPU ["CPU — Few Powerful Cores"]
-        C1[Core 1&#x3C;br/>Complex Logic]
-        C2[Core 2&#x3C;br/>Complex Logic]
-        C3[Core 3&#x3C;br/>Complex Logic]
-        C4[Core 4&#x3C;br/>Complex Logic]
-    end
-
-    subgraph GPU ["GPU — Thousands of Simple Cores"]
-        G1[Core 1]
-        G2[Core 2]
-        G3[Core 3]
-        G4[...]
-        G5[Core 4096]
-    end
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-38" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 389.5 842" width="389.5" height="842" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-38-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-38-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="8.0" width="333.5" height="356.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">CPU [&quot;CPU — Few Powerful Cores&quot;]</text>
+<rect x="8.0" y="360.0" width="333.5" height="434.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="376.0" font-size="11" fill="#1A3550" font-weight="600">GPU [&quot;GPU — Thousands of Simple Cores&quot;]</text>
+<rect x="50.0" y="50.0" width="249.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="174.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Core 1&amp;#x3C;br/&gt;Complex Logic</text>
+<rect x="50.0" y="128.0" width="249.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="174.8" y="150.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Core 2&amp;#x3C;br/&gt;Complex Logic</text>
+<rect x="50.0" y="206.0" width="249.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="174.8" y="228.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Core 3&amp;#x3C;br/&gt;Complex Logic</text>
+<rect x="50.0" y="284.0" width="249.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="174.8" y="306.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Core 4&amp;#x3C;br/&gt;Complex Logic</text>
+<rect x="136.3" y="402.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="174.8" y="424.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Core 1</text>
+<rect x="136.3" y="480.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="174.8" y="502.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Core 2</text>
+<rect x="136.3" y="558.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="174.8" y="580.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Core 3</text>
+<rect x="144.8" y="636.0" width="60.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="174.8" y="658.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">...</text>
+<rect x="125.0" y="714.0" width="99.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="174.8" y="736.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Core 4096</text>
+</svg></div>
 <p>In this project, the GPU used is an NVIDIA GeForce RTX 3060 Ti with 8 GB of memory and 4,864 CUDA cores. The CPU is an AMD Ryzen 7 3800X with 8 cores at 3.90 GHz and 48 GB of RAM. Even this mid-range consumer GPU delivered substantial speedups for large portfolio evaluations.</p>
 <h2>Key Concepts</h2>
 <p>Before diving deeper, here are the concepts needed to understand GPU computing in the context of this project.</p>
@@ -618,24 +645,38 @@
 <li>Within each thread, events are processed sequentially (same as CPU)</li>
 </ol>
 <p>With 4,864 active threads, this achieves massive parallelism on the contract dimension. Each individual thread is slower than a CPU core, but the sheer number of threads more than compensates.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    subgraph CPU["CPU Processing (8 cores)"]
-        direction LR
-        CP1["Core 1&#x3C;br/>12,500 contracts&#x3C;br/>sequential"]
-        CP2["Core 2&#x3C;br/>12,500 contracts&#x3C;br/>sequential"]
-        CP3["..."]
-        CP4["Core 8&#x3C;br/>12,500 contracts&#x3C;br/>sequential"]
-    end
-
-    subgraph GPU["GPU Processing (4,864 threads)"]
-        direction LR
-        GP1["Thread 1&#x3C;br/>1 contract"]
-        GP2["Thread 2&#x3C;br/>1 contract"]
-        GP3["..."]
-        GP4["Thread 4,864&#x3C;br/>1 contract"]
-        GP5["(next wave)&#x3C;br/>Thread 4,865–9,728"]
-    end
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-39" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2966.5 178" width="2966.5" height="178" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-39-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-39-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="8.0" width="1530.0" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">CPU[&quot;CPU Processing (8 cores)&quot;]</text>
+<rect x="1534.0" y="8.0" width="1384.5" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="1542.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">GPU[&quot;GPU Processing (4,864 threads)&quot;]</text>
+<rect x="50.0" y="50.0" width="422.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="261.0" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Core 1&amp;#x3C;br/&gt;12,500 contracts&amp;#x3C;br/&gt;sequential</text>
+<rect x="512.0" y="50.0" width="422.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="723.0" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Core 2&amp;#x3C;br/&gt;12,500 contracts&amp;#x3C;br/&gt;sequential</text>
+<rect x="974.0" y="50.0" width="60.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1004.0" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">...</text>
+<rect x="1074.0" y="50.0" width="422.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1285.0" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Core 8&amp;#x3C;br/&gt;12,500 contracts&amp;#x3C;br/&gt;sequential</text>
+<rect x="1576.0" y="50.0" width="242.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1697.0" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Thread 1&amp;#x3C;br/&gt;1 contract</text>
+<rect x="1858.0" y="50.0" width="242.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1979.0" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Thread 2&amp;#x3C;br/&gt;1 contract</text>
+<rect x="2140.0" y="50.0" width="60.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="2170.0" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">...</text>
+<rect x="2240.0" y="50.0" width="272.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="2376.0" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Thread 4,864&amp;#x3C;br/&gt;1 contract</text>
+<rect x="2552.0" y="50.0" width="324.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="2714.3" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(next wave)&amp;#x3C;br/&gt;Thread 4,865–9,728</text>
+</svg></div>
 <h2>The Crossover Point</h2>
 <p>GPU acceleration has overhead that does not exist in CPU processing:</p>
 <ol>
@@ -645,17 +686,28 @@
 <li><strong>D2H transfer:</strong> Results must be copied back to CPU memory</li>
 </ol>
 <p>For small portfolios (under ~5,000 contracts), this overhead exceeds the time saved by parallelism. The GPU wins only when the computation time is large enough to amortise the overhead.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    subgraph "Small Portfolio (1K contracts)"
-        S1["CPU: ~15 ms total"]
-        S2["GPU: ~5 ms overhead + 27 ms = ~32 ms"]
-    end
-
-    subgraph "Large Portfolio (100K life insurance policies)"
-        L1["CPU: ~735 ms total"]
-        L2["GPU: ~250 ms overhead + 23 ms = ~273 ms"]
-    end
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-40" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 464.5 452" width="464.5" height="452" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-40-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-40-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="8.0" width="408.5" height="200.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">Small Portfolio (1K contracts)</text>
+<rect x="8.0" y="204.0" width="408.5" height="200.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="220.0" font-size="11" fill="#1A3550" font-weight="600">Large Portfolio (100K life insurance policies)</text>
+<rect x="132.5" y="50.0" width="159.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="212.3" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">CPU: ~15 ms total</text>
+<rect x="61.3" y="128.0" width="302.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="212.3" y="150.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">GPU: ~5 ms overhead + 27 ms = ~32 ms</text>
+<rect x="128.8" y="246.0" width="167.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="212.3" y="268.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">CPU: ~735 ms total</text>
+<rect x="50.0" y="324.0" width="324.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="212.3" y="346.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">GPU: ~250 ms overhead + 23 ms = ~273 ms</text>
+</svg></div>
 <h2>When to Use CPU vs GPU</h2>
 <table>
 <thead>
@@ -722,14 +774,26 @@
 <h2>Property 2: Uniform Computation</h2>
 <p>All PAM contracts follow the same algorithm: generate events, process them in order, compute payoffs, update state. The specific parameters differ (different principals, rates, dates), but the computation structure is the same.</p>
 <p>GPUs achieve peak performance when all threads execute the same instructions. This is called SIMT (Single Instruction, Multiple Threads). Because ACTUS contracts share the same processing logic, GPU threads stay in lockstep, maximising hardware utilisation.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    subgraph "All threads execute the same logic"
-        T1["Thread 1: IED → IP → IP → MD"]
-        T2["Thread 2: IED → IP → IP → MD"]
-        T3["Thread 3: IED → RR → IP → MD"]
-        T4["Thread 4: IED → IP → TD"]
-    end
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-41" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1190.5 178" width="1190.5" height="178" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-41-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-41-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="8.0" width="1134.5" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">All threads execute the same logic</text>
+<rect x="50.0" y="50.0" width="242.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="171.0" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Thread 1: IED → IP → IP → MD</text>
+<rect x="332.0" y="50.0" width="242.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="453.0" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Thread 2: IED → IP → IP → MD</text>
+<rect x="614.0" y="50.0" width="242.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="735.0" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Thread 3: IED → RR → IP → MD</text>
+<rect x="896.0" y="50.0" width="204.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="998.3" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Thread 4: IED → IP → TD</text>
+</svg></div>
 <p>The minor variations (some contracts have rate resets, others don't) cause slight divergence, but the overall structure is uniform enough for efficient GPU execution.</p>
 <h2>Property 3: Scalable Parallelism</h2>
 <p>Financial risk management requires evaluating portfolios under many scenarios. A portfolio of 100,000 contracts under 1,000 Monte Carlo scenarios produces 100 million independent evaluations. This is a two-dimensional parallelism that maps naturally to the GPU's thread grid:</p>
@@ -821,16 +885,39 @@
 <h2>What ILGPU Does</h2>
 <p>Traditional GPU programming requires writing kernels in CUDA C/C++ (for NVIDIA) or OpenCL C (for cross-vendor). This means maintaining a separate codebase in a different language, with a separate toolchain and build process.</p>
 <p>ILGPU eliminates this by allowing kernels to be written in standard C#. At runtime, ILGPU's compiler translates the C# code into the appropriate GPU instruction set.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    CS["C# Kernel Code"] --> ILGPU["ILGPU Compiler"]
-    ILGPU --> CUDA["CUDA PTX&#x3C;br/>(NVIDIA)"]
-    ILGPU --> OCL["OpenCL SPIR-V&#x3C;br/>(AMD, Intel)"]
-    ILGPU --> CPU["CPU IL&#x3C;br/>(Fallback)"]
-
-    CUDA --> NV["NVIDIA GPU"]
-    OCL --> AMD["AMD / Intel GPU"]
-    CPU --> PROC["Any CPU"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-42" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 908.5 412" width="908.5" height="412" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-42-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-42-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="434.3,58.0 434.3,88.0 434.3,118.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-42-arr)"/>
+<polyline points="502.8,148.2 735.0,186.0 735.0,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-42-arr)"/>
+<polyline points="434.3,156.0 434.3,186.0 434.3,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-42-arr)"/>
+<polyline points="365.8,148.2 133.5,186.0 133.5,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-42-arr)"/>
+<polyline points="735.0,254.0 735.0,284.0 735.0,314.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-42-arr)"/>
+<polyline points="434.3,254.0 434.3,284.0 434.3,314.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-42-arr)"/>
+<polyline points="133.5,254.0 133.5,284.0 133.5,314.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-42-arr)"/>
+<rect x="365.8" y="20.0" width="137.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="434.3" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">C# Kernel Code</text>
+<rect x="365.8" y="118.0" width="137.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="434.3" y="140.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ILGPU Compiler</text>
+<rect x="621.5" y="216.0" width="227.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="735.0" y="238.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">CUDA PTX&amp;#x3C;br/&gt;(NVIDIA)</text>
+<rect x="287.0" y="216.0" width="294.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="434.3" y="238.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">OpenCL SPIR-V&amp;#x3C;br/&gt;(AMD, Intel)</text>
+<rect x="20.0" y="216.0" width="227.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="133.5" y="238.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">CPU IL&amp;#x3C;br/&gt;(Fallback)</text>
+<rect x="681.5" y="314.0" width="107.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="735.0" y="336.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">NVIDIA GPU</text>
+<rect x="362.0" y="314.0" width="144.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="434.3" y="336.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">AMD / Intel GPU</text>
+<rect x="91.3" y="314.0" width="84.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="133.5" y="336.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Any CPU</text>
+</svg></div>
 <h2>The Accelerator Fallback Chain</h2>
 <p>When the executor initialises, it selects the best available backend:</p>
 <ol>

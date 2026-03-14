@@ -49,6 +49,22 @@ if (!fs.existsSync(DOWNLOADS_DIR)) {
 const MERMAID_JS = path.join(ROOT, 'node_modules', 'mermaid', 'dist', 'mermaid.min.js');
 
 // ---------------------------------------------------------------------------
+// Lazy-load the server-side Mermaid SVG renderer
+// ---------------------------------------------------------------------------
+let _renderMermaid = null;
+async function getMermaidRenderer() {
+  if (_renderMermaid) return _renderMermaid;
+  try {
+    const mod = await import('./mermaid-render.mjs');
+    _renderMermaid = mod.renderMermaid;
+  } catch (e) {
+    // Renderer unavailable — will fall back to code-block display
+    _renderMermaid = () => null;
+  }
+  return _renderMermaid;
+}
+
+// ---------------------------------------------------------------------------
 // Markdown → HTML  (using remark pipeline already in the project)
 // ---------------------------------------------------------------------------
 async function markdownToHtml(markdown) {
@@ -61,29 +77,54 @@ async function markdownToHtml(markdown) {
     .use(remarkHtml, { sanitize: false })
     .process(markdown);
 
-  return postProcessMermaid(String(result));
+  return await postProcessMermaid(String(result));
 }
 
 // ---------------------------------------------------------------------------
 // Convert remark's  <pre><code class="language-mermaid">…</code></pre>
-// into  <div class="mermaid-wrap"><pre class="mermaid">…</pre></div>
-// Browsers + Puppeteer will render these via mermaid.js;
-// WeasyPrint will display them as styled source-code blocks.
+// – For Puppeteer path:  keeps <pre class="mermaid"> so mermaid.js renders it
+// – For WeasyPrint / SSR: pre-renders to SVG using the custom renderer;
+//   falls back to a styled code block if the diagram type is unsupported
 // ---------------------------------------------------------------------------
-function postProcessMermaid(html) {
-  return html.replace(
+let _diagramCounter = 0;
+async function postProcessMermaid(html) {
+  const renderMermaid = await getMermaidRenderer();
+
+  // Collect all mermaid blocks asynchronously
+  const promises = [];
+  const placeholders = [];
+  let idx = 0;
+
+  const replaced = html.replace(
     /<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g,
     (_, src) => {
-      // Decode HTML entities that remark may have encoded
       const decoded = src
         .replace(/&amp;/g, '&')
         .replace(/&lt;/g, '<')
         .replace(/&gt;/g, '>')
         .replace(/&quot;/g, '"')
         .replace(/&#39;/g, "'");
-      return `<div class="mermaid-wrap"><pre class="mermaid">${decoded}</pre></div>`;
+      const uid = `mermaid-${++_diagramCounter}`;
+      const placeholder = `%%MERMAID_${idx}%%`;
+      promises.push(Promise.resolve().then(() => {
+        // Try server-side SVG render first
+        const svg = renderMermaid(decoded, uid);
+        if (svg) {
+          return `<div class="mermaid-wrap mermaid-rendered">${svg}</div>`;
+        }
+        // Fallback: keep as interactive element (Puppeteer will render it)
+        return `<div class="mermaid-wrap"><pre class="mermaid">${decoded}</pre></div>`;
+      }));
+      placeholders.push(placeholder);
+      idx++;
+      return placeholder;
     }
   );
+
+  const results = await Promise.all(promises);
+  let final = replaced;
+  placeholders.forEach((p, i) => { final = final.replace(p, results[i]); });
+  return final;
 }
 
 // ---------------------------------------------------------------------------
@@ -570,12 +611,23 @@ async function buildSectionHtml(section, docs) {
       text-align: center;
     }
 
-    /* Rendered state: SVG replaces the <pre> */
+    /* Pre-rendered SVG (server-side) */
+    .mermaid-rendered svg,
     .mermaid-wrap svg {
       max-width: 100%;
       height: auto;
       display: block;
       margin: 0 auto;
+    }
+
+    .mermaid-rendered {
+      text-align: center;
+      padding: 0.5em 0;
+    }
+
+    /* Hide the "diagram source" label for pre-rendered blocks */
+    .mermaid-rendered::before {
+      display: none !important;
     }
 
     /* Unrendered / WeasyPrint fallback: show source as a styled block */

@@ -358,12 +358,23 @@
       text-align: center;
     }
 
-    /* Rendered state: SVG replaces the <pre> */
+    /* Pre-rendered SVG (server-side) */
+    .mermaid-rendered svg,
     .mermaid-wrap svg {
       max-width: 100%;
       height: auto;
       display: block;
       margin: 0 auto;
+    }
+
+    .mermaid-rendered {
+      text-align: center;
+      padding: 0.5em 0;
+    }
+
+    /* Hide the "diagram source" label for pre-rendered blocks */
+    .mermaid-rendered::before {
+      display: none !important;
     }
 
     /* Unrendered / WeasyPrint fallback: show source as a styled block */
@@ -516,41 +527,56 @@
 <p>Each area starts with a conceptual overview and progressively adds implementation detail. Developers who need to understand the codebase, contribute to it, or integrate it into other systems should start here.</p>
 <h2>Architecture at a Glance</h2>
 <p>The system is organized into four repositories, each with a specific responsibility:</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    subgraph "Actus-Insurance.Core"
-        CORE[Core Library&#x3C;br/>Models, Types, Conventions]
-        CPU[CPU Engine&#x3C;br/>PAM Contract Implementation]
-        TESTS_CPU[CPU Test Suite&#x3C;br/>42 ACTUS PAM Tests]
-    end
-
-    subgraph "Actus-Insurance.GPU"
-        GPU_LIB[GPU Library&#x3C;br/>Kernels, Executors, Adapters]
-        LIFE[Life Insurance GPU&#x3C;br/>Markov Kernel, DSL, Tables]
-        RUNNER[Portfolio Runner&#x3C;br/>High-Level API]
-        BENCH[Benchmarks&#x3C;br/>CPU vs GPU Comparison]
-        TESTS_GPU[GPU Test Suite&#x3C;br/>Correctness Validation]
-    end
-
-    subgraph "Actus-Insurance.DemoAndSample"
-        CLI[CLI Demo Tool&#x3C;br/>Monte Carlo, Reporting]
-        SAMPLE[Scenario Demo&#x3C;br/>CPU/GPU Comparison]
-    end
-
-    subgraph "Actus-Insurance.Documentation"
-        DOCS[Next.js Site&#x3C;br/>Searchable Documentation]
-    end
-
-    CORE --> CPU
-    CORE --> GPU_LIB
-    CPU --> TESTS_CPU
-    CPU --> GPU_LIB
-    GPU_LIB --> LIFE
-    GPU_LIB --> RUNNER
-    GPU_LIB --> BENCH
-    GPU_LIB --> TESTS_GPU
-    RUNNER --> CLI
-    GPU_LIB --> SAMPLE
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-43" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2535.25 720" width="2535.25" height="720" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-43-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-43-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="8.0" width="594.0" height="378.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">Actus-Insurance.Core</text>
+<rect x="598.0" y="264.0" width="1709.5" height="250.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="606.0" y="280.0" font-size="11" fill="#1A3550" font-weight="600">Actus-Insurance.GPU</text>
+<rect x="1056.3" y="550.0" width="1431.0" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="1064.3" y="566.0" font-size="11" fill="#1A3550" font-weight="600">Actus-Insurance.DemoAndSample</text>
+<rect x="1312.1" y="8.0" width="461.0" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="1320.1" y="24.0" font-size="11" fill="#1A3550" font-weight="600">Actus-Insurance.Documentation</text>
+<polyline points="307.8,88.0 244.8,118.0 244.8,148.0 244.8,178.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-43-arr)"/>
+<polyline points="394.0,88.0 467.0,118.0 467.0,148.0 467.0,197.0 467.0,246.0 467.0,276.0 1459.0,316.8" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-43-arr)"/>
+<polyline points="240.9,216.0 234.8,246.0 234.8,276.0 234.8,306.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-43-arr)"/>
+<polyline points="284.0,216.0 345.9,246.0 345.9,276.0 1459.0,317.5" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-43-arr)"/>
+<polyline points="1459.0,337.2 858.5,374.0 858.5,404.0 858.5,434.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-43-arr)"/>
+<polyline points="1513.1,344.0 1283.0,374.0 1283.0,404.0 1283.0,434.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-43-arr)"/>
+<polyline points="1658.8,344.0 1658.8,374.0 1658.8,404.0 1658.8,434.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-43-arr)"/>
+<polyline points="1813.2,344.0 2057.0,374.0 2057.0,404.0 2057.0,434.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-43-arr)"/>
+<polyline points="1283.0,472.0 1283.0,502.0 1283.0,532.0 1283.0,562.0 1283.0,592.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-43-arr)"/>
+<polyline points="1858.5,340.9 2275.5,374.0 2275.5,404.0 2275.5,453.0 2275.5,502.0 2275.5,532.0 2275.5,562.0 2275.5,592.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-43-arr)"/>
+<rect x="151.8" y="50.0" width="392.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="347.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Core Library&amp;#x3C;br/&gt;Models, Types, Conventions</text>
+<rect x="52.5" y="178.0" width="384.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="244.8" y="200.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">CPU Engine&amp;#x3C;br/&gt;PAM Contract Implementation</text>
+<rect x="61.3" y="306.0" width="347.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="234.8" y="328.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">CPU Test Suite&amp;#x3C;br/&gt;42 ACTUS PAM Tests</text>
+<rect x="1459.0" y="306.0" width="399.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1658.8" y="328.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">GPU Library&amp;#x3C;br/&gt;Kernels, Executors, Adapters</text>
+<rect x="640.0" y="434.0" width="437.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="858.5" y="456.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Life Insurance GPU&amp;#x3C;br/&gt;Markov Kernel, DSL, Tables</text>
+<rect x="1117.0" y="434.0" width="332.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1283.0" y="456.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Portfolio Runner&amp;#x3C;br/&gt;High-Level API</text>
+<rect x="1489.0" y="434.0" width="339.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1658.8" y="456.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Benchmarks&amp;#x3C;br/&gt;CPU vs GPU Comparison</text>
+<rect x="1868.5" y="434.0" width="377.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="2057.0" y="456.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">GPU Test Suite&amp;#x3C;br/&gt;Correctness Validation</text>
+<rect x="1098.3" y="592.0" width="369.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1283.0" y="614.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">CLI Demo Tool&amp;#x3C;br/&gt;Monte Carlo, Reporting</text>
+<rect x="2105.8" y="592.0" width="339.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="2275.5" y="614.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Scenario Demo&amp;#x3C;br/&gt;CPU/GPU Comparison</text>
+<rect x="1354.1" y="50.0" width="377.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1542.6" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Next.js Site&amp;#x3C;br/&gt;Searchable Documentation</text>
+</svg></div>
 <h2>Technology Stack</h2>
 <table>
 <thead>
@@ -652,13 +678,33 @@
 <p><strong>Convention-driven computation.</strong> Financial contracts differ not just in their structure but in the conventions they use for dates, interest accrual, and calendar adjustments. Rather than hard-coding these rules, the engine parameterizes them: each contract specifies which day count convention, business day convention, end-of-month convention, and calendar to use. The engine dispatches to the correct implementation at runtime.</p>
 <h2>The Three-Stage Pipeline</h2>
 <p>Every contract evaluation follows the same three-stage pipeline:</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    Terms["Contract Terms&#x3C;br/>(PamContractTerms)"] --> Schedule["Stage 1: Schedule&#x3C;br/>(generate events)"]
-    Schedule --> Events["Raw Events&#x3C;br/>(typed, timed, unsorted)"]
-    Events --> Apply["Stage 2: Apply&#x3C;br/>(sort, initialize, evaluate)"]
-    Market["Risk Factor Model&#x3C;br/>(market rates)"] --> Apply
-    Apply --> Result["Stage 3: Result&#x3C;br/>(evaluated events with payoffs)"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-44" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2265 196" width="2265" height="196" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-44-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-44-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="367.0,39.0 397.0,39.0 427.0,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-44-arr)"/>
+<polyline points="789.0,39.0 819.0,39.0 849.0,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-44-arr)"/>
+<polyline points="1211.0,39.0 1241.0,39.0 1364.6,59.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-44-arr)"/>
+<polyline points="1199.8,117.0 1241.0,117.0 1364.6,97.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-44-arr)"/>
+<polyline points="1693.0,78.0 1723.0,78.0 1753.0,78.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-44-arr)"/>
+<rect x="20.0" y="20.0" width="347.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="193.5" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Contract Terms&amp;#x3C;br/&gt;(PamContractTerms)</text>
+<rect x="427.0" y="20.0" width="362.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="608.0" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Stage 1: Schedule&amp;#x3C;br/&gt;(generate events)</text>
+<rect x="849.0" y="20.0" width="362.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1030.0" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Raw Events&amp;#x3C;br/&gt;(typed, timed, unsorted)</text>
+<rect x="1271.0" y="59.0" width="422.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1482.0" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Stage 2: Apply&amp;#x3C;br/&gt;(sort, initialize, evaluate)</text>
+<rect x="860.3" y="98.0" width="339.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1030.0" y="120.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Risk Factor Model&amp;#x3C;br/&gt;(market rates)</text>
+<rect x="1753.0" y="59.0" width="452.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1979.0" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Stage 3: Result&amp;#x3C;br/&gt;(evaluated events with payoffs)</text>
+</svg></div>
 <h3>Stage 1: Schedule Generation</h3>
 <p>The <code>Schedule()</code> method reads the contract terms and generates every event that will occur during the contract's lifetime. It creates mandatory events (Initial Exchange Date, Maturity Date) and then generates periodic events from cycle definitions (interest payments, rate resets, fee payments, scaling updates). Each event is stamped with two times: the original schedule time (the contractually specified date) and the shifted time (the date adjusted for business day conventions). Events are not yet sorted or evaluated — they are raw placeholders.</p>
 <h3>Stage 2: Event Application</h3>
@@ -764,32 +810,45 @@ ActusInsurance.Tests.CPU/
     └── actus-tests-pam.json            — Test data: terms, market data, expected results
 </code></pre>
 <h2>How It All Connects</h2>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    subgraph "ActusInsurance.Core (shared)"
-        TERMS["PamContractTerms&#x3C;br/>(40+ fields)"]
-        CONV["Conventions&#x3C;br/>(day count, business day,&#x3C;br/>EOM, calendar)"]
-        SCHED["ScheduleFactory&#x3C;br/>(periodic date generation)"]
-        EVENT["ContractEvent&#x3C;br/>(Evaluate, ComputePayoff,&#x3C;br/>UpdateState)"]
-        STATE["StateSpace&#x3C;br/>(8 state variables)"]
-        RISK["RiskFactorModel&#x3C;br/>(market data lookup)"]
-    end
-
-    subgraph "ActusInsurance.Core.CPU"
-        PAM["PrincipalAtMaturity&#x3C;br/>(Schedule + Apply)"]
-    end
-
-    subgraph "ActusInsurance.Tests.CPU"
-        TESTS["42 PAM Test Cases&#x3C;br/>(official ACTUS suite)"]
-    end
-
-    PAM --> TERMS
-    PAM --> CONV
-    PAM --> SCHED
-    PAM --> EVENT
-    PAM --> STATE
-    PAM --> RISK
-    TESTS --> PAM
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-45" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2879.5 494" width="2879.5" height="494" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-45-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-45-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="324.0" width="2823.5" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="340.0" font-size="11" fill="#1A3550" font-weight="600">ActusInsurance.Core (shared)</text>
+<rect x="162.1" y="166.0" width="2508.4" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="170.1" y="182.0" font-size="11" fill="#1A3550" font-weight="600">ActusInsurance.Core.CPU</text>
+<rect x="1123.6" y="8.0" width="483.5" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="1131.6" y="24.0" font-size="11" fill="#1A3550" font-weight="600">ActusInsurance.Tests.CPU</text>
+<polyline points="1557.6,234.4 2631.0,276.0 2631.0,306.0 2631.0,336.0 2631.0,366.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-45-arr)"/>
+<polyline points="1557.6,238.9 2154.0,276.0 2154.0,306.0 2154.0,336.0 2154.0,366.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-45-arr)"/>
+<polyline points="1467.3,246.0 1628.3,276.0 1628.3,306.0 1628.3,336.0 1628.3,366.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-45-arr)"/>
+<polyline points="1263.4,246.0 1102.5,276.0 1102.5,306.0 1102.5,336.0 1102.5,366.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-45-arr)"/>
+<polyline points="1173.1,239.7 621.8,276.0 621.8,306.0 621.8,336.0 621.8,366.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-45-arr)"/>
+<polyline points="1173.1,235.3 234.8,276.0 234.8,306.0 234.8,336.0 234.8,366.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-45-arr)"/>
+<polyline points="1365.4,88.0 1365.4,118.0 1365.4,148.0 1365.4,178.0 1365.4,208.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-45-arr)"/>
+<rect x="2472.5" y="366.0" width="317.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="2631.0" y="388.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PamContractTerms&amp;#x3C;br/&gt;(40+ fields)</text>
+<rect x="1875.5" y="366.0" width="557.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="2154.0" y="388.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Conventions&amp;#x3C;br/&gt;(day count, business day,&amp;#x3C;br/&gt;EOM, calendar)</text>
+<rect x="1421.0" y="366.0" width="414.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1628.3" y="388.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ScheduleFactory&amp;#x3C;br/&gt;(periodic date generation)</text>
+<rect x="824.0" y="366.0" width="557.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1102.5" y="388.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ContractEvent&amp;#x3C;br/&gt;(Evaluate, ComputePayoff,&amp;#x3C;br/&gt;UpdateState)</text>
+<rect x="459.5" y="366.0" width="324.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="621.8" y="388.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">StateSpace&amp;#x3C;br/&gt;(8 state variables)</text>
+<rect x="50.0" y="366.0" width="369.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="234.8" y="388.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">RiskFactorModel&amp;#x3C;br/&gt;(market data lookup)</text>
+<rect x="1173.1" y="208.0" width="384.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1365.4" y="230.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PrincipalAtMaturity&amp;#x3C;br/&gt;(Schedule + Apply)</text>
+<rect x="1165.6" y="50.0" width="399.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1365.4" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">42 PAM Test Cases&amp;#x3C;br/&gt;(official ACTUS suite)</text>
+</svg></div>
 <h2>Continue Reading</h2>
 <ul>
 <li><a href="./pam-contract.md">PAM Contract</a> — full walkthrough of the PAM implementation: terms, schedule generation, event evaluation, and all payoff formulas</li>
@@ -808,37 +867,49 @@ ActusInsurance.Tests.CPU/
         <h2>GPU Architecture</h2>
 <h2>Overview</h2>
 <p>The GPU execution pipeline transforms CPU domain objects into flat GPU-compatible structures, runs massively parallel kernels, and returns results. The architecture is organised into three layers: the adapter (data transformation), the kernel (GPU computation), and the executor (orchestration).</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    subgraph "CPU Domain"
-        TERMS["PamContractTerms[]&#x3C;br/>Rich domain objects"]
-        MARKET["RiskFactorModel&#x3C;br/>Market data"]
-    end
-
-    subgraph "Adapter Layer"
-        ADAPT["PamV3Adapter&#x3C;br/>Schedule + Flatten"]
-    end
-
-    subgraph "GPU Memory"
-        CGPU["PamContractGpu[]"]
-        EGPU["PamEventGpu[]"]
-        RGPU["PamEventResultGpu[]"]
-        MGPU["GpuMarketRate[]"]
-    end
-
-    subgraph "GPU Kernel"
-        KERN["PamGpuKernel&#x3C;br/>Per-thread evaluation"]
-    end
-
-    TERMS --> ADAPT
-    MARKET --> ADAPT
-    ADAPT --> CGPU
-    ADAPT --> EGPU
-    ADAPT --> MGPU
-    CGPU --> KERN
-    EGPU --> KERN
-    MGPU --> KERN
-    KERN --> RGPU
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-46" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1957.5 452" width="1957.5" height="452" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-46-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-46-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="47.0" width="468.5" height="200.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="63.0" font-size="11" fill="#1A3550" font-weight="600">CPU Domain</text>
+<rect x="512.5" y="17.0" width="416.0" height="240.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="520.5" y="33.0" font-size="11" fill="#1A3550" font-weight="600">Adapter Layer</text>
+<rect x="964.5" y="8.0" width="945.0" height="278.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="972.5" y="24.0" font-size="11" fill="#1A3550" font-weight="600">GPU Memory</text>
+<rect x="1206.5" y="282.0" width="438.5" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="1214.5" y="298.0" font-size="11" fill="#1A3550" font-weight="600">GPU Kernel</text>
+<polyline points="434.5,108.0 464.5,108.0 494.5,108.0 524.5,108.0 625.0,128.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-46-arr)"/>
+<polyline points="393.3,186.0 464.5,186.0 494.5,186.0 524.5,186.0 625.0,166.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-46-arr)"/>
+<polyline points="768.2,166.0 916.5,225.0 946.5,225.0 976.5,225.0 1006.5,225.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-46-arr)"/>
+<polyline points="886.5,147.0 916.5,147.0 946.5,147.0 976.5,147.0 1017.8,147.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-46-arr)"/>
+<polyline points="768.2,128.0 916.5,69.0 946.5,69.0 976.5,69.0 1010.3,69.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-46-arr)"/>
+<polyline points="1158.5,225.0 1188.5,225.0 1218.5,225.0 1392.4,324.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-46-arr)"/>
+<polyline points="1147.3,147.0 1188.5,147.0 1218.5,147.0 1405.7,324.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-46-arr)"/>
+<polyline points="1154.8,69.0 1188.5,69.0 1218.5,69.0 1411.4,324.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-46-arr)"/>
+<polyline points="1603.0,343.0 1633.0,343.0 1663.0,147.0 1693.0,147.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-46-arr)"/>
+<rect x="50.0" y="89.0" width="384.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="242.3" y="111.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PamContractTerms[]&amp;#x3C;br/&gt;Rich domain objects</text>
+<rect x="91.3" y="167.0" width="302.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="242.3" y="189.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">RiskFactorModel&amp;#x3C;br/&gt;Market data</text>
+<rect x="554.5" y="128.0" width="332.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="720.5" y="150.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PamV3Adapter&amp;#x3C;br/&gt;Schedule + Flatten</text>
+<rect x="1006.5" y="206.0" width="152.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1082.5" y="228.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PamContractGpu[]</text>
+<rect x="1017.8" y="128.0" width="129.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1082.5" y="150.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PamEventGpu[]</text>
+<rect x="1693.0" y="128.0" width="174.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1780.3" y="150.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PamEventResultGpu[]</text>
+<rect x="1010.3" y="50.0" width="144.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1082.5" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">GpuMarketRate[]</text>
+<rect x="1248.5" y="324.0" width="354.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1425.8" y="346.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PamGpuKernel&amp;#x3C;br/&gt;Per-thread evaluation</text>
+</svg></div>
 <h2>The Three Layers</h2>
 <h3>Adapter (PamV3Adapter)</h3>
 <p>The adapter sits between the CPU domain model and the GPU. It performs two jobs: it generates the event schedule for each contract (using the same schedule logic as the CPU engine), and it flattens the results into GPU-compatible flat arrays.</p>
@@ -884,38 +955,93 @@ ActusInsurance.Tests.CPU/
 </ul>
 <p>Buffer pooling ensures that repeated evaluations of similar-sized portfolios incur no GPU memory allocation after the first call.</p>
 <h2>Data Flow: Single Evaluation</h2>
-<div class="mermaid-wrap"><pre class="mermaid">sequenceDiagram
-    participant App as Application
-    participant Adapt as PamV3Adapter
-    participant Exec as PamGpuExecutor
-    participant GPU as GPU Device
-
-    App->>Adapt: Convert(contracts, riskFactors)
-    Adapt->>Adapt: Schedule each contract
-    Adapt->>Adapt: Flatten to SoA arrays
-    Adapt-->>Exec: PamContractGpu[], PamEventGpu[], GpuMarketRate[]
-    Exec->>GPU: Allocate buffers (if needed)
-    Exec->>GPU: H2D: copy input arrays
-    Exec->>GPU: Launch PamGpuKernel (N threads)
-    GPU->>GPU: Each thread: process one contract's events
-    GPU-->>Exec: D2H: copy PamEventResultGpu[]
-    Exec-->>App: Results array
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-47" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 530" width="720" height="530" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-47-sa" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+    <polygon points="0 0,8 3,0 6" fill="#1A3550"/>
+  </marker>
+</defs>
+<rect width="720" height="530" fill="white"/>
+<rect x="68.8" y="20" width="102.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="120" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">Application</text>
+<line x1="120" y1="52" x2="120" y2="478" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="225.0" y="20" width="110" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="280" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">PamV3Adapter</text>
+<line x1="280" y1="52" x2="280" y2="478" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="377.5" y="20" width="125" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="440" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">PamGpuExecutor</text>
+<line x1="440" y1="52" x2="440" y2="478" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="552.5" y="20" width="95" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="600" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">GPU Device</text>
+<line x1="600" y1="52" x2="600" y2="478" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<line x1="120" y1="90" x2="280" y2="90" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-47-sa)"/>
+<text x="200" y="84" text-anchor="middle" font-size="11" fill="#1a202c">Convert(contracts, riskFactors)</text>
+<line x1="280" y1="130" x2="280" y2="130" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-47-sa)"/>
+<text x="280" y="124" text-anchor="middle" font-size="11" fill="#1a202c">Schedule each contract</text>
+<line x1="280" y1="170" x2="280" y2="170" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-47-sa)"/>
+<text x="280" y="164" text-anchor="middle" font-size="11" fill="#1a202c">Flatten to SoA arrays</text>
+<line x1="280" y1="210" x2="440" y2="210" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-47-sa)"/>
+<text x="360" y="204" text-anchor="middle" font-size="11" fill="#1a202c">PamContractGpu[], PamEventGpu[], GpuMarketRate[]</text>
+<line x1="440" y1="250" x2="600" y2="250" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-47-sa)"/>
+<text x="520" y="244" text-anchor="middle" font-size="11" fill="#1a202c">Allocate buffers (if needed)</text>
+<line x1="440" y1="290" x2="600" y2="290" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-47-sa)"/>
+<text x="520" y="284" text-anchor="middle" font-size="11" fill="#1a202c">H2D: copy input arrays</text>
+<line x1="440" y1="330" x2="600" y2="330" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-47-sa)"/>
+<text x="520" y="324" text-anchor="middle" font-size="11" fill="#1a202c">Launch PamGpuKernel (N threads)</text>
+<line x1="600" y1="370" x2="600" y2="370" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-47-sa)"/>
+<text x="600" y="364" text-anchor="middle" font-size="11" fill="#1a202c">Each thread: process one contract's events</text>
+<line x1="600" y1="410" x2="440" y2="410" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-47-sa)"/>
+<text x="520" y="404" text-anchor="middle" font-size="11" fill="#1a202c">D2H: copy PamEventResultGpu[]</text>
+<line x1="440" y1="450" x2="120" y2="450" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-47-sa)"/>
+<text x="280" y="444" text-anchor="middle" font-size="11" fill="#1a202c">Results array</text>
+<rect x="68.8" y="478" width="102.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="120" y="494" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">Application</text>
+<rect x="225.0" y="478" width="110" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="280" y="494" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">PamV3Adapter</text>
+<rect x="377.5" y="478" width="125" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="440" y="494" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">PamGpuExecutor</text>
+<rect x="552.5" y="478" width="95" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="600" y="494" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">GPU Device</text>
+</svg></div>
 <h2>Data Flow: Monte Carlo (PayoffCube)</h2>
 <p>For scenario-based valuation, the kernel operates in 2D:</p>
-<div class="mermaid-wrap"><pre class="mermaid">sequenceDiagram
-    participant App as Application
-    participant Exec as PayoffCubeExecutor
-    participant GPU as GPU Device
-
-    App->>Exec: Upload contracts + scenario rates
-    Exec->>GPU: H2D: contracts, events, scenario rates
-    Exec->>GPU: Launch PayoffCubeKernel (C×S threads)
-    GPU->>GPU: Each thread: contract c, scenario s
-    GPU->>GPU: Accumulate payoffs into flat cube
-    GPU-->>Exec: D2H: PayoffCube[K×C×S×T]
-    Exec-->>App: Aggregated results
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-48" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 410" width="560" height="410" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-48-sa" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+    <polygon points="0 0,8 3,0 6" fill="#1A3550"/>
+  </marker>
+</defs>
+<rect width="560" height="410" fill="white"/>
+<rect x="68.8" y="20" width="102.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="120" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">Application</text>
+<line x1="120" y1="52" x2="120" y2="358" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="202.5" y="20" width="155" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="280" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">PayoffCubeExecutor</text>
+<line x1="280" y1="52" x2="280" y2="358" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="392.5" y="20" width="95" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="440" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">GPU Device</text>
+<line x1="440" y1="52" x2="440" y2="358" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<line x1="120" y1="90" x2="280" y2="90" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-48-sa)"/>
+<text x="200" y="84" text-anchor="middle" font-size="11" fill="#1a202c">Upload contracts + scenario rates</text>
+<line x1="280" y1="130" x2="440" y2="130" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-48-sa)"/>
+<text x="360" y="124" text-anchor="middle" font-size="11" fill="#1a202c">H2D: contracts, events, scenario rates</text>
+<line x1="280" y1="170" x2="440" y2="170" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-48-sa)"/>
+<text x="360" y="164" text-anchor="middle" font-size="11" fill="#1a202c">Launch PayoffCubeKernel (C×S threads)</text>
+<line x1="440" y1="210" x2="440" y2="210" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-48-sa)"/>
+<text x="440" y="204" text-anchor="middle" font-size="11" fill="#1a202c">Each thread: contract c, scenario s</text>
+<line x1="440" y1="250" x2="440" y2="250" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-48-sa)"/>
+<text x="440" y="244" text-anchor="middle" font-size="11" fill="#1a202c">Accumulate payoffs into flat cube</text>
+<line x1="440" y1="290" x2="280" y2="290" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-48-sa)"/>
+<text x="360" y="284" text-anchor="middle" font-size="11" fill="#1a202c">D2H: PayoffCube[K×C×S×T]</text>
+<line x1="280" y1="330" x2="120" y2="330" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-48-sa)"/>
+<text x="200" y="324" text-anchor="middle" font-size="11" fill="#1a202c">Aggregated results</text>
+<rect x="68.8" y="358" width="102.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="120" y="374" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">Application</text>
+<rect x="202.5" y="358" width="155" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="280" y="374" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">PayoffCubeExecutor</text>
+<rect x="392.5" y="358" width="95" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="440" y="374" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">GPU Device</text>
+</svg></div>
 <h2>Continue Reading</h2>
 <ul>
 <li><a href="./data-structures.md">Data Structures</a> — blittable structs and SoA layout</li>
@@ -946,17 +1072,39 @@ ActusInsurance.Tests.CPU/
 </ul>
 <p>Each test case defines: contract terms, observed market data (rate observations), and expected results (event date, type, payoff, and state values for every event).</p>
 <h2>Test Architecture</h2>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    JSON["actus-tests-pam.json&#x3C;br/>42 reference test cases"] --> CPU_TEST["CPU Test Suite&#x3C;br/>(PamTests.cs)"]
-    JSON --> GPU_TEST["GPU Test Suite&#x3C;br/>(PamTestsGpu.cs)"]
-
-    CPU_TEST --> CPU_ENGINE["CPU Engine&#x3C;br/>PrincipalAtMaturity"]
-    GPU_TEST --> ADAPTER["PamV3Adapter"]
-    ADAPTER --> GPU_ENGINE["GPU Engine&#x3C;br/>PamGpuExecutor + PamGpuKernel"]
-
-    CPU_ENGINE --> COMPARE_CPU["Compare vs expected&#x3C;br/>Tolerance: 2×10⁻¹⁰"]
-    GPU_ENGINE --> COMPARE_GPU["Compare vs expected&#x3C;br/>Tolerance: 2×10⁻¹⁰"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-49" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 904 510" width="904" height="510" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-49-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-49-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="519.5,58.0 651.8,88.0 651.8,118.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-49-arr)"/>
+<polyline points="352.0,58.0 219.8,88.0 219.8,118.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-49-arr)"/>
+<polyline points="651.8,156.0 651.8,186.0 651.8,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-49-arr)"/>
+<polyline points="219.8,156.0 219.8,186.0 219.8,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-49-arr)"/>
+<polyline points="219.8,254.0 219.8,284.0 219.8,314.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-49-arr)"/>
+<polyline points="651.8,254.0 651.8,284.0 651.8,314.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-49-arr)"/>
+<polyline points="219.8,352.0 219.8,382.0 219.8,412.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-49-arr)"/>
+<rect x="221.0" y="20.0" width="429.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="435.8" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">actus-tests-pam.json&amp;#x3C;br/&gt;42 reference test cases</text>
+<rect x="497.0" y="118.0" width="309.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="651.8" y="140.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">CPU Test Suite&amp;#x3C;br/&gt;(PamTests.cs)</text>
+<rect x="53.8" y="118.0" width="332.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="219.8" y="140.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">GPU Test Suite&amp;#x3C;br/&gt;(PamTestsGpu.cs)</text>
+<rect x="489.5" y="216.0" width="324.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="651.8" y="238.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">CPU Engine&amp;#x3C;br/&gt;PrincipalAtMaturity</text>
+<rect x="158.8" y="216.0" width="122.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="219.8" y="238.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PamV3Adapter</text>
+<rect x="20.0" y="314.0" width="399.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="219.8" y="336.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">GPU Engine&amp;#x3C;br/&gt;PamGpuExecutor + PamGpuKernel</text>
+<rect x="459.5" y="314.0" width="384.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="651.8" y="336.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Compare vs expected&amp;#x3C;br/&gt;Tolerance: 2×10⁻¹⁰</text>
+<rect x="27.5" y="412.0" width="384.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="219.8" y="434.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Compare vs expected&amp;#x3C;br/&gt;Tolerance: 2×10⁻¹⁰</text>
+</svg></div>
 <h2>CPU Test Suite (PamTests.cs)</h2>
 <p>The CPU test suite loads the JSON test file, parses each test case into contract terms and risk factors, generates the event schedule, applies all events, and compares the computed payoff and state values against expected results.</p>
 <p>The tolerance is 2×10⁻¹⁰ (two ten-billionths). This is tight enough to catch subtle calculation errors while accommodating the inherent limits of double-precision floating-point arithmetic.</p>
@@ -1813,17 +1961,28 @@ events.Add(MD at MaturityDate)
 </table>
 <h2>SoA vs AoS Layout</h2>
 <p>The GPU layer uses <strong>Structure of Arrays</strong> (SoA) rather than Array of Structures (AoS) for memory layout. This ensures coalesced memory access when thousands of GPU threads read the same field across different contracts.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    subgraph "AoS (Array of Structures)"
-        AOS["Contract1{principal, rate, date} | Contract2{principal, rate, date} | ..."]
-    end
-
-    subgraph "SoA (Structure of Arrays)"
-        SOA1["principals: [c1_principal, c2_principal, c3_principal, ...]"]
-        SOA2["rates: [c1_rate, c2_rate, c3_rate, ...]"]
-        SOA3["dates: [c1_date, c2_date, c3_date, ...]"]
-    end
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2003 178" width="2003" height="178" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-50-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-50-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="8.0" width="663.5" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">AoS (Array of Structures)</text>
+<rect x="667.5" y="8.0" width="1287.5" height="122.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="675.5" y="24.0" font-size="11" fill="#1A3550" font-weight="600">SoA (Structure of Arrays)</text>
+<rect x="50.0" y="50.0" width="579.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="339.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Contract1{principal, rate, date} | Contract2{principal, rate, date} | ...</text>
+<rect x="709.5" y="50.0" width="474.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="946.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">principals: [c1_principal, c2_principal, c3_principal, ...]</text>
+<rect x="1224.0" y="50.0" width="324.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1386.3" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">rates: [c1_rate, c2_rate, c3_rate, ...]</text>
+<rect x="1588.5" y="50.0" width="324.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1750.8" y="72.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">dates: [c1_date, c2_date, c3_date, ...]</text>
+</svg></div>
 <p>When all threads read the <code>principal</code> field simultaneously, SoA ensures these reads hit consecutive memory addresses, maximising GPU memory bandwidth.</p>
 
       </article>
@@ -1977,19 +2136,47 @@ dotnet run -c Release --project src/ActusInsurance.Benchmarks
 <p>This distinction matters when an event date falls on a weekend. A CalcShift convention says "calculate interest as if the payment happened on the scheduled date, but actually settle on the next business day." A ShiftCalc convention says "the payment date is the business day, and interest accrues to that date."</p>
 <h2>Event Evaluation: The Three-Step Process</h2>
 <p>Every event's <code>Evaluate()</code> method follows the same three-step pattern:</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    A["Step 1: ComputePayoff"] --> B["Step 2: UpdateState"]
-    B --> C["Step 3: Snapshot"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-51" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 269.5 314" width="269.5" height="314" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-51-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-51-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="114.8,58.0 114.8,88.0 114.8,118.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-51-arr)"/>
+<polyline points="114.8,156.0 114.8,186.0 114.8,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-51-arr)"/>
+<rect x="20.0" y="20.0" width="189.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="114.8" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Step 1: ComputePayoff</text>
+<rect x="27.5" y="118.0" width="174.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="114.8" y="140.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Step 2: UpdateState</text>
+<rect x="38.8" y="216.0" width="152.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="114.8" y="238.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Step 3: Snapshot</text>
+</svg></div>
 <p><strong>Step 1 — ComputePayoff:</strong> Calculate the cash flow for this event type. The payoff depends on the event type and the current state (see <a href="./pam-contract.md">PAM Contract</a> for all formulas).</p>
 <p><strong>Step 2 — UpdateState:</strong> Modify the state space according to this event type's transition rules. This is where interest accrual happens (for applicable event types), followed by the type-specific state change.</p>
 <p><strong>Step 3 — Snapshot:</strong> Copy the four key state variables (NotionalPrincipal, NominalInterestRate, AccruedInterest, FeeAccrued) from the state space into the event object. This creates a permanent record of the state after this event, which appears in the output.</p>
 <h2>State Transitions by Event Type</h2>
 <h3>IED — Initial Exchange Date</h3>
 <p>The contract begins. The principal is established and the interest rate is set.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    Before["Principal = 0&#x3C;br/>Rate = 0&#x3C;br/>Accrued = 0"] -->|IED| After["Principal = RoleSign × Notional&#x3C;br/>Rate = NominalRate&#x3C;br/>Accrued = pre-IED accrual (if any)"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-52" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1366.5 118" width="1366.5" height="118" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-52-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-52-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="442.0,39.0 472.0,39.0 502.0,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-52-arr)"/>
+<rect x="461.5" y="29.0" width="27.0" height="14" fill="white" opacity="0.85"/>
+<text x="472.0" y="39.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">IED</text>
+<rect x="20.0" y="20.0" width="422.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="231.0" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Principal = 0&amp;#x3C;br/&gt;Rate = 0&amp;#x3C;br/&gt;Accrued = 0</text>
+<rect x="502.0" y="20.0" width="804.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="904.3" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Principal = RoleSign × Notional&amp;#x3C;br/&gt;Rate = NominalRate&amp;#x3C;br/&gt;Accrued = pre-IED accrual (if any)</text>
+</svg></div>
 <p><strong>State changes:</strong></p>
 <ul>
 <li><code>NotionalPrincipal</code> = <code>RoleSign × model.NotionalPrincipal</code></li>
@@ -2001,9 +2188,23 @@ dotnet run -c Release --project src/ActusInsurance.Benchmarks
 </code></pre>
 <h3>IP — Interest Payment</h3>
 <p>Accrued interest is paid out and the accrual counter resets to zero.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    Before["Accrued = A"] -->|IP| After["Accrued = 0"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-53" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 369 118" width="369" height="118" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-53-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-53-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="134.5,39.0 164.5,39.0 194.5,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-53-arr)"/>
+<rect x="157.5" y="29.0" width="20.0" height="14" fill="white" opacity="0.85"/>
+<text x="164.5" y="39.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">IP</text>
+<rect x="20.0" y="20.0" width="114.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="77.3" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Accrued = A</text>
+<rect x="194.5" y="20.0" width="114.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="251.8" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Accrued = 0</text>
+</svg></div>
 <p><strong>State changes:</strong></p>
 <ul>
 <li>Interest accrual is computed (adding to AccruedInterest) before the state update</li>
@@ -2016,9 +2217,23 @@ dotnet run -c Release --project src/ActusInsurance.Benchmarks
 <p>The payoff includes both the previously accrued amount and the interest for the final sub-period. The scaling multiplier adjusts for inflation-linked contracts.</p>
 <h3>IPCI — Interest Capitalization</h3>
 <p>Instead of paying interest out as cash, the accrued interest is added to the principal. This increases the base for future interest calculations (compound interest).</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    Before["Principal = P&#x3C;br/>Accrued = A"] -->|IPCI| After["Principal = P + A&#x3C;br/>Accrued = 0"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-54" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 744 118" width="744" height="118" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-54-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-54-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="307.0,39.0 337.0,39.0 367.0,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-54-arr)"/>
+<rect x="323.0" y="29.0" width="34.0" height="14" fill="white" opacity="0.85"/>
+<text x="337.0" y="39.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">IPCI</text>
+<rect x="20.0" y="20.0" width="287.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="163.5" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Principal = P&amp;#x3C;br/&gt;Accrued = A</text>
+<rect x="367.0" y="20.0" width="317.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="525.5" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Principal = P + A&amp;#x3C;br/&gt;Accrued = 0</text>
+</svg></div>
 <p><strong>State changes:</strong></p>
 <ul>
 <li>Interest accrual is computed before the state update</li>
@@ -2028,9 +2243,23 @@ dotnet run -c Release --project src/ActusInsurance.Benchmarks
 <p><strong>Payoff:</strong> 0 (no cash flow — the interest stays inside the contract)</p>
 <h3>RR — Rate Reset (Market-Driven)</h3>
 <p>The interest rate is updated from market data. The new rate is derived from an external market rate, adjusted by a multiplier and spread, and constrained by period-level and lifetime caps and floors.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    Before["Rate = R_old"] -->|RR| After["Rate = R_new&#x3C;br/>(constrained)"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-55" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 556.5 118" width="556.5" height="118" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-55-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-55-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="142.0,39.0 172.0,39.0 202.0,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-55-arr)"/>
+<rect x="165.0" y="29.0" width="20.0" height="14" fill="white" opacity="0.85"/>
+<text x="172.0" y="39.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">RR</text>
+<rect x="20.0" y="20.0" width="122.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="81.0" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Rate = R_old</text>
+<rect x="202.0" y="20.0" width="294.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="349.3" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Rate = R_new&amp;#x3C;br/&gt;(constrained)</text>
+</svg></div>
 <p><strong>The rate reset algorithm has four steps:</strong></p>
 <ol>
 <li>
@@ -2067,9 +2296,23 @@ newRate = currentRate + deltaRate
 <p><strong>Payoff:</strong> 0</p>
 <h3>MD — Maturity Date</h3>
 <p>The contract ends. The principal is returned and all state variables are zeroed.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    Before["Principal = P&#x3C;br/>Accrued = A"] -->|MD| After["Principal = 0&#x3C;br/>Accrued = 0"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-56" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 714 118" width="714" height="118" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-56-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-56-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="307.0,39.0 337.0,39.0 367.0,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-56-arr)"/>
+<rect x="330.0" y="29.0" width="20.0" height="14" fill="white" opacity="0.85"/>
+<text x="337.0" y="39.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">MD</text>
+<rect x="20.0" y="20.0" width="287.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="163.5" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Principal = P&amp;#x3C;br/&gt;Accrued = A</text>
+<rect x="367.0" y="20.0" width="287.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="510.5" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Principal = 0&amp;#x3C;br/&gt;Accrued = 0</text>
+</svg></div>
 <p><strong>State changes:</strong></p>
 <ul>
 <li><code>NotionalPrincipal</code> = 0</li>
@@ -2080,9 +2323,23 @@ newRate = currentRate + deltaRate
 </code></pre>
 <h3>TD — Termination Date</h3>
 <p>Early contract termination. Functionally similar to maturity, but the payoff is the agreed termination price rather than the notional.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    Before["Principal = P"] -->|TD| After["Principal = 0&#x3C;br/>Accrued = 0"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-57" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 556.5 118" width="556.5" height="118" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-57-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-57-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="149.5,39.0 179.5,39.0 209.5,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-57-arr)"/>
+<rect x="172.5" y="29.0" width="20.0" height="14" fill="white" opacity="0.85"/>
+<text x="179.5" y="39.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">TD</text>
+<rect x="20.0" y="20.0" width="129.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="84.8" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Principal = P</text>
+<rect x="209.5" y="20.0" width="287.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="353.0" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Principal = 0&amp;#x3C;br/&gt;Accrued = 0</text>
+</svg></div>
 <p><strong>State changes:</strong></p>
 <ul>
 <li><code>NotionalPrincipal</code> = 0</li>
@@ -2112,9 +2369,23 @@ newRate = currentRate + deltaRate
 </code></pre>
 <h3>SC — Scaling</h3>
 <p>Scaling multipliers are updated from an external index. This changes the magnitude of future notional-dependent and interest-dependent cash flows.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    Before["S_n = old&#x3C;br/>S_i = old"] -->|SC| After["S_n = factor × base_n&#x3C;br/>S_i = factor × base_i"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-58" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 804 118" width="804" height="118" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-58-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-58-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="262.0,39.0 292.0,39.0 322.0,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-58-arr)"/>
+<rect x="285.0" y="29.0" width="20.0" height="14" fill="white" opacity="0.85"/>
+<text x="292.0" y="39.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">SC</text>
+<rect x="20.0" y="20.0" width="242.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="141.0" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">S_n = old&amp;#x3C;br/&gt;S_i = old</text>
+<rect x="322.0" y="20.0" width="422.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="533.0" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">S_n = factor × base_n&amp;#x3C;br/&gt;S_i = factor × base_i</text>
+</svg></div>
 <p><strong>The scaling algorithm:</strong></p>
 <pre><code>scalingFactor = currentIndex / ScalingIndexAtContractDealDate
 </code></pre>
@@ -2200,20 +2471,56 @@ newRate = currentRate + deltaRate
 <p>This ordering ensures correct behavior. For example, on a date where both an IP and an RR event occur, the interest is paid at the old rate (IP at priority 1) before the rate changes (RR at priority 5). Similarly, on the maturity date, any final interest payment (IP at priority 1) is processed before the principal return (MD at priority 9).</p>
 <h2>The Complete Processing Flow</h2>
 <p>Putting it all together, here is the complete sequence for evaluating a PAM contract:</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    TERMS["Contract Terms"] --> INIT["Initialize StateSpace&#x3C;br/>(principal, rate, accrued)"]
-    TERMS --> SCHED["Generate Schedule&#x3C;br/>(all event types)"]
-    SCHED --> SORT["Sort Events&#x3C;br/>(time, then priority)"]
-    SORT --> LOOP{"More Events?"}
-    LOOP -->|Yes| ACCRUE["Accrue Interest &#x26; Fees&#x3C;br/>(if applicable event type)"]
-    ACCRUE --> DATE["Update StatusDate&#x3C;br/>to ScheduleTime"]
-    DATE --> PAYOFF["Compute Payoff&#x3C;br/>(type-specific formula)"]
-    PAYOFF --> UPDATE["Update State&#x3C;br/>(type-specific transition)"]
-    UPDATE --> SNAP["Snapshot State&#x3C;br/>into Event"]
-    SNAP --> LOOP
-    LOOP -->|No| POST["Post-Process&#x3C;br/>(remove pre-purchase events)"]
-    POST --> RESULT["Return Evaluated Events"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-59" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1065.75 902" width="1065.75" height="902" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-59-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-59-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="551.6,53.9 708.5,88.0 708.5,118.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-59-arr)"/>
+<polyline points="414.6,53.9 257.8,88.0 257.8,118.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-59-arr)"/>
+<polyline points="257.8,156.0 257.8,186.0 257.8,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-59-arr)"/>
+<polyline points="257.8,254.0 257.8,284.0 257.8,314.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-59-arr)"/>
+<polyline points="326.3,339.8 753.5,382.0 753.5,412.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-59-arr)"/>
+<rect x="743.0" y="372.0" width="27.0" height="14" fill="white" opacity="0.85"/>
+<text x="753.5" y="382.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">Yes</text>
+<polyline points="753.5,450.0 753.5,480.0 753.5,510.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-59-arr)"/>
+<polyline points="753.5,548.0 753.5,578.0 753.5,608.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-59-arr)"/>
+<polyline points="753.5,646.0 753.5,676.0 753.5,706.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-59-arr)"/>
+<polyline points="753.5,744.0 753.5,774.0 307.0,811.1" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-59-arr)"/>
+<polyline points="109.5,804.0 24.3,774.0 24.3,725.0 24.3,676.0 24.3,627.0 24.3,578.0 24.3,529.0 24.3,480.0 24.3,431.0 24.3,382.0 189.3,347.4" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-59-arr)"/>
+<polyline points="257.8,352.0 257.8,382.0 257.8,412.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-59-arr)"/>
+<rect x="250.8" y="372.0" width="20.0" height="14" fill="white" opacity="0.85"/>
+<text x="257.8" y="382.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">No</text>
+<polyline points="257.8,450.0 257.8,480.0 257.8,510.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-59-arr)"/>
+<rect x="414.6" y="20.0" width="137.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="483.1" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Contract Terms</text>
+<rect x="478.8" y="118.0" width="459.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="708.5" y="140.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Initialize StateSpace&amp;#x3C;br/&gt;(principal, rate, accrued)</text>
+<rect x="76.8" y="118.0" width="362.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="257.8" y="140.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Generate Schedule&amp;#x3C;br/&gt;(all event types)</text>
+<rect x="84.3" y="216.0" width="347.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="257.8" y="238.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Sort Events&amp;#x3C;br/&gt;(time, then priority)</text>
+<polygon points="257.75,304 336.25,333 257.75,362 179.25,333" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="257.8" y="336.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">&quot;More Events?&quot;</text>
+<rect x="501.3" y="412.0" width="504.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="753.5" y="434.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Accrue Interest &amp;#x26; Fees&amp;#x3C;br/&gt;(if applicable event type)</text>
+<rect x="580.0" y="510.0" width="347.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="753.5" y="532.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Update StatusDate&amp;#x3C;br/&gt;to ScheduleTime</text>
+<rect x="561.3" y="608.0" width="384.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="753.5" y="630.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Compute Payoff&amp;#x3C;br/&gt;(type-specific formula)</text>
+<rect x="557.5" y="706.0" width="392.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="753.5" y="728.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Update State&amp;#x3C;br/&gt;(type-specific transition)</text>
+<rect x="20.0" y="804.0" width="287.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="163.5" y="826.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Snapshot State&amp;#x3C;br/&gt;into Event</text>
+<rect x="54.3" y="412.0" width="407.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="257.8" y="434.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Post-Process&amp;#x3C;br/&gt;(remove pre-purchase events)</text>
+<rect x="155.5" y="510.0" width="204.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="257.8" y="532.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Return Evaluated Events</text>
+</svg></div>
 <h2>Continue Reading</h2>
 <ul>
 <li><a href="./pam-contract.md">PAM Contract</a> — contract terms and schedule generation details</li>
@@ -2471,19 +2778,55 @@ newRate = currentRate + deltaRate
 <p>Selection happens once at construction time. The chosen accelerator is reused for all subsequent evaluations.</p>
 <h3>Execution Modes</h3>
 <p><strong>EvaluateBatch</strong> — all-in-one pipeline:</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    A["Allocate&#x3C;br/>buffers"] --> B["H2D&#x3C;br/>transfer"]
-    B --> C["Launch&#x3C;br/>kernel"]
-    C --> D["Synchronise"]
-    D --> E["D2H&#x3C;br/>transfer"]
-    E --> F["Return&#x3C;br/>results"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-60" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1494.5 118" width="1494.5" height="118" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-60-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-60-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="239.5,39.0 269.5,39.0 299.5,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-60-arr)"/>
+<polyline points="489.0,39.0 519.0,39.0 549.0,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-60-arr)"/>
+<polyline points="746.0,39.0 776.0,39.0 806.0,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-60-arr)"/>
+<polyline points="920.5,39.0 950.5,39.0 980.5,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-60-arr)"/>
+<polyline points="1170.0,39.0 1200.0,39.0 1230.0,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-60-arr)"/>
+<rect x="20.0" y="20.0" width="219.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="129.8" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Allocate&amp;#x3C;br/&gt;buffers</text>
+<rect x="299.5" y="20.0" width="189.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="394.3" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">H2D&amp;#x3C;br/&gt;transfer</text>
+<rect x="549.0" y="20.0" width="197.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="647.5" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Launch&amp;#x3C;br/&gt;kernel</text>
+<rect x="806.0" y="20.0" width="114.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="863.3" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Synchronise</text>
+<rect x="980.5" y="20.0" width="189.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1075.3" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">D2H&amp;#x3C;br/&gt;transfer</text>
+<rect x="1230.0" y="20.0" width="204.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1332.3" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Return&amp;#x3C;br/&gt;results</text>
+</svg></div>
 <p><strong>UploadAndExecute + DownloadResults</strong> — split phases for batching:</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph LR
-    A["Upload +&#x3C;br/>Execute"] --> B["Upload +&#x3C;br/>Execute"]
-    B --> C["Upload +&#x3C;br/>Execute"]
-    C --> D["Download&#x3C;br/>all results"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-61" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1168 118" width="1168" height="118" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-61-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-61-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="239.5,39.0 269.5,39.0 299.5,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-61-arr)"/>
+<polyline points="519.0,39.0 549.0,39.0 579.0,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-61-arr)"/>
+<polyline points="798.5,39.0 828.5,39.0 858.5,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-61-arr)"/>
+<rect x="20.0" y="20.0" width="219.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="129.8" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Upload +&amp;#x3C;br/&gt;Execute</text>
+<rect x="299.5" y="20.0" width="219.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="409.3" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Upload +&amp;#x3C;br/&gt;Execute</text>
+<rect x="579.0" y="20.0" width="219.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="688.8" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Upload +&amp;#x3C;br/&gt;Execute</text>
+<rect x="858.5" y="20.0" width="249.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="983.3" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Download&amp;#x3C;br/&gt;all results</text>
+</svg></div>
 <p>This split mode is used by the Monte Carlo pipeline to submit multiple scenario batches before downloading.</p>
 <h3>Buffer Pooling</h3>
 <p>GPU memory allocation is expensive. The executor pools buffers to avoid repeated allocation:</p>
@@ -2780,17 +3123,59 @@ else: round up to next hour
 <p><strong>Step 3 — LOCF fallback.</strong> If no exact match exists in the time series, scan all entries to find the most recent date that is on or before the requested date. Return that value.</p>
 <p><strong>Step 4 — Default.</strong> If no data exists at all (no constant rate, no time series, or no observations before the requested date), return 0.0.</p>
 <h3>Lookup Priority Diagram</h3>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    REQ["GetRate(code, time)"] --> CONST{"Constant rate&#x3C;br/>exists?"}
-    CONST -->|Yes| RET1["Return constant"]
-    CONST -->|No| TS{"Time series&#x3C;br/>exists?"}
-    TS -->|No| DEF["Return 0.0"]
-    TS -->|Yes| EXACT{"Exact date&#x3C;br/>match?"}
-    EXACT -->|Yes| RET2["Return exact value"]
-    EXACT -->|No| LOCF{"Find most recent&#x3C;br/>date ≤ requested"}
-    LOCF -->|Found| RET3["Return LOCF value"]
-    LOCF -->|Not found| DEF
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-62" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 888.375 608" width="888.375" height="608" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-62-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-62-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="635.8,58.0 635.8,88.0 635.8,118.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-62-arr)"/>
+<polyline points="682.4,156.0 756.1,186.0 756.1,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-62-arr)"/>
+<rect x="745.6" y="176.0" width="27.0" height="14" fill="white" opacity="0.85"/>
+<text x="756.1" y="186.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">Yes</text>
+<polyline points="589.1,156.0 515.4,186.0 515.4,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-62-arr)"/>
+<rect x="508.4" y="176.0" width="20.0" height="14" fill="white" opacity="0.85"/>
+<text x="515.4" y="186.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">No</text>
+<polyline points="562.8,254.0 637.8,284.0 637.8,333.0 637.8,382.0 637.8,431.0 637.8,480.0 564.1,510.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-62-arr)"/>
+<rect x="630.8" y="372.0" width="20.0" height="14" fill="white" opacity="0.85"/>
+<text x="637.8" y="382.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">No</text>
+<polyline points="457.6,254.0 366.4,284.0 366.4,314.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-62-arr)"/>
+<rect x="355.9" y="274.0" width="27.0" height="14" fill="white" opacity="0.85"/>
+<text x="366.4" y="284.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">Yes</text>
+<polyline points="420.3,352.0 505.5,382.0 505.5,412.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-62-arr)"/>
+<rect x="495.0" y="372.0" width="27.0" height="14" fill="white" opacity="0.85"/>
+<text x="505.5" y="382.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">Yes</text>
+<polyline points="302.3,352.0 201.0,382.0 201.0,412.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-62-arr)"/>
+<rect x="194.0" y="372.0" width="20.0" height="14" fill="white" opacity="0.85"/>
+<text x="201.0" y="382.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">No</text>
+<polyline points="248.5,450.0 323.4,480.0 248.5,510.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-62-arr)"/>
+<rect x="305.9" y="470.0" width="41.0" height="14" fill="white" opacity="0.85"/>
+<text x="323.4" y="480.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">Found</text>
+<polyline points="197.1,450.0 191.0,480.0 463.9,521.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-62-arr)"/>
+<rect x="159.5" y="470.0" width="69.0" height="14" fill="white" opacity="0.85"/>
+<text x="191.0" y="480.0" text-anchor="middle" dominant-baseline="middle" font-size="11" fill="#1a202c">Not found</text>
+<rect x="548.5" y="20.0" width="174.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="635.8" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">GetRate(code, time)</text>
+<polygon points="635.75,108 781.75,137 635.75,166 489.75,137" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="635.8" y="140.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">&quot;Constant rate&amp;#x3C;br/&gt;exists?&quot;</text>
+<rect x="683.9" y="216.0" width="144.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="756.1" y="238.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Return constant</text>
+<polygon points="515.375,206 653.875,235 515.375,264 376.875,235" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="515.4" y="238.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">&quot;Time series&amp;#x3C;br/&gt;exists?&quot;</text>
+<rect x="463.9" y="510.0" width="107.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="517.4" y="532.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Return 0.0</text>
+<polygon points="366.375,304 497.375,333 366.375,362 235.375,333" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="366.4" y="336.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">&quot;Exact date&amp;#x3C;br/&gt;match?&quot;</text>
+<rect x="422.0" y="412.0" width="167.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="505.5" y="434.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Return exact value</text>
+<polygon points="201,402 392,431 201,460 10,431" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="201.0" y="434.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">&quot;Find most recent&amp;#x3C;br/&gt;date ≤ requested&quot;</text>
+<rect x="121.3" y="510.0" width="159.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="201.0" y="532.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Return LOCF value</text>
+</svg></div>
 <h3>LOCF Example</h3>
 <p>Given a time series for "LIBOR_6M":</p>
 <table>
@@ -3901,20 +4286,39 @@ if shiftedDate.Month ≠ date.Month:
 <h3>Calendar Providers</h3>
 <p>All calendars extend the <code>BusinessDayCalendarProvider</code> base class, which defines the <code>IsBusinessDay(DateTime)</code> method. The base implementation returns true for weekdays (used by MF). The <code>NoHolidaysCalendar</code> always returns true (used by NC). The <code>MondayToFridayWithHolidaysCalendar</code> additionally checks against the holiday set.</p>
 <h2>How Conventions Flow Through the Engine</h2>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    TERMS["Contract Terms&#x3C;br/>(convention selections)"] --> BDA["BusinessDayAdjuster&#x3C;br/>(shift + calc strategies)"]
-    TERMS --> DCC["DayCountCalculator&#x3C;br/>(year fraction computation)"]
-    TERMS --> EOM["EndOfMonthAdjuster&#x3C;br/>(schedule date snapping)"]
-
-    BDA --> SCHED["Schedule Generation&#x3C;br/>(shift event dates)"]
-    EOM --> SCHED
-
-    BDA --> EVAL["Event Evaluation&#x3C;br/>(ShiftCalcTime for accrual dates)"]
-    DCC --> EVAL
-
-    SCHED --> EVENTS["Events with two times:&#x3C;br/>Time (shifted) + ScheduleTime (original)"]
-    EVENTS --> EVAL
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-63" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1385 510" width="1385" height="510" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-63-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-63-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="952.1,58.0 1106.5,88.0 1106.5,118.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-63-arr)"/>
+<polyline points="854.3,58.0 854.3,88.0 854.3,137.0 854.3,186.0 854.3,235.0 854.3,284.0 854.3,314.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-63-arr)"/>
+<polyline points="662.0,55.9 296.0,88.0 296.0,118.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-63-arr)"/>
+<polyline points="898.5,156.0 570.1,186.0 408.4,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-63-arr)"/>
+<polyline points="296.0,156.0 296.0,186.0 302.1,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-63-arr)"/>
+<polyline points="1106.5,156.0 1106.5,186.0 1106.5,235.0 1106.5,284.0 1106.5,333.0 1106.5,382.0 952.1,412.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-63-arr)"/>
+<polyline points="854.3,352.0 854.3,382.0 854.3,412.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-63-arr)"/>
+<polyline points="306.0,254.0 306.0,284.0 306.0,314.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-63-arr)"/>
+<polyline points="306.0,352.0 306.0,382.0 641.7,412.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-63-arr)"/>
+<rect x="662.0" y="20.0" width="384.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="854.3" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Contract Terms&amp;#x3C;br/&gt;(convention selections)</text>
+<rect x="888.0" y="118.0" width="437.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1106.5" y="140.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">BusinessDayAdjuster&amp;#x3C;br/&gt;(shift + calc strategies)</text>
+<rect x="632.0" y="314.0" width="444.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="854.3" y="336.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">DayCountCalculator&amp;#x3C;br/&gt;(year fraction computation)</text>
+<rect x="85.0" y="118.0" width="422.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="296.0" y="140.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">EndOfMonthAdjuster&amp;#x3C;br/&gt;(schedule date snapping)</text>
+<rect x="110.0" y="216.0" width="392.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="306.0" y="238.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Schedule Generation&amp;#x3C;br/&gt;(shift event dates)</text>
+<rect x="617.0" y="412.0" width="474.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="854.3" y="434.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Event Evaluation&amp;#x3C;br/&gt;(ShiftCalcTime for accrual dates)</text>
+<rect x="20.0" y="314.0" width="572.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="306.0" y="336.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Events with two times:&amp;#x3C;br/&gt;Time (shifted) + ScheduleTime (original)</text>
+</svg></div>
 <p>The convention selections in the contract terms instantiate the appropriate implementations at the start of processing. These implementations are then threaded through schedule generation (for date shifting and EOM snapping) and event evaluation (for year fraction calculation using the correct date pair).</p>
 <h2>Continue Reading</h2>
 <ul>
@@ -4018,15 +4422,37 @@ if shiftedDate.Month ≠ date.Month:
 </tbody>
 </table>
 <h2>Execution Pipeline</h2>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    INPUT["Input&#x3C;br/>(synthetic or directory)"] --> PORTFOLIO["Portfolio&#x3C;br/>PamContractTerms[]"]
-    INPUT --> SCENARIOS["Scenarios&#x3C;br/>Rate paths via Vasicek model"]
-    PORTFOLIO --> ORCHESTRATE["DemoOrchestrator&#x3C;br/>Routes to CPU or GPU engine"]
-    SCENARIOS --> ORCHESTRATE
-    ORCHESTRATE --> EVAL["Evaluation&#x3C;br/>PayoffCube (GPU) or CPU loop"]
-    EVAL --> SINKS["Sink Aggregation&#x3C;br/>Per-contract statistics"]
-    SINKS --> EXPORT["Export&#x3C;br/>CSV + JSON reports"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-64" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 814 608" width="814" height="608" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-64-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-64-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="480.8,58.0 599.3,88.0 599.3,118.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-64-arr)"/>
+<polyline points="330.7,58.0 212.3,88.0 212.3,118.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-64-arr)"/>
+<polyline points="599.3,156.0 599.3,186.0 480.8,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-64-arr)"/>
+<polyline points="212.3,156.0 212.3,186.0 330.7,216.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-64-arr)"/>
+<polyline points="405.8,254.0 405.8,284.0 405.8,314.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-64-arr)"/>
+<polyline points="405.8,352.0 405.8,382.0 405.8,412.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-64-arr)"/>
+<polyline points="405.8,450.0 405.8,480.0 405.8,510.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-64-arr)"/>
+<rect x="243.5" y="20.0" width="324.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="405.8" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Input&amp;#x3C;br/&gt;(synthetic or directory)</text>
+<rect x="444.5" y="118.0" width="309.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="599.3" y="140.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Portfolio&amp;#x3C;br/&gt;PamContractTerms[]</text>
+<rect x="20.0" y="118.0" width="384.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="212.3" y="140.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Scenarios&amp;#x3C;br/&gt;Rate paths via Vasicek model</text>
+<rect x="191.0" y="216.0" width="429.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="405.8" y="238.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">DemoOrchestrator&amp;#x3C;br/&gt;Routes to CPU or GPU engine</text>
+<rect x="209.8" y="314.0" width="392.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="405.8" y="336.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Evaluation&amp;#x3C;br/&gt;PayoffCube (GPU) or CPU loop</text>
+<rect x="206.0" y="412.0" width="399.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="405.8" y="434.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Sink Aggregation&amp;#x3C;br/&gt;Per-contract statistics</text>
+<rect x="262.3" y="510.0" width="287.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="405.8" y="532.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Export&amp;#x3C;br/&gt;CSV + JSON reports</text>
+</svg></div>
 <h2>Portfolio Generator</h2>
 <p>The synthetic portfolio generator creates realistic PAM contracts with varied parameters:</p>
 <ul>
