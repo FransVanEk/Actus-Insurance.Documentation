@@ -103,3 +103,4 @@ Start with the car factory story — it explains everything else:
 3. [Key Decisions](./decisions.md) — why I built a new track, how I designed the highway, and other critical choices
 4. [Challenges & Solutions](./challenges.md) — the problems I ran into and how I solved them
 5. [Outcomes & Benchmarks](./results.md) — the test results: how fast, how correct, and what it means
+6. [Installation & Getting Started](./installation.md) — how to install and run the system: Docker demo, CLI tool, developer build, and documentation site

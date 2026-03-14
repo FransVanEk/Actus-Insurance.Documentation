@@ -53,7 +53,7 @@ export default function Home() {
             <div className="flex items-center">
               <img src="/logo_A_dark.svg" alt="ACTUS Logo" className="h-12 w-10 object-contain" />
               <span className="ml-3 text-2xl font-bold text-white">
-                ACTUS Documentation
+                ACTUS-I Documentation
               </span>
             </div>
             <Link
@@ -72,7 +72,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
-              ACTUS Documentation
+              ACTUS-I Documentation
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-8" style={{ color: '#9FB8D0' }}>
               Comprehensive documentation for the ACTUS standard across Financial, Framework, and Insurance applications.
@@ -148,10 +148,10 @@ export default function Home() {
                 <div className="text-center">
                   <CurrentIcon className="h-24 w-24 mx-auto mb-6" style={{ color: '#D4891A' }} />
                   <h3 className="text-xl font-semibold text-white mb-4">
-                    Professional Documentation
+                    {currentSection.title}
                   </h3>
                   <p style={{ color: '#9FB8D0' }}>
-                    Comprehensive, standardized documentation designed for professional use in {currentSection.blurb}.
+                    {currentSection.blurb}.
                   </p>
                 </div>
               </div>
