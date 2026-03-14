@@ -47,13 +47,10 @@ const PREVIEWABLE: Resource['type'][] = ['video', 'pdf']
  *  attribute and opens the file in a new tab instead. Route those through our
  *  server-side proxy so the browser always gets a download disposition. */
 function downloadHref(url: string, title: string): string {
-  try {
-    const parsed = new URL(url)
-    if (parsed.origin !== window.location.origin) {
-      return `/api/download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(title)}`
-    }
-  } catch {
-    // relative URL – fine as-is
+  // Absolute URLs are cross-origin — proxy them so the browser triggers a download
+  // instead of opening in a new tab. This check is consistent on both server and client.
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return `/api/download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(title)}`
   }
   return url
 }
