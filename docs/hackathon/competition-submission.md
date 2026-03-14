@@ -2,7 +2,7 @@
 title: Competition Submission — ACTUS-I
 description: Submission responses for the ACTUS competition proposal "Extending Algorithmic Financial Contracts into Insurance with High-Performance Portfolio Projections."
 category: Hackathon
-order: 21
+order: 4
 ---
 
 # Competition Submission
