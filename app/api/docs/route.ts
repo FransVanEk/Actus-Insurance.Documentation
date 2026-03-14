@@ -4,19 +4,42 @@ import removeMd from 'remove-markdown'
 
 // Convert markdown content to clean plain text for search indexing
 function markdownToPlainText(content: string): string {
-  // Use remove-markdown to properly convert markdown to plain text
-  const plainText = removeMd(content, {
-    stripListLeaders: true, // Remove list leaders (*, 1., etc.)
-    listUnicodeChar: '', // Don't replace with unicode
-    gfm: true, // Support GitHub Flavored Markdown
-    useImgAltText: true, // Use alt text for images
+  let text = content
+
+  // Strip YAML frontmatter
+  text = text.replace(/^---[\s\S]*?---\s*/m, '')
+
+  // Strip fenced code blocks entirely (``` or ~~~)
+  text = text.replace(/```[\s\S]*?```/g, ' ')
+  text = text.replace(/~~~[\s\S]*?~~~/g, ' ')
+
+  // Strip HTML tags
+  text = text.replace(/<[^>]+>/g, ' ')
+
+  // Strip table separator rows (e.g. |---|---|)
+  text = text.replace(/^\|[-| :]+\|.*$/gm, '')
+
+  // Strip table cell pipes — turn "| foo | bar |" into "foo bar"
+  text = text.replace(/\|/g, ' ')
+
+  // Strip setext-style heading underlines (=== or ---)
+  text = text.replace(/^[=\-]{2,}\s*$/gm, '')
+
+  // Use remove-markdown for the rest (links, images, bold, italic, headings, lists…)
+  const plainText = removeMd(text, {
+    stripListLeaders: true,
+    listUnicodeChar: '',
+    gfm: true,
+    useImgAltText: true,
   })
-  
-  // Clean up any remaining whitespace
+
+  // Strip any leftover backticks, asterisks, underscores, tildes, angle brackets
   return plainText
-    .replace(/\n\s*\n/g, ' ') // Replace multiple newlines with space
-    .replace(/\n/g, ' ') // Replace remaining newlines with space
-    .replace(/\s+/g, ' ') // Normalize whitespace
+    .replace(/[`*_~>#]/g, '')
+    .replace(/\[|\]|\(|\)/g, ' ')
+    .replace(/\n\s*\n/g, ' ')
+    .replace(/\n/g, ' ')
+    .replace(/\s+/g, ' ')
     .trim()
 }
 
