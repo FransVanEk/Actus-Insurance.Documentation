@@ -358,12 +358,23 @@
       text-align: center;
     }
 
-    /* Rendered state: SVG replaces the <pre> */
+    /* Pre-rendered SVG (server-side) */
+    .mermaid-rendered svg,
     .mermaid-wrap svg {
       max-width: 100%;
       height: auto;
       display: block;
       margin: 0 auto;
+    }
+
+    .mermaid-rendered {
+      text-align: center;
+      padding: 0.5em 0;
+    }
+
+    /* Hide the "diagram source" label for pre-rendered blocks */
+    .mermaid-rendered::before {
+      display: none !important;
     }
 
     /* Unrendered / WeasyPrint fallback: show source as a styled block */
@@ -1063,51 +1074,141 @@ ArrayList&#x3C;ContractEvent> results =
 </code></pre>
 <p><code>ContractType</code> is the single public dispatcher. It inspects <code>model.getAs("contractType")</code> and routes both calls to the correct contract-type class.</p>
 <h2>Layered Architecture</h2>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    CALLER["Caller"] --> API["ContractType\ndispatcher"]
-    API --> IMPL["Contract Implementations\n(19 classes)"]
-    IMPL --> EF["EventFactory\n(creates ContractEvent objects)"]
-    EF --> CE["ContractEvent\n(schedule time · event type · POF · STF)"]
-    CE --> POF["PayOffFunction\ninterface (200+ impls)"]
-    CE --> STF["StateTransitionFunction\ninterface (200+ impls)"]
-    POF --> SS["StateSpace\n(contract state vector)"]
-    STF --> SS
-    CE --> CONV["Conventions\n(DayCount · BusinessDay · EOM)"]
-    IMPL --> SCHED["ScheduleFactory\n(date sequence generation)"]
-    SCHED --> CA["CycleAdjuster\n(period / weekday)"]
-    POF --> RFM["RiskFactorModelProvider\n(external market data)"]
-    STF --> RFM
-    POF --> CM["ContractModelProvider\n(contract terms)"]
-    STF --> CM
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 984.5 814" width="984.5" height="814" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-20-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-20-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="264.5,58.0 264.5,88.0 264.5,118.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-20-arr)"/>
+<polyline points="264.5,174.0 264.5,204.0 264.5,234.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-20-arr)"/>
+<polyline points="370.5,286.3 517.8,320.0 517.8,350.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-20-arr)"/>
+<polyline points="517.8,406.0 517.8,436.0 517.8,466.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-20-arr)"/>
+<polyline points="659.9,522.0 812.3,552.0 812.3,582.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-20-arr)"/>
+<polyline points="470.2,522.0 419.3,552.0 419.3,582.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-20-arr)"/>
+<polyline points="817.1,638.0 822.3,668.0 822.3,698.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-20-arr)"/>
+<polyline points="478.3,638.0 541.5,668.0 720.0,704.9" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-20-arr)"/>
+<polyline points="351.8,520.1 148.5,552.0 148.5,582.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-20-arr)"/>
+<polyline points="247.0,290.0 228.3,320.0 228.3,350.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-20-arr)"/>
+<polyline points="228.3,406.0 228.3,436.0 228.3,466.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-20-arr)"/>
+<polyline points="753.2,638.0 690.0,668.0 631.9,698.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-20-arr)"/>
+<polyline points="414.4,638.0 409.3,668.0 496.4,698.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-20-arr)"/>
+<polyline points="713.8,632.8 561.5,668.0 435.5,701.1" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-20-arr)"/>
+<polyline points="352.4,638.0 280.8,668.0 311.8,698.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-20-arr)"/>
+<rect x="226.0" y="20.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="264.5" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Caller</text>
+<rect x="203.5" y="118.0" width="122.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="264.5" y="141.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ContractType</text>
+<text x="264.5" y="157.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">dispatcher</text>
+<rect x="158.5" y="234.0" width="212.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="264.5" y="257.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Contract Implementations</text>
+<text x="264.5" y="273.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(19 classes)</text>
+<rect x="385.5" y="350.0" width="264.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="517.8" y="373.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">EventFactory</text>
+<text x="517.8" y="389.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(creates ContractEvent objects)</text>
+<rect x="351.8" y="466.0" width="332.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="517.8" y="489.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ContractEvent</text>
+<text x="517.8" y="505.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(schedule time · event type · POF · STF)</text>
+<rect x="713.8" y="582.0" width="197.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="812.3" y="605.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PayOffFunction</text>
+<text x="812.3" y="621.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">interface (200+ impls)</text>
+<rect x="317.0" y="582.0" width="204.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="419.3" y="605.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">StateTransitionFunction</text>
+<text x="419.3" y="621.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">interface (200+ impls)</text>
+<rect x="720.0" y="698.0" width="204.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="822.3" y="721.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">StateSpace</text>
+<text x="822.3" y="737.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(contract state vector)</text>
+<rect x="20.0" y="582.0" width="257.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="148.5" y="605.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Conventions</text>
+<text x="148.5" y="621.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(DayCount · BusinessDay · EOM)</text>
+<rect x="114.8" y="350.0" width="227.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="228.3" y="373.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ScheduleFactory</text>
+<text x="228.3" y="389.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(date sequence generation)</text>
+<rect x="144.8" y="466.0" width="167.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="228.3" y="489.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">CycleAdjuster</text>
+<text x="228.3" y="505.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(period / weekday)</text>
+<rect x="475.5" y="698.0" width="204.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="577.8" y="721.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">RiskFactorModelProvider</text>
+<text x="577.8" y="737.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(external market data)</text>
+<rect x="246.0" y="698.0" width="189.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="340.8" y="721.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ContractModelProvider</text>
+<text x="340.8" y="737.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(contract terms)</text>
+</svg></div>
 <h2>Processing Flow</h2>
-<div class="mermaid-wrap"><pre class="mermaid">sequenceDiagram
-    participant Caller
-    participant CT as ContractType
-    participant Impl as e.g. PrincipalAtMaturity
-    participant EF as EventFactory
-    participant CE as ContractEvent
-    participant POF
-    participant STF
-
-    Caller->>CT: schedule(to, model)
-    CT->>Impl: schedule(to, model)
-    Impl->>EF: createEvent / createEvents(dates, type, currency, POF, STF, contractID)
-    EF-->>Impl: ContractEvent list
-    Impl-->>CT: sorted ArrayList&#x3C;ContractEvent>
-    CT-->>Caller: ArrayList&#x3C;ContractEvent>
-
-    Caller->>CT: apply(events, model, observer)
-    CT->>Impl: apply(events, model, observer)
-    Impl->>Impl: initialise StateSpace from model
-    loop for each event
-        Impl->>CE: eval(states, model, observer, dayCounter, timeAdjuster)
-        CE->>POF: eval(...) → double payoff
-        CE->>STF: eval(...) → StateSpace
-        CE-->>Impl: updated states + payoff
-    end
-    Impl-->>Caller: ArrayList&#x3C;ContractEvent> with states and payoffs
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-21" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 690" width="1200" height="690" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-21-sa" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+    <polygon points="0 0,8 3,0 6" fill="#1A3550"/>
+  </marker>
+</defs>
+<rect width="1200" height="690" fill="white"/>
+<rect x="80.0" y="20" width="80" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="120" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">Caller</text>
+<line x1="120" y1="52" x2="120" y2="638" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="225.0" y="20" width="110" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="280" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">ContractType</text>
+<line x1="280" y1="52" x2="280" y2="638" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="340.0" y="20" width="200" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="440" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">e.g. PrincipalAtMaturity</text>
+<line x1="440" y1="52" x2="440" y2="638" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="545.0" y="20" width="110" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="600" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">EventFactory</text>
+<line x1="600" y1="52" x2="600" y2="638" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="701.3" y="20" width="117.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="760" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">ContractEvent</text>
+<line x1="760" y1="52" x2="760" y2="638" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="880.0" y="20" width="80" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="920" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">POF</text>
+<line x1="920" y1="52" x2="920" y2="638" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="1040.0" y="20" width="80" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1080" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">STF</text>
+<line x1="1080" y1="52" x2="1080" y2="638" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<line x1="120" y1="90" x2="280" y2="90" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-21-sa)"/>
+<text x="200" y="84" text-anchor="middle" font-size="11" fill="#1a202c">schedule(to, model)</text>
+<line x1="280" y1="130" x2="440" y2="130" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-21-sa)"/>
+<text x="360" y="124" text-anchor="middle" font-size="11" fill="#1a202c">schedule(to, model)</text>
+<line x1="440" y1="170" x2="600" y2="170" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-21-sa)"/>
+<text x="520" y="164" text-anchor="middle" font-size="11" fill="#1a202c">createEvent / createEvents(dates, type, currency, POF, STF, contractID)</text>
+<line x1="600" y1="210" x2="440" y2="210" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-21-sa)"/>
+<text x="520" y="204" text-anchor="middle" font-size="11" fill="#1a202c">ContractEvent list</text>
+<line x1="440" y1="250" x2="280" y2="250" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-21-sa)"/>
+<text x="360" y="244" text-anchor="middle" font-size="11" fill="#1a202c">sorted ArrayList&amp;#x3C;ContractEvent&gt;</text>
+<line x1="280" y1="290" x2="120" y2="290" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-21-sa)"/>
+<text x="200" y="284" text-anchor="middle" font-size="11" fill="#1a202c">ArrayList&amp;#x3C;ContractEvent&gt;</text>
+<line x1="120" y1="330" x2="280" y2="330" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-21-sa)"/>
+<text x="200" y="324" text-anchor="middle" font-size="11" fill="#1a202c">apply(events, model, observer)</text>
+<line x1="280" y1="370" x2="440" y2="370" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-21-sa)"/>
+<text x="360" y="364" text-anchor="middle" font-size="11" fill="#1a202c">apply(events, model, observer)</text>
+<line x1="440" y1="410" x2="440" y2="410" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-21-sa)"/>
+<text x="440" y="404" text-anchor="middle" font-size="11" fill="#1a202c">initialise StateSpace from model</text>
+<line x1="440" y1="450" x2="760" y2="450" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-21-sa)"/>
+<text x="600" y="444" text-anchor="middle" font-size="11" fill="#1a202c">eval(states, model, observer, dayCounter, timeAdjuster)</text>
+<line x1="760" y1="490" x2="920" y2="490" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-21-sa)"/>
+<text x="840" y="484" text-anchor="middle" font-size="11" fill="#1a202c">eval(...) → double payoff</text>
+<line x1="760" y1="530" x2="1080" y2="530" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-21-sa)"/>
+<text x="920" y="524" text-anchor="middle" font-size="11" fill="#1a202c">eval(...) → StateSpace</text>
+<line x1="760" y1="570" x2="440" y2="570" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-21-sa)"/>
+<text x="600" y="564" text-anchor="middle" font-size="11" fill="#1a202c">updated states + payoff</text>
+<line x1="440" y1="610" x2="120" y2="610" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-21-sa)"/>
+<text x="280" y="604" text-anchor="middle" font-size="11" fill="#1a202c">ArrayList&amp;#x3C;ContractEvent&gt; with states and payoffs</text>
+<rect x="80.0" y="638" width="80" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="120" y="654" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">Caller</text>
+<rect x="225.0" y="638" width="110" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="280" y="654" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">ContractType</text>
+<rect x="340.0" y="638" width="200" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="440" y="654" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">e.g. PrincipalAtMaturity</text>
+<rect x="545.0" y="638" width="110" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="600" y="654" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">EventFactory</text>
+<rect x="701.3" y="638" width="117.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="760" y="654" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">ContractEvent</text>
+<rect x="880.0" y="638" width="80" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="920" y="654" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">POF</text>
+<rect x="1040.0" y="638" width="80" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1080" y="654" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">STF</text>
+</svg></div>
 <h2>Package Summary</h2>
 <table>
 <thead>
@@ -1401,63 +1502,85 @@ ArrayList&#x3C;ContractEvent> results =
         └── ResultSet.java
 </code></pre>
 <h2>Package Dependency Map</h2>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    subgraph "Public API"
-        CT["org.actus.contracts\nContractType (dispatcher)"]
-        ATTR["org.actus.attributes\nContractModelProvider"]
-        EXT["org.actus.externals\nRiskFactorModelProvider"]
-    end
-
-    subgraph "Contract Layer"
-        IMPL["org.actus.contracts\n19 CT implementations"]
-    end
-
-    subgraph "Event Layer"
-        EV["org.actus.events\nContractEvent · EventFactory · EventSequence"]
-    end
-
-    subgraph "Function Layer"
-        FN["org.actus.functions\nPayOffFunction · StateTransitionFunction\n200+ implementations"]
-    end
-
-    subgraph "State Layer"
-        SS["org.actus.states\nStateSpace"]
-    end
-
-    subgraph "Convention Layer"
-        CONV["org.actus.conventions\nbusinessday · daycount · endofmonth · contractrole"]
-    end
-
-    subgraph "Time Layer"
-        TIME["org.actus.time\nScheduleFactory · CycleAdjuster · Calendars"]
-    end
-
-    subgraph "Type System"
-        TYPES["org.actus.types\n30+ enums"]
-    end
-
-    subgraph "Utilities"
-        UTIL["org.actus.util\nCommonUtils · CycleUtils · Constants"]
-    end
-
-    CT --> IMPL
-    IMPL --> EV
-    IMPL --> TIME
-    EV --> FN
-    FN --> SS
-    FN --> ATTR
-    FN --> EXT
-    FN --> CONV
-    EV --> CONV
-    TIME --> CONV
-    IMPL --> CONV
-    IMPL --> TYPES
-    IMPL --> UTIL
-    FN --> UTIL
-    ATTR --> TYPES
-    EV --> TYPES
-    SS --> TYPES
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-22" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2150.25 1064" width="2150.25" height="1064" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-22-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-22-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="8.0" width="518.0" height="832.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">Public API</text>
+<rect x="1126.9" y="154.0" width="901.1" height="140.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="1134.9" y="170.0" font-size="11" fill="#1A3550" font-weight="600">Contract Layer</text>
+<rect x="799.6" y="330.0" width="664.6" height="140.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="807.6" y="346.0" font-size="11" fill="#1A3550" font-weight="600">Event Layer</text>
+<rect x="562.5" y="506.0" width="679.5" height="158.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="570.5" y="522.0" font-size="11" fill="#1A3550" font-weight="600">Function Layer</text>
+<rect x="543.9" y="700.0" width="236.0" height="140.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="551.9" y="716.0" font-size="11" fill="#1A3550" font-weight="600">State Layer</text>
+<rect x="790.9" y="700.0" width="661.5" height="140.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="798.9" y="716.0" font-size="11" fill="#1A3550" font-weight="600">Convention Layer</text>
+<rect x="1346.6" y="506.0" width="438.5" height="158.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="1354.6" y="522.0" font-size="11" fill="#1A3550" font-weight="600">Time Layer</text>
+<rect x="61.6" y="876.0" width="2040.6" height="140.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="69.6" y="892.0" font-size="11" fill="#1A3550" font-weight="600">Type System</text>
+<rect x="1468.4" y="700.0" width="386.0" height="140.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="1476.4" y="716.0" font-size="11" fill="#1A3550" font-weight="600">Utilities</text>
+<polyline points="267.0,106.0 267.0,136.0 267.0,166.0 1570.5,220.1" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="1570.5,235.3 1178.9,282.0 1178.9,312.0 1178.9,342.0 1178.9,372.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="1617.3,252.0 1565.9,282.0 1565.9,312.0 1565.9,342.0 1565.9,400.0 1565.9,458.0 1565.9,488.0 1565.9,518.0 1565.9,557.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="1057.6,428.0 927.8,458.0 927.8,488.0 927.8,518.0 927.8,548.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="780.9,622.0 661.9,652.0 661.9,682.0 661.9,712.0 661.9,742.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="850.2,622.0 787.4,652.0 144.8,682.0 144.8,712.0 144.8,742.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="861.3,622.0 807.4,652.0 381.8,682.0 381.8,712.0 381.8,742.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="909.9,622.0 895.4,652.0 895.4,682.0 895.4,712.0 1010.3,742.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="1245.4,428.0 1316.8,458.0 1316.8,488.0 1316.8,518.0 1316.8,585.0 1316.8,652.0 1316.8,682.0 1022.1,712.0 1071.5,742.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="1565.9,613.0 1565.9,652.0 1565.9,682.0 1190.0,712.0 1152.5,742.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="1727.0,252.0 1793.1,282.0 1793.1,312.0 1793.1,342.0 1793.1,400.0 1793.1,458.0 1793.1,488.0 1793.1,518.0 1793.1,585.0 1793.1,652.0 1793.1,682.0 1313.6,712.0 1212.2,742.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="1760.0,245.3 1923.6,282.0 1923.6,312.0 1923.6,342.0 1923.6,400.0 1923.6,458.0 1923.6,488.0 1923.6,518.0 1923.6,585.0 1923.6,652.0 1923.6,682.0 2029.1,712.0 2029.1,770.0 2029.1,828.0 2029.1,858.0 2029.1,888.0 1071.3,941.9" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="1760.0,243.7 1943.6,282.0 1943.6,312.0 1943.6,342.0 1943.6,400.0 1943.6,458.0 1943.6,488.0 1943.6,518.0 1943.6,585.0 1943.6,652.0 1943.6,682.0 1741.9,712.0 1700.2,742.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="1035.0,622.0 1122.0,652.0 1122.0,682.0 1590.9,712.0 1627.3,742.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="144.8,798.0 144.8,828.0 144.8,858.0 144.8,888.0 926.8,941.1" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="1255.1,428.0 1336.8,458.0 1336.8,488.0 1336.8,518.0 1336.8,585.0 1336.8,652.0 1336.8,682.0 1460.4,712.0 1460.4,770.0 1460.4,828.0 1460.4,858.0 1460.4,888.0 1071.3,936.9" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<polyline points="661.9,798.0 661.9,828.0 661.9,858.0 661.9,888.0 926.8,933.6" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-22-arr)"/>
+<rect x="157.3" y="50.0" width="219.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="267.0" y="73.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">org.actus.contracts</text>
+<text x="267.0" y="89.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ContractType (dispatcher)</text>
+<rect x="50.0" y="742.0" width="189.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="144.8" y="765.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">org.actus.attributes</text>
+<text x="144.8" y="781.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ContractModelProvider</text>
+<rect x="279.5" y="742.0" width="204.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="381.8" y="765.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">org.actus.externals</text>
+<text x="381.8" y="781.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">RiskFactorModelProvider</text>
+<rect x="1570.5" y="196.0" width="189.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1665.3" y="219.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">org.actus.contracts</text>
+<text x="1665.3" y="235.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">19 CT implementations</text>
+<rect x="997.9" y="372.0" width="362.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1178.9" y="395.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">org.actus.events</text>
+<text x="1178.9" y="411.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ContractEvent · EventFactory · EventSequence</text>
+<rect x="761.8" y="548.0" width="332.0" height="74.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="927.8" y="572.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">org.actus.functions</text>
+<text x="927.8" y="588.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PayOffFunction · StateTransitionFunction</text>
+<text x="927.8" y="604.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">200+ implementations</text>
+<rect x="585.9" y="742.0" width="152.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="661.9" y="765.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">org.actus.states</text>
+<text x="661.9" y="781.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">StateSpace</text>
+<rect x="914.0" y="742.0" width="407.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1117.5" y="765.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">org.actus.conventions</text>
+<text x="1117.5" y="781.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">businessday · daycount · endofmonth · contractrole</text>
+<rect x="1388.6" y="557.0" width="354.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1565.9" y="580.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">org.actus.time</text>
+<text x="1565.9" y="596.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ScheduleFactory · CycleAdjuster · Calendars</text>
+<rect x="926.8" y="918.0" width="144.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="999.0" y="941.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">org.actus.types</text>
+<text x="999.0" y="957.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">30+ enums</text>
+<rect x="1510.4" y="742.0" width="302.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1661.4" y="765.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">org.actus.util</text>
+<text x="1661.4" y="781.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">CommonUtils · CycleUtils · Constants</text>
+</svg></div>
 <h2>Class Count by Package</h2>
 <table>
 <thead>
@@ -1599,31 +1722,39 @@ ArrayList&#x3C;ContractEvent> results =
         <h1 class="doc-title">Public API</h1>
         <h2>Public API</h2>
 <p>The public API of the ACTUS Java implementation consists of three classes/interfaces. A caller needs nothing else.</p>
-<div class="mermaid-wrap"><pre class="mermaid">classDiagram
-    class ContractType {
-        +schedule(LocalDateTime to, ContractModelProvider model) ArrayList~ContractEvent~
-        +apply(ArrayList~ContractEvent~ events, ContractModelProvider model, RiskFactorModelProvider observer) ArrayList~ContractEvent~
-    }
-    class ContractModelProvider {
-        &#x3C;&#x3C;interface>>
-        +getAs(String name) T
-    }
-    class RiskFactorModelProvider {
-        &#x3C;&#x3C;interface>>
-        +keys() Set~String~
-        +stateAt(String id, LocalDateTime time, StateSpace states, ContractModelProvider attrs, boolean isMarket) double
-        +events(ContractModelProvider attributes) Set~ContractEvent~
-    }
-    class ContractModel {
-        -Map~String,Object~ attributes
-        +of(Map~String,Object~ attributes) ContractModel
-        +parse(Map~String,String~ attributes) ContractModel
-        +getAs(String name) T
-    }
-    ContractModelProvider &#x3C;|.. ContractModel
-    ContractType ..> ContractModelProvider : reads
-    ContractType ..> RiskFactorModelProvider : reads
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-23" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 310" width="410" height="310" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<rect width="410" height="310" fill="white"/>
+<rect x="30" y="30" width="160" height="84" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">ContractType</text>
+<text x="38" y="76" font-size="11" fill="#1a202c">+schedule(LocalDateTime to, ContractModelProvider model) ArrayList~ContractEvent~</text>
+<text x="38" y="98" font-size="11" fill="#1a202c">+apply(ArrayList~ContractEvent~ events, ContractModelProvider model, RiskFactorModelProvider observer) ArrayList~ContractEvent~</text>
+<line x1="30" y1="60" x2="190" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="220" y="30" width="160" height="62" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="220" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="220" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="300" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">ContractModelProvider</text>
+<text x="228" y="76" font-size="11" fill="#1a202c">+getAs(String name) T</text>
+<line x1="220" y1="60" x2="380" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="30" y="178" width="160" height="106" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="178" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="204" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="194" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">RiskFactorModelProvider</text>
+<text x="38" y="224" font-size="11" fill="#1a202c">+keys() Set~String~</text>
+<text x="38" y="246" font-size="11" fill="#1a202c">+stateAt(String id, LocalDateTime time, StateSpace states, ContractModelProvider attrs, boolean isMarket) double</text>
+<text x="38" y="268" font-size="11" fill="#1a202c">+events(ContractModelProvider attributes) Set~ContractEvent~</text>
+<line x1="30" y1="208" x2="190" y2="208" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="220" y="200" width="160" height="128" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="220" y="200" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="220" y="226" width="160" height="4" fill="#1A3550"/>
+<text x="300" y="216" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">ContractModel</text>
+<text x="228" y="246" font-size="11" fill="#1a202c">-Map~String,Object~ attributes</text>
+<text x="228" y="268" font-size="11" fill="#1a202c">+of(Map~String,Object~ attributes) ContractModel</text>
+<text x="228" y="290" font-size="11" fill="#1a202c">+parse(Map~String,String~ attributes) ContractModel</text>
+<text x="228" y="312" font-size="11" fill="#1a202c">+getAs(String name) T</text>
+<line x1="220" y1="230" x2="380" y2="230" stroke="#e2e8f0" stroke-width="1"/>
+</svg></div>
 <hr>
 <h2>ContractType</h2>
 <p><code>org.actus.contracts.ContractType</code> — <code>public final class</code></p>
@@ -1981,21 +2112,60 @@ ContractModel model = ContractModel.parse(Map.of(
 </code></pre>
 <p><strong><code>schedule</code></strong> reads contract terms, builds date sets using <code>ScheduleFactory</code>, wraps each date into a <code>ContractEvent</code> via <code>EventFactory</code>, and returns them sorted.</p>
 <p><strong><code>apply</code></strong> initialises a <code>StateSpace</code> from the model, then iterates over the sorted events calling <code>event.eval()</code> on each, accumulating state changes.</p>
-<div class="mermaid-wrap"><pre class="mermaid">flowchart LR
-    A["schedule(to, model)"] --> B["Read contract terms\nfrom model"]
-    B --> C["ScheduleFactory\nfor each cycle"]
-    C --> D["EventFactory\ncreateEvent / createEvents"]
-    D --> E["Sort by epoch offset"]
-    E --> F["return ArrayList&#x26;lt;ContractEvent&#x26;gt;"]
-
-    G["apply(events, model, observer)"] --> H["Initialise StateSpace\nfrom model"]
-    H --> I["for each ContractEvent"]
-    I --> J["event.eval(states, model,\nobserver, dayCounter, bda)"]
-    J --> K["POF → payoff double"]
-    J --> L["STF → updated StateSpace"]
-    L --> I
-    K --> M["return events with\npayoffs + states"]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1847 301" width="1847" height="301" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-24-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-24-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="235.8,48.0 307.0,48.0 344.5,48.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-24-arr)"/>
+<polyline points="519.0,48.0 556.5,48.0 612.8,48.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-24-arr)"/>
+<polyline points="757.3,48.0 813.5,48.0 843.5,48.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-24-arr)"/>
+<polyline points="1070.5,48.0 1100.5,48.0 1145.5,48.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-24-arr)"/>
+<polyline points="1327.5,48.0 1372.5,48.0 1402.5,48.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-24-arr)"/>
+<polyline points="277.0,174.0 307.0,174.0 337.0,174.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-24-arr)"/>
+<polyline points="526.5,174.0 556.5,174.0 586.5,174.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-24-arr)"/>
+<polyline points="769.2,193.0 813.5,203.0 843.5,203.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-24-arr)"/>
+<polyline points="1070.5,210.9 1100.5,213.0 1149.3,213.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-24-arr)"/>
+<polyline points="1060.0,175.0 1100.5,164.0 1147.4,154.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-24-arr)"/>
+<polyline points="1130.5,127.2 1100.5,125.0 957.0,125.0 813.5,125.0 734.8,155.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-24-arr)"/>
+<polyline points="1323.8,213.0 1372.5,213.0 1511.3,213.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-24-arr)"/>
+<rect x="61.3" y="29.0" width="174.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="148.5" y="51.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">schedule(to, model)</text>
+<rect x="344.5" y="20.0" width="174.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="431.8" y="43.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Read contract terms</text>
+<text x="431.8" y="59.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">from model</text>
+<rect x="612.8" y="20.0" width="144.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="685.0" y="43.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ScheduleFactory</text>
+<text x="685.0" y="59.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">for each cycle</text>
+<rect x="843.5" y="20.0" width="227.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="957.0" y="43.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">EventFactory</text>
+<text x="957.0" y="59.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">createEvent / createEvents</text>
+<rect x="1145.5" y="29.0" width="182.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1236.5" y="51.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Sort by epoch offset</text>
+<rect x="1402.5" y="29.0" width="384.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1594.8" y="51.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">return ArrayList&amp;#x26;lt;ContractEvent&amp;#x26;gt;</text>
+<rect x="20.0" y="155.0" width="257.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="148.5" y="177.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">apply(events, model, observer)</text>
+<rect x="337.0" y="146.0" width="189.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="431.8" y="169.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Initialise StateSpace</text>
+<text x="431.8" y="185.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">from model</text>
+<rect x="586.5" y="155.0" width="197.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="685.0" y="177.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">for each ContractEvent</text>
+<rect x="843.5" y="175.0" width="227.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="957.0" y="198.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">event.eval(states, model,</text>
+<text x="957.0" y="214.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">observer, dayCounter, bda)</text>
+<rect x="1149.3" y="194.0" width="174.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1236.5" y="216.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">POF → payoff double</text>
+<rect x="1130.5" y="116.0" width="212.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1236.5" y="138.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">STF → updated StateSpace</text>
+<rect x="1511.3" y="185.0" width="167.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1594.8" y="208.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">return events with</text>
+<text x="1594.8" y="224.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">payoffs + states</text>
+</svg></div>
 <hr>
 <h2>Contract Implementations</h2>
 <h3>PAM — Principal at Maturity</h3>
@@ -2162,33 +2332,66 @@ states.interestScalingMultiplier = 1.0;
 <p>When the monitored risk factor crosses the defined boundary, a <code>ME</code> (Monitoring Event) triggers a switch between legs.</p>
 <hr>
 <h2>Class Relationships</h2>
-<div class="mermaid-wrap"><pre class="mermaid">classDiagram
-    class ContractType {
-        +schedule()
-        +apply()
-    }
-    class PrincipalAtMaturity { +schedule() +apply() }
-    class LinearAmortizer { +schedule() +apply() }
-    class NegativeAmortizer { +schedule() +apply() }
-    class Annuity { +schedule() +apply() }
-    class ExoticLinearAmortizer { +schedule() +apply() }
-    class Swap { +schedule() +apply() }
-    class PlainVanillaInterestRateSwap { +schedule() +apply() }
-    class CreditEnhancementGuarantee { +schedule() +apply() }
-    class BoundaryControlledSwitch { +schedule() +apply() }
-    class OtherContracts["CallMoney, Cash, Stock, Commodity, etc."] { +schedule() +apply() }
-
-    ContractType --> PrincipalAtMaturity : PAM
-    ContractType --> LinearAmortizer : LAM
-    ContractType --> NegativeAmortizer : NAM
-    ContractType --> Annuity : ANN
-    ContractType --> ExoticLinearAmortizer : LAX
-    ContractType --> Swap : SWAPS
-    ContractType --> PlainVanillaInterestRateSwap : SWPPV
-    ContractType --> CreditEnhancementGuarantee : CEG
-    ContractType --> BoundaryControlledSwitch : BCS
-    ContractType --> OtherContracts : others
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-25" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 790 450" width="790" height="450" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<rect width="790" height="450" fill="white"/>
+<line x1="110" y1="72" x2="300" y2="50" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="110" y1="72" x2="490" y2="50" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="110" y1="72" x2="680" y2="50" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="110" y1="72" x2="110" y2="132" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="110" y1="72" x2="300" y2="132" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="110" y1="72" x2="490" y2="132" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="110" y1="72" x2="680" y2="132" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="110" y1="72" x2="110" y2="214" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="110" y1="72" x2="300" y2="214" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="110" y1="72" x2="490" y2="214" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<rect x="30" y="30" width="160" height="84" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">ContractType</text>
+<text x="38" y="76" font-size="11" fill="#1a202c">+schedule()</text>
+<text x="38" y="98" font-size="11" fill="#1a202c">+apply()</text>
+<line x1="30" y1="60" x2="190" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="220" y="30" width="160" height="40" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="220" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="220" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="300" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">PrincipalAtMaturity</text>
+<rect x="410" y="30" width="160" height="40" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="410" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="410" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="490" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">LinearAmortizer</text>
+<rect x="600" y="30" width="160" height="40" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="600" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="600" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="680" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">NegativeAmortizer</text>
+<rect x="30" y="112" width="160" height="40" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="112" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="138" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="128" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">Annuity</text>
+<rect x="220" y="112" width="160" height="40" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="220" y="112" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="220" y="138" width="160" height="4" fill="#1A3550"/>
+<text x="300" y="128" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">ExoticLinearAmortizer</text>
+<rect x="410" y="112" width="160" height="40" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="410" y="112" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="410" y="138" width="160" height="4" fill="#1A3550"/>
+<text x="490" y="128" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">Swap</text>
+<rect x="600" y="112" width="160" height="40" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="600" y="112" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="600" y="138" width="160" height="4" fill="#1A3550"/>
+<text x="680" y="128" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">PlainVanillaInterestRateSwap</text>
+<rect x="30" y="194" width="160" height="40" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="194" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="220" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="210" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">CreditEnhancementGuarantee</text>
+<rect x="220" y="194" width="160" height="40" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="220" y="194" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="220" y="220" width="160" height="4" fill="#1A3550"/>
+<text x="300" y="210" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">BoundaryControlledSwitch</text>
+<rect x="410" y="194" width="160" height="40" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="410" y="194" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="410" y="220" width="160" height="4" fill="#1A3550"/>
+<text x="490" y="210" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">OtherContracts</text>
+</svg></div>
 <hr>
 <h2>Approximate Implementation Size</h2>
 <table>
@@ -2285,35 +2488,45 @@ states.interestScalingMultiplier = 1.0;
         <h2>Contract Events</h2>
 <h2>Overview</h2>
 <p>A <code>ContractEvent</code> is the fundamental unit of computation. It carries everything needed to evaluate a single point in the contract's lifecycle: its timestamp, its type, references to the payoff and state-transition functions to call, and — after evaluation — its computed payoff and post-event state.</p>
-<div class="mermaid-wrap"><pre class="mermaid">classDiagram
-    class ContractEvent {
-        -long epochOffset
-        -LocalDateTime scheduleTime
-        -LocalDateTime eventTime
-        -EventType eventType
-        -String currency
-        -double payoff
-        -String contractID
-        -StateSpace states
-        -PayOffFunction fPayOff
-        -StateTransitionFunction fStateTrans
-        +eval(StateSpace, ContractModelProvider, RiskFactorModelProvider, DayCountCalculator, BusinessDayAdjuster)
-        +getContractID() String
-        +compareTo(ContractEvent) int
-    }
-    class EventFactory {
-        +createEvent(scheduleTime, type, currency, pof, stf, contractID) ContractEvent
-        +createEvent(scheduleTime, type, currency, pof, stf, bda, contractID) ContractEvent
-        +createEvents(Set~LocalDateTime~, type, currency, pof, stf, contractID) Set~ContractEvent~
-        +createEvents(Set~LocalDateTime~, type, currency, pof, stf, bda, contractID) Set~ContractEvent~
-    }
-    class EventSequence {
-        +upperBound() int
-        +timeOffset(EventType) int
-    }
-    EventFactory --> ContractEvent : creates
-    ContractEvent --> EventSequence : uses for epochOffset
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-26" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 310" width="410" height="310" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<rect width="410" height="310" fill="white"/>
+<line x1="300" y1="94" x2="110" y2="193" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="110" y1="193" x2="110" y2="198" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<rect x="30" y="30" width="160" height="326" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">ContractEvent</text>
+<text x="38" y="76" font-size="11" fill="#1a202c">-long epochOffset</text>
+<text x="38" y="98" font-size="11" fill="#1a202c">-LocalDateTime scheduleTime</text>
+<text x="38" y="120" font-size="11" fill="#1a202c">-LocalDateTime eventTime</text>
+<text x="38" y="142" font-size="11" fill="#1a202c">-EventType eventType</text>
+<text x="38" y="164" font-size="11" fill="#1a202c">-String currency</text>
+<text x="38" y="186" font-size="11" fill="#1a202c">-double payoff</text>
+<text x="38" y="208" font-size="11" fill="#1a202c">-String contractID</text>
+<text x="38" y="230" font-size="11" fill="#1a202c">-StateSpace states</text>
+<text x="38" y="252" font-size="11" fill="#1a202c">-PayOffFunction fPayOff</text>
+<text x="38" y="274" font-size="11" fill="#1a202c">-StateTransitionFunction fStateTrans</text>
+<text x="38" y="296" font-size="11" fill="#1a202c">+eval(StateSpace, ContractModelProvider, RiskFactorModelProvider, DayCountCalculator, BusinessDayAdjuster)</text>
+<text x="38" y="318" font-size="11" fill="#1a202c">+getContractID() String</text>
+<text x="38" y="340" font-size="11" fill="#1a202c">+compareTo(ContractEvent) int</text>
+<line x1="30" y1="60" x2="190" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="220" y="30" width="160" height="128" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="220" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="220" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="300" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">EventFactory</text>
+<text x="228" y="76" font-size="11" fill="#1a202c">+createEvent(scheduleTime, type, currency, pof, stf, contractID) ContractEvent</text>
+<text x="228" y="98" font-size="11" fill="#1a202c">+createEvent(scheduleTime, type, currency, pof, stf, bda, contractID) ContractEvent</text>
+<text x="228" y="120" font-size="11" fill="#1a202c">+createEvents(Set~LocalDateTime~, type, currency, pof, stf, contractID) Set~ContractEvent~</text>
+<text x="228" y="142" font-size="11" fill="#1a202c">+createEvents(Set~LocalDateTime~, type, currency, pof, stf, bda, contractID) Set~ContractEvent~</text>
+<line x1="220" y1="60" x2="380" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="30" y="156" width="160" height="84" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="156" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="182" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="172" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">EventSequence</text>
+<text x="38" y="202" font-size="11" fill="#1a202c">+upperBound() int</text>
+<text x="38" y="224" font-size="11" fill="#1a202c">+timeOffset(EventType) int</text>
+<line x1="30" y1="186" x2="190" y2="186" stroke="#e2e8f0" stroke-width="1"/>
+</svg></div>
 <hr>
 <h2>ContractEvent</h2>
 <p><code>org.actus.events.ContractEvent</code> — <code>public final class implements Comparable&#x3C;ContractEvent></code> (256 lines)</p>
@@ -2539,12 +2752,24 @@ events.addAll(EventFactory.createEvents(
 <p>Consider a contract where principal redemption (PR) and interest payment (IP) both fall on June 30. The interest for the period must be computed on the <em>outstanding principal before redemption</em>, so PR must be processed first. The offsets enforce this automatically — no contract implementation needs to sort manually.</p>
 <hr>
 <h2>Event Lifecycle Summary</h2>
-<div class="mermaid-wrap"><pre class="mermaid">stateDiagram-v2
-    [*] --> Created : EventFactory.createEvent()
-    Created --> Sorted : Added to ArrayList, sorted by epochOffset
-    Sorted --> Evaluated : ContractEvent.eval() called in apply()
-    Evaluated --> [*] : payoff and states populated
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-27" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 461 118" width="461" height="118" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-27-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-27-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="104.5,39.0 134.5,39.0 164.5,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-27-arr)"/>
+<polyline points="241.5,39.0 271.5,39.0 301.5,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-27-arr)"/>
+<rect x="20.0" y="20.0" width="84.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="62.3" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Created</text>
+<rect x="164.5" y="20.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="203.0" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Sorted</text>
+<rect x="301.5" y="20.0" width="99.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="351.3" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Evaluated</text>
+</svg></div>
 <table>
 <thead>
 <tr>
@@ -2873,29 +3098,21 @@ public interface StateTransitionFunction {
 }
 </code></pre>
 <p>Both receive the same six arguments — the event time, the pre-event state, contract terms, market data, and the two convention calculators. <code>PayOffFunction</code> returns a <code>double</code> (the cash flow). <code>StateTransitionFunction</code> returns a <code>StateSpace</code> (the post-event state).</p>
-<div class="mermaid-wrap"><pre class="mermaid">classDiagram
-    class PayOffFunction {
-        &#x3C;&#x3C;interface>>
-        +eval(time, states, model, riskFactorModel, dayCounter, timeAdjuster) double
-    }
-    class StateTransitionFunction {
-        &#x3C;&#x3C;interface>>
-        +eval(time, states, model, riskFactorModel, dayCounter, timeAdjuster) StateSpace
-    }
-    class POF_IED_PAM { +eval(...) double }
-    class POF_IP_PAM  { +eval(...) double }
-    class POF_MD_PAM  { +eval(...) double }
-    class STF_IED_PAM { +eval(...) StateSpace }
-    class STF_IP_PAM  { +eval(...) StateSpace }
-    class STF_MD_PAM  { +eval(...) StateSpace }
-
-    PayOffFunction &#x3C;|.. POF_IED_PAM
-    PayOffFunction &#x3C;|.. POF_IP_PAM
-    PayOffFunction &#x3C;|.. POF_MD_PAM
-    StateTransitionFunction &#x3C;|.. STF_IED_PAM
-    StateTransitionFunction &#x3C;|.. STF_IP_PAM
-    StateTransitionFunction &#x3C;|.. STF_MD_PAM
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-28" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 170" width="410" height="170" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<rect width="410" height="170" fill="white"/>
+<rect x="30" y="30" width="160" height="62" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">PayOffFunction</text>
+<text x="38" y="76" font-size="11" fill="#1a202c">+eval(time, states, model, riskFactorModel, dayCounter, timeAdjuster) double</text>
+<line x1="30" y1="60" x2="190" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="220" y="30" width="160" height="62" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="220" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="220" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="300" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">StateTransitionFunction</text>
+<text x="228" y="76" font-size="11" fill="#1a202c">+eval(time, states, model, riskFactorModel, dayCounter, timeAdjuster) StateSpace</text>
+<line x1="220" y1="60" x2="380" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+</svg></div>
 <hr>
 <h2>Naming Convention</h2>
 <p>Every implementation class follows a strict naming pattern:</p>
@@ -3418,25 +3635,37 @@ contractPerformance     = model.contractPerformance  (usually PF)
 <p>For a contract that has already been running (mid-life state rehydration), the accrued values and current rate come from the model attributes as of the status date.</p>
 <hr>
 <h2>State Evolution Diagram</h2>
-<div class="mermaid-wrap"><pre class="mermaid">stateDiagram-v2
-    [*] --> Initialised : apply() reads model attributes
-
-    Initialised --> PostIED : STF_IED\nnotionalPrincipal set\naccruedInterest = 0
-
-    PostIED --> PostIP : STF_IP\naccruedInterest = 0\nstatusDate = eventTime
-
-    PostIP --> PostRR : STF_RR\naccruedInterest += accrual\nnominalInterestRate = new rate from market
-
-    PostRR --> PostIP : next interest period
-
-    PostIP --> PostPR : STF_PR (LAM)\nnotionalPrincipal -= redemption\nnextPrincipalRedemptionPayment updated
-
-    PostIP --> PostSC : STF_SC\nnotionalScalingMultiplier updated\ninterestScalingMultiplier updated
-
-    PostIP --> PostMD : STF_MD\nnotionalPrincipal = 0\naccruedInterest = 0
-
-    PostMD --> [*]
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-29" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 613 352" width="613" height="352" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-29-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-29-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="134.5,146.0 164.5,146.0 194.5,146.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-29-arr)"/>
+<polyline points="279.0,146.0 309.0,146.0 339.0,146.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-29-arr)"/>
+<polyline points="416.0,146.0 446.0,146.0 476.0,133.3" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-29-arr)"/>
+<polyline points="476.0,100.7 446.0,88.0 399.9,127.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-29-arr)"/>
+<polyline points="389.7,127.0 446.0,39.0 476.0,39.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-29-arr)"/>
+<polyline points="404.1,165.0 446.0,195.0 476.0,195.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-29-arr)"/>
+<polyline points="387.7,165.0 446.0,273.0 476.0,273.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-29-arr)"/>
+<rect x="20.0" y="127.0" width="114.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="77.3" y="149.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Initialised</text>
+<rect x="194.5" y="127.0" width="84.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="236.8" y="149.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PostIED</text>
+<rect x="339.0" y="127.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="377.5" y="149.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PostIP</text>
+<rect x="476.0" y="98.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="514.5" y="120.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PostRR</text>
+<rect x="476.0" y="20.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="514.5" y="42.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PostPR</text>
+<rect x="476.0" y="176.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="514.5" y="198.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PostSC</text>
+<rect x="476.0" y="254.0" width="77.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="514.5" y="276.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">PostMD</text>
+</svg></div>
 <hr>
 <h2>Accrued Interest Accumulation</h2>
 <p>Interest accrues continuously between events. Any STF that does not pay interest must still accumulate the accrual into <code>accruedInterest</code> so it is available at the next IP event.</p>
@@ -3471,65 +3700,103 @@ NominalInterestRate: 0.05 | AccruedInterest: 0.0 | ...
         <h1 class="doc-title">Conventions</h1>
         <h2>Conventions</h2>
 <p>The Java implementation provides four convention families, each realised as a set of interfaces and implementations in <code>org.actus.conventions</code>.</p>
-<div class="mermaid-wrap"><pre class="mermaid">graph TD
-    subgraph daycount["org.actus.conventions.daycount"]
-        DCP["DayCountConventionProvider\n(interface)"]
-        DCC["DayCountCalculator\n(factory + coordinator)"]
-        A360["ActualThreeSixty"]
-        A365["ActualThreeSixtyFiveFixed"]
-        AA["ActualActualISDA"]
-        A336["ActualThreeThirtySix"]
-        B252["BusinessTwoFiftyTwo"]
-        E360["ThirtyEThreeSixty"]
-        E360I["ThirtyEThreeSixtyISDA"]
-        T28["TwentyEightThreeThirtySix"]
-    end
-    subgraph businessday["org.actus.conventions.businessday"]
-        BDC["BusinessDayConvention\n(interface)"]
-        SCC["ShiftCalcConvention\n(interface)"]
-        BDA["BusinessDayAdjuster\n(coordinator)"]
-        FOL["Following"]
-        MF["ModifiedFollowing"]
-        PRE["Preceeding"]
-        MP["ModifiedPreceeding"]
-        SAM["Same"]
-        CS["CalcShift"]
-        SC["ShiftCalc"]
-    end
-    subgraph eom["org.actus.conventions.endofmonth"]
-        EOMC["EndOfMonthConvention\n(interface)"]
-        EOMA["EndOfMonthAdjuster\n(static adjust)"]
-        EOM["EndOfMonth"]
-        SD["SameDay"]
-    end
-    subgraph role["org.actus.conventions.contractrole"]
-        CRC["ContractRoleConvention\n(roleSign)"]
-    end
-
-    A360 -.-> DCP
-    A365 -.-> DCP
-    AA -.-> DCP
-    A336 -.-> DCP
-    B252 -.-> DCP
-    E360 -.-> DCP
-    E360I -.-> DCP
-    T28 -.-> DCP
-    DCC --> DCP
-
-    FOL -.-> BDC
-    MF -.-> BDC
-    PRE -.-> BDC
-    MP -.-> BDC
-    SAM -.-> BDC
-    CS -.-> SCC
-    SC -.-> SCC
-    BDA --> BDC
-    BDA --> SCC
-
-    EOM -.-> EOMC
-    SD -.-> EOMC
-    EOMA --> EOMC
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-30" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4297 342" width="4297" height="342" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-30-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-30-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<rect x="8.0" y="8.0" width="2057.0" height="286.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="16.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">daycount[&quot;org.actus.conventions.daycount&quot;]</text>
+<rect x="2338.0" y="8.0" width="1351.3" height="286.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="2346.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">businessday[&quot;org.actus.conventions.businessday&quot;]</text>
+<rect x="3685.3" y="8.0" width="522.5" height="286.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="3693.3" y="24.0" font-size="11" fill="#1A3550" font-weight="600">eom[&quot;org.actus.conventions.endofmonth&quot;]</text>
+<rect x="2061.0" y="8.0" width="281.0" height="140.0" rx="8" fill="#f0f4f8" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="5,3"/>
+<text x="2069.0" y="24.0" font-size="11" fill="#1A3550" font-weight="600">role[&quot;org.actus.conventions.contractrole&quot;]</text>
+<polyline points="126.0,97.0 126.0,136.0 126.0,166.0 889.3,216.5" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="351.8,97.0 351.8,136.0 351.8,166.0 889.3,213.9" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="577.5,97.0 577.5,136.0 577.5,166.0 889.3,208.5" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="784.5,97.0 784.5,136.0 784.5,166.0 897.4,196.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="1002.8,97.0 1002.8,136.0 1002.8,166.0 1002.8,196.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="1209.8,97.0 1209.8,136.0 1209.8,166.0 1102.7,196.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="1424.3,97.0 1424.3,136.0 1424.3,166.0 1116.3,208.4" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="1668.8,97.0 1668.8,136.0 1668.8,166.0 1116.3,214.1" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="1920.8,106.0 1920.8,136.0 1920.8,166.0 1116.3,216.8" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-30-arr)"/>
+<polyline points="2429.8,97.0 2429.8,136.0 2429.8,166.0 2766.3,211.3" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="2599.3,97.0 2599.3,136.0 2599.3,166.0 2766.3,203.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="2772.5,97.0 2772.5,136.0 2772.5,166.0 2818.3,196.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="2949.5,97.0 2949.5,136.0 2949.5,166.0 2903.7,196.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="3104.0,97.0 3104.0,136.0 3104.0,166.0 2955.8,201.4" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="3255.8,97.0 3319.5,136.0 3319.5,166.0 3371.7,196.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="3545.3,97.0 3476.5,136.0 3476.5,166.0 3447.5,196.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="3352.4,106.0 3299.5,136.0 3299.5,166.0 2955.8,211.5" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-30-arr)"/>
+<polyline points="3453.5,106.0 3509.0,136.0 3509.0,166.0 3463.2,196.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-30-arr)"/>
+<polyline points="3780.8,97.0 3780.8,136.0 3780.8,166.0 3851.0,196.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="3916.5,97.0 3916.5,136.0 3916.5,166.0 3916.5,196.0" fill="none" stroke="#D4891A" stroke-width="1.8" stroke-dasharray="6,4" marker-end="url(#mermaid-30-arr-d)"/>
+<polyline points="4082.3,106.0 4082.3,136.0 4082.3,166.0 3996.5,196.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-30-arr)"/>
+<rect x="889.3" y="196.0" width="227.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1002.8" y="219.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">DayCountConventionProvider</text>
+<text x="1002.8" y="235.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(interface)</text>
+<rect x="1818.5" y="50.0" width="204.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1920.8" y="73.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">DayCountCalculator</text>
+<text x="1920.8" y="89.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(factory + coordinator)</text>
+<rect x="50.0" y="59.0" width="152.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="126.0" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ActualThreeSixty</text>
+<rect x="242.0" y="59.0" width="219.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="351.8" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ActualThreeSixtyFiveFixed</text>
+<rect x="501.5" y="59.0" width="152.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="577.5" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ActualActualISDA</text>
+<rect x="693.5" y="59.0" width="182.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="784.5" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ActualThreeThirtySix</text>
+<rect x="915.5" y="59.0" width="174.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1002.8" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">BusinessTwoFiftyTwo</text>
+<rect x="1130.0" y="59.0" width="159.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1209.8" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ThirtyEThreeSixty</text>
+<rect x="1329.5" y="59.0" width="189.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1424.3" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ThirtyEThreeSixtyISDA</text>
+<rect x="1559.0" y="59.0" width="219.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="1668.8" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">TwentyEightThreeThirtySix</text>
+<rect x="2766.3" y="196.0" width="189.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="2861.0" y="219.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">BusinessDayConvention</text>
+<text x="2861.0" y="235.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(interface)</text>
+<rect x="3333.3" y="196.0" width="174.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="3420.5" y="219.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ShiftCalcConvention</text>
+<text x="3420.5" y="235.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(interface)</text>
+<rect x="3314.5" y="50.0" width="174.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="3401.8" y="73.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">BusinessDayAdjuster</text>
+<text x="3401.8" y="89.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(coordinator)</text>
+<rect x="2380.0" y="59.0" width="99.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="2429.8" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Following</text>
+<rect x="2519.5" y="59.0" width="159.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="2599.3" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ModifiedFollowing</text>
+<rect x="2719.0" y="59.0" width="107.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="2772.5" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Preceeding</text>
+<rect x="2866.0" y="59.0" width="167.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="2949.5" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ModifiedPreceeding</text>
+<rect x="3073.0" y="59.0" width="62.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="3104.0" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">Same</text>
+<rect x="3175.0" y="59.0" width="99.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="3224.8" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">CalcShift</text>
+<rect x="3529.0" y="59.0" width="99.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="3578.8" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ShiftCalc</text>
+<rect x="3825.5" y="196.0" width="182.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="3916.5" y="219.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">EndOfMonthConvention</text>
+<text x="3916.5" y="235.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(interface)</text>
+<rect x="3998.8" y="50.0" width="167.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="4082.3" y="73.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">EndOfMonthAdjuster</text>
+<text x="4082.3" y="89.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(static adjust)</text>
+<rect x="3727.3" y="59.0" width="107.0" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="3780.8" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">EndOfMonth</text>
+<rect x="3874.3" y="59.0" width="84.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="3916.5" y="81.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">SameDay</text>
+<rect x="2103.0" y="50.0" width="197.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="2201.5" y="73.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ContractRoleConvention</text>
+<text x="2201.5" y="89.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(roleSign)</text>
+</svg></div>
 <hr>
 <h2>Day Count Conventions</h2>
 <h3>Interface — <code>DayCountConventionProvider</code></h3>
@@ -3788,30 +4055,68 @@ LocalDateTime shiftCalcTime(LocalDateTime time);   // shifted or original, per c
 <p><code>roleSign</code> is called inside virtually every <code>POF_*</code> function to flip the direction of cash flows based on the contract's role in the transaction. A lender (RPA) receives principal inflow at IED and pays out at MD; a borrower (RPL) is the mirror image.</p>
 <hr>
 <h2>How Conventions Flow Through the Engine</h2>
-<div class="mermaid-wrap"><pre class="mermaid">sequenceDiagram
-    participant CT as ContractType impl
-    participant SF as ScheduleFactory
-    participant EF as EventFactory
-    participant CE as ContractEvent
-    participant POF
-    participant STF
-
-    CT->>CT: build DayCountCalculator from model
-    CT->>CT: build BusinessDayAdjuster from model
-    CT->>CT: build EndOfMonthConvention from model
-
-    CT->>SF: createSchedule(anchor, end, cycle, eom)
-    SF->>SF: apply EndOfMonthAdjuster to each date
-    SF-->>CT: Set&#x3C;LocalDateTime> rawDates
-
-    CT->>EF: createEvents(rawDates, type, pof, stf, bda, ...)
-    EF->>EF: bda.shiftEventTime(date) → eventTime
-    EF-->>CT: Set&#x3C;ContractEvent>
-
-    CT->>CE: event.eval(states, model, observer, dcc, bda)
-    CE->>POF: eval(..., dcc, bda) uses dcc.dayCountFraction()
-    CE->>STF: eval(..., dcc, bda) uses bda.shiftCalcTime()
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-31" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 610" width="1040" height="610" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-31-sa" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+    <polygon points="0 0,8 3,0 6" fill="#1A3550"/>
+  </marker>
+</defs>
+<rect width="1040" height="610" fill="white"/>
+<rect x="46.3" y="20" width="147.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="120" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">ContractType impl</text>
+<line x1="120" y1="52" x2="120" y2="558" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="213.8" y="20" width="132.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="280" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">ScheduleFactory</text>
+<line x1="280" y1="52" x2="280" y2="558" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="385.0" y="20" width="110" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="440" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">EventFactory</text>
+<line x1="440" y1="52" x2="440" y2="558" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="541.3" y="20" width="117.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="600" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">ContractEvent</text>
+<line x1="600" y1="52" x2="600" y2="558" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="720.0" y="20" width="80" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="760" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">POF</text>
+<line x1="760" y1="52" x2="760" y2="558" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="880.0" y="20" width="80" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="920" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">STF</text>
+<line x1="920" y1="52" x2="920" y2="558" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<line x1="120" y1="90" x2="120" y2="90" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-31-sa)"/>
+<text x="120" y="84" text-anchor="middle" font-size="11" fill="#1a202c">build DayCountCalculator from model</text>
+<line x1="120" y1="130" x2="120" y2="130" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-31-sa)"/>
+<text x="120" y="124" text-anchor="middle" font-size="11" fill="#1a202c">build BusinessDayAdjuster from model</text>
+<line x1="120" y1="170" x2="120" y2="170" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-31-sa)"/>
+<text x="120" y="164" text-anchor="middle" font-size="11" fill="#1a202c">build EndOfMonthConvention from model</text>
+<line x1="120" y1="210" x2="280" y2="210" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-31-sa)"/>
+<text x="200" y="204" text-anchor="middle" font-size="11" fill="#1a202c">createSchedule(anchor, end, cycle, eom)</text>
+<line x1="280" y1="250" x2="280" y2="250" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-31-sa)"/>
+<text x="280" y="244" text-anchor="middle" font-size="11" fill="#1a202c">apply EndOfMonthAdjuster to each date</text>
+<line x1="280" y1="290" x2="120" y2="290" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-31-sa)"/>
+<text x="200" y="284" text-anchor="middle" font-size="11" fill="#1a202c">Set&amp;#x3C;LocalDateTime&gt; rawDates</text>
+<line x1="120" y1="330" x2="440" y2="330" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-31-sa)"/>
+<text x="280" y="324" text-anchor="middle" font-size="11" fill="#1a202c">createEvents(rawDates, type, pof, stf, bda, ...)</text>
+<line x1="440" y1="370" x2="440" y2="370" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-31-sa)"/>
+<text x="440" y="364" text-anchor="middle" font-size="11" fill="#1a202c">bda.shiftEventTime(date) → eventTime</text>
+<line x1="440" y1="410" x2="120" y2="410" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-31-sa)"/>
+<text x="280" y="404" text-anchor="middle" font-size="11" fill="#1a202c">Set&amp;#x3C;ContractEvent&gt;</text>
+<line x1="120" y1="450" x2="600" y2="450" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-31-sa)"/>
+<text x="360" y="444" text-anchor="middle" font-size="11" fill="#1a202c">event.eval(states, model, observer, dcc, bda)</text>
+<line x1="600" y1="490" x2="760" y2="490" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-31-sa)"/>
+<text x="680" y="484" text-anchor="middle" font-size="11" fill="#1a202c">eval(..., dcc, bda) uses dcc.dayCountFraction()</text>
+<line x1="600" y1="530" x2="920" y2="530" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-31-sa)"/>
+<text x="760" y="524" text-anchor="middle" font-size="11" fill="#1a202c">eval(..., dcc, bda) uses bda.shiftCalcTime()</text>
+<rect x="46.3" y="558" width="147.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="120" y="574" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">ContractType impl</text>
+<rect x="213.8" y="558" width="132.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="280" y="574" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">ScheduleFactory</text>
+<rect x="385.0" y="558" width="110" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="440" y="574" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">EventFactory</text>
+<rect x="541.3" y="558" width="117.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="600" y="574" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">ContractEvent</text>
+<rect x="720.0" y="558" width="80" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="760" y="574" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">POF</text>
+<rect x="880.0" y="558" width="80" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="920" y="574" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">STF</text>
+</svg></div>
 
       </article>
     
@@ -3821,33 +4126,46 @@ LocalDateTime shiftCalcTime(LocalDateTime time);   // shifted or original, per c
         <h2>Schedule Generation</h2>
 <h2>Overview</h2>
 <p>Schedule generation converts a contract's cycle parameters into an ordered set of <code>LocalDateTime</code> values that will become contract events. The core class is <code>ScheduleFactory</code>; it delegates cycle arithmetic to <code>CycleAdjuster</code> and date snapping to <code>EndOfMonthAdjuster</code>.</p>
-<div class="mermaid-wrap"><pre class="mermaid">classDiagram
-    class ScheduleFactory {
-        +createSchedule(start, end, cycle, eomConvention) Set~LocalDateTime~
-        +createSchedule(start, end, cycle, eomConvention, addEndTime) Set~LocalDateTime~
-    }
-    class CycleAdjuster {
-        +CycleAdjuster(String cycle)
-        +plusCycle(LocalDateTime) LocalDateTime
-        +minusCycle(LocalDateTime) LocalDateTime
-    }
-    class CycleAdjusterProvider {
-        &#x3C;&#x3C;interface>>
-        +plusCycle(LocalDateTime) LocalDateTime
-        +minusCycle(LocalDateTime) LocalDateTime
-    }
-    class PeriodCycleAdjuster {
-        +plusCycle(LocalDateTime) LocalDateTime
-        +minusCycle(LocalDateTime) LocalDateTime
-    }
-    class WeekdayCycleAdjuster {
-        +plusCycle(LocalDateTime) LocalDateTime
-        +minusCycle(LocalDateTime) LocalDateTime
-    }
-    CycleAdjuster --> CycleAdjusterProvider
-    CycleAdjusterProvider &#x3C;|.. PeriodCycleAdjuster
-    CycleAdjusterProvider &#x3C;|.. WeekdayCycleAdjuster
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-32" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 310" width="600" height="310" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<rect width="600" height="310" fill="white"/>
+<line x1="300" y1="83" x2="490" y2="72" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<rect x="30" y="30" width="160" height="84" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">ScheduleFactory</text>
+<text x="38" y="76" font-size="11" fill="#1a202c">+createSchedule(start, end, cycle, eomConvention) Set~LocalDateTime~</text>
+<text x="38" y="98" font-size="11" fill="#1a202c">+createSchedule(start, end, cycle, eomConvention, addEndTime) Set~LocalDateTime~</text>
+<line x1="30" y1="60" x2="190" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="220" y="30" width="160" height="106" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="220" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="220" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="300" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">CycleAdjuster</text>
+<text x="228" y="76" font-size="11" fill="#1a202c">+CycleAdjuster(String cycle)</text>
+<text x="228" y="98" font-size="11" fill="#1a202c">+plusCycle(LocalDateTime) LocalDateTime</text>
+<text x="228" y="120" font-size="11" fill="#1a202c">+minusCycle(LocalDateTime) LocalDateTime</text>
+<line x1="220" y1="60" x2="380" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="410" y="30" width="160" height="84" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="410" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="410" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="490" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">CycleAdjusterProvider</text>
+<text x="418" y="76" font-size="11" fill="#1a202c">+plusCycle(LocalDateTime) LocalDateTime</text>
+<text x="418" y="98" font-size="11" fill="#1a202c">+minusCycle(LocalDateTime) LocalDateTime</text>
+<line x1="410" y1="60" x2="570" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="30" y="156" width="160" height="84" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="156" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="182" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="172" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">PeriodCycleAdjuster</text>
+<text x="38" y="202" font-size="11" fill="#1a202c">+plusCycle(LocalDateTime) LocalDateTime</text>
+<text x="38" y="224" font-size="11" fill="#1a202c">+minusCycle(LocalDateTime) LocalDateTime</text>
+<line x1="30" y1="186" x2="190" y2="186" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="220" y="156" width="160" height="84" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="220" y="156" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="220" y="182" width="160" height="4" fill="#1A3550"/>
+<text x="300" y="172" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">WeekdayCycleAdjuster</text>
+<text x="228" y="202" font-size="11" fill="#1a202c">+plusCycle(LocalDateTime) LocalDateTime</text>
+<text x="228" y="224" font-size="11" fill="#1a202c">+minusCycle(LocalDateTime) LocalDateTime</text>
+<line x1="220" y1="186" x2="380" y2="186" stroke="#e2e8f0" stroke-width="1"/>
+</svg></div>
 <hr>
 <h2>ScheduleFactory</h2>
 <p><code>org.actus.time.ScheduleFactory</code> — <code>public final class</code> (177 lines)</p>
@@ -3976,29 +4294,38 @@ public LocalDateTime minusCycle(LocalDateTime time) { return adjuster.minusCycle
 }
 </code></pre>
 <h3>Implementations</h3>
-<div class="mermaid-wrap"><pre class="mermaid">classDiagram
-    class BusinessDayCalendarProvider {
-        &#x3C;&#x3C;interface>>
-        +isBusinessDay(LocalDate) boolean
-        +holidays() Set~LocalDate~
-    }
-    class NoHolidaysCalendar {
-        +isBusinessDay(LocalDate) boolean  ← always true
-        +holidays() Set~LocalDate~         ← empty set
-    }
-    class MondayToFridayCalendar {
-        +isBusinessDay(LocalDate) boolean  ← Mon–Fri
-        +holidays() Set~LocalDate~         ← empty set
-    }
-    class MondayToFridayWithHolidaysCalendar {
-        -Set~LocalDate~ holidays
-        +isBusinessDay(LocalDate) boolean  ← Mon–Fri and not in holidays
-        +holidays() Set~LocalDate~
-    }
-    BusinessDayCalendarProvider &#x3C;|.. NoHolidaysCalendar
-    BusinessDayCalendarProvider &#x3C;|.. MondayToFridayCalendar
-    BusinessDayCalendarProvider &#x3C;|.. MondayToFridayWithHolidaysCalendar
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-33" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 310" width="410" height="310" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<rect width="410" height="310" fill="white"/>
+<rect x="30" y="30" width="160" height="84" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">BusinessDayCalendarProvider</text>
+<text x="38" y="76" font-size="11" fill="#1a202c">+isBusinessDay(LocalDate) boolean</text>
+<text x="38" y="98" font-size="11" fill="#1a202c">+holidays() Set~LocalDate~</text>
+<line x1="30" y1="60" x2="190" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="220" y="30" width="160" height="84" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="220" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="220" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="300" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">NoHolidaysCalendar</text>
+<text x="228" y="76" font-size="11" fill="#1a202c">+isBusinessDay(LocalDate) boolean  ← always true</text>
+<text x="228" y="98" font-size="11" fill="#1a202c">+holidays() Set~LocalDate~         ← empty set</text>
+<line x1="220" y1="60" x2="380" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="30" y="156" width="160" height="84" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="156" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="182" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="172" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">MondayToFridayCalendar</text>
+<text x="38" y="202" font-size="11" fill="#1a202c">+isBusinessDay(LocalDate) boolean  ← Mon–Fri</text>
+<text x="38" y="224" font-size="11" fill="#1a202c">+holidays() Set~LocalDate~         ← empty set</text>
+<line x1="30" y1="186" x2="190" y2="186" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="220" y="178" width="160" height="106" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="220" y="178" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="220" y="204" width="160" height="4" fill="#1A3550"/>
+<text x="300" y="194" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">MondayToFridayWithHolidaysCalendar</text>
+<text x="228" y="224" font-size="11" fill="#1a202c">-Set~LocalDate~ holidays</text>
+<text x="228" y="246" font-size="11" fill="#1a202c">+isBusinessDay(LocalDate) boolean  ← Mon–Fri and not in holidays</text>
+<text x="228" y="268" font-size="11" fill="#1a202c">+holidays() Set~LocalDate~</text>
+<line x1="220" y1="208" x2="380" y2="208" stroke="#e2e8f0" stroke-width="1"/>
+</svg></div>
 <table>
 <thead>
 <tr>
@@ -4051,23 +4378,31 @@ public static final Period MAX_LIFETIME_UMP = Period.ofYears(10);
         <h2>Type System</h2>
 <h2>Overview</h2>
 <p>The <code>org.actus.types</code> package contains 25 source files: 23 enumerations and the <code>ContractReference</code> value class. Every enum constant corresponds to a code string defined in the ACTUS Data Dictionary. The package has no dependencies on other <code>org.actus</code> packages; all other packages import from here.</p>
-<div class="mermaid-wrap"><pre class="mermaid">classDiagram
-    class ContractTypeEnum { PAM ANN NAM LAM LAX CLM UMP CSH STK COM SWAPS SWPPV FXOUT CAPFL FUTUR OPTNS CEG CEC BCS }
-    class EventType { AD IED FP PR PD PRF PY PP IP IPCI CE RRF RR DV PRD MR TD SC IPCB MD XD STD PI IPFX IPFL ME AFD }
-    class ContractRole { RPA RPL RFL PFL RF PF BUY SEL COL CNO UDL UDLP UDLM }
-    class ContractPerformance { PF DL DQ DF MA TE }
-    class ContractReference {
-        +ReferenceRole referenceRole
-        +ReferenceType referenceType
-        +Object object
-        +getObject() Object
-        +getContractAttribute(String) String
-        +getStateSpaceAtTimepoint(LocalDateTime, RiskFactorModelProvider) StateSpace
-        +getEvent(EventType, LocalDateTime, RiskFactorModelProvider) ContractEvent
-    }
-    ContractReference --> ReferenceRole
-    ContractReference --> ReferenceType
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-34" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 410 310" width="410" height="310" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<rect width="410" height="310" fill="white"/>
+<line x1="110" y1="127" x2="300" y2="50" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="110" y1="127" x2="110" y2="132" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<rect x="30" y="30" width="160" height="194" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">ContractReference</text>
+<text x="38" y="76" font-size="11" fill="#1a202c">+ReferenceRole referenceRole</text>
+<text x="38" y="98" font-size="11" fill="#1a202c">+ReferenceType referenceType</text>
+<text x="38" y="120" font-size="11" fill="#1a202c">+Object object</text>
+<text x="38" y="142" font-size="11" fill="#1a202c">+getObject() Object</text>
+<text x="38" y="164" font-size="11" fill="#1a202c">+getContractAttribute(String) String</text>
+<text x="38" y="186" font-size="11" fill="#1a202c">+getStateSpaceAtTimepoint(LocalDateTime, RiskFactorModelProvider) StateSpace</text>
+<text x="38" y="208" font-size="11" fill="#1a202c">+getEvent(EventType, LocalDateTime, RiskFactorModelProvider) ContractEvent</text>
+<line x1="30" y1="60" x2="190" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="220" y="30" width="160" height="40" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="220" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="220" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="300" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">ReferenceRole</text>
+<rect x="30" y="112" width="160" height="40" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="112" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="138" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="128" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">ReferenceType</text>
+</svg></div>
 <hr>
 <h2>ContractTypeEnum</h2>
 <p><code>org.actus.types.ContractTypeEnum</code> — 19 values</p>
@@ -4956,20 +5291,38 @@ public static final Period MAX_LIFETIME_UMP = Period.ofYears(10);
 <p>Retrieves a specific event from the referenced contract's evaluated schedule. Used when one contract's payoff depends on a specific event of an underlying contract.</p>
 <h3>Usage in Contract Types</h3>
 <p><code>ContractReference</code> is used in structured product types where one contract wraps or references another:</p>
-<div class="mermaid-wrap"><pre class="mermaid">flowchart LR
-    CEG["CEG\n(Credit Enhancement Guarantee)"]
-    CEC["CEG\n(Credit Enhancement Collateral)"]
-    SWAPS["SWAPS\n(Swap)"]
-    OPTNS["OPTNS\n(Options)"]
-    REF["ContractReference\n(resolved at eval time)"]
-    RFM["RiskFactorModelProvider"]
-
-    CEG --> REF
-    CEC --> REF
-    SWAPS --> REF
-    OPTNS --> REF
-    REF --> RFM
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-35" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 873.5 424" width="873.5" height="424" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-35-arr" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#1A3550"/>
+  </marker>
+  <marker id="mermaid-35-arr-d" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+    <polygon points="0 0, 10 3.5, 0 7" fill="#D4891A" opacity="0.7"/>
+  </marker>
+</defs>
+<polyline points="280.8,336.0 314.5,336.0 421.0,220.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-35-arr)"/>
+<polyline points="284.5,240.0 314.5,240.0 369.6,220.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-35-arr)"/>
+<polyline points="190.8,144.0 314.5,144.0 369.6,164.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-35-arr)"/>
+<polyline points="202.0,48.0 314.5,48.0 421.0,164.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-35-arr)"/>
+<polyline points="549.0,192.0 579.0,192.0 609.0,192.0" fill="none" stroke="#1A3550" stroke-width="1.8"  marker-end="url(#mermaid-35-arr)"/>
+<rect x="23.8" y="308.0" width="257.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="152.3" y="331.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">CEG</text>
+<text x="152.3" y="347.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(Credit Enhancement Guarantee)</text>
+<rect x="20.0" y="212.0" width="264.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="152.3" y="235.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">CEG</text>
+<text x="152.3" y="251.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(Credit Enhancement Collateral)</text>
+<rect x="113.8" y="116.0" width="77.0" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="152.3" y="139.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">SWAPS</text>
+<text x="152.3" y="155.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(Swap)</text>
+<rect x="102.5" y="20.0" width="99.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="152.3" y="43.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">OPTNS</text>
+<text x="152.3" y="59.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(Options)</text>
+<rect x="344.5" y="164.0" width="204.5" height="56.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="446.8" y="187.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">ContractReference</text>
+<text x="446.8" y="203.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">(resolved at eval time)</text>
+<rect x="609.0" y="173.0" width="204.5" height="38.0" rx="5" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="711.3" y="195.5" text-anchor="middle" font-size="12" fill="#ffffff" font-family="Arial,sans-serif">RiskFactorModelProvider</text>
+</svg></div>
 <p>The parent contract's <code>apply()</code> method calls <code>getStateSpaceAtTimepoint()</code> or <code>getEvent()</code> on each <code>ContractReference</code> to obtain the state or events of the underlying at the relevant evaluation timestamps.</p>
 
       </article>
@@ -4990,65 +5343,86 @@ public static final Period MAX_LIFETIME_UMP = Period.ofYears(10);
 <hr>
 <h2>Test Utility Classes</h2>
 <h3>Class Diagram</h3>
-<div class="mermaid-wrap"><pre class="mermaid">classDiagram
-    class ContractTestUtils {
-        +createModel(Map) ContractModel
-        +createObserver(List~ObservedDataSet~) DataObserver
-        +createObserver(List~ObservedDataSet~, List~ContractEvent~) DataObserver
-        +readTests(String file) Map~String,TestData~
-        +readObservedEvents(List~ObservedEvent~, ContractModel) List~ContractEvent~
-    }
-    class DataObserver {
-        -HashMap~String,HashMap~LocalDateTime,Double~~ multiSeries
-        -HashMap~String,List~ContractEvent~~ eventsObserved
-        +keys() Set~String~
-        +add(String, HashMap) void
-        +stateAt(id, time, states, attrs, isMarket) double
-        +setEventsObserved(List~ContractEvent~) void
-        +events(ContractModelProvider) Set~ContractEvent~
-    }
-    class TestData {
-        +identifier String
-        +terms Map~String,Object~
-        +to String
-        +dataObserved Map~String,ObservedDataSet~
-        +eventsObserved List~ObservedEvent~
-        +results List~ResultSet~
-    }
-    class ObservedDataSet {
-        +identifier String
-        +data List~ObservedDataPoint~
-    }
-    class ObservedDataPoint {
-        +timestamp String
-        +value Double
-    }
-    class ObservedEvent {
-        +time String
-        +type String
-        +value double
-        +contractId String
-        +states StateSpace
-    }
-    class ResultSet {
-        +eventDate LocalDateTime
-        +eventType EventType
-        +payoff Double
-        +notionalPrincipal Double
-        +nominalInterestRate Double
-        +accruedInterest Double
-        +currency String
-        +roundTo(int) void
-        +equals(Object) boolean
-    }
-    ContractTestUtils --> DataObserver
-    ContractTestUtils --> TestData
-    TestData --> ObservedDataSet
-    TestData --> ObservedEvent
-    TestData --> ResultSet
-    ObservedDataSet --> ObservedDataPoint
-    DataObserver ..|> RiskFactorModelProvider
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-36" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="600" height="450" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<rect width="600" height="450" fill="white"/>
+<line x1="110" y1="105" x2="300" y2="127" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="110" y1="105" x2="490" y2="116" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="490" y1="116" x2="110" y2="198" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="490" y1="116" x2="490" y2="297" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="490" y1="116" x2="110" y2="709" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<line x1="110" y1="198" x2="300" y2="198" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3"/>
+<rect x="30" y="30" width="160" height="150" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">ContractTestUtils</text>
+<text x="38" y="76" font-size="11" fill="#1a202c">+createModel(Map) ContractModel</text>
+<text x="38" y="98" font-size="11" fill="#1a202c">+createObserver(List~ObservedDataSet~) DataObserver</text>
+<text x="38" y="120" font-size="11" fill="#1a202c">+createObserver(List~ObservedDataSet~, List~ContractEvent~) DataObserver</text>
+<text x="38" y="142" font-size="11" fill="#1a202c">+readTests(String file) Map~String,TestData~</text>
+<text x="38" y="164" font-size="11" fill="#1a202c">+readObservedEvents(List~ObservedEvent~, ContractModel) List~ContractEvent~</text>
+<line x1="30" y1="60" x2="190" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="220" y="30" width="160" height="194" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="220" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="220" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="300" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">DataObserver</text>
+<text x="228" y="76" font-size="11" fill="#1a202c">-HashMap~String,HashMap~LocalDateTime,Double~~ multiSeries</text>
+<text x="228" y="98" font-size="11" fill="#1a202c">-HashMap~String,List~ContractEvent~~ eventsObserved</text>
+<text x="228" y="120" font-size="11" fill="#1a202c">+keys() Set~String~</text>
+<text x="228" y="142" font-size="11" fill="#1a202c">+add(String, HashMap) void</text>
+<text x="228" y="164" font-size="11" fill="#1a202c">+stateAt(id, time, states, attrs, isMarket) double</text>
+<text x="228" y="186" font-size="11" fill="#1a202c">+setEventsObserved(List~ContractEvent~) void</text>
+<text x="228" y="208" font-size="11" fill="#1a202c">+events(ContractModelProvider) Set~ContractEvent~</text>
+<line x1="220" y1="60" x2="380" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="410" y="30" width="160" height="172" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="410" y="30" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="410" y="56" width="160" height="4" fill="#1A3550"/>
+<text x="490" y="46" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">TestData</text>
+<text x="418" y="76" font-size="11" fill="#1a202c">+identifier String</text>
+<text x="418" y="98" font-size="11" fill="#1a202c">+terms Map~String,Object~</text>
+<text x="418" y="120" font-size="11" fill="#1a202c">+to String</text>
+<text x="418" y="142" font-size="11" fill="#1a202c">+dataObserved Map~String,ObservedDataSet~</text>
+<text x="418" y="164" font-size="11" fill="#1a202c">+eventsObserved List~ObservedEvent~</text>
+<text x="418" y="186" font-size="11" fill="#1a202c">+results List~ResultSet~</text>
+<line x1="410" y1="60" x2="570" y2="60" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="30" y="156" width="160" height="84" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="156" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="182" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="172" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">ObservedDataSet</text>
+<text x="38" y="202" font-size="11" fill="#1a202c">+identifier String</text>
+<text x="38" y="224" font-size="11" fill="#1a202c">+data List~ObservedDataPoint~</text>
+<line x1="30" y1="186" x2="190" y2="186" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="220" y="156" width="160" height="84" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="220" y="156" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="220" y="182" width="160" height="4" fill="#1A3550"/>
+<text x="300" y="172" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">ObservedDataPoint</text>
+<text x="228" y="202" font-size="11" fill="#1a202c">+timestamp String</text>
+<text x="228" y="224" font-size="11" fill="#1a202c">+value Double</text>
+<line x1="220" y1="186" x2="380" y2="186" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="410" y="222" width="160" height="150" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="410" y="222" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="410" y="248" width="160" height="4" fill="#1A3550"/>
+<text x="490" y="238" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">ObservedEvent</text>
+<text x="418" y="268" font-size="11" fill="#1a202c">+time String</text>
+<text x="418" y="290" font-size="11" fill="#1a202c">+type String</text>
+<text x="418" y="312" font-size="11" fill="#1a202c">+value double</text>
+<text x="418" y="334" font-size="11" fill="#1a202c">+contractId String</text>
+<text x="418" y="356" font-size="11" fill="#1a202c">+states StateSpace</text>
+<line x1="410" y1="252" x2="570" y2="252" stroke="#e2e8f0" stroke-width="1"/>
+<rect x="30" y="590" width="160" height="238" rx="4" fill="white" stroke="#1A3550" stroke-width="1.5"/>
+<rect x="30" y="590" width="160" height="30" rx="4" fill="#1A3550"/>
+<rect x="30" y="616" width="160" height="4" fill="#1A3550"/>
+<text x="110" y="606" text-anchor="middle" dominant-baseline="middle" font-size="13" font-weight="700" fill="#ffffff">ResultSet</text>
+<text x="38" y="636" font-size="11" fill="#1a202c">+eventDate LocalDateTime</text>
+<text x="38" y="658" font-size="11" fill="#1a202c">+eventType EventType</text>
+<text x="38" y="680" font-size="11" fill="#1a202c">+payoff Double</text>
+<text x="38" y="702" font-size="11" fill="#1a202c">+notionalPrincipal Double</text>
+<text x="38" y="724" font-size="11" fill="#1a202c">+nominalInterestRate Double</text>
+<text x="38" y="746" font-size="11" fill="#1a202c">+accruedInterest Double</text>
+<text x="38" y="768" font-size="11" fill="#1a202c">+currency String</text>
+<text x="38" y="790" font-size="11" fill="#1a202c">+roundTo(int) void</text>
+<text x="38" y="812" font-size="11" fill="#1a202c">+equals(Object) boolean</text>
+<line x1="30" y1="620" x2="190" y2="620" stroke="#e2e8f0" stroke-width="1"/>
+</svg></div>
 <hr>
 <h2>ContractTestUtils</h2>
 <p><code>org.actus.testutils.ContractTestUtils</code> — <code>public final class</code></p>
@@ -5351,31 +5725,69 @@ public Stream&#x3C;DynamicTest> test() throws Exception {
 </code></pre>
 <p>The <code>@TestFactory</code> method returns a <code>Stream&#x3C;DynamicTest></code>, so JUnit 5 reports each test case as a separately named test in the test runner. A single JSON file with 500 test cases produces 500 individually trackable test results.</p>
 <h3>Test Flow Diagram</h3>
-<div class="mermaid-wrap"><pre class="mermaid">sequenceDiagram
-    participant JUnit
-    participant TestClass
-    participant CTU as ContractTestUtils
-    participant CT as ContractType
-    participant DO as DataObserver
-
-    JUnit->>TestClass: invoke @TestFactory
-    TestClass->>CTU: readTests(jsonFile)
-    CTU-->>TestClass: Map&#x3C;id, TestData>
-    loop for each test case
-        TestClass->>CTU: createModel(terms)
-        CTU-->>TestClass: ContractModel
-        TestClass->>CTU: createObserver(dataObserved)
-        CTU-->>TestClass: DataObserver
-        TestClass->>CT: schedule(to, model)
-        CT-->>TestClass: ArrayList&#x3C;ContractEvent>
-        TestClass->>CT: apply(events, model, observer)
-        CT->>DO: stateAt(id, time, ...)
-        DO-->>CT: double value
-        CT-->>TestClass: ArrayList&#x3C;ContractEvent> with payoffs
-        TestClass->>JUnit: DynamicTest (expected vs computed)
-    end
-    JUnit->>JUnit: run each DynamicTest
-</pre></div>
+<div class="mermaid-wrap mermaid-rendered"><svg id="mermaid-37" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 730" width="880" height="730" style="font-family:Arial,sans-serif;font-size:13px;max-width:100%;">
+<defs>
+  <marker id="mermaid-37-sa" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+    <polygon points="0 0,8 3,0 6" fill="#1A3550"/>
+  </marker>
+</defs>
+<rect width="880" height="730" fill="white"/>
+<rect x="80.0" y="20" width="80" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="120" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">JUnit</text>
+<line x1="120" y1="52" x2="120" y2="678" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="236.3" y="20" width="87.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="280" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">TestClass</text>
+<line x1="280" y1="52" x2="280" y2="678" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="366.3" y="20" width="147.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="440" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">ContractTestUtils</text>
+<line x1="440" y1="52" x2="440" y2="678" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="545.0" y="20" width="110" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="600" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">ContractType</text>
+<line x1="600" y1="52" x2="600" y2="678" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<rect x="705.0" y="20" width="110" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="760" y="40" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">DataObserver</text>
+<line x1="760" y1="52" x2="760" y2="678" stroke="#e2e8f0" stroke-width="1.5" stroke-dasharray="4,3"/>
+<line x1="120" y1="90" x2="280" y2="90" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-37-sa)"/>
+<text x="200" y="84" text-anchor="middle" font-size="11" fill="#1a202c">invoke @TestFactory</text>
+<line x1="280" y1="130" x2="440" y2="130" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-37-sa)"/>
+<text x="360" y="124" text-anchor="middle" font-size="11" fill="#1a202c">readTests(jsonFile)</text>
+<line x1="440" y1="170" x2="280" y2="170" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-37-sa)"/>
+<text x="360" y="164" text-anchor="middle" font-size="11" fill="#1a202c">Map&amp;#x3C;id, TestData&gt;</text>
+<line x1="280" y1="210" x2="440" y2="210" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-37-sa)"/>
+<text x="360" y="204" text-anchor="middle" font-size="11" fill="#1a202c">createModel(terms)</text>
+<line x1="440" y1="250" x2="280" y2="250" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-37-sa)"/>
+<text x="360" y="244" text-anchor="middle" font-size="11" fill="#1a202c">ContractModel</text>
+<line x1="280" y1="290" x2="440" y2="290" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-37-sa)"/>
+<text x="360" y="284" text-anchor="middle" font-size="11" fill="#1a202c">createObserver(dataObserved)</text>
+<line x1="440" y1="330" x2="280" y2="330" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-37-sa)"/>
+<text x="360" y="324" text-anchor="middle" font-size="11" fill="#1a202c">DataObserver</text>
+<line x1="280" y1="370" x2="600" y2="370" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-37-sa)"/>
+<text x="440" y="364" text-anchor="middle" font-size="11" fill="#1a202c">schedule(to, model)</text>
+<line x1="600" y1="410" x2="280" y2="410" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-37-sa)"/>
+<text x="440" y="404" text-anchor="middle" font-size="11" fill="#1a202c">ArrayList&amp;#x3C;ContractEvent&gt;</text>
+<line x1="280" y1="450" x2="600" y2="450" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-37-sa)"/>
+<text x="440" y="444" text-anchor="middle" font-size="11" fill="#1a202c">apply(events, model, observer)</text>
+<line x1="600" y1="490" x2="760" y2="490" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-37-sa)"/>
+<text x="680" y="484" text-anchor="middle" font-size="11" fill="#1a202c">stateAt(id, time, ...)</text>
+<line x1="760" y1="530" x2="600" y2="530" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-37-sa)"/>
+<text x="680" y="524" text-anchor="middle" font-size="11" fill="#1a202c">double value</text>
+<line x1="600" y1="570" x2="280" y2="570" stroke="#1A3550" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#mermaid-37-sa)"/>
+<text x="440" y="564" text-anchor="middle" font-size="11" fill="#1a202c">ArrayList&amp;#x3C;ContractEvent&gt; with payoffs</text>
+<line x1="280" y1="610" x2="120" y2="610" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-37-sa)"/>
+<text x="200" y="604" text-anchor="middle" font-size="11" fill="#1a202c">DynamicTest (expected vs computed)</text>
+<line x1="120" y1="650" x2="120" y2="650" stroke="#1A3550" stroke-width="1.5"  marker-end="url(#mermaid-37-sa)"/>
+<text x="120" y="644" text-anchor="middle" font-size="11" fill="#1a202c">run each DynamicTest</text>
+<rect x="80.0" y="678" width="80" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="120" y="694" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">JUnit</text>
+<rect x="236.3" y="678" width="87.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="280" y="694" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">TestClass</text>
+<rect x="366.3" y="678" width="147.5" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="440" y="694" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">ContractTestUtils</text>
+<rect x="545.0" y="678" width="110" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="600" y="694" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">ContractType</text>
+<rect x="705.0" y="678" width="110" height="32" rx="4" fill="#1A3550" stroke="#D4891A" stroke-width="1.5"/>
+<text x="760" y="694" text-anchor="middle" dominant-baseline="middle" font-size="12" fill="#ffffff" font-weight="600">DataObserver</text>
+</svg></div>
 <hr>
 <h2>JSON Test File Format</h2>
 <p>Each JSON file contains a top-level object whose keys are test case identifiers. Each value is a <code>TestData</code> object.</p>
