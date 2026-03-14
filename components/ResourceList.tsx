@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import { Dialog } from '@headlessui/react'
 import {
   ArrowDownTrayIcon,
@@ -12,6 +12,7 @@ import {
   DocumentIcon,
   XMarkIcon,
   EyeIcon,
+  MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline'
 import allResources from '../config/resources.json'
 
@@ -41,6 +42,18 @@ const TYPE_META: Record<
 
 /** Types that can be previewed inline in the modal */
 const PREVIEWABLE: Resource['type'][] = ['video', 'pdf']
+
+/** For cross-origin URLs (e.g. Vercel Blob) the browser ignores the `download`
+ *  attribute and opens the file in a new tab instead. Route those through our
+ *  server-side proxy so the browser always gets a download disposition. */
+function downloadHref(url: string, title: string): string {
+  // Absolute URLs are cross-origin — proxy them so the browser triggers a download
+  // instead of opening in a new tab. This check is consistent on both server and client.
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return `/api/download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(title)}`
+  }
+  return url
+}
 
 // ─── Media Modal ─────────────────────────────────────────────────────────────
 
@@ -95,7 +108,7 @@ function MediaModal({ resource, onClose }: MediaModalProps) {
               </a>
               {/* Download */}
               <a
-                href={resource.url}
+                href={downloadHref(resource.url, resource.title)}
                 download
                 className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium text-white transition-colors"
                 style={{ backgroundColor: '#D4891A' }}
@@ -149,25 +162,105 @@ function MediaModal({ resource, onClose }: MediaModalProps) {
 // ─── ResourceList ─────────────────────────────────────────────────────────────
 
 interface ResourceListProps {
-  /** Comma-separated list of resource IDs from config/resources.json */
-  ids: string
+  /** Comma-separated list of resource IDs from config/resources.json.
+   *  Omit (or leave blank) to show all resources. */
+  ids?: string
 }
 
 export function ResourceList({ ids }: ResourceListProps) {
   const [previewResource, setPreviewResource] = useState<Resource | null>(null)
+  const [search, setSearch] = useState('')
+  const [activeType, setActiveType] = useState<Resource['type'] | 'all'>('all')
 
-  const idList = ids.split(',').map(s => s.trim()).filter(Boolean)
-  const resources = idList
-    .map(id => (allResources as Resource[]).find(r => r.id === id))
-    .filter((r): r is Resource => r !== undefined)
+  const idList = ids ? ids.split(',').map(s => s.trim()).filter(Boolean) : []
+  const baseResources = idList.length > 0
+    ? idList.map(id => (allResources as Resource[]).find(r => r.id === id)).filter((r): r is Resource => r !== undefined)
+    : (allResources as Resource[])
 
-  if (resources.length === 0) return null
+  // Derive which types are actually present so we only show relevant pills
+  const presentTypes = useMemo(
+    () => [...new Set(baseResources.map(r => r.type))] as Resource['type'][],
+    [baseResources]
+  )
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase()
+    return baseResources.filter(r => {
+      if (activeType !== 'all' && r.type !== activeType) return false
+      if (q && !r.title.toLowerCase().includes(q) && !r.description.toLowerCase().includes(q)) return false
+      return true
+    })
+  }, [baseResources, search, activeType])
+
+  if (baseResources.length === 0) return null
+
+  const showToolbar = baseResources.length > 2
 
   return (
     <>
       <div className="not-prose my-6">
+        {/* ── Toolbar ── */}
+        {showToolbar && (
+          <div className="mb-4 flex flex-wrap items-center gap-3">
+            {/* Search */}
+            <div className="relative flex-1 min-w-48">
+              <MagnifyingGlassIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search resources…"
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                className="w-full rounded-lg border border-gray-300 bg-white py-1.5 pl-9 pr-3 text-sm text-gray-900 placeholder-gray-400 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
+              />
+              {search && (
+                <button
+                  onClick={() => setSearch('')}
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  <XMarkIcon className="h-3.5 w-3.5" />
+                </button>
+              )}
+            </div>
+
+            {/* Type pills — only show if there's more than one type */}
+            {presentTypes.length > 1 && (
+              <div className="flex flex-wrap gap-1.5">
+                <button
+                  onClick={() => setActiveType('all')}
+                  className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                    activeType === 'all'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
+                  }`}
+                >
+                  All
+                </button>
+                {presentTypes.map(type => {
+                  const meta = TYPE_META[type] ?? TYPE_META.other
+                  const isActive = activeType === type
+                  return (
+                    <button
+                      key={type}
+                      onClick={() => setActiveType(isActive ? 'all' : type)}
+                      className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
+                        isActive ? 'ring-2 ring-offset-1 ring-blue-500 ' + meta.color : meta.color + ' opacity-70 hover:opacity-100'
+                      }`}
+                    >
+                      {meta.label}
+                    </button>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── Grid ── */}
+        {filtered.length === 0 ? (
+          <p className="text-sm text-gray-500 dark:text-gray-400">No resources match your search.</p>
+        ) : (
         <div className="grid gap-4 sm:grid-cols-2">
-          {resources.map(resource => {
+          {filtered.map(resource => {
             const meta = TYPE_META[resource.type] ?? TYPE_META.other
             const Icon = meta.icon
             const canPreview = PREVIEWABLE.includes(resource.type) && !!(resource.viewUrl || resource.url)
@@ -209,7 +302,7 @@ export function ResourceList({ ids }: ResourceListProps) {
                 {/* Action buttons */}
                 <div className="flex flex-wrap gap-2">
                   <a
-                    href={resource.url}
+                    href={downloadHref(resource.url, resource.title)}
                     download
                     className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
                   >
@@ -241,6 +334,7 @@ export function ResourceList({ ids }: ResourceListProps) {
             )
           })}
         </div>
+        )}
       </div>
 
       <MediaModal resource={previewResource} onClose={() => setPreviewResource(null)} />

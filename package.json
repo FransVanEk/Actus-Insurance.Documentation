@@ -7,6 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "generate-pdfs": "node scripts/generate-section-pdfs.js",
+    "generate-pdfs:preview": "node scripts/generate-section-pdfs.js --html-only",
     "release:patch": "npm version patch && git push --follow-tags",
     "release:minor": "npm version minor && git push --follow-tags",
     "release:major": "npm version major && git push --follow-tags"
@@ -40,6 +42,7 @@
     "baseline-browser-mapping": "^2.10.7",
     "eslint": "^9",
     "eslint-config-next": "16.0.10",
+    "puppeteer": "^24.0.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

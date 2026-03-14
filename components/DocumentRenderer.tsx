@@ -76,12 +76,23 @@ function resolveDocLink(href: string, fileDir: string): string {
   return `/docs/${resultParts.join('/')}`
 }
 
-/** Convert <ResourceList ids="..." /> to a plain div so ReactMarkdown can handle it without type errors. */
+/** Convert <ResourceList ids="..." /> / <resourcelist> etc. to a plain div so ReactMarkdown can handle it. */
 function preprocessContent(content: string): string {
-  return content.replace(
-    /<ResourceList\s+ids=["']([^"']*)["']\s*\/>/g,
+  // With ids attribute (self-closing or paired tags, any case)
+  let result = content.replace(
+    /<[Rr]esource[Ll]ist\s+ids=["']([^"']*)["']\s*\/?>/gi,
     (_match, ids: string) => `<div data-resourcelist="${ids}"></div>`
   )
+  // Without any ids attribute — show all resources
+  result = result.replace(
+    /<[Rr]esource[Ll]ist\s*\/>/gi,
+    () => `<div data-resourcelist=""></div>`
+  )
+  result = result.replace(
+    /<[Rr]esource[Ll]ist\s*><\/[Rr]esource[Ll]ist>/gi,
+    () => `<div data-resourcelist=""></div>`
+  )
+  return result
 }
 
 export function DocumentRenderer({ doc }: DocumentRendererProps) {
@@ -174,10 +185,10 @@ export function DocumentRenderer({ doc }: DocumentRendererProps) {
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           rehypePlugins={[rehypeHighlight, rehypeRaw]}
-          components={{
+          components={React.useMemo(() => ({
             // Custom link rendering for internal links
-            a: ({ node, href, children, ...props }) => {
-              const resolvedHref = resolveDocLink(href || '', doc.metadata.fileDir ?? '')
+            a: ({ node, href, children, ...props }: React.ComponentPropsWithRef<'a'> & { node?: unknown }) => {
+              const resolvedHref = resolveDocLink((href as string) || '', doc.metadata.fileDir ?? '')
               if (resolvedHref && (resolvedHref.startsWith('/') || resolvedHref.startsWith('#'))) {
                 return (
                   <a href={resolvedHref} {...props} className="text-blue-600 dark:text-blue-400 hover:underline">
@@ -236,7 +247,7 @@ export function DocumentRenderer({ doc }: DocumentRendererProps) {
             // <div data-resourcelist="id1,id2"> → styled download card grid
             div: ({ node, children, ...props }) => {
               const ids = (props as Record<string, unknown>)['data-resourcelist'] as string | undefined
-              if (ids) return <ResourceList ids={ids} />
+              if (ids !== undefined) return <ResourceList ids={ids} />
               return <div {...props}>{children}</div>
             },
             // Enhanced tables
@@ -290,7 +301,8 @@ export function DocumentRenderer({ doc }: DocumentRendererProps) {
               const id = getHeadingId(text)
               return <h6 {...props} id={id}>{applyToReactChildren(children)}</h6>
             },
-          }}
+          // eslint-disable-next-line react-hooks/exhaustive-deps
+          }), [doc.metadata.fileDir, doc.metadata.slug, headingIds])}
         >
           {processedContent}
         </ReactMarkdown>

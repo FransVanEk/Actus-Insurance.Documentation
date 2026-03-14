@@ -2,7 +2,7 @@
 title: Competition Submission — ACTUS-I
 description: Submission responses for the ACTUS competition proposal "Extending Algorithmic Financial Contracts into Insurance with High-Performance Portfolio Projections."
 category: Hackathon
-order: 21
+order: 4
 ---
 
 # Competition Submission
@@ -26,7 +26,7 @@ By combining a standardized contract representation with scalable projection tec
 
 ## URL to Demonstration Video
 
-[Video of the presentationapplication demo](https://actus-insurance-documentation.vercel.app/downloads/demo-video.mp4)
+[Video of the presentationapplication demo](https://5zctpd9jyxecuidw.public.blob.vercel-storage.com/actus-Video-presentation-%20large.mp4)
 
 ---
 

@@ -1,36 +1,129 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ACTUS Insurance Documentation
+
+A Next.js documentation site for the ACTUS Insurance project, covering the hackathon story, ACTUS standard, GPU background, technical implementation, and insurance extensions.
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies (this also installs Puppeteer, used for PDF generation):
+
+```bash
+npm install
+```
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the site.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Generating Section PDFs
 
-## Learn More
+Each documentation section defined in `config/sections.json` can be exported as a standalone, print-ready PDF. The script collects all markdown files for a section, renders them with the site's design (navy/amber colour scheme, matching fonts and code styles), and saves one PDF per section to `public/downloads/`. It also updates `config/resources.json` automatically so the PDFs appear in the site's Resources page.
 
-To learn more about Next.js, take a look at the following resources:
+### First-time setup
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Puppeteer is already listed in `devDependencies`. Just run:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm install
+```
 
-## Deploy on Vercel
+Puppeteer will download its bundled version of Chromium (~170 MB) automatically.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Generate all section PDFs
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run generate-pdfs
+```
+
+This produces:
+
+| File | Section |
+|------|---------|
+| `public/downloads/hackathon-documentation.pdf` | The Hackathon Story |
+| `public/downloads/actus-org-documentation.pdf` | ACTUS Organization |
+| `public/downloads/background-gpu-documentation.pdf` | Background — GPU Computing |
+| `public/downloads/technical-documentation.pdf` | Technical Documentation |
+| `public/downloads/actus-insurance-documentation.pdf` | ACTUS Insurance Extensions |
+
+`config/resources.json` is updated with a new entry for each PDF.
+
+### Generate a single section
+
+Pass the section `id` (folder name under `docs/`) as the first argument:
+
+```bash
+npm run generate-pdfs -- hackathon
+npm run generate-pdfs -- actus-org
+npm run generate-pdfs -- background-gpu
+npm run generate-pdfs -- technical
+npm run generate-pdfs -- actus-insurance
+```
+
+### Preview the PDF design without Chromium
+
+The `--html-only` flag renders the same HTML template but skips the Puppeteer step and writes `.html` files instead. Open them in any browser to check the design before committing to a full PDF run.
+
+```bash
+# All sections
+npm run generate-pdfs:preview
+
+# Single section
+npm run generate-pdfs -- hackathon --html-only
+```
+
+### What each PDF contains
+
+1. **Cover page** — section title, description, and feature highlights on a navy background
+2. **Table of contents** — links to every document in the section
+3. **All documents** — one page break per document, amber headings, styled tables and code blocks, embedded SVG images
+4. **Running header/footer** — section name in the header, page numbers in the footer
+
+### Script location
+
+```
+scripts/generate-section-pdfs.js
+```
+
+To add a new section, define it in `config/sections.json` and create the corresponding folder under `docs/`. Re-running `npm run generate-pdfs` will pick it up automatically.
+
+---
+
+## Project structure
+
+```
+├── app/                  # Next.js App Router pages and API routes
+├── components/           # React components (Sidebar, DocumentRenderer, Search…)
+├── config/
+│   ├── sections.json     # Section definitions (id, title, description, features)
+│   ├── resources.json    # Downloadable resources shown on the Resources page
+│   └── proper-nouns.json # Capitalisation overrides for ACTUS terminology
+├── docs/                 # Markdown documentation source files
+│   ├── hackathon/
+│   ├── actus-org/
+│   ├── background-gpu/
+│   ├── technical/
+│   └── actus-insurance/
+├── lib/                  # Shared utilities (markdown loader, search, sentence case)
+├── public/
+│   └── downloads/        # Generated PDFs and other downloadable assets
+└── scripts/
+    └── generate-section-pdfs.js   # PDF generation script
+```
+
+---
+
+## Deployment
+
+Build for production:
+
+```bash
+npm run build
+npm run start
+```
+
+Or use the included Dockerfile for a containerised deployment.

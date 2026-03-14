@@ -76,7 +76,7 @@ The result:
 | In the Car Factory | In the Financial World |
 |---|---|
 | 42 reference cars tested on both tracks — identical results to 10 decimal places | All 42 official ACTUS test cases pass on both the CPU and GPU engines |
-| The highway handles 100,000 cars simultaneously, over 2× faster than the 8-track facility | GPU evaluates 100,000 contracts in 312 ms vs. 685 ms on CPU |
+| The highway handles 100,000 cars simultaneously, over 2× faster than the 8-track facility | GPU evaluates 100,000 life insurance policies in 273 ms vs. 735 ms on CPU (2.7× faster) |
 | Cars stay on the highway and loop through 1,000 road conditions without re-entering | Monte Carlo: 10,000 contracts × 10,000 scenarios in 28 seconds (5× faster than CPU) |
 | New car types added — insurance vehicles with different test programmes | Life insurance contracts with state transitions and actuarial tables |
 | Highway sinks aggregate measurements before sending them off the highway | Risk metrics computed on the GPU before transfer — no off-ramp congestion |

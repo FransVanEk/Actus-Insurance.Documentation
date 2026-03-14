@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Background — GPU Computing — ACTUS Insurance Documentation</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy-dark:  #0D2038;
+      --navy:       #1A3550;
+      --amber:      #D4891A;
+      --amber-light:#F0A83A;
+      --text:       #1a202c;
+      --text-light: #4a5568;
+      --border:     #e2e8f0;
+      --code-bg:    #f7f8fa;
+    }
+
+    html { font-size: 11pt; }
+
+    body {
+      font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+      color: var(--text);
+      background: #ffffff;
+      line-height: 1.65;
+    }
+
+    /* ── @page rules (WeasyPrint + browsers) ── */
+    @page {
+      size: A4;
+      margin: 15mm 15mm 18mm 15mm;
+    }
+
+    @page :first {
+      margin: 0;
+    }
+
+    /* ── Cover page ── */
+    .cover {
+      width: 100%;
+      height: 297mm;
+      display: flex;
+      flex-direction: column;
+      background: var(--navy-dark);
+      color: #ffffff;
+      padding: 0;
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .cover-top {
+      background: var(--navy);
+      padding: 2rem 3rem;
+      border-bottom: 3px solid var(--amber);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .cover-logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--amber);
+    }
+
+    .cover-logo span {
+      color: #9FB8D0;
+      font-weight: 400;
+    }
+
+    .cover-body {
+      flex: 1;
+      padding: 4rem 3rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .cover-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.5rem;
+    }
+
+    .cover-title {
+      font-size: 2.8rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #ffffff;
+      margin-bottom: 1.5rem;
+    }
+
+    .cover-desc {
+      font-size: 1.1rem;
+      color: #9FB8D0;
+      max-width: 600px;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+
+    .cover-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      max-width: 600px;
+    }
+
+    .cover-features li {
+      color: #9FB8D0;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .cover-features li::before {
+      content: "▸";
+      color: var(--amber);
+      flex-shrink: 0;
+      margin-top: 0.05em;
+    }
+
+    .cover-footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #5A7A9A;
+      font-size: 0.8rem;
+    }
+
+    /* ── Table of Contents ── */
+    .toc-page {
+      padding: 3rem;
+      page-break-after: always;
+    }
+
+    .toc-header {
+      border-bottom: 2px solid var(--amber);
+      padding-bottom: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .toc-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--navy-dark) !important;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .toc-list li a {
+      color: var(--navy);
+      text-decoration: none;
+      font-size: 0.95rem;
+      border-bottom: 1px dotted var(--border);
+      display: block;
+      padding: 0.35rem 0;
+    }
+
+    .toc-list li a:hover { color: var(--amber); }
+
+    /* ── Main content area ── */
+    .content {
+      padding: 3rem;
+    }
+
+    /* ── Section page header strip ── */
+    .section-header {
+      background: var(--navy-dark);
+      color: white;
+      padding: 1.5rem 3rem;
+      margin: -3rem -3rem 2.5rem -3rem;
+      border-bottom: 3px solid var(--amber);
+    }
+
+    .section-header .breadcrumb {
+      font-size: 0.75rem;
+      color: #9FB8D0;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.3rem;
+    }
+
+    .section-header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff !important;
+    }
+
+    /* ── Document sections ── */
+    .doc-section {
+      margin-bottom: 2rem;
+    }
+
+    .doc-title {
+      font-size: 1.75rem !important;
+      font-weight: 700;
+      color: var(--amber) !important;
+      margin-bottom: 1.25rem !important;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Typography ── */
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--amber);
+      font-weight: 700;
+      line-height: 1.3;
+      margin-top: 1.5em;
+      margin-bottom: 0.6em;
+    }
+
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.4rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem; }
+    h3 { font-size: 1.15rem; color: var(--navy) !important; }
+    h4 { font-size: 1rem; color: var(--text-light) !important; font-weight: 600; }
+
+    p {
+      margin-bottom: 1em;
+      color: var(--text);
+    }
+
+    a { color: var(--navy); text-decoration: underline; }
+
+    strong { font-weight: 700; }
+    em     { font-style: italic; }
+
+    /* ── Lists ── */
+    ul, ol {
+      margin: 0.75em 0 0.75em 1.8em;
+    }
+
+    li {
+      margin-bottom: 0.3em;
+      line-height: 1.6;
+    }
+
+    /* ── Blockquotes ── */
+    blockquote {
+      border-left: 4px solid var(--amber);
+      background: #fdf6ec;
+      margin: 1.5em 0;
+      padding: 1em 1.5em;
+      color: var(--text-light);
+      font-style: italic;
+      border-radius: 0 4px 4px 0;
+    }
+
+    blockquote p { margin-bottom: 0.5em; }
+    blockquote p:last-child { margin-bottom: 0; }
+
+    /* ── Code ── */
+    code {
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 0.88em;
+      background: var(--code-bg);
+      color: #c7254e;
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+    }
+
+    pre {
+      background: #1e2a3a;
+      color: #abb2bf;
+      border-radius: 6px;
+      padding: 1.25em 1.5em;
+      overflow: auto;
+      margin: 1.25em 0;
+      font-size: 0.85em;
+      line-height: 1.6;
+      border: 1px solid #2d3748;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+      font-size: inherit;
+    }
+
+    /* ── Tables ── */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1.25em 0;
+      font-size: 0.9em;
+      overflow: hidden;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    thead {
+      background: var(--navy-dark);
+      color: #ffffff;
+    }
+
+    thead th {
+      padding: 0.75em 1em;
+      font-weight: 600;
+      text-align: left;
+      color: #ffffff;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+
+    tbody tr:nth-child(even) { background: #f8fafc; }
+    tbody tr:nth-child(odd)  { background: #ffffff; }
+
+    td {
+      padding: 0.65em 1em;
+      border-top: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    /* ── Images ── */
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 1.5em auto;
+      border-radius: 4px;
+    }
+
+    /* ── Horizontal rules ── */
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2em 0;
+    }
+
+    /* ── Page breaks ── */
+    .page-break {
+      page-break-before: always;
+      break-before: page;
+    }
+
+    /* ── Mermaid diagrams ── */
+    .mermaid-wrap {
+      margin: 1.5em 0;
+      text-align: center;
+    }
+
+    /* Rendered state: SVG replaces the <pre> */
+    .mermaid-wrap svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Unrendered / WeasyPrint fallback: show source as a styled block */
+    pre.mermaid {
+      background: #f0f4f8;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--amber);
+      border-radius: 4px;
+      padding: 1em 1.25em;
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 0.82em;
+      color: var(--text-light);
+      white-space: pre;
+      text-align: left;
+    }
+
+    /* Label shown above the source in WeasyPrint fallback */
+    .mermaid-wrap::before {
+      content: "Diagram (rendered interactively in browser)";
+      display: block;
+      font-size: 0.72em;
+      font-weight: 600;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4em;
+      text-align: left;
+    }
+
+    /* Hide the label once mermaid has replaced the pre with an svg */
+    .mermaid-wrap:has(svg)::before {
+      display: none;
+    }
+
+    /* ── Print-specific ── */
+    @media print {
+      .cover     { height: 297mm; page-break-after: always; break-after: page; }
+      .toc-page  { page-break-after: always; break-after: page; }
+      .page-break { page-break-before: always; break-before: page; }
+
+      pre { white-space: pre-wrap; word-break: break-all; }
+      a   { color: inherit; text-decoration: none; }
+
+      .mermaid-wrap svg { page-break-inside: avoid; }
+      pre.mermaid { background: #f0f4f8 !important; -webkit-print-color-adjust: exact; }
+
+      thead { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      .cover { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      .cover-top { background: var(--navy) !important; -webkit-print-color-adjust: exact; }
+      .section-header { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      blockquote { background: #fdf6ec !important; -webkit-print-color-adjust: exact; }
+      pre { background: #1e2a3a !important; -webkit-print-color-adjust: exact; }
+    }
+  </style>
+  <!-- Mermaid: renders diagrams in browsers and Puppeteer; ignored by WeasyPrint -->
+  <script type="module">
+    try {
+      const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs');
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: {
+          primaryColor:       '#1A3550',
+          primaryTextColor:   '#ffffff',
+          primaryBorderColor: '#D4891A',
+          lineColor:          '#D4891A',
+          secondaryColor:     '#0D2038',
+          tertiaryColor:      '#f0f4f8',
+          fontFamily:         'Arial, Helvetica, sans-serif',
+          fontSize:           '13px',
+        },
+        flowchart:  { useMaxWidth: true, htmlLabels: true },
+        sequence:   { useMaxWidth: true },
+        gantt:      { useMaxWidth: true },
+      });
+      await mermaid.run({ querySelector: '.mermaid' });
+    } catch (e) {
+      console.warn('Mermaid CDN not available; diagrams shown as source.', e.message);
+    }
+  </script>
+</head>
+<body>
+
+  <!-- ═══ COVER PAGE ═══ -->
+  <div class="cover">
+    <div class="cover-top">
+      <div class="cover-logo">ACTUS<span> Insurance Documentation</span></div>
+    </div>
+    <div class="cover-body">
+      <div class="cover-label">Documentation Section</div>
+      <h1 class="cover-title">Background — GPU Computing</h1>
+      <p class="cover-desc">What a GPU is, how it differs from a CPU, and why GPU architecture is well-suited for large-scale financial contract evaluation using ILGPU.</p>
+      
+      <ul class="cover-features">
+        <li>CPU vs GPU Architecture Comparison</li>
+        <li>Why GPU for Financial Contracts</li>
+        <li>ILGPU Framework — C# to CUDA/OpenCL</li>
+        <li>Hardware Specifications &amp; Constraints</li>
+      </ul>
+    </div>
+    <div class="cover-footer">
+      <span>ACTUS Insurance Documentation</span>
+      <span>Generated 14 March 2026</span>
+    </div>
+  </div>
+
+  <!-- ═══ TABLE OF CONTENTS ═══ -->
+  <div class="toc-page">
+    <div class="toc-header">
+      <h2>Table of Contents</h2>
+    </div>
+    <ul class="toc-list">
+      <li ><a href="#doc-0">Background — GPU Computing</a></li>
+<li ><a href="#doc-1">GPU vs CPU Architecture</a></li>
+<li ><a href="#doc-2">Why GPU for ACTUS Contracts</a></li>
+<li ><a href="#doc-3">ILGPU Framework</a></li>
+
+    </ul>
+  </div>
+
+  <!-- ═══ DOCUMENT CONTENT ═══ -->
+  <div class="content">
+    <div class="section-header">
+      <div class="breadcrumb">ACTUS Insurance Documentation</div>
+      <h1>GPU Background</h1>
+    </div>
+
+    
+      
+      <article id="doc-0" class="doc-section">
+        <h1 class="doc-title">Background — GPU Computing</h1>
+        <h2>Background — GPU Computing</h2>
+<h2>Overview</h2>
+<p>This section explains GPU computing for readers who may not have a background in parallel hardware. It starts with the basic concept of a GPU, compares it to a CPU, and then explains why the GPU's architecture is a natural fit for evaluating large portfolios of financial contracts.</p>
+<p>If you are already familiar with GPU computing, you can skip directly to <a href="./why-gpu-for-actus.md">Why GPU for ACTUS</a>.</p>
+<h2>What is a GPU?</h2>
+<p>A GPU (Graphics Processing Unit) is a processor that was originally designed to render images for computer displays. Rendering a frame of video or a 3D scene involves performing the same mathematical operation (a colour or lighting calculation) on millions of pixels simultaneously. To handle this workload, GPUs evolved a fundamentally different architecture from CPUs.</p>
+<p>A CPU has a small number of powerful cores (typically 4–16 on consumer hardware, up to 128 on server hardware). Each core is optimised for complex, branching logic and can execute different instructions independently. A CPU is like a small team of highly skilled specialists — each one can handle any task, but there are only a few of them.</p>
+<p>A GPU has thousands of smaller, simpler cores (typically 2,000–16,000). Each core is less powerful than a CPU core, but they work together in lockstep, all executing the same instruction on different data. A GPU is like a factory floor with thousands of workers — each one performs a simple, repetitive task, but together they achieve enormous throughput.</p>
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
+    subgraph CPU ["CPU — Few Powerful Cores"]
+        C1[Core 1&#x3C;br/>Complex Logic]
+        C2[Core 2&#x3C;br/>Complex Logic]
+        C3[Core 3&#x3C;br/>Complex Logic]
+        C4[Core 4&#x3C;br/>Complex Logic]
+    end
+
+    subgraph GPU ["GPU — Thousands of Simple Cores"]
+        G1[Core 1]
+        G2[Core 2]
+        G3[Core 3]
+        G4[...]
+        G5[Core 4096]
+    end
+</pre></div>
+<p>In this project, the GPU used is an NVIDIA GeForce RTX 3060 Ti with 8 GB of memory and 4,864 CUDA cores. The CPU is an AMD Ryzen 7 3800X with 8 cores at 3.90 GHz and 48 GB of RAM. Even this mid-range consumer GPU delivered substantial speedups for large portfolio evaluations.</p>
+<h2>Key Concepts</h2>
+<p>Before diving deeper, here are the concepts needed to understand GPU computing in the context of this project.</p>
+<h3>Parallelism</h3>
+<p>Parallelism means performing multiple computations at the same time. There are two kinds:</p>
+<p><strong>Task parallelism</strong> — different tasks run simultaneously on different cores. This is what a multi-core CPU does well. For example, one core handles email while another handles a spreadsheet.</p>
+<p><strong>Data parallelism</strong> — the same task runs simultaneously on many different data elements. This is what a GPU does well. For example, the same interest calculation runs on 100,000 different contracts at the same time.</p>
+<p>Financial contract evaluation is a data-parallel problem: the same algorithm (compute cash flows) is applied to many independent contracts.</p>
+<h3>Kernel</h3>
+<p>In GPU programming, a kernel is a function that runs on the GPU. When you launch a kernel, you specify how many threads should execute it. Each thread receives a unique index that tells it which data element to process. For example, thread 0 processes contract 0, thread 1 processes contract 1, and so on.</p>
+<h3>Host and Device</h3>
+<p>In GPU programming, the CPU and its memory are called the "host." The GPU and its memory are called the "device." Data must be explicitly transferred between host and device:</p>
+<ol>
+<li><strong>H2D (Host-to-Device):</strong> Copy input data from CPU memory to GPU memory</li>
+<li><strong>Kernel execution:</strong> GPU processes the data in parallel</li>
+<li><strong>D2H (Device-to-Host):</strong> Copy results from GPU memory back to CPU memory</li>
+</ol>
+<p>This transfer overhead is why GPUs only provide a benefit for large workloads — the computation time must be large enough to outweigh the data transfer time. In the car factory analogy from the <a href="../hackathon/cpu-vs-gpu-explained.md">hackathon section</a>, H2D is the on-ramp and D2H is the off-ramp.</p>
+<h3>Memory Coalescing</h3>
+<p>GPU memory is optimised for a specific access pattern: when all threads in a group read from consecutive memory addresses. This is called coalesced access, and it delivers maximum memory bandwidth. The SoA (Structure of Arrays) data layout used in this project ensures coalesced access by storing each contract field in a contiguous array.</p>
+<h2>Continue Reading</h2>
+<ul>
+<li><a href="./gpu-vs-cpu.md">GPU vs CPU Architecture</a> — detailed comparison of the two architectures</li>
+<li><a href="./why-gpu-for-actus.md">Why GPU for ACTUS</a> — specific reasons GPU suits financial contract evaluation</li>
+<li><a href="./ilgpu-framework.md">ILGPU Framework</a> — how ILGPU bridges .NET to GPU hardware</li>
+</ul>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-1" class="doc-section">
+        <h1 class="doc-title">GPU vs CPU Architecture</h1>
+        <h2>GPU vs CPU Architecture</h2>
+<h2>Overview</h2>
+<p>CPUs and GPUs are both processors, but they are designed for fundamentally different workloads. Understanding these differences explains why certain problems benefit from GPU acceleration and why the crossover point exists (below a certain workload size, CPU is faster).</p>
+<h2>Architecture Comparison</h2>
+<table>
+<thead>
+<tr>
+<th>Characteristic</th>
+<th>CPU</th>
+<th>GPU</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Core count</td>
+<td>4–128</td>
+<td>2,000–16,000</td>
+</tr>
+<tr>
+<td>Core complexity</td>
+<td>High (branch prediction, out-of-order execution, large caches)</td>
+<td>Low (simple ALU, minimal cache)</td>
+</tr>
+<tr>
+<td>Clock speed</td>
+<td>3–5 GHz</td>
+<td>1–2 GHz</td>
+</tr>
+<tr>
+<td>Memory bandwidth</td>
+<td>50–100 GB/s</td>
+<td>500–2,000 GB/s</td>
+</tr>
+<tr>
+<td>Latency per operation</td>
+<td>Very low (nanoseconds)</td>
+<td>Higher (microseconds for memory access)</td>
+</tr>
+<tr>
+<td>Parallelism model</td>
+<td>Task-parallel (different tasks on different cores)</td>
+<td>Data-parallel (same task on different data)</td>
+</tr>
+<tr>
+<td>Best for</td>
+<td>Complex logic, branching, sequential dependencies</td>
+<td>Uniform computation on large datasets</td>
+</tr>
+</tbody>
+</table>
+<p>In this project, the CPU is an AMD Ryzen 7 3800X (8 cores, 3.90 GHz, 48 GB RAM) and the GPU is an NVIDIA GeForce RTX 3060 Ti (4,864 CUDA cores, 8 GB GDDR6X, ~448 GB/s memory bandwidth).</p>
+<h2>How a CPU Processes a Portfolio</h2>
+<p>When a CPU evaluates a portfolio of 100,000 contracts, it uses its cores to process contracts in parallel. The approach:</p>
+<ol>
+<li>Divide the 100,000 contracts among available CPU cores (8 cores → 12,500 contracts each)</li>
+<li>Each core processes its contracts sequentially</li>
+<li>Within each contract, events are processed in order</li>
+</ol>
+<p>With 8 cores, this achieves 8× parallelism. The CPU's large caches and branch prediction make each individual contract evaluation fast, but the parallelism is limited by the core count.</p>
+<h2>How a GPU Processes a Portfolio</h2>
+<p>When a GPU evaluates the same portfolio:</p>
+<ol>
+<li>All 100,000 contracts are assigned to GPU threads (one thread per contract)</li>
+<li>Thousands of threads execute simultaneously</li>
+<li>Within each thread, events are processed sequentially (same as CPU)</li>
+</ol>
+<p>With 4,864 active threads, this achieves massive parallelism on the contract dimension. Each individual thread is slower than a CPU core, but the sheer number of threads more than compensates.</p>
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
+    subgraph CPU["CPU Processing (8 cores)"]
+        direction LR
+        CP1["Core 1&#x3C;br/>12,500 contracts&#x3C;br/>sequential"]
+        CP2["Core 2&#x3C;br/>12,500 contracts&#x3C;br/>sequential"]
+        CP3["..."]
+        CP4["Core 8&#x3C;br/>12,500 contracts&#x3C;br/>sequential"]
+    end
+
+    subgraph GPU["GPU Processing (4,864 threads)"]
+        direction LR
+        GP1["Thread 1&#x3C;br/>1 contract"]
+        GP2["Thread 2&#x3C;br/>1 contract"]
+        GP3["..."]
+        GP4["Thread 4,864&#x3C;br/>1 contract"]
+        GP5["(next wave)&#x3C;br/>Thread 4,865–9,728"]
+    end
+</pre></div>
+<h2>The Crossover Point</h2>
+<p>GPU acceleration has overhead that does not exist in CPU processing:</p>
+<ol>
+<li><strong>Data packing:</strong> Domain objects must be converted to compact numeric structs</li>
+<li><strong>H2D transfer:</strong> Data must be copied to GPU memory over the PCIe bus</li>
+<li><strong>Kernel launch:</strong> The GPU runtime has a fixed startup cost per kernel launch</li>
+<li><strong>D2H transfer:</strong> Results must be copied back to CPU memory</li>
+</ol>
+<p>For small portfolios (under ~5,000 contracts), this overhead exceeds the time saved by parallelism. The GPU wins only when the computation time is large enough to amortise the overhead.</p>
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
+    subgraph "Small Portfolio (1K contracts)"
+        S1["CPU: ~15 ms total"]
+        S2["GPU: ~5 ms overhead + 27 ms = ~32 ms"]
+    end
+
+    subgraph "Large Portfolio (100K life insurance policies)"
+        L1["CPU: ~735 ms total"]
+        L2["GPU: ~250 ms overhead + 23 ms = ~273 ms"]
+    end
+</pre></div>
+<h2>When to Use CPU vs GPU</h2>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Recommended</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single contract evaluation</td>
+<td>CPU</td>
+<td>GPU overhead dominates</td>
+</tr>
+<tr>
+<td>Portfolio &#x3C; 5,000 contracts</td>
+<td>CPU</td>
+<td>Overhead exceeds parallelism benefit</td>
+</tr>
+<tr>
+<td>Portfolio 5,000–50,000</td>
+<td>Either (GPU slightly faster)</td>
+<td>Break-even zone</td>
+</tr>
+<tr>
+<td>Portfolio > 50,000</td>
+<td>GPU</td>
+<td>Parallelism clearly dominates</td>
+</tr>
+<tr>
+<td>Monte Carlo (many scenarios)</td>
+<td>GPU</td>
+<td>2D parallelism (contracts × scenarios)</td>
+</tr>
+<tr>
+<td>Real-time single queries</td>
+<td>CPU</td>
+<td>Lowest latency</td>
+</tr>
+<tr>
+<td>Batch risk calculations</td>
+<td>GPU</td>
+<td>Maximum throughput</td>
+</tr>
+</tbody>
+</table>
+<h2>Memory Bandwidth Advantage</h2>
+<p>The GPU's memory bandwidth (often 10–20× higher than CPU) is particularly important for financial calculations. Contract evaluation requires reading many contract parameters and event descriptors from memory. The GPU's wide memory bus and coalesced access patterns allow it to feed data to thousands of cores simultaneously.</p>
+<p>This is why the SoA (Structure of Arrays) data layout is critical: it ensures that when thousands of GPU threads read the "notional principal" field, they read from consecutive memory addresses, maximising bandwidth utilisation.</p>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-2" class="doc-section">
+        <h1 class="doc-title">Why GPU for ACTUS Contracts</h1>
+        <h2>Why GPU for ACTUS Contracts</h2>
+<h2>Overview</h2>
+<p>Not every computation benefits from GPU acceleration. The key question is: does the workload have the right properties for data parallelism? ACTUS contract evaluation has several properties that make it an excellent GPU candidate.</p>
+<h2>Property 1: Independent Work Items</h2>
+<p>Each financial contract in a portfolio can be evaluated completely independently of every other contract. Contract A's cash flows do not depend on Contract B's state. This means there is no synchronisation needed between GPU threads — each thread can run to completion without waiting for any other thread.</p>
+<p>Independence is the most important property for GPU parallelism. If work items depended on each other, threads would need to synchronise, which would eliminate the parallelism benefit.</p>
+<p>In the car factory analogy: each car's test run is completely independent. No car needs to wait for another car's results.</p>
+<h2>Property 2: Uniform Computation</h2>
+<p>All PAM contracts follow the same algorithm: generate events, process them in order, compute payoffs, update state. The specific parameters differ (different principals, rates, dates), but the computation structure is the same.</p>
+<p>GPUs achieve peak performance when all threads execute the same instructions. This is called SIMT (Single Instruction, Multiple Threads). Because ACTUS contracts share the same processing logic, GPU threads stay in lockstep, maximising hardware utilisation.</p>
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
+    subgraph "All threads execute the same logic"
+        T1["Thread 1: IED → IP → IP → MD"]
+        T2["Thread 2: IED → IP → IP → MD"]
+        T3["Thread 3: IED → RR → IP → MD"]
+        T4["Thread 4: IED → IP → TD"]
+    end
+</pre></div>
+<p>The minor variations (some contracts have rate resets, others don't) cause slight divergence, but the overall structure is uniform enough for efficient GPU execution.</p>
+<h2>Property 3: Scalable Parallelism</h2>
+<p>Financial risk management requires evaluating portfolios under many scenarios. A portfolio of 100,000 contracts under 1,000 Monte Carlo scenarios produces 100 million independent evaluations. This is a two-dimensional parallelism that maps naturally to the GPU's thread grid:</p>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Maps To</th>
+<th>Count</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Contracts</td>
+<td>GPU grid X dimension</td>
+<td>100,000</td>
+</tr>
+<tr>
+<td>Scenarios</td>
+<td>GPU grid Y dimension</td>
+<td>1,000</td>
+</tr>
+<tr>
+<td><strong>Total independent threads</strong></td>
+<td></td>
+<td><strong>100,000,000</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Modern GPUs can manage millions of threads, making this scale a natural fit.</p>
+<h2>Property 4: Bounded, Predictable Memory</h2>
+<p>Each contract evaluation requires a fixed, predictable amount of memory: the contract terms, the event list, and the working state. There are no dynamic allocations, no recursion, and no variable-length data structures during kernel execution. This predictability means:</p>
+<ul>
+<li>Memory can be pre-allocated in a single batch</li>
+<li>No garbage collection or memory management on the GPU</li>
+<li>Memory access patterns are known at compile time, enabling optimisation</li>
+</ul>
+<h2>Property 5: Arithmetic Intensity</h2>
+<p>Contract evaluation involves substantial arithmetic: year fraction calculations, compound interest, discount factor application, rate cap/floor comparisons. The ratio of computation to memory access (arithmetic intensity) is high enough that the GPU's compute units are well utilised — the workload is not purely memory-bound.</p>
+<h2>The Portfolio Scale Argument</h2>
+<p>Financial institutions manage portfolios that are naturally large:</p>
+<table>
+<thead>
+<tr>
+<th>Sector</th>
+<th>Typical Portfolio Size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Regional bank</td>
+<td>10,000–100,000 contracts</td>
+</tr>
+<tr>
+<td>National bank</td>
+<td>100,000–1,000,000 contracts</td>
+</tr>
+<tr>
+<td>Insurance company</td>
+<td>500,000–10,000,000 policies</td>
+</tr>
+<tr>
+<td>Central bank (stress testing)</td>
+<td>Millions of contracts across institutions</td>
+</tr>
+</tbody>
+</table>
+<p>When combined with Monte Carlo scenarios (100–10,000 paths) and multiple calculation dates (for time-series analysis), the total computation scales into billions of evaluations. This is the regime where GPU acceleration provides order-of-magnitude speedups.</p>
+<h2>Summary</h2>
+<p>ACTUS contract evaluation satisfies all the criteria for effective GPU acceleration:</p>
+<ol>
+<li>Work items are independent (no synchronisation)</li>
+<li>Computation is uniform (same algorithm, different data)</li>
+<li>Parallelism scales in two dimensions (contracts × scenarios)</li>
+<li>Memory requirements are bounded and predictable</li>
+<li>Arithmetic intensity is sufficient</li>
+</ol>
+<p>These properties are inherent to the ACTUS standard — they are not artefacts of a particular implementation. Any correct ACTUS engine will exhibit these same properties, making GPU acceleration a natural evolution for the standard.</p>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-3" class="doc-section">
+        <h1 class="doc-title">ILGPU Framework</h1>
+        <h2>ILGPU Framework</h2>
+<h2>Overview</h2>
+<p>ILGPU is an open-source .NET library that allows C# code to run on GPUs. It provides a unified programming model that compiles the same kernel code to CUDA (NVIDIA), OpenCL (cross-vendor), or CPU (fallback) instructions at runtime.</p>
+<p>This page explains what ILGPU is, how it works, and why it was chosen for this project.</p>
+<h2>What ILGPU Does</h2>
+<p>Traditional GPU programming requires writing kernels in CUDA C/C++ (for NVIDIA) or OpenCL C (for cross-vendor). This means maintaining a separate codebase in a different language, with a separate toolchain and build process.</p>
+<p>ILGPU eliminates this by allowing kernels to be written in standard C#. At runtime, ILGPU's compiler translates the C# code into the appropriate GPU instruction set.</p>
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
+    CS["C# Kernel Code"] --> ILGPU["ILGPU Compiler"]
+    ILGPU --> CUDA["CUDA PTX&#x3C;br/>(NVIDIA)"]
+    ILGPU --> OCL["OpenCL SPIR-V&#x3C;br/>(AMD, Intel)"]
+    ILGPU --> CPU["CPU IL&#x3C;br/>(Fallback)"]
+
+    CUDA --> NV["NVIDIA GPU"]
+    OCL --> AMD["AMD / Intel GPU"]
+    CPU --> PROC["Any CPU"]
+</pre></div>
+<h2>The Accelerator Fallback Chain</h2>
+<p>When the executor initialises, it selects the best available backend:</p>
+<ol>
+<li><strong>CUDA</strong> — if an NVIDIA GPU is present, use CUDA for maximum performance</li>
+<li><strong>OpenCL</strong> — if no NVIDIA GPU but another GPU is available, use OpenCL</li>
+<li><strong>CPU</strong> — if no GPU is available, use the CPU backend (slower, but functional)</li>
+</ol>
+<p>This means the software runs on any machine without modification. A developer can write and test on a laptop without a GPU, then deploy to a server with a high-end NVIDIA card for production performance.</p>
+<h2>Key ILGPU Concepts</h2>
+<h3>Context and Accelerator</h3>
+<p>An ILGPU Context manages the runtime state. An Accelerator represents a specific device (GPU or CPU) and provides methods for memory allocation, kernel compilation, and execution.</p>
+<h3>Memory Buffers</h3>
+<p>GPU memory is managed through typed buffers. These buffers hold contiguous arrays of blittable structs. The executor allocates buffers on the GPU, copies data from the CPU (H2D), runs the kernel, and copies results back (D2H).</p>
+<h3>Kernel Compilation</h3>
+<p>Kernels are compiled from C# methods at runtime. The first compilation is slow (hundreds of milliseconds), but the compiled kernel is cached and reused for subsequent calls. In this project, kernel compilation happens once at executor initialisation.</p>
+<h3>Index Types</h3>
+<p>ILGPU supports multi-dimensional thread indexing:</p>
+<ul>
+<li><strong>Index1D</strong> — one-dimensional (used for single-batch contract evaluation)</li>
+<li><strong>Index2D</strong> — two-dimensional (used for contract × scenario Monte Carlo evaluation)</li>
+</ul>
+<p>The kernel receives its index as a parameter and uses it to determine which data element to process.</p>
+<h2>Constraints</h2>
+<p>ILGPU kernels must operate on blittable types only. This means:</p>
+<ul>
+<li>No strings, objects, or reference types</li>
+<li>No lists, dictionaries, or other collection types</li>
+<li>No DateTime (converted to long ticks)</li>
+<li>No nullable reference types</li>
+<li>Structs must use sequential memory layout</li>
+</ul>
+<p>All data passed to a kernel must be either a blittable struct parameter or a typed memory buffer. This is why the adapter layer exists: it converts rich domain objects into flat, GPU-compatible representations.</p>
+<h2>Buffer Management in This Project</h2>
+<p>The executor uses a buffer pooling strategy to avoid repeated allocation:</p>
+<ol>
+<li>Buffers start at the size needed for the first batch</li>
+<li>If a subsequent batch needs more space, the buffer is reallocated at 1.5× the required size plus padding</li>
+<li>Buffers never shrink (to avoid repeated allocation/deallocation)</li>
+<li>Buffers are disposed when the executor is disposed</li>
+</ol>
+<p>This ensures that the common case (repeated evaluation of similar-sized portfolios) involves zero GPU memory allocations after the first call.</p>
+<h2>Why ILGPU Was Chosen</h2>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>ILGPU Capability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Write kernels in C#</td>
+<td>Yes — no separate language or toolchain</td>
+</tr>
+<tr>
+<td>Run on NVIDIA GPUs</td>
+<td>Yes — CUDA backend</td>
+</tr>
+<tr>
+<td>Run on AMD GPUs</td>
+<td>Yes — OpenCL backend</td>
+</tr>
+<tr>
+<td>Run without any GPU</td>
+<td>Yes — CPU fallback</td>
+</tr>
+<tr>
+<td>.NET support</td>
+<td>Yes — actively maintained</td>
+</tr>
+<tr>
+<td>Open source</td>
+<td>Yes — MIT licence</td>
+</tr>
+<tr>
+<td>Deterministic execution</td>
+<td>Yes — standard IEEE 754 semantics</td>
+</tr>
+</tbody>
+</table>
+<p>The main trade-off is that ILGPU may not achieve the absolute peak performance of hand-tuned CUDA C++ code, but it provides 80–90% of the performance with dramatically lower development and maintenance cost, and cross-platform compatibility.</p>
+
+      </article>
+    
+  </div>
+
+</body>
+</html>

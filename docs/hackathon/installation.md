@@ -2,7 +2,7 @@
 title: Installation & Getting Started
 description: How to install, run, and explore the ACTUS Insurance extension — from a five-minute Docker demo to a full developer build.
 category: Hackathon
-order: 6
+order: 92
 ---
 
 # Installation & Getting Started

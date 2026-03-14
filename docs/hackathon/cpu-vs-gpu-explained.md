@@ -2,7 +2,7 @@
 title: Understanding CPU and GPU — The Car Factory
 description: The complete car factory story — from a single test track to a thousand-lane highway, including the on-ramp, off-ramp, and sink solutions.
 category: Hackathon
-order: 2
+order: 5
 ---
 
 # Understanding CPU and GPU — The Car Factory

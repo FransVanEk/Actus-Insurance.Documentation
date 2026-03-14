@@ -1,14 +1,5 @@
 [
   {
-    "id": "actus-overview-pdf",
-    "title": "ACTUS Standard Overview",
-    "description": "High-level introduction to the ACTUS standard, contract taxonomy, and the financial contract representation model.",
-    "type": "pdf",
-    "size": "",
-    "url": "/downloads/actus-overview.pdf",
-    "viewUrl": "/downloads/actus-overview.pdf"
-  },
-  {
     "id": "hackathon-slides",
     "title": "Hackathon Presentation Slides",
     "description": "Slide deck from the GPU-accelerated ACTUS hackathon — problem statement, solution design, architecture, and benchmark results.",
@@ -18,30 +9,85 @@
     "viewUrl": ""
   },
   {
-    "id": "gpu-architecture-diagram",
-    "title": "GPU Architecture Diagram",
-    "description": "Full-resolution architecture diagram of the GPU compute pipeline — kernel layout, data structures, and executor flow.",
-    "type": "pdf",
-    "size": "",
-    "url": "/downloads/gpu-architecture.pdf",
-    "viewUrl": "/downloads/gpu-architecture.pdf"
-  },
-  {
     "id": "demo-video",
-    "title": "Live Demo Recording",
-    "description": "Screen recording of the web-based scenario demo running PAM contracts with live risk factor injection.",
+    "title": "Documentation Site Walkthrough",
+    "description": "Video guide demonstrating how to use the ACTUS Insurance documentation site, including navigation, resource downloads, and interactive features.",
     "type": "video",
-    "size": "",
-    "url": "/downloads/actus-Video-presentation.mp4",
-    "viewUrl": "/downloads/actus-Video-presentation.mp4"
+    "size": "194 MB",
+    "url": "https://5zctpd9jyxecuidw.public.blob.vercel-storage.com/actus-Video-presentation-%20large.mp4",
+    "viewUrl": "https://5zctpd9jyxecuidw.public.blob.vercel-storage.com/actus-Video-presentation-%20large.mp4"
   },
   {
     "id": "pam-test-data",
-    "title": "PAM Test Data (Excel)",
-    "description": "All 42 PAM test cases in an Excel workbook — input terms, expected cash flows, and state vectors per event type.",
-    "type": "excel",
+    "title": "PAM Test Data (json)",
+    "description": "All 42 PAM test cases in JSON format — input terms, expected cash flows, and state vectors per event type.",
+    "type": "json",
     "size": "",
-    "url": "/downloads/pam-test-data.xlsx",
+    "url": "/downloads/actus-tests-pam.json",
     "viewUrl": ""
+  },
+  {
+    "id": "Benchmark.zip",
+    "title": "Benchmark Results and Data",
+    "description": "Comprehensive benchmark results, including raw data files, analysis scripts, and visualizations comparing CPU and GPU performance across all test cases. Used for the gpu vs cpu comparison in the hackathon presentation.",
+    "type": "zip",
+    "size": "",
+    "url": "/downloads/Benchmark.zip",
+    "viewUrl": ""
+  },
+  {
+    "id": "hackathon-section-pdf",
+    "title": "The Hackathon Story — Full Documentation (PDF)",
+    "description": "Follow the journey from a single-threaded ACTUS prototype to a massively parallel GPU engine — covering the motivation, architecture decisions, trade-offs, and benchmark results that defined the project",
+    "type": "pdf",
+    "size": "655 KB",
+    "url": "/downloads/hackathon-documentation.pdf",
+    "viewUrl": "/downloads/hackathon-documentation.pdf",
+    "generated": "2026-03-14T17:06:07.399Z",
+    "section": "hackathon"
+  },
+  {
+    "id": "actus-org-section-pdf",
+    "title": "ACTUS Organization — Full Documentation (PDF)",
+    "description": "Understand the ACTUS open standard — its contract taxonomy of ~32 types, data dictionary, state transition functions, business rules, and the foundation that maintains the specification",
+    "type": "pdf",
+    "size": "933 KB",
+    "url": "/downloads/actus-org-documentation.pdf",
+    "viewUrl": "/downloads/actus-org-documentation.pdf",
+    "generated": "2026-03-14T17:06:07.401Z",
+    "section": "actus-org"
+  },
+  {
+    "id": "background-gpu-section-pdf",
+    "title": "Background — GPU Computing — Full Documentation (PDF)",
+    "description": "Build intuition for why GPUs are a natural fit for bulk financial contract evaluation — comparing CPU and GPU architectures, and introducing ILGPU as the bridge from C# to CUDA and OpenCL",
+    "type": "pdf",
+    "size": "114 KB",
+    "url": "/downloads/background-gpu-documentation.pdf",
+    "viewUrl": "/downloads/background-gpu-documentation.pdf",
+    "generated": "2026-03-14T17:06:07.403Z",
+    "section": "background-gpu"
+  },
+  {
+    "id": "technical-section-pdf",
+    "title": "Technical Documentation — Full Documentation (PDF)",
+    "description": "Deep-dive into the implementation — the PAM contract engine, state machine, schedule generation, risk factor model, GPU data structures and kernels, sample demos, and the full test suite",
+    "type": "pdf",
+    "size": "543 KB",
+    "url": "/downloads/technical-documentation.pdf",
+    "viewUrl": "/downloads/technical-documentation.pdf",
+    "generated": "2026-03-14T17:06:07.406Z",
+    "section": "technical"
+  },
+  {
+    "id": "actus-insurance-section-pdf",
+    "title": "ACTUS Insurance Extensions — Full Documentation (PDF)",
+    "description": "Explore how ACTUS was extended into insurance — projecting life insurance cashflows on GPU using Markov state transitions and a domain-specific language that encodes product rules without code changes",
+    "type": "pdf",
+    "size": "425 KB",
+    "url": "/downloads/actus-insurance-documentation.pdf",
+    "viewUrl": "/downloads/actus-insurance-documentation.pdf",
+    "generated": "2026-03-14T17:06:07.408Z",
+    "section": "actus-insurance"
   }
 ]

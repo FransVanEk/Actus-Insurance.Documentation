@@ -1,0 +1,176 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" font-family="Trebuchet MS, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2836"/>
+      <stop offset="100%" style="stop-color:#243344"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#e6a040"/>
+    </linearGradient>
+    <linearGradient id="lifeBarUp" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0b040"/>
+      <stop offset="100%" style="stop-color:#b86a10"/>
+    </linearGradient>
+    <linearGradient id="pamBarUp" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#7cc0e8"/>
+      <stop offset="100%" style="stop-color:#3a6a95"/>
+    </linearGradient>
+    <linearGradient id="belowBar" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#c0392b"/>
+      <stop offset="100%" style="stop-color:#7b241c"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowSoft">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="580" fill="url(#bgGrad)"/>
+  <!-- Top / bottom accent -->
+  <rect x="0" y="0" width="1200" height="4" fill="url(#goldGrad)"/>
+  <rect x="0" y="576" width="1200" height="4" fill="url(#goldGrad)"/>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" fill="#FFFFFF" font-size="21" font-weight="bold" letter-spacing="2">GPU COMPUTE SPEEDUP vs CPU BASELINE</text>
+  <text x="600" y="58" text-anchor="middle" fill="#8FAAB8" font-size="12" letter-spacing="1">ULTIMATE BENCHMARK · 50-YEAR MONTHLY · GPU COMPUTE PATH (H2D + KERNEL, SINK ON DEVICE)</text>
+
+  <!-- ═══════════════════════════════════════════
+       LEFT PANEL — Life Insurance (log₁₀ scale)
+       y(v) = 440 − (log10(v)+2)×91.92
+       baseline 1× at y=256
+       ═══════════════════════════════════════════ -->
+  <rect x="38" y="74" width="546" height="392" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+  <rect x="38" y="64" width="546" height="26" rx="4" fill="#243344" stroke="#D4891A" stroke-width="1.5"/>
+  <text x="311" y="82" text-anchor="middle" fill="#D4891A" font-size="13" font-weight="bold">LIFE INSURANCE — MARKOV PROJECTION (600 STEPS / CONTRACT)</text>
+
+  <!-- Y-axis gridlines (log scale) -->
+  <!-- 0.01× y=440 -->
+  <line x1="92" y1="440" x2="576" y2="440" stroke="#253545" stroke-width="0.8"/>
+  <text x="88" y="444" text-anchor="end" fill="#4a6a7a" font-size="9">0.01×</text>
+  <!-- 0.1× y=348 -->
+  <line x1="92" y1="348" x2="576" y2="348" stroke="#253545" stroke-width="0.8"/>
+  <text x="88" y="352" text-anchor="end" fill="#4a6a7a" font-size="9">0.1×</text>
+  <!-- 1× y=256 (BASELINE) -->
+  <line x1="92" y1="256" x2="576" y2="256" stroke="#D4891A" stroke-width="1.2" stroke-dasharray="6,3" opacity="0.9"/>
+  <text x="88" y="260" text-anchor="end" fill="#D4891A" font-size="10" font-weight="bold">1× CPU</text>
+  <!-- 10× y=164 -->
+  <line x1="92" y1="164" x2="576" y2="164" stroke="#253545" stroke-width="0.8"/>
+  <text x="88" y="168" text-anchor="end" fill="#4a6a7a" font-size="9">10×</text>
+  <!-- 20× y=137 (approx) -->
+  <line x1="92" y1="137" x2="576" y2="137" stroke="#253545" stroke-width="0.8"/>
+  <text x="88" y="141" text-anchor="end" fill="#4a6a7a" font-size="9">20×</text>
+  <!-- 50× y=100 -->
+  <line x1="92" y1="100" x2="576" y2="100" stroke="#253545" stroke-width="0.8"/>
+  <text x="88" y="104" text-anchor="end" fill="#4a6a7a" font-size="9">50×</text>
+
+  <!-- Y-axis line -->
+  <line x1="92" y1="100" x2="92" y2="440" stroke="#3a4f60" stroke-width="1"/>
+  <line x1="92" y1="440" x2="576" y2="440" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- BAR n=1 · 0.014× · BELOW baseline: bar goes DOWN from y=256 to y=427 -->
+  <rect x="126" y="256" width="80" height="171" rx="3" fill="url(#belowBar)" opacity="0.85"/>
+  <text x="166" y="253" text-anchor="middle" fill="#e05040" font-size="10" font-weight="bold">0.014×</text>
+  <text x="166" y="242" text-anchor="middle" fill="#8FAAB8" font-size="9">70× slower</text>
+  <text x="166" y="460" text-anchor="middle" fill="#8FAAB8" font-size="10">n = 1</text>
+
+  <!-- BAR n=10k · 13× · bar from y=154 to y=256 (height=102) -->
+  <rect x="237" y="154" width="80" height="102" rx="3" fill="url(#lifeBarUp)" opacity="0.90"/>
+  <text x="277" y="149" text-anchor="middle" fill="#f0b040" font-size="12" font-weight="bold">13×</text>
+  <text x="277" y="460" text-anchor="middle" fill="#8FAAB8" font-size="10">n = 10k</text>
+
+  <!-- BAR n=100k · 31.4× · bar from y=119 to y=256 (height=137) -->
+  <rect x="349" y="119" width="80" height="137" rx="3" fill="url(#lifeBarUp)"/>
+  <text x="389" y="114" text-anchor="middle" fill="#f0b040" font-size="12" font-weight="bold">31.4×</text>
+  <text x="389" y="460" text-anchor="middle" fill="#8FAAB8" font-size="10">n = 100k</text>
+
+  <!-- BAR n=200k · 35.7× · bar from y=113 to y=256 (height=143) — PEAK, GLOWING -->
+  <rect x="459" y="113" width="80" height="143" rx="3" fill="url(#lifeBarUp)" filter="url(#glow)"/>
+  <text x="499" y="107" text-anchor="middle" fill="#f0d070" font-size="14" font-weight="bold" filter="url(#glowSoft)">35.7×</text>
+  <!-- Star badge -->
+  <rect x="473" y="88" width="52" height="16" rx="8" fill="#D4891A" opacity="0.9"/>
+  <text x="499" y="100" text-anchor="middle" fill="#FFFFFF" font-size="9" font-weight="bold">★ PEAK</text>
+  <text x="499" y="460" text-anchor="middle" fill="#8FAAB8" font-size="10">n = 200k</text>
+
+  <!-- "GPU FASTER" annotation arrow -->
+  <text x="56" y="185" fill="#D4891A" font-size="9" font-style="italic">GPU faster ↑</text>
+  <text x="56" y="305" fill="#e05040" font-size="9" font-style="italic">GPU slower ↓</text>
+
+  <!-- ═══════════════════════════════════════════
+       RIGHT PANEL — PAM (linear 0–2.5× scale)
+       y(v) = 440 − v×136
+       baseline 1× at y=304
+       ═══════════════════════════════════════════ -->
+  <rect x="618" y="74" width="544" height="392" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+  <rect x="618" y="64" width="544" height="26" rx="4" fill="#243344" stroke="#4a8ab5" stroke-width="1.5"/>
+  <text x="890" y="82" text-anchor="middle" fill="#6ab0d8" font-size="13" font-weight="bold">PAM — PRINCIPAL AT MATURITY (602 ACTUS EVENTS / CONTRACT)</text>
+
+  <!-- Y-axis gridlines (linear 0–2.5×) -->
+  <!-- 0× y=440 -->
+  <line x1="672" y1="440" x2="1154" y2="440" stroke="#253545" stroke-width="0.8"/>
+  <text x="668" y="444" text-anchor="end" fill="#4a6a7a" font-size="9">0×</text>
+  <!-- 0.5× y=372 -->
+  <line x1="672" y1="372" x2="1154" y2="372" stroke="#253545" stroke-width="0.8"/>
+  <text x="668" y="376" text-anchor="end" fill="#4a6a7a" font-size="9">0.5×</text>
+  <!-- 1× y=304 (BASELINE) -->
+  <line x1="672" y1="304" x2="1154" y2="304" stroke="#6ab0d8" stroke-width="1.2" stroke-dasharray="6,3" opacity="0.9"/>
+  <text x="668" y="308" text-anchor="end" fill="#6ab0d8" font-size="10" font-weight="bold">1× CPU</text>
+  <!-- 1.5× y=236 -->
+  <line x1="672" y1="236" x2="1154" y2="236" stroke="#253545" stroke-width="0.8"/>
+  <text x="668" y="240" text-anchor="end" fill="#4a6a7a" font-size="9">1.5×</text>
+  <!-- 2× y=168 -->
+  <line x1="672" y1="168" x2="1154" y2="168" stroke="#253545" stroke-width="0.8"/>
+  <text x="668" y="172" text-anchor="end" fill="#4a6a7a" font-size="9">2×</text>
+  <!-- 2.5× y=100 -->
+  <line x1="672" y1="100" x2="1154" y2="100" stroke="#253545" stroke-width="0.8"/>
+  <text x="668" y="104" text-anchor="end" fill="#4a6a7a" font-size="9">2.5×</text>
+
+  <!-- Y/X axis lines -->
+  <line x1="672" y1="100" x2="672" y2="440" stroke="#3a4f60" stroke-width="1"/>
+  <line x1="672" y1="440" x2="1154" y2="440" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- PAM BAR n=1 · 0.12× · bar DOWN from y=304 to y=424 (height=120, RED) -->
+  <rect x="706" y="304" width="80" height="120" rx="3" fill="url(#belowBar)" opacity="0.85"/>
+  <text x="746" y="301" text-anchor="middle" fill="#e05040" font-size="10" font-weight="bold">0.12×</text>
+  <text x="746" y="290" text-anchor="middle" fill="#8FAAB8" font-size="9">8× slower</text>
+  <text x="746" y="460" text-anchor="middle" fill="#8FAAB8" font-size="10">n = 1</text>
+
+  <!-- PAM BAR n=10k · 1.52× · bar from y=233 to y=304 (height=71, BLUE) -->
+  <rect x="831" y="233" width="80" height="71" rx="3" fill="url(#pamBarUp)" opacity="0.90"/>
+  <text x="871" y="228" text-anchor="middle" fill="#7cc0e8" font-size="12" font-weight="bold">1.52×</text>
+  <text x="871" y="460" text-anchor="middle" fill="#8FAAB8" font-size="10">n = 10k</text>
+
+  <!-- PAM BAR n=100k · 1.67× · bar from y=213 to y=304 (height=91, BLUE) — PEAK PAM -->
+  <rect x="939" y="213" width="80" height="91" rx="3" fill="url(#pamBarUp)" filter="url(#glowSoft)"/>
+  <text x="979" y="208" text-anchor="middle" fill="#7cc0e8" font-size="12" font-weight="bold">1.67×</text>
+  <rect x="953" y="192" width="52" height="14" rx="7" fill="#4a8ab5" opacity="0.9"/>
+  <text x="979" y="203" text-anchor="middle" fill="#FFFFFF" font-size="8" font-weight="bold">★ PEAK</text>
+  <text x="979" y="460" text-anchor="middle" fill="#8FAAB8" font-size="10">n = 100k</text>
+
+  <!-- PAM BAR n=200k · 1.41× · bar from y=248 to y=304 (height=56, BLUE) -->
+  <rect x="1046" y="248" width="80" height="56" rx="3" fill="url(#pamBarUp)" opacity="0.75"/>
+  <text x="1086" y="243" text-anchor="middle" fill="#7cc0e8" font-size="12" font-weight="bold">1.41×</text>
+  <text x="1086" y="460" text-anchor="middle" fill="#8FAAB8" font-size="10">n = 200k</text>
+
+  <text x="636" y="185" fill="#6ab0d8" font-size="9" font-style="italic">GPU faster ↑</text>
+  <text x="636" y="330" fill="#e05040" font-size="9" font-style="italic">GPU slower ↓</text>
+
+  <!-- Panel scale notes -->
+  <text x="311" y="474" text-anchor="middle" fill="#5a7a8a" font-size="9" font-style="italic">Y-axis: log₁₀ scale (0.01× – 50×)</text>
+  <text x="890" y="474" text-anchor="middle" fill="#5a7a8a" font-size="9" font-style="italic">Y-axis: linear scale (0× – 2.5×)</text>
+
+  <!-- Divider line -->
+  <line x1="30" y1="494" x2="1170" y2="494" stroke="#D4891A" stroke-width="0.8" opacity="0.35"/>
+
+  <!-- Legend -->
+  <rect x="200" y="502" width="14" height="14" rx="2" fill="url(#lifeBarUp)"/>
+  <text x="220" y="513" fill="#FFFFFF" font-size="11">GPU faster than CPU</text>
+  <rect x="380" y="502" width="14" height="14" rx="2" fill="url(#belowBar)"/>
+  <text x="400" y="513" fill="#FFFFFF" font-size="11">GPU slower than CPU (fixed launch overhead)</text>
+  <text x="760" y="513" fill="#8FAAB8" font-size="11" font-style="italic">Crossover: ~10 000 contracts for both contract types</text>
+</svg>
