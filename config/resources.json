@@ -28,12 +28,12 @@
   },
   {
     "id": "demo-video",
-    "title": "Live Demo Recording",
-    "description": "Screen recording of the web-based scenario demo running PAM contracts with live risk factor injection.",
+    "title": "Documentation Site Walkthrough",
+    "description": "Video guide demonstrating how to use the ACTUS Insurance documentation site, including navigation, resource downloads, and interactive features.",
     "type": "video",
-    "size": "",
-    "url": "/downloads/actus-Video-presentation.mp4",
-    "viewUrl": "/downloads/actus-Video-presentation.mp4"
+    "size": "194 MB",
+    "url": "https://5zctpd9jyxecuidw.public.blob.vercel-storage.com/actus-Video-presentation-%20large.mp4",
+    "viewUrl": "https://5zctpd9jyxecuidw.public.blob.vercel-storage.com/actus-Video-presentation-%20large.mp4"
   },
   {
     "id": "pam-test-data",
@@ -42,6 +42,15 @@
     "type": "excel",
     "size": "",
     "url": "/downloads/pam-test-data.xlsx",
+    "viewUrl": ""
+  },
+    {
+    "id": "Benchmark.zip",
+    "title": "Benchmark Results and Data",
+    "description": "Comprehensive benchmark results, including raw data files, analysis scripts, and visualizations comparing CPU and GPU performance across all test cases. Used for the gpu vs cpu comparison in the hackathon presentation.",
+    "type": "zip",
+    "size": "",
+    "url": "/downloads/Benchmark.zip",
     "viewUrl": ""
   }
 ]

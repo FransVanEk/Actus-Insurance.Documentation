@@ -1,0 +1,4030 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technical Documentation — ACTUS Insurance Documentation</title>
+  <style>
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy-dark:  #0D2038;
+      --navy:       #1A3550;
+      --amber:      #D4891A;
+      --amber-light:#F0A83A;
+      --text:       #1a202c;
+      --text-light: #4a5568;
+      --border:     #e2e8f0;
+      --code-bg:    #f7f8fa;
+    }
+
+    html { font-size: 11pt; }
+
+    body {
+      font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+      color: var(--text);
+      background: #ffffff;
+      line-height: 1.65;
+    }
+
+    /* ── Cover page ── */
+    .cover {
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--navy-dark);
+      color: #ffffff;
+      padding: 0;
+      page-break-after: always;
+    }
+
+    .cover-top {
+      background: var(--navy);
+      padding: 2rem 3rem;
+      border-bottom: 3px solid var(--amber);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .cover-logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--amber);
+    }
+
+    .cover-logo span {
+      color: #9FB8D0;
+      font-weight: 400;
+    }
+
+    .cover-body {
+      flex: 1;
+      padding: 4rem 3rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .cover-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 1.5rem;
+    }
+
+    .cover-title {
+      font-size: 2.8rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #ffffff;
+      margin-bottom: 1.5rem;
+    }
+
+    .cover-desc {
+      font-size: 1.1rem;
+      color: #9FB8D0;
+      max-width: 600px;
+      line-height: 1.8;
+      margin-bottom: 3rem;
+    }
+
+    .cover-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      max-width: 600px;
+    }
+
+    .cover-features li {
+      color: #9FB8D0;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .cover-features li::before {
+      content: "▸";
+      color: var(--amber);
+      flex-shrink: 0;
+      margin-top: 0.05em;
+    }
+
+    .cover-footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #5A7A9A;
+      font-size: 0.8rem;
+    }
+
+    /* ── Table of Contents ── */
+    .toc-page {
+      padding: 3rem;
+      page-break-after: always;
+    }
+
+    .toc-header {
+      border-bottom: 2px solid var(--amber);
+      padding-bottom: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .toc-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--navy-dark) !important;
+    }
+
+    .toc-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .toc-list li a {
+      color: var(--navy);
+      text-decoration: none;
+      font-size: 0.95rem;
+      border-bottom: 1px dotted var(--border);
+      display: block;
+      padding: 0.35rem 0;
+    }
+
+    .toc-list li a:hover { color: var(--amber); }
+
+    /* ── Main content area ── */
+    .content {
+      padding: 3rem;
+    }
+
+    /* ── Section page header strip ── */
+    .section-header {
+      background: var(--navy-dark);
+      color: white;
+      padding: 1.5rem 3rem;
+      margin: -3rem -3rem 2.5rem -3rem;
+      border-bottom: 3px solid var(--amber);
+    }
+
+    .section-header .breadcrumb {
+      font-size: 0.75rem;
+      color: #9FB8D0;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.3rem;
+    }
+
+    .section-header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff !important;
+    }
+
+    /* ── Document sections ── */
+    .doc-section {
+      margin-bottom: 2rem;
+    }
+
+    .doc-title {
+      font-size: 1.75rem !important;
+      font-weight: 700;
+      color: var(--amber) !important;
+      margin-bottom: 1.25rem !important;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* ── Typography ── */
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--amber);
+      font-weight: 700;
+      line-height: 1.3;
+      margin-top: 1.5em;
+      margin-bottom: 0.6em;
+    }
+
+    h1 { font-size: 1.75rem; }
+    h2 { font-size: 1.4rem; border-bottom: 1px solid var(--border); padding-bottom: 0.4rem; }
+    h3 { font-size: 1.15rem; color: var(--navy) !important; }
+    h4 { font-size: 1rem; color: var(--text-light) !important; font-weight: 600; }
+
+    p {
+      margin-bottom: 1em;
+      color: var(--text);
+    }
+
+    a { color: var(--navy); text-decoration: underline; }
+
+    strong { font-weight: 700; }
+    em     { font-style: italic; }
+
+    /* ── Lists ── */
+    ul, ol {
+      margin: 0.75em 0 0.75em 1.8em;
+    }
+
+    li {
+      margin-bottom: 0.3em;
+      line-height: 1.6;
+    }
+
+    /* ── Blockquotes ── */
+    blockquote {
+      border-left: 4px solid var(--amber);
+      background: #fdf6ec;
+      margin: 1.5em 0;
+      padding: 1em 1.5em;
+      color: var(--text-light);
+      font-style: italic;
+      border-radius: 0 4px 4px 0;
+    }
+
+    blockquote p { margin-bottom: 0.5em; }
+    blockquote p:last-child { margin-bottom: 0; }
+
+    /* ── Code ── */
+    code {
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 0.88em;
+      background: var(--code-bg);
+      color: #c7254e;
+      padding: 0.15em 0.4em;
+      border-radius: 3px;
+      border: 1px solid var(--border);
+    }
+
+    pre {
+      background: #1e2a3a;
+      color: #abb2bf;
+      border-radius: 6px;
+      padding: 1.25em 1.5em;
+      overflow: auto;
+      margin: 1.25em 0;
+      font-size: 0.85em;
+      line-height: 1.6;
+      border: 1px solid #2d3748;
+    }
+
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      border: none;
+      font-size: inherit;
+    }
+
+    /* ── Tables ── */
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 1.25em 0;
+      font-size: 0.9em;
+      overflow: hidden;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+
+    thead {
+      background: var(--navy-dark);
+      color: #ffffff;
+    }
+
+    thead th {
+      padding: 0.75em 1em;
+      font-weight: 600;
+      text-align: left;
+      color: #ffffff;
+      border-right: 1px solid rgba(255,255,255,0.1);
+    }
+
+    tbody tr:nth-child(even) { background: #f8fafc; }
+    tbody tr:nth-child(odd)  { background: #ffffff; }
+
+    td {
+      padding: 0.65em 1em;
+      border-top: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    /* ── Images ── */
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 1.5em auto;
+      border-radius: 4px;
+    }
+
+    /* ── Horizontal rules ── */
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 2em 0;
+    }
+
+    /* ── Page breaks ── */
+    .page-break {
+      page-break-before: always;
+      break-before: page;
+    }
+
+    /* ── Print-specific ── */
+    @media print {
+      .cover     { min-height: 100vh; page-break-after: always; }
+      .toc-page  { page-break-after: always; }
+      .page-break { page-break-before: always; }
+
+      pre { white-space: pre-wrap; word-break: break-all; }
+      a   { color: inherit; text-decoration: none; }
+
+      thead { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .cover { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .cover-top { background: var(--navy) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .section-header { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      blockquote { background: #fdf6ec !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      pre { background: #1e2a3a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ COVER PAGE ═══ -->
+  <div class="cover">
+    <div class="cover-top">
+      <div class="cover-logo">ACTUS<span> Insurance Documentation</span></div>
+    </div>
+    <div class="cover-body">
+      <div class="cover-label">Documentation Section</div>
+      <h1 class="cover-title">Technical Documentation</h1>
+      <p class="cover-desc">Full implementation reference — core engine architecture, PAM contract processor, state machine, financial conventions, schedule generation, GPU acceleration, demos, and testing.</p>
+      
+      <ul class="cover-features">
+        <li>Core Engine — PAM Contract, State Machine, Conventions</li>
+        <li>Schedule Generation &amp; Cycle Parsing</li>
+        <li>Risk Factor Model &amp; Market Data</li>
+        <li>GPU Acceleration — Data Structures, Kernels, Executors</li>
+        <li>Demos &amp; Sample Applications</li>
+        <li>Testing — 42 PAM Tests, GPU Validation</li>
+        <li>Technical Reference — Types, Enums, Interfaces</li>
+      </ul>
+    </div>
+    <div class="cover-footer">
+      <span>ACTUS Insurance Documentation</span>
+      <span>Generated 14 March 2026</span>
+    </div>
+  </div>
+
+  <!-- ═══ TABLE OF CONTENTS ═══ -->
+  <div class="toc-page">
+    <div class="toc-header">
+      <h2>Table of Contents</h2>
+    </div>
+    <ul class="toc-list">
+      <li ><a href="#doc-0">Technical Documentation</a></li>
+<li style="padding-left:1.5em;"><a href="#doc-1">Core Engine Overview</a></li>
+<li style="padding-left:1.5em;"><a href="#doc-2">GPU Architecture</a></li>
+<li style="padding-left:1.5em;"><a href="#doc-3">Testing Overview</a></li>
+<li style="padding-left:1.5em;"><a href="#doc-4">PAM Contract Implementation</a></li>
+<li style="padding-left:1.5em;"><a href="#doc-5">Scenario Demo — CPU vs GPU Comparison</a></li>
+<li style="padding-left:1.5em;"><a href="#doc-6">GPU Data Structures</a></li>
+<li style="padding-left:1.5em;"><a href="#doc-7">Running Tests</a></li>
+<li style="padding-left:1.5em;"><a href="#doc-8">State Machine</a></li>
+<li style="padding-left:1.5em;"><a href="#doc-9">GPU Kernels</a></li>
+<li style="padding-left:1.5em;"><a href="#doc-10">GPU Executors</a></li>
+<li style="padding-left:1.5em;"><a href="#doc-11">Schedule Generation</a></li>
+<li style="padding-left:1.5em;"><a href="#doc-12">Risk Factor Model</a></li>
+<li style="padding-left:1.5em;"><a href="#doc-13">Technical Reference</a></li>
+<li style="padding-left:1.5em;"><a href="#doc-14">Financial Conventions</a></li>
+<li style="padding-left:1.5em;"><a href="#doc-15">CLI Demo Tool — Monte Carlo Portfolio Valuation</a></li>
+
+    </ul>
+  </div>
+
+  <!-- ═══ DOCUMENT CONTENT ═══ -->
+  <div class="content">
+    <div class="section-header">
+      <div class="breadcrumb">ACTUS Insurance Documentation</div>
+      <h1>Technical</h1>
+    </div>
+
+    
+      
+      <article id="doc-0" class="doc-section">
+        <h1 class="doc-title">Technical Documentation</h1>
+        <h2>Technical Documentation</h2>
+<h2>Overview</h2>
+<p>This section covers the implementation details of the ACTUS execution engine. It is organized into four areas: the core engine (CPU implementation), GPU acceleration, demonstration tools, and testing.</p>
+<p>Each area starts with a conceptual overview and progressively adds implementation detail. Developers who need to understand the codebase, contribute to it, or integrate it into other systems should start here.</p>
+<h2>Architecture at a Glance</h2>
+<p>The system is organized into four repositories, each with a specific responsibility:</p>
+<pre><code class="language-mermaid">graph TD
+    subgraph "Actus-Insurance.Core"
+        CORE[Core Library&#x3C;br/>Models, Types, Conventions]
+        CPU[CPU Engine&#x3C;br/>PAM Contract Implementation]
+        TESTS_CPU[CPU Test Suite&#x3C;br/>42 ACTUS PAM Tests]
+    end
+
+    subgraph "Actus-Insurance.GPU"
+        GPU_LIB[GPU Library&#x3C;br/>Kernels, Executors, Adapters]
+        LIFE[Life Insurance GPU&#x3C;br/>Markov Kernel, DSL, Tables]
+        RUNNER[Portfolio Runner&#x3C;br/>High-Level API]
+        BENCH[Benchmarks&#x3C;br/>CPU vs GPU Comparison]
+        TESTS_GPU[GPU Test Suite&#x3C;br/>Correctness Validation]
+    end
+
+    subgraph "Actus-Insurance.DemoAndSample"
+        CLI[CLI Demo Tool&#x3C;br/>Monte Carlo, Reporting]
+        SAMPLE[Scenario Demo&#x3C;br/>CPU/GPU Comparison]
+    end
+
+    subgraph "Actus-Insurance.Documentation"
+        DOCS[Next.js Site&#x3C;br/>Searchable Documentation]
+    end
+
+    CORE --> CPU
+    CORE --> GPU_LIB
+    CPU --> TESTS_CPU
+    CPU --> GPU_LIB
+    GPU_LIB --> LIFE
+    GPU_LIB --> RUNNER
+    GPU_LIB --> BENCH
+    GPU_LIB --> TESTS_GPU
+    RUNNER --> CLI
+    GPU_LIB --> SAMPLE
+</code></pre>
+<h2>Technology Stack</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Technology</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Runtime</td>
+<td>.NET</td>
+<td>9.0</td>
+</tr>
+<tr>
+<td>Language</td>
+<td>C#</td>
+<td>13</td>
+</tr>
+<tr>
+<td>GPU Framework</td>
+<td>ILGPU</td>
+<td>1.5.3</td>
+</tr>
+<tr>
+<td>Test Framework</td>
+<td>NUnit</td>
+<td>Latest</td>
+</tr>
+<tr>
+<td>Benchmark Framework</td>
+<td>BenchmarkDotNet</td>
+<td>Latest</td>
+</tr>
+<tr>
+<td>Documentation Site</td>
+<td>Next.js</td>
+<td>16.0</td>
+</tr>
+<tr>
+<td>Documentation Format</td>
+<td>Markdown + Mermaid</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2>Section Contents</h2>
+<h3>Core Engine</h3>
+<p>The heart of the system: contract term models, event generation, state transitions, payoff computation, financial conventions, schedule generation, and market data handling.</p>
+<ul>
+<li><a href="./core-engine/index.md">Core Engine Overview</a> — architecture, design principles, and data flow</li>
+<li><a href="./core-engine/pam-contract.md">PAM Contract</a> — full PAM implementation: terms, schedule generation, event evaluation, payoff formulas</li>
+<li><a href="./core-engine/state-machine.md">State Machine</a> — event processing, state transitions, interest accrual, rate reset algorithm</li>
+<li><a href="./core-engine/conventions/index.md">Conventions</a> — day count, business day, end-of-month, and calendar conventions</li>
+<li><a href="./core-engine/scheduling.md">Schedule Generation</a> — cycle strings, periodic date sequences, stub handling</li>
+<li><a href="./core-engine/risk-factors.md">Risk Factor Model</a> — market data storage, LOCF lookup, usage patterns</li>
+<li><a href="./core-engine/reference.md">Technical Reference</a> — complete listing of all types, enumerations, interfaces, and structs</li>
+</ul>
+<h3>GPU Acceleration</h3>
+<p>How the CPU engine was adapted for GPU execution, including data structures, kernels, executors, and memory management.</p>
+<ul>
+<li><a href="./gpu-acceleration/index.md">GPU Architecture</a> — overview of the GPU execution pipeline</li>
+<li><a href="./gpu-acceleration/data-structures.md">Data Structures</a> — blittable structs and data packing</li>
+<li><a href="./gpu-acceleration/kernels.md">Kernels</a> — GPU kernel implementations</li>
+<li><a href="./gpu-acceleration/executors.md">Executors</a> — device management and buffer pooling</li>
+</ul>
+<h3>Demos &#x26; Samples</h3>
+<p>Demonstration tools and sample applications that show how to use the engine.</p>
+<ul>
+<li><a href="./demos-and-samples/cli-tool/index.md">CLI Tool</a> — Monte Carlo portfolio valuation CLI</li>
+<li><a href="./demos-and-samples/scenario-demo.md">Scenario Demo</a> — CPU vs GPU comparison tool</li>
+</ul>
+<h3>Testing</h3>
+<p>Test strategy, test data, and how to run the test suites.</p>
+<ul>
+<li><a href="./testing/index.md">Testing Overview</a> — test architecture and validation approach</li>
+<li><a href="./testing/running-tests.md">Running Tests</a> — how to execute the test suites</li>
+</ul>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-1" class="doc-section">
+        <h1 class="doc-title">Core Engine Overview</h1>
+        <h2>Core Engine Overview</h2>
+<h2>Overview</h2>
+<p>The core engine is the heart of the ACTUS implementation. It takes a set of contract terms — the legal and financial parameters that define a financial instrument — and produces a complete, time-ordered list of evaluated events. Each event carries a date, a type, a cash flow amount (payoff), and a snapshot of the contract's state after the event occurred. Every other component in the system (GPU acceleration, Monte Carlo simulation, insurance extensions) builds on top of this deterministic evaluation pipeline.</p>
+<p>The engine is split across two .NET projects that separate abstraction from implementation:</p>
+<ul>
+<li><strong>ActusInsurance.Core</strong> — shared abstractions: interfaces, domain models, type enumerations, financial conventions (day count, business day, end-of-month, calendars), time utilities (schedule generation, cycle parsing), and the risk factor model. This project has zero external dependencies — it is pure C#.</li>
+<li><strong>ActusInsurance.Core.CPU</strong> — contract-type implementations that use the Core abstractions. Currently contains the full PAM (Principal at Maturity) implementation: schedule generation and sequential event evaluation.</li>
+</ul>
+<p>A third project, <strong>ActusInsurance.Tests.CPU</strong>, provides 42 reference test cases derived from the official ACTUS test suite in JSON format, validating every event type, convention, and edge case against known-correct results.</p>
+<h2>Design Principles</h2>
+<p>Three principles govern the engine's design:</p>
+<p><strong>Deterministic execution.</strong> Given the same contract terms and the same market data, the engine always produces exactly the same output. This is not optional — financial contracts must be auditable and independently verifiable. The engine achieves determinism through strict event ordering (time first, then priority), pure functions for payoff computation, and no dependence on floating-point operation order.</p>
+<p><strong>Separation of terms and logic.</strong> Contract terms are plain data objects with no behavior. All computation lives in the contract processor (e.g., <code>PrincipalAtMaturity</code>), which reads terms but never modifies them. This separation makes it straightforward to serialize terms, send them to a GPU, or store them in a database.</p>
+<p><strong>Convention-driven computation.</strong> Financial contracts differ not just in their structure but in the conventions they use for dates, interest accrual, and calendar adjustments. Rather than hard-coding these rules, the engine parameterizes them: each contract specifies which day count convention, business day convention, end-of-month convention, and calendar to use. The engine dispatches to the correct implementation at runtime.</p>
+<h2>The Three-Stage Pipeline</h2>
+<p>Every contract evaluation follows the same three-stage pipeline:</p>
+<pre><code class="language-mermaid">graph LR
+    Terms["Contract Terms&#x3C;br/>(PamContractTerms)"] --> Schedule["Stage 1: Schedule&#x3C;br/>(generate events)"]
+    Schedule --> Events["Raw Events&#x3C;br/>(typed, timed, unsorted)"]
+    Events --> Apply["Stage 2: Apply&#x3C;br/>(sort, initialize, evaluate)"]
+    Market["Risk Factor Model&#x3C;br/>(market rates)"] --> Apply
+    Apply --> Result["Stage 3: Result&#x3C;br/>(evaluated events with payoffs)"]
+</code></pre>
+<h3>Stage 1: Schedule Generation</h3>
+<p>The <code>Schedule()</code> method reads the contract terms and generates every event that will occur during the contract's lifetime. It creates mandatory events (Initial Exchange Date, Maturity Date) and then generates periodic events from cycle definitions (interest payments, rate resets, fee payments, scaling updates). Each event is stamped with two times: the original schedule time (the contractually specified date) and the shifted time (the date adjusted for business day conventions). Events are not yet sorted or evaluated — they are raw placeholders.</p>
+<h3>Stage 2: Event Application</h3>
+<p>The <code>Apply()</code> method takes the raw events, sorts them by time and priority, initializes the contract state from the terms, and then processes each event in strict sequence. For each event, the engine:</p>
+<ol>
+<li>Accrues interest from the previous event's date to the current event's date</li>
+<li>Computes the event's payoff using its type-specific formula</li>
+<li>Updates the contract state using the event's type-specific transition logic</li>
+<li>Records a snapshot of the payoff and the updated state into the event</li>
+</ol>
+<p>The risk factor model is consulted whenever an event needs external market data (rate resets, scaling index lookups).</p>
+<h3>Stage 3: Result</h3>
+<p>The output is the same list of events, now populated with computed payoffs and state snapshots. Each event in the result contains: the event date, event type, payoff amount, and the full contract state (notional principal, nominal interest rate, accrued interest, fee accrued) as it stood immediately after the event was processed.</p>
+<h2>Key Abstractions</h2>
+<h3>IContractScheduler</h3>
+<p>The generic interface that all contract types implement:</p>
+<pre><code>IContractScheduler&#x3C;TTerms>
+├── Schedule(DateTime to, TTerms terms) → List&#x3C;ContractEvent>
+└── Apply(List&#x3C;ContractEvent> events, TTerms terms, RiskFactorModel) → List&#x3C;ContractEvent>
+</code></pre>
+<p><code>TTerms</code> is the contract-specific terms type. For PAM, it is <code>PamContractTerms</code>. Other ACTUS contract types (LAM, NAM, ANN) would implement this interface with their own terms type, reusing the shared conventions and event infrastructure.</p>
+<h3>PamContractTerms</h3>
+<p>The domain model that carries all parameters of a PAM contract: over 40 fields organized into identity and dates, principal and interest, payment cycles, rate reset parameters, fee settings, scaling configuration, and convention selections. Terms are plain data — no behavior, no side effects. They can be deserialized from JSON using a <code>FromDictionary()</code> factory method that maps the official ACTUS test format directly.</p>
+<h3>ContractEvent</h3>
+<p>A sealed class representing a single event in a contract's life. Each event knows its type, its scheduled and adjusted times, and contains the logic to compute its own payoff and update the contract state via the <code>Evaluate()</code> method. Events implement <code>IComparable&#x3C;ContractEvent></code>, sorting first by adjusted time and then by event-type priority to ensure deterministic ordering.</p>
+<h3>StateSpace</h3>
+<p>A value struct that captures the complete state of a contract at a point in time: notional principal, nominal interest rate, accrued interest, fee accrued, notional and interest scaling multipliers, status date, and contract performance. Using a struct ensures copy-by-value semantics, which matters for thread safety when the same contract is evaluated under multiple scenarios in parallel.</p>
+<h3>RiskFactorModel</h3>
+<p>A lookup service for external market data. Stores rates as either constant values (a single rate for all times) or time series (rates keyed by date). When a time series lookup does not find an exact date match, it uses Last Observation Carried Forward (LOCF) — returning the most recent rate on or before the requested date.</p>
+<h2>Project Structure</h2>
+<pre><code>ActusInsurance.Core/
+├── Contracts/
+│   └── IContractScheduler.cs          — Generic contract scheduler interface
+├── Conventions/
+│   ├── BusinessDay/                    — BusinessDayAdjuster + 9 convention implementations
+│   │   ├── BusinessDayAdjuster.cs      — Main coordinator (ShiftEventTime, ShiftCalcTime)
+│   │   ├── IBusinessDayConvention.cs   — Shift strategy interface
+│   │   ├── IShiftCalcConvention.cs     — Calc/Shift strategy interface
+│   │   ├── Same.cs                     — NOS: no adjustment
+│   │   ├── Following.cs               — Move forward to next business day
+│   │   ├── ModifiedFollowing.cs        — Forward, but stay in same month
+│   │   ├── Preceeding.cs              — Move backward to previous business day
+│   │   ├── ModifiedPreceeding.cs       — Backward, but stay in same month
+│   │   ├── ShiftCalc.cs               — Calculations use shifted dates
+│   │   └── CalcShift.cs               — Calculations use original dates
+│   ├── ContractRoles/
+│   │   └── ContractRoleConvention.cs   — RoleSign computation (+1 or -1)
+│   ├── DayCount/
+│   │   ├── DayCountCalculator.cs       — Factory: string → convention instance
+│   │   ├── IDayCountConventionProvider.cs — Interface: DayCount + DayCountFraction
+│   │   ├── ActualThreeSixtyFiveFixed.cs — A/365: actual days ÷ 365
+│   │   ├── ActualThreeSixty.cs         — A/360: actual days ÷ 360
+│   │   ├── ActualActualISDA.cs         — A/A ISDA: leap-year-aware
+│   │   ├── ThirtyEThreeSixty.cs        — 30E/360: day-31 → 30
+│   │   ├── ThirtyEThreeSixtyISDA.cs    — 30E/360 ISDA: maturity-aware variant
+│   │   ├── BusinessTwoFiftyTwo.cs      — B/252: business days ÷ 252
+│   │   ├── ActualThreeThirtySix.cs     — A/336: actual days ÷ 336
+│   │   └── TwentyEightThreeThirtySix.cs — 28/336: day-28 convention
+│   └── EndOfMonth/
+│       ├── EndOfMonthAdjuster.cs       — Main coordinator (EOM vs SD)
+│       ├── IEndOfMonthConvention.cs    — Shift interface
+│       ├── EndOfMonth.cs               — Snap to last day of month
+│       └── SameDay.cs                  — No adjustment
+├── Events/
+│   └── ContractEvent.cs                — Event with Evaluate, ComputePayoff, UpdateState
+├── Externals/
+│   └── RiskFactorModel.cs              — Market data: constant rates + time series + LOCF
+├── Models/
+│   ├── IContractTerms.cs               — Base interface (ContractID, ContractType)
+│   └── PamContractTerms.cs             — 40+ fields, FromDictionary() factory
+├── States/
+│   └── StateSpace.cs                   — Value struct: 8 state variables
+├── Time/
+│   ├── ScheduleFactory.cs              — Periodic date sequence generation
+│   ├── CycleAdjuster.cs                — Period vs weekday cycle dispatch
+│   ├── PeriodCycleAdjuster.cs          — Period-based cycle arithmetic
+│   ├── WeekdayCycleAdjuster.cs         — Weekday-based cycle arithmetic
+│   ├── TimeAdjuster.cs                 — Hour rounding utility
+│   └── Calendar/
+│       ├── BusinessDayCalendarProvider.cs — Base: weekday check
+│       ├── MondayToFridayCalendar.cs     — MF: Mon–Fri only
+│       ├── MondayToFridayWithHolidaysCalendar.cs — MFH: Mon–Fri minus holidays
+│       └── NoHolidaysCalendar.cs         — NC: all days are business days
+├── Types/
+│   └── Enums.cs                        — EventType, ContractRole, DayCountConvention,
+│                                          BusinessDayConventionEnum, Calendar,
+│                                          EndOfMonthConventionEnum, ContractTypeEnum,
+│                                          ContractPerformance, FeeBasis, CyclePoints
+└── Util/
+    ├── CycleUtils.cs                   — Cycle string parsing (period, stub, weekday)
+    ├── Constants.cs                    — MAX_LIFETIME (50 years), stub characters
+    ├── StringUtils.cs                  — Convention string constants
+    ├── CommonUtils.cs                  — Null-check helper
+    └── AttributeConversionException.cs — Parsing error type
+
+ActusInsurance.Core.CPU/
+└── Contracts/
+    └── PAM.cs                          — PrincipalAtMaturity: Schedule + Apply (346 lines)
+
+ActusInsurance.Tests.CPU/
+├── PamTests.cs                         — 42 test cases from official ACTUS suite
+└── Resources/
+    └── actus-tests-pam.json            — Test data: terms, market data, expected results
+</code></pre>
+<h2>How It All Connects</h2>
+<pre><code class="language-mermaid">graph TD
+    subgraph "ActusInsurance.Core (shared)"
+        TERMS["PamContractTerms&#x3C;br/>(40+ fields)"]
+        CONV["Conventions&#x3C;br/>(day count, business day,&#x3C;br/>EOM, calendar)"]
+        SCHED["ScheduleFactory&#x3C;br/>(periodic date generation)"]
+        EVENT["ContractEvent&#x3C;br/>(Evaluate, ComputePayoff,&#x3C;br/>UpdateState)"]
+        STATE["StateSpace&#x3C;br/>(8 state variables)"]
+        RISK["RiskFactorModel&#x3C;br/>(market data lookup)"]
+    end
+
+    subgraph "ActusInsurance.Core.CPU"
+        PAM["PrincipalAtMaturity&#x3C;br/>(Schedule + Apply)"]
+    end
+
+    subgraph "ActusInsurance.Tests.CPU"
+        TESTS["42 PAM Test Cases&#x3C;br/>(official ACTUS suite)"]
+    end
+
+    PAM --> TERMS
+    PAM --> CONV
+    PAM --> SCHED
+    PAM --> EVENT
+    PAM --> STATE
+    PAM --> RISK
+    TESTS --> PAM
+</code></pre>
+<h2>Continue Reading</h2>
+<ul>
+<li><a href="./pam-contract.md">PAM Contract</a> — full walkthrough of the PAM implementation: terms, schedule generation, event evaluation, and all payoff formulas</li>
+<li><a href="./state-machine.md">State Machine</a> — how events modify contract state, with detailed transition logic for each event type</li>
+<li><a href="./conventions/index.md">Conventions</a> — day count, business day, end-of-month, and calendar convention implementations</li>
+<li><a href="./scheduling.md">Schedule Generation</a> — how periodic date sequences are built from cycle strings</li>
+<li><a href="./risk-factors.md">Risk Factor Model</a> — market data storage, lookup strategies, and the LOCF algorithm</li>
+<li><a href="./reference.md">Technical Reference</a> — complete listing of all types, enumerations, interfaces, and structs</li>
+</ul>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-2" class="doc-section">
+        <h1 class="doc-title">GPU Architecture</h1>
+        <h2>GPU Architecture</h2>
+<h2>Overview</h2>
+<p>The GPU execution pipeline transforms CPU domain objects into flat GPU-compatible structures, runs massively parallel kernels, and returns results. The architecture is organised into three layers: the adapter (data transformation), the kernel (GPU computation), and the executor (orchestration).</p>
+<pre><code class="language-mermaid">graph LR
+    subgraph "CPU Domain"
+        TERMS["PamContractTerms[]&#x3C;br/>Rich domain objects"]
+        MARKET["RiskFactorModel&#x3C;br/>Market data"]
+    end
+
+    subgraph "Adapter Layer"
+        ADAPT["PamV3Adapter&#x3C;br/>Schedule + Flatten"]
+    end
+
+    subgraph "GPU Memory"
+        CGPU["PamContractGpu[]"]
+        EGPU["PamEventGpu[]"]
+        RGPU["PamEventResultGpu[]"]
+        MGPU["GpuMarketRate[]"]
+    end
+
+    subgraph "GPU Kernel"
+        KERN["PamGpuKernel&#x3C;br/>Per-thread evaluation"]
+    end
+
+    TERMS --> ADAPT
+    MARKET --> ADAPT
+    ADAPT --> CGPU
+    ADAPT --> EGPU
+    ADAPT --> MGPU
+    CGPU --> KERN
+    EGPU --> KERN
+    MGPU --> KERN
+    KERN --> RGPU
+</code></pre>
+<h2>The Three Layers</h2>
+<h3>Adapter (PamV3Adapter)</h3>
+<p>The adapter sits between the CPU domain model and the GPU. It performs two jobs: it generates the event schedule for each contract (using the same schedule logic as the CPU engine), and it flattens the results into GPU-compatible flat arrays.</p>
+<p>The key transformation is the <strong>event offset strategy</strong>: all contracts' events are packed into a single contiguous array. Each contract record stores an offset and count that point to its events within this shared array. This avoids per-contract memory allocation on the GPU.</p>
+<table>
+<thead>
+<tr>
+<th>CPU Domain Object</th>
+<th>GPU Representation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PamContractTerms (rich, with strings, dates, optional fields)</td>
+<td>PamContractGpu (fixed-size struct, all numeric, offsets into event array)</td>
+</tr>
+<tr>
+<td>List of ContractEvent per contract</td>
+<td>Single flat PamEventGpu[] with offset/count per contract</td>
+</tr>
+<tr>
+<td>RiskFactorModel (dictionary lookups)</td>
+<td>GpuMarketRate[] flat array with index references</td>
+</tr>
+<tr>
+<td>DateTime</td>
+<td>long (ticks)</td>
+</tr>
+<tr>
+<td>enum labels ("Annual", "Fixed")</td>
+<td>int codes</td>
+</tr>
+</tbody>
+</table>
+<h3>Kernel (PamGpuKernel)</h3>
+<p>The kernel is a static method that runs on the GPU. Each thread processes one contract by iterating through its events, computing payoffs, and updating state. The kernel implements the same event logic as the CPU engine: IED, IP, IPCI, RR, RRF, FP, SC, MD, PRD, TD, AD, CD.</p>
+<p>For Monte Carlo, the PayoffCubeKernel extends this to 2D indexing (contract × scenario), accumulating payoffs into a flat output cube.</p>
+<h3>Executor (PamGpuExecutor)</h3>
+<p>The executor manages the ILGPU context, accelerator selection (CUDA → OpenCL → CPU fallback), buffer allocation, H2D/D2H transfers, and kernel dispatch. It supports two modes:</p>
+<ul>
+<li><strong>EvaluateBatch</strong> — single-call pipeline: allocate, upload, execute, download, return</li>
+<li><strong>UploadAndExecute + DownloadResults</strong> — split phases for batching multiple kernel runs before downloading</li>
+</ul>
+<p>Buffer pooling ensures that repeated evaluations of similar-sized portfolios incur no GPU memory allocation after the first call.</p>
+<h2>Data Flow: Single Evaluation</h2>
+<pre><code class="language-mermaid">sequenceDiagram
+    participant App as Application
+    participant Adapt as PamV3Adapter
+    participant Exec as PamGpuExecutor
+    participant GPU as GPU Device
+
+    App->>Adapt: Convert(contracts, riskFactors)
+    Adapt->>Adapt: Schedule each contract
+    Adapt->>Adapt: Flatten to SoA arrays
+    Adapt-->>Exec: PamContractGpu[], PamEventGpu[], GpuMarketRate[]
+    Exec->>GPU: Allocate buffers (if needed)
+    Exec->>GPU: H2D: copy input arrays
+    Exec->>GPU: Launch PamGpuKernel (N threads)
+    GPU->>GPU: Each thread: process one contract's events
+    GPU-->>Exec: D2H: copy PamEventResultGpu[]
+    Exec-->>App: Results array
+</code></pre>
+<h2>Data Flow: Monte Carlo (PayoffCube)</h2>
+<p>For scenario-based valuation, the kernel operates in 2D:</p>
+<pre><code class="language-mermaid">sequenceDiagram
+    participant App as Application
+    participant Exec as PayoffCubeExecutor
+    participant GPU as GPU Device
+
+    App->>Exec: Upload contracts + scenario rates
+    Exec->>GPU: H2D: contracts, events, scenario rates
+    Exec->>GPU: Launch PayoffCubeKernel (C×S threads)
+    GPU->>GPU: Each thread: contract c, scenario s
+    GPU->>GPU: Accumulate payoffs into flat cube
+    GPU-->>Exec: D2H: PayoffCube[K×C×S×T]
+    Exec-->>App: Aggregated results
+</code></pre>
+<h2>Continue Reading</h2>
+<ul>
+<li><a href="./data-structures.md">Data Structures</a> — blittable structs and SoA layout</li>
+<li><a href="./kernels.md">Kernels</a> — PAM kernel, PayoffCube kernel, and Life kernel</li>
+<li><a href="./executors.md">Executors</a> — device management, buffer pooling, and profiling</li>
+</ul>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-3" class="doc-section">
+        <h1 class="doc-title">Testing Overview</h1>
+        <h2>Testing Overview</h2>
+<h2>Philosophy</h2>
+<p>The testing strategy is built on one principle: <strong>every layer of the system must produce results identical to the ACTUS reference, to within 10 decimal places.</strong> This is verified by running the 42 official ACTUS PAM reference test cases on every execution engine (CPU and GPU) and comparing every event's payoff and state values against the certified expected results.</p>
+<h2>The 42 Reference Tests</h2>
+<p>ACTUS publishes a comprehensive set of reference test cases for each contract type. For PAM, there are 42 tests covering:</p>
+<ul>
+<li>Fixed and floating interest rates</li>
+<li>Monthly, quarterly, semi-annual, and annual payment frequencies</li>
+<li>Different day count conventions (A/365, A/360, 30E/360, A/A ISDA)</li>
+<li>Business day conventions (various shift/calc combinations)</li>
+<li>Rate resets with caps, floors, and spread adjustments</li>
+<li>Fee structures (absolute and notional-based)</li>
+<li>Scaling adjustments</li>
+<li>Purchase and termination events</li>
+<li>Edge cases (same-day events, end-of-month handling)</li>
+</ul>
+<p>Each test case defines: contract terms, observed market data (rate observations), and expected results (event date, type, payoff, and state values for every event).</p>
+<h2>Test Architecture</h2>
+<pre><code class="language-mermaid">graph TD
+    JSON["actus-tests-pam.json&#x3C;br/>42 reference test cases"] --> CPU_TEST["CPU Test Suite&#x3C;br/>(PamTests.cs)"]
+    JSON --> GPU_TEST["GPU Test Suite&#x3C;br/>(PamTestsGpu.cs)"]
+
+    CPU_TEST --> CPU_ENGINE["CPU Engine&#x3C;br/>PrincipalAtMaturity"]
+    GPU_TEST --> ADAPTER["PamV3Adapter"]
+    ADAPTER --> GPU_ENGINE["GPU Engine&#x3C;br/>PamGpuExecutor + PamGpuKernel"]
+
+    CPU_ENGINE --> COMPARE_CPU["Compare vs expected&#x3C;br/>Tolerance: 2×10⁻¹⁰"]
+    GPU_ENGINE --> COMPARE_GPU["Compare vs expected&#x3C;br/>Tolerance: 2×10⁻¹⁰"]
+</code></pre>
+<h2>CPU Test Suite (PamTests.cs)</h2>
+<p>The CPU test suite loads the JSON test file, parses each test case into contract terms and risk factors, generates the event schedule, applies all events, and compares the computed payoff and state values against expected results.</p>
+<p>The tolerance is 2×10⁻¹⁰ (two ten-billionths). This is tight enough to catch subtle calculation errors while accommodating the inherent limits of double-precision floating-point arithmetic.</p>
+<h2>GPU Test Suite (PamTestsGpu.cs)</h2>
+<p>The GPU test suite follows the same pattern but routes through the adapter and GPU executor:</p>
+<ol>
+<li>Parse the same JSON test cases</li>
+<li>Convert contract terms to GPU format via PamV3Adapter</li>
+<li>Execute on the GPU via PamGpuExecutor</li>
+<li>Filter results (exclude pre-purchase events to match reference expectations)</li>
+<li>Compare against the same expected values with the same tolerance</li>
+</ol>
+<p>This ensures that every transformation step (domain → GPU struct → kernel computation → result struct) preserves correctness.</p>
+<h2>Life Insurance Tests</h2>
+<p>The life insurance GPU tests verify:</p>
+<ul>
+<li>Projection output shape (correct number of time steps and channels)</li>
+<li>Probability conservation (probActive + probDeath + probLapsed ≤ 1.0)</li>
+<li>Deterministic reproducibility (same inputs produce same outputs)</li>
+<li>Edge cases (zero premium, immediate lapse, extreme ages)</li>
+</ul>
+<h2>Continuous Verification</h2>
+<p>The project enforces a "re-certify after every change" discipline: after any modification to the engine, adapter, or kernel, all 42 reference tests are re-run. Any change that causes even one test to fail — by even a fraction above the tolerance — is rejected until the root cause is fixed. This means the system is never in an incorrect state.</p>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-4" class="doc-section">
+        <h1 class="doc-title">PAM Contract Implementation</h1>
+        <h2>PAM Contract Implementation</h2>
+<h2>Overview</h2>
+<p>PAM (Principal at Maturity) is the most fundamental ACTUS contract type. It models any financial instrument where a principal amount is exchanged at the start, periodic interest payments occur during the life of the contract, and the full principal is returned at maturity. Common examples include bullet loans, fixed-term deposits, zero-coupon bonds, and simple floating-rate notes.</p>
+<p>The PAM implementation is the only contract type fully realized in this codebase. It is also the most complex: the 42 official ACTUS reference test cases exercise every feature — fixed and floating rates, fee schedules, capitalization periods, scaling indices, purchase and termination events, and all convention combinations. Passing all 42 tests means the implementation is complete and correct according to the ACTUS standard.</p>
+<p>The implementation lives in a single static class, <code>PrincipalAtMaturity</code> (346 lines), in the <code>ActusInsurance.Core.CPU</code> project. It has two public methods: <code>Schedule()</code> generates the raw events, and <code>Apply()</code> evaluates them. All supporting abstractions — contract terms, events, state, conventions — live in <code>ActusInsurance.Core</code>.</p>
+<h2>Contract Terms: The Input</h2>
+<p>Before understanding what the engine does, you need to understand what it works with. A PAM contract is fully defined by the <code>PamContractTerms</code> class — a sealed data object with over 40 properties. These properties fall into seven categories, described here from most fundamental to most specialized.</p>
+<h3>Identity and Dates</h3>
+<p>Every contract has a unique identifier, a role (asset or liability), and a set of critical dates that define its lifecycle:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ContractID</td>
+<td>string</td>
+<td>Unique identifier for the contract</td>
+</tr>
+<tr>
+<td>ContractType</td>
+<td>string</td>
+<td>Always returns "PAM" (hard-coded)</td>
+</tr>
+<tr>
+<td>ContractRole</td>
+<td>ContractRole</td>
+<td>RPA (asset) or RPL (liability) — determines the sign of cash flows</td>
+</tr>
+<tr>
+<td>StatusDate</td>
+<td>DateTime</td>
+<td>The observation date — the "as of" date for the current state</td>
+</tr>
+<tr>
+<td>InitialExchangeDate</td>
+<td>DateTime</td>
+<td>When principal is first exchanged (contract activation)</td>
+</tr>
+<tr>
+<td>MaturityDate</td>
+<td>DateTime</td>
+<td>When principal is returned (contract ends)</td>
+</tr>
+<tr>
+<td>PurchaseDate</td>
+<td>DateTime?</td>
+<td>Optional: date of secondary market purchase</td>
+</tr>
+<tr>
+<td>TerminationDate</td>
+<td>DateTime?</td>
+<td>Optional: date of early termination</td>
+</tr>
+<tr>
+<td>CapitalizationEndDate</td>
+<td>DateTime?</td>
+<td>Optional: date when interest capitalization stops</td>
+</tr>
+</tbody>
+</table>
+<p>The <code>StatusDate</code> is critical: it determines the initial state. If the StatusDate is before the InitialExchangeDate, the contract has not yet started and the initial principal is zero. If it is after, the contract is active and the state reflects its current position.</p>
+<h3>Principal and Interest</h3>
+<p>The core financial parameters:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NotionalPrincipal</td>
+<td>double</td>
+<td>0</td>
+<td>Face value of the contract</td>
+</tr>
+<tr>
+<td>NominalInterestRate</td>
+<td>double</td>
+<td>0</td>
+<td>Annual interest rate (e.g., 0.05 = 5%)</td>
+</tr>
+<tr>
+<td>AccruedInterest</td>
+<td>double</td>
+<td>0</td>
+<td>Interest accumulated since the last payment date</td>
+</tr>
+<tr>
+<td>PremiumDiscountAtIED</td>
+<td>double</td>
+<td>0</td>
+<td>Premium or discount applied at initial exchange</td>
+</tr>
+<tr>
+<td>PriceAtPurchaseDate</td>
+<td>double</td>
+<td>0</td>
+<td>Price paid for secondary market purchase</td>
+</tr>
+<tr>
+<td>PriceAtTerminationDate</td>
+<td>double</td>
+<td>0</td>
+<td>Price received at early termination</td>
+</tr>
+</tbody>
+</table>
+<h3>Payment Cycles</h3>
+<p>Periodic events (interest payments, rate resets, fees, scaling updates) are defined by cycle strings — ISO 8601-style period expressions that specify frequency and stub handling. Each cycle has an optional anchor date that determines when the cycle starts; if omitted, it defaults to the InitialExchangeDate.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CycleOfInterestPayment</td>
+<td>string?</td>
+<td>Payment frequency (e.g., "P3ML0" = quarterly, long stub)</td>
+</tr>
+<tr>
+<td>CycleAnchorDateOfInterestPayment</td>
+<td>DateTime?</td>
+<td>Start date of the payment cycle</td>
+</tr>
+<tr>
+<td>CycleOfRateReset</td>
+<td>string?</td>
+<td>Rate reset frequency (floating-rate contracts only)</td>
+</tr>
+<tr>
+<td>CycleOfFee</td>
+<td>string?</td>
+<td>Fee payment frequency</td>
+</tr>
+<tr>
+<td>CycleOfScalingIndex</td>
+<td>string?</td>
+<td>Scaling index update frequency</td>
+</tr>
+</tbody>
+</table>
+<p>The cycle string format is explained in detail in <a href="./scheduling.md">Schedule Generation</a>. In brief: "P3ML0" means a period of 3 months with a long stub, and "P1YL0" means annual with a long stub.</p>
+<h3>Rate Reset Parameters</h3>
+<p>For floating-rate contracts, the interest rate is periodically updated from market data. The rate reset mechanism has six parameters that control how the new rate is derived and constrained:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MarketObjectCodeOfRateReset</td>
+<td>string?</td>
+<td>null</td>
+<td>Key to look up the market rate in the RiskFactorModel</td>
+</tr>
+<tr>
+<td>RateMultiplier</td>
+<td>double</td>
+<td>1.0</td>
+<td>Multiplied by the market rate before adding the spread</td>
+</tr>
+<tr>
+<td>RateSpread</td>
+<td>double</td>
+<td>0</td>
+<td>Added to the scaled market rate</td>
+</tr>
+<tr>
+<td>NextResetRate</td>
+<td>double?</td>
+<td>null</td>
+<td>If set, used for the first RRF event instead of a market lookup</td>
+</tr>
+<tr>
+<td>LifeCap</td>
+<td>double</td>
+<td>+∞</td>
+<td>Maximum rate allowed over the contract's lifetime</td>
+</tr>
+<tr>
+<td>LifeFloor</td>
+<td>double</td>
+<td>−∞</td>
+<td>Minimum rate allowed over the contract's lifetime</td>
+</tr>
+<tr>
+<td>PeriodCap</td>
+<td>double</td>
+<td>+∞</td>
+<td>Maximum rate change allowed in a single reset period</td>
+</tr>
+<tr>
+<td>PeriodFloor</td>
+<td>double</td>
+<td>−∞</td>
+<td>Minimum rate change allowed in a single reset period</td>
+</tr>
+</tbody>
+</table>
+<p>The rate reset algorithm (described in <a href="./state-machine.md">State Machine</a>) applies these constraints in two stages: first clamping the delta (change) to the period bounds, then clamping the resulting absolute rate to the lifetime bounds.</p>
+<h3>Fee Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FeeBasis</td>
+<td>string?</td>
+<td>"A" for absolute (fixed amount per period) or "N" for notional (percentage of principal)</td>
+</tr>
+<tr>
+<td>FeeRate</td>
+<td>double</td>
+<td>The fee amount (absolute) or fee rate (notional)</td>
+</tr>
+<tr>
+<td>FeeAccrued</td>
+<td>double</td>
+<td>Fees accumulated since the last fee payment</td>
+</tr>
+</tbody>
+</table>
+<h3>Scaling Parameters</h3>
+<p>Scaling adjusts future cash flows based on an external index (e.g., an inflation index). The scaling effect can apply to the notional, to the interest, or to both:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MarketObjectCodeOfScalingIndex</td>
+<td>string?</td>
+<td>null</td>
+<td>Key to look up the index value in the RiskFactorModel</td>
+</tr>
+<tr>
+<td>ScalingIndexAtContractDealDate</td>
+<td>double</td>
+<td>0</td>
+<td>Base index value at contract inception</td>
+</tr>
+<tr>
+<td>NotionalScalingMultiplier</td>
+<td>double</td>
+<td>1.0</td>
+<td>Current multiplier for notional-dependent cash flows</td>
+</tr>
+<tr>
+<td>InterestScalingMultiplier</td>
+<td>double</td>
+<td>1.0</td>
+<td>Current multiplier for interest-dependent cash flows</td>
+</tr>
+<tr>
+<td>ScalingEffect</td>
+<td>string?</td>
+<td>null</td>
+<td>"N" (notional only), "I" (interest only), or "NI" (both)</td>
+</tr>
+</tbody>
+</table>
+<h3>Convention Selections</h3>
+<p>Each contract specifies which financial conventions to use for date arithmetic:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DayCountConvention</td>
+<td>enum</td>
+<td>A_365</td>
+<td>How year fractions are calculated (see <a href="./conventions/index.md">Conventions</a>)</td>
+</tr>
+<tr>
+<td>BusinessDayConvention</td>
+<td>enum</td>
+<td>NOS</td>
+<td>How non-business days are handled</td>
+</tr>
+<tr>
+<td>EndOfMonthConvention</td>
+<td>bool</td>
+<td>false</td>
+<td>Whether to snap schedule dates to month-ends</td>
+</tr>
+<tr>
+<td>Calendar</td>
+<td>enum</td>
+<td>NC</td>
+<td>Which calendar defines business days</td>
+</tr>
+</tbody>
+</table>
+<h3>The RoleSign</h3>
+<p>A key derived property: <code>RoleSign</code> returns +1 for asset positions (RPA, BUY, RFL, RF) and −1 for liability positions (RPL, SEL, PFL, PF). This single sign determines the direction of all cash flows. It is computed once and cached for performance.</p>
+<h3>Deserialization</h3>
+<p>The <code>FromDictionary()</code> static factory method creates a <code>PamContractTerms</code> from a generic <code>IDictionary&#x3C;string, object></code>, matching the JSON structure used in the official ACTUS test suite. It handles type conversions (string to double, string to DateTime, string to enum), sets defaults for optional dates, and uses invariant culture parsing throughout.</p>
+<h2>Schedule Generation</h2>
+<p>The <code>Schedule()</code> method is the first stage of the pipeline. It takes a horizon date (how far into the future to generate events) and the contract terms, and produces a list of raw, unevaluated events.</p>
+<h3>The Algorithm</h3>
+<p>Schedule generation follows a fixed eight-step process:</p>
+<p><strong>Step 1 — Mandatory events.</strong> Every PAM contract has at least two events: an Initial Exchange Date (IED) and a Maturity Date (MD). These are always created.</p>
+<pre><code>events.Add(IED at InitialExchangeDate)
+events.Add(MD at MaturityDate)
+</code></pre>
+<p><strong>Step 2 — Purchase event.</strong> If <code>PurchaseDate</code> is set, add a PRD event.</p>
+<p><strong>Step 3 — Interest payment schedule.</strong> If <code>CycleOfInterestPayment</code> is set (or an anchor date is provided), generate periodic dates from the anchor (or IED) to maturity using the <code>ScheduleFactory</code>. These become either IP events (interest payment) or IPCI events (interest capitalization), depending on whether the date falls before or after the <code>CapitalizationEndDate</code>:</p>
+<ul>
+<li>Dates on or before <code>CapitalizationEndDate</code> → IPCI events</li>
+<li>Dates after <code>CapitalizationEndDate</code> → IP events</li>
+<li>If <code>CapitalizationEndDate</code> is not in the generated schedule, it is added as an additional IPCI event</li>
+</ul>
+<p>If there is no payment cycle but a <code>CapitalizationEndDate</code> exists, a single IPCI event is created at that date.</p>
+<p><strong>Step 4 — Rate reset schedule.</strong> If <code>CycleOfRateReset</code> is set, generate periodic dates and create RR events. One exception: the first reset event after the StatusDate where <code>NextResetRate</code> is available becomes an RRF event (fixed rate reset) instead.</p>
+<p><strong>Step 5 — Fee payment schedule.</strong> If <code>CycleOfFee</code> is set, generate periodic dates and create FP events.</p>
+<p><strong>Step 6 — Scaling schedule.</strong> If <code>ScalingEffect</code> contains "N" or "I" and a cycle is defined, generate periodic dates and create SC events.</p>
+<p><strong>Step 7 — Termination handling.</strong> If <code>TerminationDate</code> is set:</p>
+<ul>
+<li>Add an IP event at the termination date (final interest payment)</li>
+<li>Add a TD event at the termination date</li>
+<li>Remove all events that fall after the termination date</li>
+</ul>
+<p><strong>Step 8 — Filter and sort.</strong> Remove events before the StatusDate, remove events beyond the horizon date, and sort the remaining events by time (ascending) and event-type priority (for same-time events).</p>
+<h3>Business Day Adjustment</h3>
+<p>Each event carries two times:</p>
+<ul>
+<li><strong>ScheduleTime</strong> — the original, unadjusted date from the cycle</li>
+<li><strong>Time</strong> — the date shifted by the business day convention (e.g., moved to the next business day if the original falls on a weekend)</li>
+</ul>
+<p>The shifted time is used for ordering and settlement. The schedule time is used for interest accrual calculations in CalcShift conventions, where the calculation should use the original contractual date regardless of when the payment actually settles.</p>
+<h2>Event Application</h2>
+<p>The <code>Apply()</code> method is the second stage. It takes the raw events from <code>Schedule()</code>, the contract terms, and a risk factor model (market data), and produces evaluated events with computed payoffs and state snapshots.</p>
+<h3>State Initialization</h3>
+<p>Before processing any events, the contract state must be initialized from the terms. This is not trivial — it depends on the relationship between the StatusDate and the InitialExchangeDate.</p>
+<p><strong>If the contract has not yet started</strong> (StatusDate &#x3C; IED):</p>
+<ul>
+<li>NotionalPrincipal = 0</li>
+<li>NominalInterestRate = 0</li>
+<li>AccruedInterest = 0</li>
+</ul>
+<p><strong>If the contract is already active</strong> (StatusDate ≥ IED):</p>
+<ul>
+<li>NotionalPrincipal = RoleSign × NotionalPrincipal from terms</li>
+<li>NominalInterestRate = NominalInterestRate from terms</li>
+</ul>
+<p><strong>Accrued interest initialization</strong> follows a three-level fallback:</p>
+<ol>
+<li>If the nominal rate is zero → accrued interest = 0</li>
+<li>If the terms provide a non-zero AccruedInterest → use that value directly</li>
+<li>Otherwise, compute it: find the last interest payment cycle date before StatusDate, compute the year fraction from that date to StatusDate, and multiply by rate × notional</li>
+</ol>
+<p><strong>Scaling multipliers</strong> are initialized from the terms (default 1.0).</p>
+<p><strong>Fee accrued</strong> follows the same fallback: use the provided value if non-zero, otherwise default to 0.</p>
+<h3>The Processing Loop</h3>
+<p>After initialization, the events are sorted and processed in sequence:</p>
+<pre><code>for each event in sorted order:
+    event.Evaluate(ref stateSpace, terms, riskFactors, businessDayAdjuster)
+</code></pre>
+<p>The <code>Evaluate()</code> method on each event performs three operations:</p>
+<ol>
+<li><strong>ComputePayoff</strong> — calculates the cash flow for this event type</li>
+<li><strong>UpdateState</strong> — modifies the state space according to this event type</li>
+<li><strong>Snapshot</strong> — copies the current state variables into the event for reporting</li>
+</ol>
+<h3>Post-Processing</h3>
+<p>After all events are evaluated, if the contract has a PurchaseDate, events before the purchase date are removed (except AD events), and the IP event on the purchase date itself is removed. This reflects the fact that the buyer does not receive interest payments that occurred before their purchase.</p>
+<h2>Payoff Formulas</h2>
+<p>Each event type computes its payoff differently. The formulas below use the following notation:</p>
+<ul>
+<li><code>fxRate</code> — foreign exchange rate (currently always 1.0)</li>
+<li><code>R</code> — RoleSign (+1 or −1)</li>
+<li><code>N</code> — NotionalPrincipal (state, already signed by role)</li>
+<li><code>r</code> — NominalInterestRate (state)</li>
+<li><code>A</code> — AccruedInterest (state)</li>
+<li><code>Δt</code> — year fraction from previous event to current event</li>
+<li><code>S_n</code> — NotionalScalingMultiplier (state)</li>
+<li><code>S_i</code> — InterestScalingMultiplier (state)</li>
+</ul>
+<h3>IED (Initial Exchange Date)</h3>
+<pre><code>Payoff = fxRate × R × (−1) × (NotionalPrincipal_terms + PremiumDiscountAtIED)
+</code></pre>
+<p>The negative sign reflects that the lender pays out the principal. The RoleSign ensures the correct direction for asset vs. liability positions.</p>
+<h3>MD (Maturity Date)</h3>
+<pre><code>Payoff = fxRate × S_n × N
+</code></pre>
+<p>The principal is returned, scaled by the notional scaling multiplier if scaling is active.</p>
+<h3>IP (Interest Payment)</h3>
+<pre><code>Payoff = fxRate × S_i × (A + Δt × r × N)
+</code></pre>
+<p>This is the most frequently computed payoff. It includes both the interest that has been accruing since the last event (<code>A</code>) and the interest for the final sub-period from the last accrual to this payment date (<code>Δt × r × N</code>). The interest scaling multiplier adjusts for index-linked contracts.</p>
+<h3>IPCI (Interest Capitalization)</h3>
+<pre><code>Payoff = 0
+</code></pre>
+<p>No cash flow occurs. Instead, the accrued interest is added to the principal (handled in the state update).</p>
+<h3>FP (Fee Payment)</h3>
+<p>For absolute fees (FeeBasis = "A"):</p>
+<pre><code>Payoff = fxRate × R × FeeRate
+</code></pre>
+<p>For notional fees (FeeBasis = "N"):</p>
+<pre><code>Payoff = fxRate × (FeeAccrued + N × FeeRate × Δt)
+</code></pre>
+<h3>PRD (Purchase Date)</h3>
+<pre><code>Payoff = fxRate × R × (−1) × PriceAtPurchaseDate
+</code></pre>
+<h3>TD (Termination Date)</h3>
+<pre><code>Payoff = fxRate × R × PriceAtTerminationDate
+</code></pre>
+<h3>RR, RRF, SC (Rate Reset, Fixed Rate Reset, Scaling)</h3>
+<pre><code>Payoff = 0
+</code></pre>
+<p>These are administrative events — they modify the state but produce no cash flow.</p>
+<h2>Interest Accrual</h2>
+<p>Between any two consecutive events, interest accrues continuously. The engine computes this accrual before processing certain event types (IP, IPCI, RR, FP, SC). The accrual formula:</p>
+<pre><code>AccruedInterest += NominalInterestRate × NotionalPrincipal × YearFraction(prevDate, currentDate)
+</code></pre>
+<p>The year fraction depends on the day count convention and is computed using the <code>DayCountCalculator</code>. The dates used for the calculation depend on the business day convention: CalcShift conventions use the original schedule dates, while ShiftCalc conventions use the shifted dates.</p>
+<p>Fee accrual (for notional-basis fees) follows the same pattern:</p>
+<pre><code>FeeAccrued += FeeRate × NotionalPrincipal × YearFraction(prevDate, currentDate)
+</code></pre>
+<p>Both accruals only occur when the contract has a non-zero notional and the event is strictly after the previous status date.</p>
+<h2>Scaling</h2>
+<p>When a scaling event (SC) is processed, the engine looks up the current index value from the risk factor model and computes a scaling factor relative to the base index:</p>
+<pre><code>scalingFactor = currentIndex / ScalingIndexAtContractDealDate
+</code></pre>
+<p>Depending on the <code>ScalingEffect</code> setting:</p>
+<ul>
+<li>If it contains "N": <code>NotionalScalingMultiplier = scalingFactor × model.NotionalScalingMultiplier</code></li>
+<li>If it contains "I": <code>InterestScalingMultiplier = scalingFactor × model.InterestScalingMultiplier</code></li>
+<li>If it contains "NI": both are updated</li>
+</ul>
+<p>This mechanism allows contracts to be linked to inflation indices or other market benchmarks, with the scaling multipliers flowing into the payoff formulas for MD (notional scaling) and IP (interest scaling).</p>
+<h2>Continue Reading</h2>
+<ul>
+<li><a href="./state-machine.md">State Machine</a> — detailed state transitions for each event type, including the rate reset algorithm with caps and floors</li>
+<li><a href="./scheduling.md">Schedule Generation</a> — how cycle strings are parsed and periodic date sequences are built</li>
+<li><a href="./conventions/index.md">Conventions</a> — day count, business day, and calendar convention implementations</li>
+<li><a href="./risk-factors.md">Risk Factor Model</a> — how market data is stored and retrieved</li>
+<li><a href="./reference.md">Technical Reference</a> — complete listing of all types, enumerations, and interfaces</li>
+</ul>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-5" class="doc-section">
+        <h1 class="doc-title">Scenario Demo — CPU vs GPU Comparison</h1>
+        <h2>Scenario Demo — CPU vs GPU Comparison</h2>
+<h2>Overview</h2>
+<p>The ScenarioCpuGpuCalcDateDemo is a focused sample application that demonstrates one specific capability: evaluating the same portfolio on both CPU and GPU engines and verifying that the results match. It is simpler than the full CLI tool and serves as a good starting point for understanding the evaluation pipeline.</p>
+<h2>What It Demonstrates</h2>
+<ol>
+<li><strong>CPU/GPU parity</strong> — the same contracts produce identical results on both engines</li>
+<li><strong>CalcDateIndex handling</strong> — how the system splits rates into "before" (historical) and "after" (forward/scenario-specific) segments</li>
+<li><strong>CSV export</strong> — writing results to files for external analysis</li>
+</ol>
+<h2>Components</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Program.cs</td>
+<td>Entry point — sets up contracts, scenarios, and runs both engines</td>
+</tr>
+<tr>
+<td>CpuEngine</td>
+<td>Evaluates contracts using the CPU PAM implementation</td>
+</tr>
+<tr>
+<td>GpuEngine</td>
+<td>Evaluates contracts using the GPU PAM kernel</td>
+</tr>
+<tr>
+<td>RateScenarios</td>
+<td>Generates or loads interest rate scenarios</td>
+</tr>
+<tr>
+<td>CsvSink</td>
+<td>Exports results to CSV files</td>
+</tr>
+</tbody>
+</table>
+<h2>Usage</h2>
+<p>The demo creates a small synthetic portfolio, generates a few scenarios, evaluates on both CPU and GPU, compares results, and exports to CSV. It is designed to be run as a quick verification that the GPU engine matches the CPU engine on the developer's local machine.</p>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-6" class="doc-section">
+        <h1 class="doc-title">GPU Data Structures</h1>
+        <h2>GPU Data Structures</h2>
+<h2>Overview</h2>
+<p>GPU kernels operate exclusively on blittable types — fixed-size structs containing only primitive numeric fields. This page documents the GPU data structures and the transformation rules that convert rich CPU domain objects into GPU-compatible format.</p>
+<h2>PamContractGpu</h2>
+<p>The primary contract representation on the GPU. Each contract is a single fixed-size struct containing all parameters needed for event evaluation.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>StatusDateTicks</td>
+<td>long</td>
+<td>StatusDate converted to ticks (0 = null)</td>
+</tr>
+<tr>
+<td>InitialExchangeDateTicks</td>
+<td>long</td>
+<td>InitialExchangeDate → ticks</td>
+</tr>
+<tr>
+<td>MaturityDateTicks</td>
+<td>long</td>
+<td>MaturityDate → ticks</td>
+</tr>
+<tr>
+<td>PurchaseDateTicks</td>
+<td>long</td>
+<td>PurchaseDate → ticks (0 = none)</td>
+</tr>
+<tr>
+<td>TerminationDateTicks</td>
+<td>long</td>
+<td>TerminationDate → ticks (0 = none)</td>
+</tr>
+<tr>
+<td>NotionalPrincipal</td>
+<td>double</td>
+<td>Direct copy</td>
+</tr>
+<tr>
+<td>NominalInterestRate</td>
+<td>double</td>
+<td>Direct copy</td>
+</tr>
+<tr>
+<td>AccruedInterest</td>
+<td>double</td>
+<td>Direct copy</td>
+</tr>
+<tr>
+<td>RateSpread</td>
+<td>double</td>
+<td>Direct copy</td>
+</tr>
+<tr>
+<td>RateMultiplier</td>
+<td>double</td>
+<td>Direct copy</td>
+</tr>
+<tr>
+<td>NextResetRate</td>
+<td>double</td>
+<td>Direct copy</td>
+</tr>
+<tr>
+<td>LifeCap / LifeFloor</td>
+<td>double</td>
+<td>Rate cap and floor</td>
+</tr>
+<tr>
+<td>PeriodCap / PeriodFloor</td>
+<td>double</td>
+<td>Per-period rate bounds</td>
+</tr>
+<tr>
+<td>FeeRate</td>
+<td>double</td>
+<td>Direct copy</td>
+</tr>
+<tr>
+<td>FeeAccrued</td>
+<td>double</td>
+<td>Direct copy</td>
+</tr>
+<tr>
+<td>FeeBasis</td>
+<td>int</td>
+<td>"A"=0, "N"=1</td>
+</tr>
+<tr>
+<td>DayCountConventionCode</td>
+<td>int</td>
+<td>Enum → integer code</td>
+</tr>
+<tr>
+<td>ContractRoleSign</td>
+<td>double</td>
+<td>+1.0 or −1.0</td>
+</tr>
+<tr>
+<td>EventOffset / EventCount</td>
+<td>int</td>
+<td>Slice into shared PamEventGpu[]</td>
+</tr>
+<tr>
+<td>MarketRateOffset / MarketRateCount</td>
+<td>int</td>
+<td>Slice into shared GpuMarketRate[]</td>
+</tr>
+<tr>
+<td>Initial state fields</td>
+<td>double</td>
+<td>NotionalPrincipal, rates, accrued at IED</td>
+</tr>
+</tbody>
+</table>
+<h3>Key Design Decisions</h3>
+<p><strong>Dates as ticks:</strong> DateTime objects cannot exist on the GPU. All dates are converted to <code>long</code> tick counts. A value of 0 indicates a null/absent date.</p>
+<p><strong>Enum codes:</strong> String-based enums (like "Annual" for payment frequency) are converted to integer codes during adaptation.</p>
+<p><strong>Event offset/count:</strong> Rather than giving each contract its own event array, all events are packed into a single flat array. Each contract stores its starting offset and event count. This eliminates per-contract memory allocation on the GPU.</p>
+<h2>PamEventGpu</h2>
+<p>Each scheduled event is represented as a fixed-size struct in the shared event array.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ScheduleTimeTicks</td>
+<td>long</td>
+<td>Original scheduled date (before business day shifting)</td>
+</tr>
+<tr>
+<td>EventTimeTicks</td>
+<td>long</td>
+<td>Actual event date (after business day shifting)</td>
+</tr>
+<tr>
+<td>CalcTimeTicks</td>
+<td>long</td>
+<td>Calculation reference date (for CalcShift conventions)</td>
+</tr>
+<tr>
+<td>EventType</td>
+<td>int</td>
+<td>GpuEventType code (IED=0, IP=1, ... CD=11)</td>
+</tr>
+<tr>
+<td>RateIndex</td>
+<td>int</td>
+<td>Index into GpuMarketRate[] array (−1 if no rate lookup)</td>
+</tr>
+</tbody>
+</table>
+<h2>PamEventResultGpu</h2>
+<p>The output struct written by the kernel for each event.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Payoff</td>
+<td>double</td>
+<td>Computed payoff amount</td>
+</tr>
+<tr>
+<td>NotionalPrincipal</td>
+<td>double</td>
+<td>State: notional after this event</td>
+</tr>
+<tr>
+<td>NominalInterestRate</td>
+<td>double</td>
+<td>State: interest rate after this event</td>
+</tr>
+<tr>
+<td>AccruedInterest</td>
+<td>double</td>
+<td>State: accrued interest after this event</td>
+</tr>
+<tr>
+<td>FeeAccrued</td>
+<td>double</td>
+<td>State: fee accrued after this event</td>
+</tr>
+</tbody>
+</table>
+<p>Struct is padded to 8-byte alignment for optimal GPU memory access.</p>
+<h2>GpuMarketRate</h2>
+<p>Market rate observations for rate-reset events.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TimeTicks</td>
+<td>long</td>
+<td>Observation date</td>
+</tr>
+<tr>
+<td>Value</td>
+<td>double</td>
+<td>Rate value</td>
+</tr>
+</tbody>
+</table>
+<h2>GpuEventType Enum</h2>
+<p>Maps CPU EventType to GPU integer codes:</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Event Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>IED</td>
+<td>Initial Exchange Date</td>
+</tr>
+<tr>
+<td>1</td>
+<td>IP</td>
+<td>Interest Payment</td>
+</tr>
+<tr>
+<td>2</td>
+<td>IPCI</td>
+<td>Interest Payment Capitalisation</td>
+</tr>
+<tr>
+<td>3</td>
+<td>PRD</td>
+<td>Purchase Date</td>
+</tr>
+<tr>
+<td>4</td>
+<td>TD</td>
+<td>Termination Date</td>
+</tr>
+<tr>
+<td>5</td>
+<td>RR</td>
+<td>Rate Reset (variable)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>RRF</td>
+<td>Rate Reset (fixed)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>FP</td>
+<td>Fee Payment</td>
+</tr>
+<tr>
+<td>8</td>
+<td>SC</td>
+<td>Scaling</td>
+</tr>
+<tr>
+<td>9</td>
+<td>MD</td>
+<td>Maturity Date</td>
+</tr>
+<tr>
+<td>10</td>
+<td>AD</td>
+<td>Analysis Date</td>
+</tr>
+<tr>
+<td>11</td>
+<td>CD</td>
+<td>Credit Default</td>
+</tr>
+</tbody>
+</table>
+<h2>SoA vs AoS Layout</h2>
+<p>The GPU layer uses <strong>Structure of Arrays</strong> (SoA) rather than Array of Structures (AoS) for memory layout. This ensures coalesced memory access when thousands of GPU threads read the same field across different contracts.</p>
+<pre><code class="language-mermaid">graph TD
+    subgraph "AoS (Array of Structures)"
+        AOS["Contract1{principal, rate, date} | Contract2{principal, rate, date} | ..."]
+    end
+
+    subgraph "SoA (Structure of Arrays)"
+        SOA1["principals: [c1_principal, c2_principal, c3_principal, ...]"]
+        SOA2["rates: [c1_rate, c2_rate, c3_rate, ...]"]
+        SOA3["dates: [c1_date, c2_date, c3_date, ...]"]
+    end
+</code></pre>
+<p>When all threads read the <code>principal</code> field simultaneously, SoA ensures these reads hit consecutive memory addresses, maximising GPU memory bandwidth.</p>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-7" class="doc-section">
+        <h1 class="doc-title">Running Tests</h1>
+        <h2>Running Tests</h2>
+<h2>Prerequisites</h2>
+<ul>
+<li>.NET 9.0 SDK installed</li>
+<li>For GPU tests: NVIDIA GPU with CUDA support (or tests will fall back to CPU backend)</li>
+</ul>
+<h2>Running CPU Tests</h2>
+<p>The CPU tests are in the ActusInsurance.Tests.CPU project:</p>
+<pre><code>cd Actus-Insurance.Core
+dotnet test
+</code></pre>
+<p>This runs all 42 PAM reference tests against the CPU engine. Each test loads a case from <code>actus-tests-pam.json</code>, evaluates it, and compares against expected results.</p>
+<h2>Running GPU Tests</h2>
+<p>The GPU tests are in the ActusInsurance.Tests.GPU project:</p>
+<pre><code>cd Actus-Insurance.GPU
+dotnet test
+</code></pre>
+<p>This runs the same 42 PAM reference tests through the GPU pipeline (adapter → executor → kernel → results) and verifies against the same expected values. It also runs the life insurance projection tests.</p>
+<p>If no NVIDIA GPU is available, ILGPU automatically falls back to the CPU backend. The tests still pass — they just run slower.</p>
+<h2>Interpreting Results</h2>
+<p>A successful run shows all tests passing:</p>
+<ul>
+<li>42 PAM tests × 2 engines (CPU + GPU) = 84 total PAM test executions</li>
+<li>Life insurance projection tests (variable count)</li>
+</ul>
+<p>Any failure indicates a correctness regression. The test output shows which specific test case failed and which event produced a different value, making it straightforward to identify the root cause.</p>
+<h2>Tolerance</h2>
+<p>The comparison tolerance is <strong>2×10⁻¹⁰</strong> (0.0000000002). This is:</p>
+<ul>
+<li>Tight enough to catch: rounding errors in day count fractions, event ordering mistakes, incorrect rate cap/floor application, and state update bugs</li>
+<li>Loose enough to accommodate: inherent IEEE 754 double-precision rounding differences between CPU and GPU arithmetic</li>
+</ul>
+<h2>Running Benchmarks</h2>
+<p>Performance benchmarks use BenchmarkDotNet:</p>
+<pre><code>cd Actus-Insurance.GPU
+dotnet run -c Release --project src/ActusInsurance.Benchmarks
+</code></pre>
+<p>This produces detailed timing statistics for CPU vs GPU evaluation at various portfolio sizes, including warm-up, iteration counts, and statistical analysis.</p>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-8" class="doc-section">
+        <h1 class="doc-title">State Machine</h1>
+        <h2>State Machine</h2>
+<h2>Overview</h2>
+<p>Every ACTUS contract is modeled as a deterministic state machine. The contract carries a state — a set of numeric variables — that evolves over time as events are processed. Each event reads the current state, computes a cash flow (its payoff), and produces a new state. Events are processed in strict chronological order. Given the same inputs (contract terms, market data, evaluation date), the engine always produces exactly the same output.</p>
+<p>This page describes the state machine in full detail: what the state variables are, how interest accrues between events, and exactly how each event type transforms the state.</p>
+<h2>The State Space</h2>
+<p>The state of a PAM contract at any point in time is captured by the <code>StateSpace</code> value struct. This struct is passed by reference through the event processing loop, modified in place by each event.</p>
+<p>Using a value struct (rather than a reference type) is a deliberate design choice: structs have copy-by-value semantics, which means passing a state to a parallel evaluation thread automatically creates an isolated copy. This is essential for the GPU and Monte Carlo extensions, where thousands of scenarios evaluate the same contract in parallel without thread-safety concerns.</p>
+<h3>State Variables</h3>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Type</th>
+<th>Description</th>
+<th>Initial Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NotionalPrincipal</td>
+<td>double</td>
+<td>Current face value, signed by contract role</td>
+<td>0 or RoleSign × NotionalPrincipal</td>
+</tr>
+<tr>
+<td>NominalInterestRate</td>
+<td>double</td>
+<td>Current annual interest rate</td>
+<td>0 or NominalInterestRate from terms</td>
+</tr>
+<tr>
+<td>AccruedInterest</td>
+<td>double</td>
+<td>Interest accumulated since the last IP event</td>
+<td>Computed or from terms</td>
+</tr>
+<tr>
+<td>FeeAccrued</td>
+<td>double</td>
+<td>Fees accumulated since the last FP event</td>
+<td>0 or from terms</td>
+</tr>
+<tr>
+<td>NotionalScalingMultiplier</td>
+<td>double</td>
+<td>Multiplier for notional-dependent cash flows</td>
+<td>1.0 from terms</td>
+</tr>
+<tr>
+<td>InterestScalingMultiplier</td>
+<td>double</td>
+<td>Multiplier for interest-dependent cash flows</td>
+<td>1.0 from terms</td>
+</tr>
+<tr>
+<td>StatusDate</td>
+<td>DateTime</td>
+<td>Date of the current state (advances with each event)</td>
+<td>StatusDate from terms</td>
+</tr>
+<tr>
+<td>ContractPerformance</td>
+<td>string?</td>
+<td>Performance status (performing, delayed, default, etc.)</td>
+<td>From terms</td>
+</tr>
+</tbody>
+</table>
+<p>The first four variables — principal, rate, accrued interest, and accrued fees — are the "working" state that changes with most events. The scaling multipliers only change on SC events. The StatusDate advances to the schedule time of each event as it is processed.</p>
+<h2>Interest Accrual</h2>
+<p>Interest accrual is the engine's most frequently executed calculation. It happens before certain events are processed, updating the AccruedInterest (and optionally FeeAccrued) to reflect the time that has passed since the last event.</p>
+<h3>When Accrual Occurs</h3>
+<p>Accrual is triggered before these event types: IP, IPCI, RR, RRF, FP, and SC. It is not triggered before IED (the contract does not yet exist), MD (accrual is handled by the IP formula on the same date), PRD (purchase does not affect accrual), or TD (handled similarly to MD).</p>
+<h3>The Accrual Formula</h3>
+<pre><code>AccruedInterest += NominalInterestRate × NotionalPrincipal × YearFraction(prevDate, currentDate)
+</code></pre>
+<p>Where:</p>
+<ul>
+<li><code>prevDate</code> is the StatusDate (the date of the previous event)</li>
+<li><code>currentDate</code> is the ScheduleTime of the current event</li>
+<li><code>YearFraction</code> is computed using the contract's day count convention</li>
+</ul>
+<p>Accrual only occurs when two conditions are met:</p>
+<ol>
+<li>The StatusDate is strictly before the current event's ScheduleTime (no zero-length accrual)</li>
+<li>The NotionalPrincipal is non-zero (no accrual on an inactive contract)</li>
+</ol>
+<h3>Fee Accrual</h3>
+<p>For notional-basis fees (FeeBasis = "N"), fee accrual follows the same pattern:</p>
+<pre><code>FeeAccrued += FeeRate × NotionalPrincipal × YearFraction(prevDate, currentDate)
+</code></pre>
+<p>Absolute fees (FeeBasis = "A") do not accrue — they are paid as a fixed amount per period.</p>
+<h3>Date Selection for Calculations</h3>
+<p>The dates used in the year fraction calculation depend on the business day convention's Calc/Shift strategy:</p>
+<ul>
+<li><strong>CalcShift conventions</strong> (CSF, CSMF, CSP, CSMP): calculations use the original, unshifted schedule dates. The <code>ShiftCalcTime()</code> method returns the original date.</li>
+<li><strong>ShiftCalc conventions</strong> (SCF, SCMF, SCP, SCMP): calculations use the business-day-adjusted dates. The <code>ShiftCalcTime()</code> method returns the shifted date.</li>
+<li><strong>NOS</strong> (No Shift): no adjustment — both dates are the same.</li>
+</ul>
+<p>This distinction matters when an event date falls on a weekend. A CalcShift convention says "calculate interest as if the payment happened on the scheduled date, but actually settle on the next business day." A ShiftCalc convention says "the payment date is the business day, and interest accrues to that date."</p>
+<h2>Event Evaluation: The Three-Step Process</h2>
+<p>Every event's <code>Evaluate()</code> method follows the same three-step pattern:</p>
+<pre><code class="language-mermaid">graph TD
+    A["Step 1: ComputePayoff"] --> B["Step 2: UpdateState"]
+    B --> C["Step 3: Snapshot"]
+</code></pre>
+<p><strong>Step 1 — ComputePayoff:</strong> Calculate the cash flow for this event type. The payoff depends on the event type and the current state (see <a href="./pam-contract.md">PAM Contract</a> for all formulas).</p>
+<p><strong>Step 2 — UpdateState:</strong> Modify the state space according to this event type's transition rules. This is where interest accrual happens (for applicable event types), followed by the type-specific state change.</p>
+<p><strong>Step 3 — Snapshot:</strong> Copy the four key state variables (NotionalPrincipal, NominalInterestRate, AccruedInterest, FeeAccrued) from the state space into the event object. This creates a permanent record of the state after this event, which appears in the output.</p>
+<h2>State Transitions by Event Type</h2>
+<h3>IED — Initial Exchange Date</h3>
+<p>The contract begins. The principal is established and the interest rate is set.</p>
+<pre><code class="language-mermaid">graph LR
+    Before["Principal = 0&#x3C;br/>Rate = 0&#x3C;br/>Accrued = 0"] -->|IED| After["Principal = RoleSign × Notional&#x3C;br/>Rate = NominalRate&#x3C;br/>Accrued = pre-IED accrual (if any)"]
+</code></pre>
+<p><strong>State changes:</strong></p>
+<ul>
+<li><code>NotionalPrincipal</code> = <code>RoleSign × model.NotionalPrincipal</code></li>
+<li><code>NominalInterestRate</code> = <code>model.NominalInterestRate</code></li>
+<li>If the cycle anchor date is before the IED, accrued interest is computed from the anchor to the IED using the day count convention. This handles the case where interest starts accruing before the principal is exchanged.</li>
+</ul>
+<p><strong>Payoff:</strong></p>
+<pre><code>fxRate × RoleSign × (−1) × (NotionalPrincipal + PremiumDiscountAtIED)
+</code></pre>
+<h3>IP — Interest Payment</h3>
+<p>Accrued interest is paid out and the accrual counter resets to zero.</p>
+<pre><code class="language-mermaid">graph LR
+    Before["Accrued = A"] -->|IP| After["Accrued = 0"]
+</code></pre>
+<p><strong>State changes:</strong></p>
+<ul>
+<li>Interest accrual is computed (adding to AccruedInterest) before the state update</li>
+<li><code>AccruedInterest</code> = 0 (reset after payment)</li>
+<li>All other state variables unchanged</li>
+</ul>
+<p><strong>Payoff:</strong></p>
+<pre><code>fxRate × InterestScalingMultiplier × (AccruedInterest + Δt × Rate × Principal)
+</code></pre>
+<p>The payoff includes both the previously accrued amount and the interest for the final sub-period. The scaling multiplier adjusts for inflation-linked contracts.</p>
+<h3>IPCI — Interest Capitalization</h3>
+<p>Instead of paying interest out as cash, the accrued interest is added to the principal. This increases the base for future interest calculations (compound interest).</p>
+<pre><code class="language-mermaid">graph LR
+    Before["Principal = P&#x3C;br/>Accrued = A"] -->|IPCI| After["Principal = P + A&#x3C;br/>Accrued = 0"]
+</code></pre>
+<p><strong>State changes:</strong></p>
+<ul>
+<li>Interest accrual is computed before the state update</li>
+<li><code>NotionalPrincipal</code> += <code>AccruedInterest</code></li>
+<li><code>AccruedInterest</code> = 0</li>
+</ul>
+<p><strong>Payoff:</strong> 0 (no cash flow — the interest stays inside the contract)</p>
+<h3>RR — Rate Reset (Market-Driven)</h3>
+<p>The interest rate is updated from market data. The new rate is derived from an external market rate, adjusted by a multiplier and spread, and constrained by period-level and lifetime caps and floors.</p>
+<pre><code class="language-mermaid">graph LR
+    Before["Rate = R_old"] -->|RR| After["Rate = R_new&#x3C;br/>(constrained)"]
+</code></pre>
+<p><strong>The rate reset algorithm has four steps:</strong></p>
+<ol>
+<li>
+<p><strong>Look up the market rate:</strong> Query the RiskFactorModel using the <code>MarketObjectCodeOfRateReset</code> and the event time.</p>
+</li>
+<li>
+<p><strong>Apply multiplier and spread:</strong></p>
+<pre><code>candidateRate = marketRate × RateMultiplier + RateSpread
+</code></pre>
+</li>
+<li>
+<p><strong>Apply period constraints:</strong> Compute the change from the current rate and clamp it:</p>
+<pre><code>deltaRate = candidateRate − currentRate
+deltaRate = clamp(deltaRate, PeriodFloor, PeriodCap)
+newRate = currentRate + deltaRate
+</code></pre>
+</li>
+<li>
+<p><strong>Apply lifetime constraints:</strong> Clamp the absolute rate:</p>
+<pre><code>newRate = clamp(newRate, LifeFloor, LifeCap)
+</code></pre>
+</li>
+</ol>
+<p><strong>State changes:</strong></p>
+<ul>
+<li>Interest accrual is computed before the rate change</li>
+<li><code>NominalInterestRate</code> = constrained new rate</li>
+</ul>
+<p><strong>Payoff:</strong> 0 (administrative event — no cash flow)</p>
+<p><strong>Why two-stage clamping?</strong> Period caps/floors limit how much the rate can change in a single reset — protecting borrowers from sudden rate spikes. Lifetime caps/floors set absolute bounds over the contract's entire duration. Both constraints are standard in floating-rate loan agreements.</p>
+<h3>RRF — Rate Reset Fixed</h3>
+<p>A variant of rate reset where the new rate comes from the contract terms (<code>NextResetRate</code>) rather than market data. This is used for the first reset event after the StatusDate when a fixed next rate has been pre-agreed.</p>
+<p><strong>State changes:</strong> Same as RR, but using <code>model.NextResetRate</code> instead of a market lookup. Period and lifetime caps/floors still apply.</p>
+<p><strong>Payoff:</strong> 0</p>
+<h3>MD — Maturity Date</h3>
+<p>The contract ends. The principal is returned and all state variables are zeroed.</p>
+<pre><code class="language-mermaid">graph LR
+    Before["Principal = P&#x3C;br/>Accrued = A"] -->|MD| After["Principal = 0&#x3C;br/>Accrued = 0"]
+</code></pre>
+<p><strong>State changes:</strong></p>
+<ul>
+<li><code>NotionalPrincipal</code> = 0</li>
+<li><code>AccruedInterest</code> = 0</li>
+</ul>
+<p><strong>Payoff:</strong></p>
+<pre><code>fxRate × NotionalScalingMultiplier × NotionalPrincipal
+</code></pre>
+<h3>TD — Termination Date</h3>
+<p>Early contract termination. Functionally similar to maturity, but the payoff is the agreed termination price rather than the notional.</p>
+<pre><code class="language-mermaid">graph LR
+    Before["Principal = P"] -->|TD| After["Principal = 0&#x3C;br/>Accrued = 0"]
+</code></pre>
+<p><strong>State changes:</strong></p>
+<ul>
+<li><code>NotionalPrincipal</code> = 0</li>
+<li><code>AccruedInterest</code> = 0</li>
+</ul>
+<p><strong>Payoff:</strong></p>
+<pre><code>fxRate × RoleSign × PriceAtTerminationDate
+</code></pre>
+<h3>PRD — Purchase Date</h3>
+<p>A secondary market purchase. The buyer pays the purchase price. No state change occurs — the contract's terms continue unchanged.</p>
+<p><strong>State changes:</strong> None</p>
+<p><strong>Payoff:</strong></p>
+<pre><code>fxRate × RoleSign × (−1) × PriceAtPurchaseDate
+</code></pre>
+<h3>FP — Fee Payment</h3>
+<p>Accumulated fees are paid out and the fee accrual counter resets.</p>
+<p><strong>State changes:</strong></p>
+<ul>
+<li>Fee accrual is computed before the state update</li>
+<li><code>FeeAccrued</code> = 0</li>
+</ul>
+<p><strong>Payoff</strong> (absolute basis):</p>
+<pre><code>fxRate × RoleSign × FeeRate
+</code></pre>
+<p><strong>Payoff</strong> (notional basis):</p>
+<pre><code>fxRate × (FeeAccrued + NotionalPrincipal × FeeRate × Δt)
+</code></pre>
+<h3>SC — Scaling</h3>
+<p>Scaling multipliers are updated from an external index. This changes the magnitude of future notional-dependent and interest-dependent cash flows.</p>
+<pre><code class="language-mermaid">graph LR
+    Before["S_n = old&#x3C;br/>S_i = old"] -->|SC| After["S_n = factor × base_n&#x3C;br/>S_i = factor × base_i"]
+</code></pre>
+<p><strong>The scaling algorithm:</strong></p>
+<pre><code>scalingFactor = currentIndex / ScalingIndexAtContractDealDate
+</code></pre>
+<p>Then, depending on the <code>ScalingEffect</code>:</p>
+<ul>
+<li>If it contains "N": <code>NotionalScalingMultiplier = scalingFactor × model.NotionalScalingMultiplier</code></li>
+<li>If it contains "I": <code>InterestScalingMultiplier = scalingFactor × model.InterestScalingMultiplier</code></li>
+</ul>
+<p><strong>State changes:</strong></p>
+<ul>
+<li>Interest accrual is computed before the scaling update</li>
+<li>Scaling multipliers updated as described above</li>
+</ul>
+<p><strong>Payoff:</strong> 0 (administrative event)</p>
+<h2>Event Priority</h2>
+<p>When multiple events occur on the same date, they must be processed in a deterministic order. The engine assigns a priority number to each event type — lower numbers are processed first:</p>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Event Type</th>
+<th>Rationale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>IED</td>
+<td>Contract must be activated before anything else</td>
+</tr>
+<tr>
+<td>1</td>
+<td>IP</td>
+<td>Interest is paid at the old rate before any rate change</td>
+</tr>
+<tr>
+<td>2</td>
+<td>IPCI</td>
+<td>Interest is capitalized at the old rate before any rate change</td>
+</tr>
+<tr>
+<td>3</td>
+<td>PRD</td>
+<td>Purchase is recorded after interest events</td>
+</tr>
+<tr>
+<td>4</td>
+<td>TD</td>
+<td>Termination happens after interest settlement</td>
+</tr>
+<tr>
+<td>5</td>
+<td>RR</td>
+<td>Rate reset takes effect after the old rate's payments</td>
+</tr>
+<tr>
+<td>6</td>
+<td>RRF</td>
+<td>Fixed rate reset, same ordering as RR</td>
+</tr>
+<tr>
+<td>7</td>
+<td>FP</td>
+<td>Fee payment follows rate changes</td>
+</tr>
+<tr>
+<td>8</td>
+<td>SC</td>
+<td>Scaling updates follow all payment events</td>
+</tr>
+<tr>
+<td>9</td>
+<td>MD</td>
+<td>Maturity is last — principal is returned after all other processing</td>
+</tr>
+<tr>
+<td>10</td>
+<td>CD</td>
+<td>Credit default is the final event type</td>
+</tr>
+</tbody>
+</table>
+<p>This ordering ensures correct behavior. For example, on a date where both an IP and an RR event occur, the interest is paid at the old rate (IP at priority 1) before the rate changes (RR at priority 5). Similarly, on the maturity date, any final interest payment (IP at priority 1) is processed before the principal return (MD at priority 9).</p>
+<h2>The Complete Processing Flow</h2>
+<p>Putting it all together, here is the complete sequence for evaluating a PAM contract:</p>
+<pre><code class="language-mermaid">graph TD
+    TERMS["Contract Terms"] --> INIT["Initialize StateSpace&#x3C;br/>(principal, rate, accrued)"]
+    TERMS --> SCHED["Generate Schedule&#x3C;br/>(all event types)"]
+    SCHED --> SORT["Sort Events&#x3C;br/>(time, then priority)"]
+    SORT --> LOOP{"More Events?"}
+    LOOP -->|Yes| ACCRUE["Accrue Interest &#x26; Fees&#x3C;br/>(if applicable event type)"]
+    ACCRUE --> DATE["Update StatusDate&#x3C;br/>to ScheduleTime"]
+    DATE --> PAYOFF["Compute Payoff&#x3C;br/>(type-specific formula)"]
+    PAYOFF --> UPDATE["Update State&#x3C;br/>(type-specific transition)"]
+    UPDATE --> SNAP["Snapshot State&#x3C;br/>into Event"]
+    SNAP --> LOOP
+    LOOP -->|No| POST["Post-Process&#x3C;br/>(remove pre-purchase events)"]
+    POST --> RESULT["Return Evaluated Events"]
+</code></pre>
+<h2>Continue Reading</h2>
+<ul>
+<li><a href="./pam-contract.md">PAM Contract</a> — contract terms and schedule generation details</li>
+<li><a href="./conventions/index.md">Conventions</a> — how day count and business day conventions affect accrual</li>
+<li><a href="./scheduling.md">Schedule Generation</a> — how event dates are generated from cycle strings</li>
+<li><a href="./reference.md">Technical Reference</a> — complete listing of all types and enumerations</li>
+</ul>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-9" class="doc-section">
+        <h1 class="doc-title">GPU Kernels</h1>
+        <h2>GPU Kernels</h2>
+<h2>Overview</h2>
+<p>A kernel is a function that runs on the GPU with one thread per work item. This project has three main kernels, each serving a different evaluation mode.</p>
+<h2>PAM Kernel (PamGpuKernel)</h2>
+<p>The foundational kernel. Each thread processes one contract through its full event schedule.</p>
+<h3>Thread Assignment</h3>
+<p>Each GPU thread receives an Index1D corresponding to its contract index. The thread reads its contract's EventOffset and EventCount to locate its events in the shared event array, then processes them sequentially.</p>
+<h3>Per-Event Processing</h3>
+<p>For each event, the kernel:</p>
+<ol>
+<li>Computes the year fraction between the previous event and the current event using the contract's day count convention</li>
+<li>Accrues interest for the elapsed period</li>
+<li>Computes the payoff based on the event type</li>
+<li>Updates the contract state (notional, rate, accrued amounts)</li>
+<li>Writes the result to the output array</li>
+</ol>
+<h3>Day Count Conventions on GPU</h3>
+<p>The kernel implements five day count conventions directly in GPU code:</p>
+<table>
+<thead>
+<tr>
+<th>Convention</th>
+<th>Year Fraction Calculation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A/365 (Actual/365 Fixed)</td>
+<td>actual days / 365</td>
+</tr>
+<tr>
+<td>A/360 (Actual/360)</td>
+<td>actual days / 360</td>
+</tr>
+<tr>
+<td>30E/360</td>
+<td>(360 × Δyear + 30 × Δmonth + Δday) / 360</td>
+</tr>
+<tr>
+<td>A/336</td>
+<td>actual days / 336</td>
+</tr>
+<tr>
+<td>AA (Actual/Actual ISDA)</td>
+<td>days-in-year-1 / 365-or-366 + days-in-year-2 / 365-or-366</td>
+</tr>
+</tbody>
+</table>
+<p>Date arithmetic is performed entirely in ticks with hour-level rounding to maintain numerical stability.</p>
+<h3>Event Type Handlers</h3>
+<p>Each event type has specific payoff and state-update logic:</p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>Payoff</th>
+<th>State Update</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IED</td>
+<td>−roleSign × notional × (1 − premiumDiscount)</td>
+<td>Set initial notional and rates</td>
+</tr>
+<tr>
+<td>IP</td>
+<td>roleSign × (accrued + timeAccrued) × interestScaling</td>
+<td>Reset accrued to 0</td>
+</tr>
+<tr>
+<td>IPCI</td>
+<td>0</td>
+<td>Add accrued to notional</td>
+</tr>
+<tr>
+<td>RR</td>
+<td>0</td>
+<td>Update rate from market data (with cap/floor)</td>
+</tr>
+<tr>
+<td>RRF</td>
+<td>0</td>
+<td>Set rate to fixed reset value</td>
+</tr>
+<tr>
+<td>FP</td>
+<td>roleSign × feeAmount</td>
+<td>Reset fee accrued</td>
+</tr>
+<tr>
+<td>SC</td>
+<td>0</td>
+<td>Update scaling multipliers</td>
+</tr>
+<tr>
+<td>MD</td>
+<td>roleSign × notional × notionalScaling</td>
+<td>Final settlement</td>
+</tr>
+<tr>
+<td>PRD</td>
+<td>−roleSign × (notional + accrued) × scaling</td>
+<td>Purchase transfer</td>
+</tr>
+<tr>
+<td>TD</td>
+<td>roleSign × (notional + accrued) × scaling</td>
+<td>Termination transfer</td>
+</tr>
+</tbody>
+</table>
+<h2>PayoffCube Kernel</h2>
+<p>Extends the PAM kernel for Monte Carlo scenario evaluation with 2D thread indexing.</p>
+<h3>Thread Assignment</h3>
+<p>Each thread receives an Index2D(contractIndex, scenarioIndex). The thread evaluates one contract under one scenario, using scenario-specific interest rates for rate-reset events.</p>
+<h3>Scenario Rate Handling</h3>
+<p>Rates are split into two arrays: "prior" (before the calculation date) and "after" (from the calculation date forward). A calcDateIndex boundary determines which array a rate-reset event reads from. This allows the same historical rates to be shared across all scenarios while only the forward rates vary.</p>
+<h3>Output Accumulation</h3>
+<p>Instead of writing per-event results, the PayoffCube kernel accumulates payoffs into a flat output cube indexed by [kind × contract × scenario × timeStep]. The kernel uses atomic addition to safely accumulate when multiple events map to the same time step.</p>
+<h3>Cube Dimensions</h3>
+<table>
+<thead>
+<tr>
+<th>Dimension</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>K (kind)</td>
+<td>Payoff kind (currently 1: total payoff)</td>
+</tr>
+<tr>
+<td>C (contracts)</td>
+<td>Number of contracts</td>
+</tr>
+<tr>
+<td>S (scenarios)</td>
+<td>Number of Monte Carlo paths</td>
+</tr>
+<tr>
+<td>T (time steps)</td>
+<td>Number of discrete time grid points</td>
+</tr>
+</tbody>
+</table>
+<h2>Life Insurance Projection Kernel</h2>
+<p>A fundamentally different kernel that projects insurance policies through a Markov state transition model.</p>
+<h3>Thread Assignment</h3>
+<p>Each thread processes one policy over a multi-year projection horizon (typically 30 years), stepping through monthly time increments.</p>
+<h3>Per-Time-Step Processing</h3>
+<p>At each time step, the kernel:</p>
+<ol>
+<li>Looks up age-adjusted mortality rate from the mortality table (Gompertz-Makeham model)</li>
+<li>Applies smoker loading (1.35× for smokers) and underwriting loading</li>
+<li>Looks up duration-adjusted lapse rate from the lapse table</li>
+<li>Looks up disability incidence from the disability table</li>
+<li>Applies competing-risk decrements (total capped at 1.0)</li>
+<li>Computes expected cash flow: premium inflow − death benefit outflow</li>
+<li>Updates state probabilities (probability active, death-absorbed, lapse-absorbed)</li>
+</ol>
+<h3>Output Structure</h3>
+<p>Each time step produces a four-channel output:</p>
+<table>
+<thead>
+<tr>
+<th>Channel</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ExpectedCashflow</td>
+<td>Probability-weighted net cash flow</td>
+</tr>
+<tr>
+<td>ProbActive</td>
+<td>Probability the policy is still active</td>
+</tr>
+<tr>
+<td>ProbDeathClaimed</td>
+<td>Cumulative probability of death claim</td>
+</tr>
+<tr>
+<td>ProbLapsed</td>
+<td>Cumulative probability of lapse</td>
+</tr>
+</tbody>
+</table>
+<h3>Lookup Tables</h3>
+<p>Pre-built on CPU and uploaded to GPU as flat arrays:</p>
+<table>
+<thead>
+<tr>
+<th>Table</th>
+<th>Dimensions</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Mortality</td>
+<td>61 ages × 3 genders = 183 floats</td>
+<td>Gompertz-Makeham parametric model</td>
+</tr>
+<tr>
+<td>Lapse</td>
+<td>31 durations × 3 premium modes = 93 floats</td>
+<td>Duration-dependent base rates</td>
+</tr>
+<tr>
+<td>Disability</td>
+<td>61 ages × 3 genders = 183 floats</td>
+<td>Age-dependent incidence rates</td>
+</tr>
+<tr>
+<td>Markov hazards</td>
+<td>10 × 10 = 100 ints</td>
+<td>State transition hazard type matrix</td>
+</tr>
+</tbody>
+</table>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-10" class="doc-section">
+        <h1 class="doc-title">GPU Executors</h1>
+        <h2>GPU Executors</h2>
+<h2>Overview</h2>
+<p>Executors manage the full lifecycle of GPU execution: device selection, buffer allocation, data transfer, kernel dispatch, and result retrieval. They encapsulate all ILGPU-specific code, presenting a clean API to the rest of the system.</p>
+<h2>PamGpuExecutor</h2>
+<p>The primary executor for single-batch PAM contract evaluation.</p>
+<h3>Accelerator Selection</h3>
+<p>The factory method selects the best available device:</p>
+<ol>
+<li><strong>CUDA</strong> — highest performance on NVIDIA GPUs</li>
+<li><strong>OpenCL</strong> — cross-vendor fallback</li>
+<li><strong>CPU</strong> — always available, slowest but functional</li>
+</ol>
+<p>Selection happens once at construction time. The chosen accelerator is reused for all subsequent evaluations.</p>
+<h3>Execution Modes</h3>
+<p><strong>EvaluateBatch</strong> — all-in-one pipeline:</p>
+<pre><code class="language-mermaid">graph LR
+    A["Allocate&#x3C;br/>buffers"] --> B["H2D&#x3C;br/>transfer"]
+    B --> C["Launch&#x3C;br/>kernel"]
+    C --> D["Synchronise"]
+    D --> E["D2H&#x3C;br/>transfer"]
+    E --> F["Return&#x3C;br/>results"]
+</code></pre>
+<p><strong>UploadAndExecute + DownloadResults</strong> — split phases for batching:</p>
+<pre><code class="language-mermaid">graph LR
+    A["Upload +&#x3C;br/>Execute"] --> B["Upload +&#x3C;br/>Execute"]
+    B --> C["Upload +&#x3C;br/>Execute"]
+    C --> D["Download&#x3C;br/>all results"]
+</code></pre>
+<p>This split mode is used by the Monte Carlo pipeline to submit multiple scenario batches before downloading.</p>
+<h3>Buffer Pooling</h3>
+<p>GPU memory allocation is expensive. The executor pools buffers to avoid repeated allocation:</p>
+<ol>
+<li>On first call, buffers are allocated to match the input size</li>
+<li>If a subsequent call needs more space, buffers are reallocated at 1.5× the required size + 16 elements of padding</li>
+<li>Buffers never shrink — the high-water mark persists</li>
+<li>All buffers are disposed when the executor is disposed</li>
+</ol>
+<p>This means the common case (repeated evaluation of similar-sized portfolios) incurs zero GPU memory allocation after the first call.</p>
+<h3>Kernel Caching</h3>
+<p>The ILGPU kernel is compiled from C# to GPU instructions on first use. This compilation takes hundreds of milliseconds. The compiled kernel is cached and reused for all subsequent calls, making repeat evaluations fast.</p>
+<h2>PayoffCubeExecutor</h2>
+<p>Extends the execution model for Monte Carlo scenario evaluation with 2D kernels.</p>
+<h3>Scenario Batching</h3>
+<p>For large scenario counts, the executor batches scenarios to fit within GPU memory. Each batch uploads a subset of scenario rates, executes the 2D kernel, and accumulates results into the payoff cube.</p>
+<h3>Output Cube Management</h3>
+<p>The output cube is a flat array of size K × C × S × T. The executor allocates this on the GPU, the kernel writes to it via atomic accumulation, and the executor downloads the complete cube after all scenario batches are processed.</p>
+<h2>Life Insurance Executor</h2>
+<p>Manages the life insurance projection pipeline with its specialised data requirements.</p>
+<h3>Lookup Table Upload</h3>
+<p>Before kernel execution, the executor uploads the pre-built lookup tables (mortality, lapse, disability, Markov hazards) to GPU memory. These tables are shared across all policy threads and remain resident for the duration of the evaluation.</p>
+<h3>Scenario Replication</h3>
+<p>For life insurance Monte Carlo, policies are replicated C×S times before kernel dispatch. Each replica carries per-scenario adjustments (e.g., different mortality stress factors). This replication happens on the CPU before upload, and the kernel processes each replica as an independent thread.</p>
+<h2>Profiling</h2>
+<p>The GPU profiler (enabled via the <code>ACTUS_GPU_PROFILE=1</code> environment variable) instruments the execution pipeline to measure time spent in each phase: buffer allocation, H2D transfer, kernel execution, synchronisation, and D2H transfer. This helps identify bottlenecks and verify that the kernel execution dominates over transfer overhead for large portfolios.</p>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-11" class="doc-section">
+        <h1 class="doc-title">Schedule Generation</h1>
+        <h2>Schedule Generation</h2>
+<h2>Overview</h2>
+<p>Schedule generation is the process of turning a contract's cycle definitions (e.g., "pay interest every 3 months") into a concrete list of dates. These dates become events in the contract's timeline. The schedule generator is used by the PAM contract processor for all periodic event types: interest payments (IP/IPCI), rate resets (RR/RRF), fee payments (FP), and scaling updates (SC).</p>
+<p>The schedule generation pipeline has three components:</p>
+<ol>
+<li><strong>Cycle parsing</strong> — converting a cycle string like "P3ML0" into its constituent parts (period, stub type)</li>
+<li><strong>Date sequence generation</strong> — the <code>ScheduleFactory</code> that produces periodic dates from a start date to an end date</li>
+<li><strong>Date adjustment</strong> — applying end-of-month and business day conventions to the generated dates</li>
+</ol>
+<h2>Cycle Strings</h2>
+<p>A cycle string defines how often an event recurs and how to handle partial periods at the boundaries. The format follows an extended ISO 8601 convention:</p>
+<pre><code>P[value][unit]L[stub]
+</code></pre>
+<p>Where:</p>
+<ul>
+<li><code>P</code> — marks this as a period definition</li>
+<li><code>[value]</code> — the number of units per cycle (e.g., 3)</li>
+<li><code>[unit]</code> — the time unit: <code>Y</code> (years), <code>M</code> (months), <code>D</code> (days)</li>
+<li><code>L</code> — separator before the stub indicator</li>
+<li><code>[stub]</code> — how to handle partial periods: <code>0</code> (long stub) or <code>1</code> (short stub)</li>
+</ul>
+<h3>Common Cycle Strings</h3>
+<table>
+<thead>
+<tr>
+<th>Cycle String</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P1ML0</td>
+<td>Every 1 month, long stub</td>
+</tr>
+<tr>
+<td>P3ML0</td>
+<td>Every 3 months (quarterly), long stub</td>
+</tr>
+<tr>
+<td>P6ML0</td>
+<td>Every 6 months (semi-annual), long stub</td>
+</tr>
+<tr>
+<td>P1YL0</td>
+<td>Every 1 year (annual), long stub</td>
+</tr>
+<tr>
+<td>P1DL0</td>
+<td>Every 1 day (daily), long stub</td>
+</tr>
+<tr>
+<td>P3ML1</td>
+<td>Every 3 months, short stub</td>
+</tr>
+</tbody>
+</table>
+<h3>What is a Stub?</h3>
+<p>A stub is a partial period that occurs when the schedule's start date and end date don't align perfectly with the cycle length. For example, a quarterly cycle starting on January 15 and ending on November 30 has a partial period at the end (October 15 to November 30 — only 46 days instead of a full quarter).</p>
+<p><strong>Long stub (L0):</strong> The partial period is merged into the adjacent regular period, creating one longer-than-normal period. In the example above, the last period would run from July 15 to November 30 — longer than a normal quarter. The schedule removes the second-to-last generated date to create this merged period.</p>
+<p><strong>Short stub (L1):</strong> The partial period stands on its own as a short period. The last period runs from October 15 to November 30, and the prior period runs from July 15 to October 15 (a full quarter).</p>
+<h3>Cycle Parsing</h3>
+<p>The <code>CycleUtils</code> class parses cycle strings into their components:</p>
+<ul>
+<li><code>IsPeriod(cycle)</code> — checks if the string starts with "P" (period-based cycle vs. weekday-based)</li>
+<li><code>ParsePeriod(cycle)</code> — returns a <code>Period</code> with Years, Months, and Days fields</li>
+<li><code>ParseStub(cycle)</code> — returns the stub character: '0' (long) or '1' (short)</li>
+</ul>
+<p>The <code>Period</code> class has a <code>GetMonths()</code> method that converts years to months: <code>Months + (Years × 12)</code>. This is used by the end-of-month adjuster to determine whether EOM logic applies (only for month-based periods).</p>
+<h2>The ScheduleFactory</h2>
+<p>The <code>ScheduleFactory.CreateSchedule()</code> method is the core schedule generator. It takes five parameters:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>startTime</td>
+<td>DateTime</td>
+<td>Cycle anchor — the first date in the sequence</td>
+</tr>
+<tr>
+<td>endTime</td>
+<td>DateTime</td>
+<td>Cycle end — the date the sequence runs to</td>
+</tr>
+<tr>
+<td>cycle</td>
+<td>string</td>
+<td>The cycle string (e.g., "P3ML0")</td>
+</tr>
+<tr>
+<td>endOfMonthConvention</td>
+<td>bool</td>
+<td>Whether to apply EOM adjustment</td>
+</tr>
+<tr>
+<td>includeEndDate</td>
+<td>bool</td>
+<td>Whether to include the end date in the output</td>
+</tr>
+</tbody>
+</table>
+<h3>The Algorithm</h3>
+<p><strong>Step 1 — Handle null cycles.</strong> If no cycle is provided, return just the start date (and optionally the end date). This handles single-event schedules.</p>
+<p><strong>Step 2 — Parse the cycle.</strong> Extract the stub type, the period (Years/Months/Days), and create an <code>EndOfMonthAdjuster</code> based on the convention flag, the start date, and the cycle. The EOM adjuster only activates if the start date is the last day of its month and the cycle is month-based.</p>
+<p><strong>Step 3 — Generate dates forward.</strong> Starting from <code>startTime</code>, repeatedly add the period to produce dates:</p>
+<pre><code>counter = 1
+currentDate = startTime
+while currentDate &#x3C; endTime:
+    add currentDate to schedule
+    if period.Years > 0:
+        nextDate = startTime + (Years × counter)
+    else if period.Months > 0:
+        nextDate = startTime + (Months × counter)
+    else:
+        nextDate = startTime + (Days × counter)
+    currentDate = EndOfMonthAdjuster.Shift(nextDate)
+    counter++
+</code></pre>
+<p>Note that each date is computed from the original start date (not from the previous date). This avoids cumulative rounding errors that would occur with repeated addition.</p>
+<p><strong>Step 4 — Add the end date</strong> if <code>includeEndDate</code> is true.</p>
+<p><strong>Step 5 — Handle long stubs.</strong> If the stub type is "long" and the generated schedule has more than two dates, and the last generated date does not exactly equal the end date, remove the second-to-last date. This merges the final short period into the previous one, creating a single long period.</p>
+<p><strong>Step 6 — Return</strong> the set of dates. The schedule is stored as a <code>HashSet&#x3C;DateTime></code> to prevent duplicates (which can occur when a generated date coincidentally equals the end date).</p>
+<h3>Example: Quarterly Schedule</h3>
+<p>Contract starts January 1, 2025. Maturity March 15, 2026. Cycle: "P3ML0" (quarterly, long stub).</p>
+<p>Generated sequence:</p>
+<ol>
+<li>Jan 1, 2025</li>
+<li>Apr 1, 2025</li>
+<li>Jul 1, 2025</li>
+<li>Oct 1, 2025</li>
+<li>Jan 1, 2026</li>
+</ol>
+<p>End date (Mar 15, 2026) is added. The last generated date (Jan 1, 2026) does not equal the end date, and stub is long, so Jan 1, 2026 is removed. Final schedule:</p>
+<ul>
+<li>Jan 1, 2025</li>
+<li>Apr 1, 2025</li>
+<li>Jul 1, 2025</li>
+<li>Oct 1, 2025</li>
+<li>Mar 15, 2026 ← long stub period (5.5 months instead of 3)</li>
+</ul>
+<h2>End-of-Month Adjustment</h2>
+<p>When schedule dates are generated, the <code>EndOfMonthAdjuster</code> may shift each generated date to the last day of its month. This only happens when two conditions are met:</p>
+<ol>
+<li>The cycle anchor date is the last day of its month (e.g., January 31, February 28)</li>
+<li>The cycle is month-based (the period's <code>GetMonths()</code> returns a value greater than 0)</li>
+</ol>
+<p>If both conditions are met and the EOM convention is enabled, the <code>EndOfMonth</code> shift snaps each date to the last day of its month:</p>
+<pre><code>Shift(date) → DateTime(date.Year, date.Month, DaysInMonth(date.Year, date.Month))
+</code></pre>
+<p>This means a monthly cycle starting on January 31 produces: Jan 31, Feb 28 (or 29), Mar 31, Apr 30, and so on — always the last day of the month.</p>
+<p>If either condition is not met, or if the EOM convention is disabled, the <code>SameDay</code> shift returns the date unchanged.</p>
+<h2>Weekday-Based Cycles</h2>
+<p>Not all cycles are period-based. Some contracts specify events on specific weekdays — for example, "the second Monday of every month." The <code>CycleAdjuster</code> class detects whether a cycle string represents a period or a weekday pattern and dispatches to the correct implementation.</p>
+<h3>Period Cycle Adjuster</h3>
+<p>For period-based cycles (strings starting with "P"), the <code>PeriodCycleAdjuster</code> simply adds or subtracts the period as a <code>TimeSpan</code>:</p>
+<pre><code>PlusCycle(date) → date + period
+MinusCycle(date) → date − period
+</code></pre>
+<h3>Weekday Cycle Adjuster</h3>
+<p>For weekday-based cycles, the string format is <code>[position][weekday]</code> — for example, "2Mon" means the second Monday. The <code>WeekdayCycleAdjuster</code> finds the nth occurrence of the target weekday in the next month:</p>
+<pre><code>PlusCycle(date):
+    targetMonth = date.AddMonths(1)
+    find the [position]th [weekday] in targetMonth
+    if result is in the next month (overflowed), use (position-1)th instead
+</code></pre>
+<p>The algorithm finds the first occurrence of the target weekday in the month, then adds (position − 1) × 7 days. If the result falls into the next month (because the month doesn't have enough of that weekday), it backs up by one week.</p>
+<h2>How Schedule Dates Become Events</h2>
+<p>The <code>ScheduleFactory</code> produces raw dates. The PAM contract processor (<code>PrincipalAtMaturity.Schedule()</code>) converts these dates into typed events:</p>
+<ol>
+<li>Generate dates using <code>ScheduleFactory.CreateSchedule(anchor, maturity, cycle, eom, includeEnd)</code></li>
+<li>For each date, create a <code>ContractEvent</code> with:
+<ul>
+<li><code>ScheduleTime</code> = the raw generated date</li>
+<li><code>Time</code> = <code>BusinessDayAdjuster.ShiftEventTime(date)</code> — the business-day-adjusted date</li>
+<li><code>Type</code> = the appropriate event type (IP, RR, FP, SC, etc.)</li>
+<li><code>Currency</code> = the contract's currency</li>
+</ul>
+</li>
+</ol>
+<p>The two-time design (ScheduleTime vs. Time) is critical: the ScheduleTime preserves the contractual date for calculation purposes, while Time reflects the actual settlement date after business day adjustment.</p>
+<h2>Time Utilities</h2>
+<h3>TimeAdjuster</h3>
+<p>A utility class that rounds timestamps to the nearest full hour:</p>
+<pre><code>if minutes &#x3C; 30: round down to current hour
+else: round up to next hour
+</code></pre>
+<p>This is used to normalize timestamps that may have been stored with sub-hour precision.</p>
+<h3>Constants</h3>
+<p>The engine defines maximum contract lifetimes to prevent unbounded schedule generation:</p>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MAX_LIFETIME</td>
+<td>50 years</td>
+<td>Maximum duration for most contract types</td>
+</tr>
+<tr>
+<td>MAX_LIFETIME_STK</td>
+<td>10 years</td>
+<td>Maximum for stock-type contracts</td>
+</tr>
+<tr>
+<td>MAX_LIFETIME_UMP</td>
+<td>10 years</td>
+<td>Maximum for undefined maturity profiles</td>
+</tr>
+</tbody>
+</table>
+<h2>Continue Reading</h2>
+<ul>
+<li><a href="./pam-contract.md">PAM Contract</a> — how the schedule is generated in the full contract pipeline</li>
+<li><a href="./conventions/index.md">Conventions</a> — end-of-month and business day conventions that affect schedule dates</li>
+<li><a href="./state-machine.md">State Machine</a> — how the generated events are evaluated</li>
+<li><a href="./reference.md">Technical Reference</a> — Period class, CycleUtils, and ScheduleFactory details</li>
+</ul>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-12" class="doc-section">
+        <h1 class="doc-title">Risk Factor Model</h1>
+        <h2>Risk Factor Model</h2>
+<h2>Overview</h2>
+<p>The risk factor model is the engine's interface to the outside world. While contract terms and event logic are fully deterministic, certain events need external data — a current market interest rate for a rate reset, or a current index value for a scaling update. The <code>RiskFactorModel</code> class provides this data.</p>
+<p>The model is deliberately simple: it stores rates keyed by a market object code (a string identifier) and a timestamp, and provides a single lookup method. It does not model interest rate dynamics, generate scenarios, or forecast future rates. Those responsibilities belong to higher-level components (the Monte Carlo simulation layer, the Vasicek rate model). The risk factor model is purely a lookup service.</p>
+<h2>Concepts</h2>
+<h3>Market Object Code</h3>
+<p>A market object code is a string that uniquely identifies a market observable — such as an interest rate index, an inflation index, or a foreign exchange rate. In the ACTUS test suite, codes like "LIBOR_6M" or "EURIBOR_3M" are typical. The contract terms reference these codes (e.g., <code>MarketObjectCodeOfRateReset = "LIBOR_6M"</code>), and the risk factor model stores the corresponding values.</p>
+<h3>Last Observation Carried Forward (LOCF)</h3>
+<p>Market data is not available at every point in time. When the engine needs a rate for a specific date and that exact date is not in the time series, the model uses LOCF: it returns the most recent observation on or before the requested date. This is the standard approach in financial time series — the assumption is that the last known rate remains valid until a new observation arrives.</p>
+<h2>Storage</h2>
+<p>The <code>RiskFactorModel</code> maintains two parallel storage mechanisms:</p>
+<h3>Constant Rates</h3>
+<pre><code>Dictionary&#x3C;string, double> _constantRates
+</code></pre>
+<p>A single value per market object code, valid at all times. This is the fastest lookup path and handles the common case where a rate does not change over the contract's life.</p>
+<h3>Time Series Rates</h3>
+<pre><code>Dictionary&#x3C;string, Dictionary&#x3C;DateTime, double>> _rates
+</code></pre>
+<p>Multiple values per market object code, each keyed by a date. This handles rates that change over time — for example, a rate reset schedule where different dates have different market rates.</p>
+<h2>Adding Data</h2>
+<p>Two methods populate the model:</p>
+<p><strong><code>AddConstantRate(marketObjectCode, value)</code></strong> — sets a single rate for all times. If a constant rate already exists for that code, it is overwritten.</p>
+<p><strong><code>AddRate(marketObjectCode, time, value)</code></strong> — adds a time-stamped rate. Multiple calls with the same code but different times build up a time series. If a rate already exists for the same code and time, it is overwritten.</p>
+<p>Both methods can be used for the same market object code. When both exist, the constant rate takes precedence in lookups (see below).</p>
+<h2>Lookup</h2>
+<p>The <code>GetRate(marketObjectCode, time)</code> method retrieves a rate value. It follows a four-step priority chain:</p>
+<p><strong>Step 1 — Check constant rates.</strong> If a constant rate exists for the given code, return it immediately. This is the fastest path and covers the most common case.</p>
+<p><strong>Step 2 — Check exact time match.</strong> If a time series exists for the code, look for the exact requested date. If found, return that value.</p>
+<p><strong>Step 3 — LOCF fallback.</strong> If no exact match exists in the time series, scan all entries to find the most recent date that is on or before the requested date. Return that value.</p>
+<p><strong>Step 4 — Default.</strong> If no data exists at all (no constant rate, no time series, or no observations before the requested date), return 0.0.</p>
+<h3>Lookup Priority Diagram</h3>
+<pre><code class="language-mermaid">graph TD
+    REQ["GetRate(code, time)"] --> CONST{"Constant rate&#x3C;br/>exists?"}
+    CONST -->|Yes| RET1["Return constant"]
+    CONST -->|No| TS{"Time series&#x3C;br/>exists?"}
+    TS -->|No| DEF["Return 0.0"]
+    TS -->|Yes| EXACT{"Exact date&#x3C;br/>match?"}
+    EXACT -->|Yes| RET2["Return exact value"]
+    EXACT -->|No| LOCF{"Find most recent&#x3C;br/>date ≤ requested"}
+    LOCF -->|Found| RET3["Return LOCF value"]
+    LOCF -->|Not found| DEF
+</code></pre>
+<h3>LOCF Example</h3>
+<p>Given a time series for "LIBOR_6M":</p>
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2025-01-01</td>
+<td>0.030</td>
+</tr>
+<tr>
+<td>2025-04-01</td>
+<td>0.035</td>
+</tr>
+<tr>
+<td>2025-07-01</td>
+<td>0.032</td>
+</tr>
+</tbody>
+</table>
+<p>Lookups:</p>
+<ul>
+<li><code>GetRate("LIBOR_6M", 2025-01-01)</code> → 0.030 (exact match)</li>
+<li><code>GetRate("LIBOR_6M", 2025-03-15)</code> → 0.030 (LOCF from Jan 1)</li>
+<li><code>GetRate("LIBOR_6M", 2025-04-01)</code> → 0.035 (exact match)</li>
+<li><code>GetRate("LIBOR_6M", 2025-05-15)</code> → 0.035 (LOCF from Apr 1)</li>
+<li><code>GetRate("LIBOR_6M", 2024-12-15)</code> → 0.0 (no observation on or before)</li>
+</ul>
+<h2>Usage in the Engine</h2>
+<p>The risk factor model is used in three contexts:</p>
+<h3>Rate Resets (RR Events)</h3>
+<p>When a rate reset event is processed, the engine calls:</p>
+<pre><code>marketRate = riskFactors.GetRate(model.MarketObjectCodeOfRateReset, eventTime)
+</code></pre>
+<p>This market rate is then transformed by the rate reset algorithm (multiplier, spread, caps, floors) to produce the new nominal interest rate.</p>
+<h3>Fixed Rate Resets (RRF Events)</h3>
+<p>RRF events use the <code>NextResetRate</code> from the contract terms instead of a market lookup. However, if <code>NextResetRate</code> is not set, the engine falls back to a market lookup using the same mechanism as RR events.</p>
+<h3>Scaling Updates (SC Events)</h3>
+<p>When a scaling event is processed, the engine calls:</p>
+<pre><code>scalingIndex = riskFactors.GetRate(model.MarketObjectCodeOfScalingIndex, eventTime)
+</code></pre>
+<p>The returned index value is divided by the base index (<code>ScalingIndexAtContractDealDate</code>) to compute the scaling factor.</p>
+<h3>Foreign Exchange Rates</h3>
+<p>The payoff formulas include an <code>fxRate</code> term, which is obtained via:</p>
+<pre><code>fxRate = riskFactors.GetRate(model.Currency, eventTime)
+</code></pre>
+<p>In the current implementation, this always returns 1.0 (no multi-currency support). The infrastructure is in place for future extension.</p>
+<h2>Test Data Format</h2>
+<p>The ACTUS reference test suite provides market data in a specific JSON format:</p>
+<pre><code class="language-json">{
+    "dataObserved": {
+        "market_index_code": {
+            "marketObjectCode": "LIBOR_6M",
+            "data": [
+                { "timestamp": "2025-01-01", "value": "0.030" },
+                { "timestamp": "2025-04-01", "value": "0.035" }
+            ]
+        }
+    }
+}
+</code></pre>
+<p>The test harness populates the <code>RiskFactorModel</code> by iterating over each data set and calling <code>AddRate()</code> for each timestamp/value pair. This structure allows multiple market object codes, each with their own time series.</p>
+<h2>Design Notes</h2>
+<p>The risk factor model is intentionally minimal. It does not:</p>
+<ul>
+<li>Generate future rate scenarios (that is the Monte Carlo layer's job)</li>
+<li>Interpolate between observations (LOCF is the only strategy)</li>
+<li>Validate that rates are reasonable (negative rates are valid in some markets)</li>
+<li>Support complex term structures (each code is a flat time series)</li>
+</ul>
+<p>This simplicity is by design. The core engine's job is deterministic evaluation: given inputs, produce outputs. The risk factor model is one of those inputs — how it gets populated is the responsibility of the caller. For the 42 reference tests, the test harness populates it from JSON. For Monte Carlo simulation, the Vasicek rate model populates it with simulated rate paths. For GPU batch evaluation, the executor populates it from scenario data.</p>
+<h2>Continue Reading</h2>
+<ul>
+<li><a href="./state-machine.md">State Machine</a> — how rate resets and scaling updates use the risk factor model</li>
+<li><a href="./pam-contract.md">PAM Contract</a> — the full contract evaluation pipeline</li>
+<li><a href="./reference.md">Technical Reference</a> — RiskFactorModel class details</li>
+</ul>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-13" class="doc-section">
+        <h1 class="doc-title">Technical Reference</h1>
+        <h2>Technical Reference</h2>
+<p>This page provides a comprehensive listing of every type in the ACTUS core engine. It is organized by category (enumerations, interfaces, classes, structs) and serves as a quick reference for understanding the codebase. Each entry includes the type's purpose, its members, and where it is used.</p>
+<h2>Enumerations</h2>
+<h3>EventType</h3>
+<p>Defines the type of each contract event. Used in <code>ContractEvent.Type</code> and in the payoff/state-update dispatch logic.</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Name</th>
+<th>Priority</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AD</td>
+<td>Analysis Date</td>
+<td>—</td>
+<td>Placeholder for analysis (not actively used in PAM)</td>
+</tr>
+<tr>
+<td>IED</td>
+<td>Initial Exchange Date</td>
+<td>0</td>
+<td>Contract activation — principal is exchanged</td>
+</tr>
+<tr>
+<td>MD</td>
+<td>Maturity Date</td>
+<td>9</td>
+<td>Contract ends — principal is returned</td>
+</tr>
+<tr>
+<td>IP</td>
+<td>Interest Payment</td>
+<td>1</td>
+<td>Periodic interest payment</td>
+</tr>
+<tr>
+<td>IPCI</td>
+<td>Interest Capitalization</td>
+<td>2</td>
+<td>Interest added to principal instead of paid out</td>
+</tr>
+<tr>
+<td>PRD</td>
+<td>Purchase Date</td>
+<td>3</td>
+<td>Secondary market purchase</td>
+</tr>
+<tr>
+<td>TD</td>
+<td>Termination Date</td>
+<td>4</td>
+<td>Early contract termination</td>
+</tr>
+<tr>
+<td>RR</td>
+<td>Rate Reset</td>
+<td>5</td>
+<td>Interest rate updated from market data</td>
+</tr>
+<tr>
+<td>RRF</td>
+<td>Rate Reset Fixed</td>
+<td>6</td>
+<td>Interest rate updated to pre-agreed fixed value</td>
+</tr>
+<tr>
+<td>FP</td>
+<td>Fee Payment</td>
+<td>7</td>
+<td>Periodic fee payment</td>
+</tr>
+<tr>
+<td>SC</td>
+<td>Scaling</td>
+<td>8</td>
+<td>Scaling multipliers updated from index</td>
+</tr>
+<tr>
+<td>CD</td>
+<td>Credit Default</td>
+<td>10</td>
+<td>Credit default event (not implemented in PAM)</td>
+</tr>
+</tbody>
+</table>
+<p>Priority determines processing order when multiple events fall on the same date. Lower priority numbers are processed first.</p>
+<h3>ContractRole</h3>
+<p>Determines the direction of cash flows. Used in <code>PamContractTerms.ContractRole</code> and the <code>RoleSign</code> computation.</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Name</th>
+<th>RoleSign</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RPA</td>
+<td>Real Position Asset</td>
+<td>+1</td>
+<td>Receives principal (lender, depositor)</td>
+</tr>
+<tr>
+<td>RPL</td>
+<td>Real Position Liability</td>
+<td>−1</td>
+<td>Pays principal (borrower)</td>
+</tr>
+<tr>
+<td>BUY</td>
+<td>Buy</td>
+<td>+1</td>
+<td>Buyer position</td>
+</tr>
+<tr>
+<td>SEL</td>
+<td>Sell</td>
+<td>−1</td>
+<td>Seller position</td>
+</tr>
+<tr>
+<td>RFL</td>
+<td>Receive First Leg</td>
+<td>+1</td>
+<td>Swap: receives the first leg</td>
+</tr>
+<tr>
+<td>PFL</td>
+<td>Pay First Leg</td>
+<td>−1</td>
+<td>Swap: pays the first leg</td>
+</tr>
+<tr>
+<td>RF</td>
+<td>Receive Fixed</td>
+<td>+1</td>
+<td>Swap: receives fixed rate</td>
+</tr>
+<tr>
+<td>PF</td>
+<td>Pay Fixed</td>
+<td>−1</td>
+<td>Swap: pays fixed rate</td>
+</tr>
+</tbody>
+</table>
+<h3>DayCountConvention</h3>
+<p>Defines how year fractions are calculated for interest accrual. Used in <code>PamContractTerms.DayCountConvention</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>String Key</th>
+<th>Year Basis</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A_AISDA</td>
+<td>"AA"</td>
+<td>365/366</td>
+<td>Actual/Actual ISDA — leap-year-aware</td>
+</tr>
+<tr>
+<td>A_360</td>
+<td>"A360"</td>
+<td>360</td>
+<td>Actual/360 — actual days ÷ 360</td>
+</tr>
+<tr>
+<td>A_365</td>
+<td>"A365"</td>
+<td>365</td>
+<td>Actual/365 Fixed — actual days ÷ 365</td>
+</tr>
+<tr>
+<td>E30_360ISDA</td>
+<td>"30E360ISDA"</td>
+<td>360</td>
+<td>30E/360 ISDA — with maturity date exception</td>
+</tr>
+<tr>
+<td>E30_360</td>
+<td>"30E360"</td>
+<td>360</td>
+<td>30E/360 — day 31 becomes day 30</td>
+</tr>
+<tr>
+<td>B_252</td>
+<td>"B252"</td>
+<td>252</td>
+<td>Business/252 — business days ÷ 252</td>
+</tr>
+<tr>
+<td>A_336</td>
+<td>"A336"</td>
+<td>336</td>
+<td>Actual/336 — actual days ÷ 336</td>
+</tr>
+</tbody>
+</table>
+<h3>BusinessDayConventionEnum</h3>
+<p>Defines how non-business days are handled. Used in <code>PamContractTerms.BusinessDayConvention</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Shift Strategy</th>
+<th>Calc Strategy</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NOS</td>
+<td>Same</td>
+<td>ShiftCalc</td>
+<td>No adjustment</td>
+</tr>
+<tr>
+<td>CSF</td>
+<td>Following</td>
+<td>CalcShift</td>
+<td>Settle forward, calc on original</td>
+</tr>
+<tr>
+<td>CSMF</td>
+<td>Modified Following</td>
+<td>CalcShift</td>
+<td>Settle modified forward, calc on original</td>
+</tr>
+<tr>
+<td>CSP</td>
+<td>Preceding</td>
+<td>CalcShift</td>
+<td>Settle backward, calc on original</td>
+</tr>
+<tr>
+<td>CSMP</td>
+<td>Modified Preceding</td>
+<td>CalcShift</td>
+<td>Settle modified backward, calc on original</td>
+</tr>
+<tr>
+<td>SCF</td>
+<td>Following</td>
+<td>ShiftCalc</td>
+<td>Settle and calc on shifted forward date</td>
+</tr>
+<tr>
+<td>SCMF</td>
+<td>Modified Following</td>
+<td>ShiftCalc</td>
+<td>Settle and calc on modified forward date</td>
+</tr>
+<tr>
+<td>SCP</td>
+<td>Preceding</td>
+<td>ShiftCalc</td>
+<td>Settle and calc on shifted backward date</td>
+</tr>
+<tr>
+<td>SCMP</td>
+<td>Modified Preceding</td>
+<td>ShiftCalc</td>
+<td>Settle and calc on modified backward date</td>
+</tr>
+<tr>
+<td>NO_ADJUST</td>
+<td>Same</td>
+<td>ShiftCalc</td>
+<td>Legacy alias for NOS</td>
+</tr>
+</tbody>
+</table>
+<h3>Calendar</h3>
+<p>Defines which days are business days. Used in <code>PamContractTerms.Calendar</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NC</td>
+<td>No Calendar — all days are business days</td>
+</tr>
+<tr>
+<td>MF</td>
+<td>Monday to Friday — weekdays only</td>
+</tr>
+<tr>
+<td>MFH</td>
+<td>Monday to Friday with Holidays — weekdays minus holiday set</td>
+</tr>
+</tbody>
+</table>
+<h3>EndOfMonthConventionEnum</h3>
+<p>Defines how schedule dates align to month-ends. Used internally by the <code>EndOfMonthAdjuster</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>SD</td>
+<td>Same Day — no adjustment</td>
+</tr>
+<tr>
+<td>EOM</td>
+<td>End of Month — snap to last day of month (if conditions are met)</td>
+</tr>
+</tbody>
+</table>
+<h3>ContractTypeEnum</h3>
+<p>All ACTUS contract types. Only PAM is implemented in this codebase.</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Name</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PAM</td>
+<td>Principal at Maturity</td>
+<td><strong>Implemented</strong></td>
+</tr>
+<tr>
+<td>ANN</td>
+<td>Annuity</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>NAM</td>
+<td>Negative Amortization</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>LAM</td>
+<td>Linear Amortization</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>LAX</td>
+<td>Linear Amortization with Extension</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>CLM</td>
+<td>Call Money</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>UMP</td>
+<td>Undefined Maturity Profile</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>CSH</td>
+<td>Cash</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>STK</td>
+<td>Stock</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>COM</td>
+<td>Commodity</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>SWAPS</td>
+<td>Plain Vanilla Interest Rate Swap</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>SWPPV</td>
+<td>Plain Vanilla IR Swap PV</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>FXOUT</td>
+<td>Foreign Exchange Outright</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>CAPFL</td>
+<td>Caplet/Floorlet</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>FUTUR</td>
+<td>Future</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>OPTNS</td>
+<td>Option</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>CEG</td>
+<td>Credit Enhancement Guarantee</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>CEC</td>
+<td>Credit Enhancement Collateral</td>
+<td>Not implemented</td>
+</tr>
+<tr>
+<td>BCS</td>
+<td>Basic Credit Support</td>
+<td>Not implemented</td>
+</tr>
+</tbody>
+</table>
+<h3>ContractPerformance</h3>
+<p>Tracks the performance status of a contract over its lifetime.</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PF</td>
+<td>Performing</td>
+<td>Contract is operating normally</td>
+</tr>
+<tr>
+<td>DL</td>
+<td>Delayed</td>
+<td>Payments are delayed</td>
+</tr>
+<tr>
+<td>DQ</td>
+<td>Delinquent</td>
+<td>Payments are significantly overdue</td>
+</tr>
+<tr>
+<td>DF</td>
+<td>Default</td>
+<td>Contract is in default</td>
+</tr>
+<tr>
+<td>MA</td>
+<td>Matured</td>
+<td>Contract has reached maturity</td>
+</tr>
+<tr>
+<td>TE</td>
+<td>Terminated</td>
+<td>Contract was terminated early</td>
+</tr>
+</tbody>
+</table>
+<h3>FeeBasis</h3>
+<p>Determines how fees are calculated.</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Name</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>Absolute</td>
+<td>Fixed amount per period (e.g., $100 per quarter)</td>
+</tr>
+<tr>
+<td>N</td>
+<td>Notional</td>
+<td>Percentage of principal (e.g., 0.1% of notional per quarter)</td>
+</tr>
+</tbody>
+</table>
+<h3>CyclePointOfInterestPayment / CyclePointOfRateReset</h3>
+<p>Determines whether the event is at the beginning or end of its cycle period.</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B</td>
+<td>Beginning of period</td>
+</tr>
+<tr>
+<td>E</td>
+<td>End of period</td>
+</tr>
+</tbody>
+</table>
+<h2>Interfaces</h2>
+<h3>IContractTerms</h3>
+<p>Base interface for all contract term types.</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ContractID</td>
+<td>string</td>
+<td>Unique contract identifier</td>
+</tr>
+<tr>
+<td>ContractType</td>
+<td>string</td>
+<td>ACTUS contract type code</td>
+</tr>
+<tr>
+<td>Currency</td>
+<td>string</td>
+<td>ISO currency code</td>
+</tr>
+<tr>
+<td>StatusDate</td>
+<td>DateTime</td>
+<td>Observation/analysis date</td>
+</tr>
+<tr>
+<td>MaturityDate</td>
+<td>DateTime</td>
+<td>Contract end date</td>
+</tr>
+</tbody>
+</table>
+<p>Implemented by: <code>PamContractTerms</code></p>
+<h3>IContractScheduler&#x3C;TTerms></h3>
+<p>Generic interface for contract processors.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Schedule(DateTime to, TTerms terms)</td>
+<td>List&#x3C;ContractEvent></td>
+<td>Generate raw events</td>
+</tr>
+<tr>
+<td>Apply(List&#x3C;ContractEvent>, TTerms, RiskFactorModel)</td>
+<td>List&#x3C;ContractEvent></td>
+<td>Evaluate events with state</td>
+</tr>
+</tbody>
+</table>
+<p>Implemented by: <code>PrincipalAtMaturity</code> (with TTerms = PamContractTerms)</p>
+<h3>IDayCountConventionProvider</h3>
+<p>Interface for day count convention implementations.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DayCount(DateTime start, DateTime end)</td>
+<td>double</td>
+<td>Raw day count between dates</td>
+</tr>
+<tr>
+<td>DayCountFraction(DateTime start, DateTime end)</td>
+<td>double</td>
+<td>Year fraction between dates</td>
+</tr>
+</tbody>
+</table>
+<p>Implemented by: <code>ActualThreeSixtyFiveFixed</code>, <code>ActualThreeSixty</code>, <code>ActualActualISDA</code>, <code>ThirtyEThreeSixty</code>, <code>ThirtyEThreeSixtyISDA</code>, <code>BusinessTwoFiftyTwo</code>, <code>ActualThreeThirtySix</code>, <code>TwentyEightThreeThirtySix</code></p>
+<h3>IBusinessDayConvention</h3>
+<p>Interface for business day shift strategies.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Shift(DateTime date)</td>
+<td>DateTime</td>
+<td>Shift date to nearest business day</td>
+</tr>
+</tbody>
+</table>
+<p>Implemented by: <code>Same</code>, <code>Following</code>, <code>ModifiedFollowing</code>, <code>Preceeding</code>, <code>ModifiedPreceeding</code></p>
+<h3>IShiftCalcConvention</h3>
+<p>Interface for calc/shift strategies.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Shift(DateTime time, IBusinessDayConvention bd)</td>
+<td>DateTime</td>
+<td>Apply calc convention</td>
+</tr>
+</tbody>
+</table>
+<p>Implemented by: <code>ShiftCalc</code> (applies business day shift), <code>CalcShift</code> (returns original date)</p>
+<h3>IEndOfMonthConvention</h3>
+<p>Interface for end-of-month adjustments.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Shift(DateTime date)</td>
+<td>DateTime</td>
+<td>Apply EOM adjustment</td>
+</tr>
+</tbody>
+</table>
+<p>Implemented by: <code>EndOfMonth</code>, <code>SameDay</code></p>
+<h3>ICycleAdjusterProvider</h3>
+<p>Interface for cycle arithmetic (advancing/retreating by one cycle).</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Returns</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PlusCycle(DateTime time)</td>
+<td>DateTime</td>
+<td>Advance by one cycle</td>
+</tr>
+<tr>
+<td>MinusCycle(DateTime time)</td>
+<td>DateTime</td>
+<td>Retreat by one cycle</td>
+</tr>
+</tbody>
+</table>
+<p>Implemented by: <code>PeriodCycleAdjuster</code>, <code>WeekdayCycleAdjuster</code></p>
+<h2>Classes</h2>
+<h3>PamContractTerms (sealed)</h3>
+<p>The complete domain model for a PAM contract. Over 40 properties organized into: identity and dates, principal and interest, payment cycles, rate reset parameters, fee parameters, scaling parameters, and convention selections. Includes <code>FromDictionary()</code> factory for JSON deserialization and <code>RoleSign</code> cached property.</p>
+<p><strong>File:</strong> <code>ActusInsurance.Core/Models/PamContractTerms.cs</code> (~306 lines)</p>
+<h3>ContractEvent (sealed)</h3>
+<p>Represents a single event in a contract's life. Properties: Time, ScheduleTime, Type, Currency, Payoff, and state snapshot fields. Methods: <code>Evaluate()</code> (orchestrates payoff + state update + snapshot), <code>ComputePayoff()</code>, <code>UpdateState()</code>, and helper methods for each event type. Implements <code>IComparable&#x3C;ContractEvent></code> for deterministic sorting.</p>
+<p><strong>File:</strong> <code>ActusInsurance.Core/Events/ContractEvent.cs</code></p>
+<h3>PrincipalAtMaturity (static)</h3>
+<p>The PAM contract processor. Two static methods: <code>Schedule()</code> generates events from terms, <code>Apply()</code> evaluates events with market data. Contains <code>InitializeStateSpace()</code> for state initialization and <code>CreateBusinessDayAdjuster()</code> factory.</p>
+<p><strong>File:</strong> <code>ActusInsurance.Core.CPU/Contracts/PAM.cs</code> (~346 lines)</p>
+<h3>RiskFactorModel (sealed)</h3>
+<p>Market data storage and lookup. Stores constant rates and time series. <code>GetRate()</code> uses a four-step priority: constant → exact match → LOCF → default (0.0).</p>
+<p><strong>File:</strong> <code>ActusInsurance.Core/Externals/RiskFactorModel.cs</code></p>
+<h3>DayCountCalculator</h3>
+<p>Factory class that takes a convention string and produces the corresponding <code>IDayCountConventionProvider</code> implementation. Maps: "AA" → ActualActualISDA, "A360" → ActualThreeSixty, "A365" → ActualThreeSixtyFiveFixed, "30E360" → ThirtyEThreeSixty, "30E360ISDA" → ThirtyEThreeSixtyISDA, "B252" → BusinessTwoFiftyTwo, "A336" → ActualThreeThirtySix, "28336" → TwentyEightThreeThirtySix.</p>
+<p><strong>File:</strong> <code>ActusInsurance.Core/Conventions/DayCount/DayCountCalculator.cs</code></p>
+<h3>BusinessDayAdjuster (sealed)</h3>
+<p>Coordinates business day and calc/shift conventions. Two methods: <code>ShiftEventTime()</code> for settlement date, <code>ShiftCalcTime()</code> for calculation date. Internally delegates to <code>IBusinessDayConvention</code> and <code>IShiftCalcConvention</code> instances.</p>
+<p><strong>File:</strong> <code>ActusInsurance.Core/Conventions/BusinessDay/BusinessDayAdjuster.cs</code></p>
+<h3>EndOfMonthAdjuster (sealed)</h3>
+<p>Coordinates end-of-month adjustment. Evaluates two conditions (last-day-of-month anchor + month-based cycle) before activating EOM shift. Falls back to SameDay if conditions are not met.</p>
+<p><strong>File:</strong> <code>ActusInsurance.Core/Conventions/EndOfMonth/EndOfMonthAdjuster.cs</code></p>
+<h3>ScheduleFactory (static)</h3>
+<p>Generates periodic date sequences. <code>CreateSchedule()</code> takes start, end, cycle string, EOM flag, and include-end flag. Handles null cycles, forward generation, EOM adjustment, and long/short stub logic.</p>
+<p><strong>File:</strong> <code>ActusInsurance.Core/Time/ScheduleFactory.cs</code></p>
+<h3>CycleAdjuster</h3>
+<p>Dispatches between period-based and weekday-based cycle arithmetic. Wraps either a <code>PeriodCycleAdjuster</code> or a <code>WeekdayCycleAdjuster</code>.</p>
+<p><strong>File:</strong> <code>ActusInsurance.Core/Time/CycleAdjuster.cs</code></p>
+<h3>Calendar Providers</h3>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>Calendar</th>
+<th>Business Days</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>BusinessDayCalendarProvider</td>
+<td>MF (base)</td>
+<td>Monday–Friday</td>
+</tr>
+<tr>
+<td>MondayToFridayCalendar</td>
+<td>MF</td>
+<td>Monday–Friday</td>
+</tr>
+<tr>
+<td>MondayToFridayWithHolidaysCalendar</td>
+<td>MFH</td>
+<td>Monday–Friday minus holidays (HashSet)</td>
+</tr>
+<tr>
+<td>NoHolidaysCalendar</td>
+<td>NC</td>
+<td>All days</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Directory:</strong> <code>ActusInsurance.Core/Time/Calendar/</code></p>
+<h2>Structs</h2>
+<h3>StateSpace</h3>
+<p>Value struct carrying the complete contract state between events: NotionalPrincipal, NominalInterestRate, AccruedInterest, FeeAccrued, NotionalScalingMultiplier, InterestScalingMultiplier, StatusDate, ContractPerformance.</p>
+<p><strong>File:</strong> <code>ActusInsurance.Core/States/StateSpace.cs</code> (~30 lines)</p>
+<h3>Period</h3>
+<p>Data class for parsed cycle periods: Years (int), Months (int), Days (int). <code>GetMonths()</code> returns <code>Months + (Years × 12)</code>.</p>
+<p><strong>File:</strong> defined within <code>CycleUtils.cs</code></p>
+<h2>Utility Classes</h2>
+<h3>CycleUtils (static)</h3>
+<p>Cycle string parsing. Methods: <code>IsPeriod()</code>, <code>ParsePeriod()</code>, <code>ParseStub()</code>, <code>ParseWeekday()</code>, <code>ParsePosition()</code>.</p>
+<h3>StringUtils (static)</h3>
+<p>Convention string constants: LongStub ('0'), ShortStub ('1'), day count convention keys ("AA", "A360", "A365", etc.), calc/shift convention markers ("CS", "SC").</p>
+<h3>CommonUtils (static)</h3>
+<p>Null-check helper: <code>IsNull()</code> returns true for null objects or empty strings.</p>
+<h3>Constants (static)</h3>
+<p>Maximum contract lifetimes: MAX_LIFETIME (50 years), MAX_LIFETIME_STK (10 years), MAX_LIFETIME_UMP (10 years).</p>
+<h3>TimeAdjuster (static)</h3>
+<p>Hour rounding: <code>ToFullHours()</code> rounds a DateTime to the nearest full hour.</p>
+<h3>AttributeConversionException</h3>
+<p>Standard exception class for parsing/conversion errors during term deserialization.</p>
+<h2>Project Dependencies</h2>
+<h3>ActusInsurance.Core</h3>
+<ul>
+<li>Target: .NET 9.0</li>
+<li>External dependencies: <strong>none</strong> (pure C#)</li>
+<li>Role: shared abstractions, models, conventions, utilities</li>
+</ul>
+<h3>ActusInsurance.Core.CPU</h3>
+<ul>
+<li>Target: .NET 9.0</li>
+<li>Dependencies: ActusInsurance.Core (project reference)</li>
+<li>Role: PAM contract processor</li>
+</ul>
+<h3>ActusInsurance.Tests.CPU</h3>
+<ul>
+<li>Target: .NET 9.0</li>
+<li>Dependencies:
+<ul>
+<li>ActusInsurance.Core (project reference)</li>
+<li>ActusInsurance.Core.CPU (project reference)</li>
+<li>NUnit 4.2.2</li>
+<li>Microsoft.NET.Test.Sdk 17.12.0</li>
+<li>NUnit.Analyzers 4.4.0</li>
+<li>NUnit3TestAdapter 4.6.0</li>
+<li>coverlet.collector 6.0.2</li>
+</ul>
+</li>
+<li>Test data: <code>Resources/actus-tests-pam.json</code> (42 test cases)</li>
+<li>Tolerance: 2×10⁻¹⁰ for double comparisons (10 decimal places after rounding)</li>
+</ul>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-14" class="doc-section">
+        <h1 class="doc-title">Financial Conventions</h1>
+        <h2>Financial Conventions</h2>
+<h2>Overview</h2>
+<p>Financial contracts use a set of conventions to handle the practical details of dates and time measurement. These conventions determine three things: how much interest accrues between two dates (day count conventions), when payments actually settle (business day conventions), and how schedule dates align to month boundaries (end-of-month conventions).</p>
+<p>Getting conventions right is critical: the same contract evaluated with different conventions produces different cash flows. For large portfolios, convention differences aggregate into material amounts. The ACTUS standard specifies each convention precisely, and this engine implements all of them.</p>
+<h2>Concepts Before Details</h2>
+<p>Before diving into the implementations, three concepts need to be clear:</p>
+<p><strong>Year fraction.</strong> Interest is quoted as an annual rate (e.g., 5% per year), but payments happen at arbitrary intervals (monthly, quarterly, etc.). A "year fraction" converts the time between two dates into a fraction of a year. Multiply the year fraction by the annual rate and the principal to get the interest amount. Different conventions define "fraction of a year" differently — and that is the entire source of complexity.</p>
+<p><strong>Business day.</strong> A calendar day when financial markets are open and settlements can occur. Typically Monday through Friday, excluding public holidays. When a scheduled payment falls on a non-business day, a convention determines what happens: the payment might move to the next business day, the previous one, or stay put.</p>
+<p><strong>Calc vs. Shift.</strong> There are two separate questions about a payment that falls on a non-business day: (1) when does the payment actually settle? and (2) what dates do you use to calculate interest? These can have different answers. "CalcShift" means: calculate interest using the original date, but shift the settlement. "ShiftCalc" means: both the calculation and the settlement use the shifted date.</p>
+<h2>Day Count Conventions</h2>
+<p>A day count convention defines how to measure the time between two dates for interest calculation. The engine implements seven conventions through the <code>IDayCountConventionProvider</code> interface, which has two methods:</p>
+<ul>
+<li><code>DayCount(startDate, endDate)</code> — the raw number of days (or adjusted days)</li>
+<li><code>DayCountFraction(startDate, endDate)</code> — the year fraction (days divided by the year basis)</li>
+</ul>
+<p>The <code>DayCountCalculator</code> class acts as a factory, taking a convention string and returning the correct implementation.</p>
+<h3>A/365 (Actual/365 Fixed)</h3>
+<p>The simplest convention. Count the actual calendar days between the two dates and divide by 365. Always 365 — even in leap years.</p>
+<pre><code>YearFraction = ActualDays / 365
+</code></pre>
+<p>Used for UK government bonds and many non-USD instruments. Example: from January 15 to April 15 (90 days) → 90/365 = 0.24658.</p>
+<h3>A/360 (Actual/360)</h3>
+<p>Count actual calendar days, divide by 360. Because the denominator is smaller than the actual year, this convention produces slightly higher interest amounts than A/365 for the same period.</p>
+<pre><code>YearFraction = ActualDays / 360
+</code></pre>
+<p>Used for USD money markets and LIBOR-based instruments. Example: from January 15 to April 15 (90 days) → 90/360 = 0.25000.</p>
+<h3>A/A ISDA (Actual/Actual ISDA)</h3>
+<p>The most accurate convention — it accounts for leap years. When a period falls entirely within one calendar year, divide by the actual number of days in that year (365 or 366). When a period spans multiple years, split it at the year boundary and compute each segment separately.</p>
+<pre><code>If same year:
+    YearFraction = ActualDays / DaysInYear(year)
+
+If spanning years:
+    YearFraction = DaysInFirstYear / BasisOfFirstYear
+                 + DaysInLastYear / BasisOfLastYear
+                 + CompleteYearsInBetween
+</code></pre>
+<p>Where <code>BasisOfYear</code> is 366 for leap years and 365 for non-leap years.</p>
+<p>Used for government bonds where leap-year accuracy matters. Example: from December 1, 2023 to March 1, 2024 (91 days, spanning a leap year) → 31/365 + 60/366 = 0.24867.</p>
+<h3>30E/360 (European 30/360)</h3>
+<p>An artificial convention that assumes every month has 30 days and every year has 360 days. Day 31 of any month is treated as day 30.</p>
+<pre><code>DayCount = 360 × (Y2 − Y1) + 30 × (M2 − M1) + (D2_adj − D1_adj)
+YearFraction = DayCount / 360
+</code></pre>
+<p>Where D1_adj and D2_adj replace day 31 with day 30.</p>
+<p>Used for many European bonds and standardized calculations. Example: from January 31 to March 31 → 360×0 + 30×2 + (30−30) = 60 days → 60/360 = 0.16667.</p>
+<h3>30E/360 ISDA</h3>
+<p>A variant of 30E/360 with an ISDA-specific rule: if either date is the last day of its month, treat it as day 30, except that the maturity date in February is not adjusted. This prevents a February 28 maturity from being treated as February 30.</p>
+<p>The implementation requires knowledge of the maturity date, which is set via a <code>SetMaturityDate()</code> method before calculation.</p>
+<h3>B/252 (Business/252)</h3>
+<p>Instead of counting calendar days, count only business days (as determined by the calendar provider) and divide by 252 — the assumed number of business days per year.</p>
+<pre><code>YearFraction = BusinessDays / 252
+</code></pre>
+<p>Used in the Brazilian market. This convention requires a calendar that defines which days are business days, making it the only day count convention with an external dependency.</p>
+<h3>A/336 (Actual/336)</h3>
+<p>Count actual calendar days, divide by 336 (28 days × 12 months). This convention is specific to certain insurance applications where a "month" is always 28 days.</p>
+<pre><code>YearFraction = ActualDays / 336
+</code></pre>
+<h3>28/336</h3>
+<p>A companion to A/336 that treats day counts similarly to 30E/360 but with a 28-day month and 336-day year. Days 28 through 31 of any month are treated as day 28, and the formula uses 336 × ΔY + 28 × ΔM + ΔD.</p>
+<h2>Business Day Conventions</h2>
+<p>When a scheduled event falls on a non-business day, the business day convention determines two things: where the event actually settles (the "shifted" date), and what date is used for interest calculations.</p>
+<p>The engine implements this through two cooperating interfaces:</p>
+<ul>
+<li><code>IBusinessDayConvention</code> — the shift strategy: how to move a non-business day to a business day</li>
+<li><code>IShiftCalcConvention</code> — the calc strategy: whether calculations follow the shift or stay on the original date</li>
+</ul>
+<p>The <code>BusinessDayAdjuster</code> class coordinates both, exposing two methods:</p>
+<ul>
+<li><code>ShiftEventTime(date)</code> — returns the shifted settlement date</li>
+<li><code>ShiftCalcTime(date)</code> — returns the date to use for interest calculations</li>
+</ul>
+<h3>Shift Strategies</h3>
+<p><strong>Same (No Adjustment):</strong> The event stays on its scheduled date regardless of whether it is a business day. Used with the NOS convention.</p>
+<p><strong>Following:</strong> Move forward to the next business day. If an event falls on Saturday, it settles on Monday.</p>
+<pre><code>while (date is not a business day):
+    date = date + 1 day
+</code></pre>
+<p><strong>Modified Following:</strong> Move forward to the next business day, but if that would cross a month boundary, move backward instead. This prevents a month-end payment from settling in the next month.</p>
+<pre><code>shiftedDate = apply Following(date)
+if shiftedDate.Month ≠ date.Month:
+    shiftedDate = apply Preceding(date)  // go backward instead
+</code></pre>
+<p><strong>Preceding:</strong> Move backward to the previous business day.</p>
+<pre><code>while (date is not a business day):
+    date = date − 1 day
+</code></pre>
+<p><strong>Modified Preceding:</strong> Move backward, but if that would cross a month boundary, move forward instead.</p>
+<pre><code>shiftedDate = apply Preceding(date)
+if shiftedDate.Month ≠ date.Month:
+    shiftedDate = apply Following(date)  // go forward instead
+</code></pre>
+<h3>Calc/Shift Strategies</h3>
+<p><strong>ShiftCalc:</strong> Both the event settlement and the calculation use the shifted date. The <code>ShiftCalcTime()</code> method applies the business day shift.</p>
+<p><strong>CalcShift:</strong> The event settles on the shifted date, but calculations use the original unshifted date. The <code>ShiftCalcTime()</code> method returns the original date unchanged.</p>
+<h3>The Nine Conventions</h3>
+<p>Combining the shift and calc strategies yields nine conventions:</p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Shift Strategy</th>
+<th>Calc Strategy</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NOS</td>
+<td>Same</td>
+<td>ShiftCalc</td>
+<td>No adjustment — everything uses the original date</td>
+</tr>
+<tr>
+<td>CSF</td>
+<td>Following</td>
+<td>CalcShift</td>
+<td>Settle forward, calculate on original</td>
+</tr>
+<tr>
+<td>CSMF</td>
+<td>Modified Following</td>
+<td>CalcShift</td>
+<td>Settle modified forward, calculate on original</td>
+</tr>
+<tr>
+<td>CSP</td>
+<td>Preceding</td>
+<td>CalcShift</td>
+<td>Settle backward, calculate on original</td>
+</tr>
+<tr>
+<td>CSMP</td>
+<td>Modified Preceding</td>
+<td>CalcShift</td>
+<td>Settle modified backward, calculate on original</td>
+</tr>
+<tr>
+<td>SCF</td>
+<td>Following</td>
+<td>ShiftCalc</td>
+<td>Both settle and calculate on the shifted forward date</td>
+</tr>
+<tr>
+<td>SCMF</td>
+<td>Modified Following</td>
+<td>ShiftCalc</td>
+<td>Both on the modified forward date</td>
+</tr>
+<tr>
+<td>SCP</td>
+<td>Preceding</td>
+<td>ShiftCalc</td>
+<td>Both on the shifted backward date</td>
+</tr>
+<tr>
+<td>SCMP</td>
+<td>Modified Preceding</td>
+<td>ShiftCalc</td>
+<td>Both on the modified backward date</td>
+</tr>
+</tbody>
+</table>
+<p>The "CS" prefix (Calc-Shift) means calculations use the original date. The "SC" prefix (Shift-Calc) means calculations follow the shift. The suffix indicates the direction: "F" for following, "MF" for modified following, "P" for preceding, "MP" for modified preceding.</p>
+<h3>When the Convention Matters</h3>
+<p>Consider a quarterly interest payment scheduled for Saturday, March 31. With convention SCF (ShiftCalc Following), the payment settles on Monday, April 2, and the interest accrual period runs to April 2. With CSF (CalcShift Following), the payment also settles on April 2, but the interest accrual period runs to March 31 (the original date). The difference in interest can be non-trivial.</p>
+<h2>End-of-Month Convention</h2>
+<p>When a schedule cycle starts on the last day of a month (e.g., January 31 or February 28), the end-of-month convention determines whether subsequent dates also snap to month-ends.</p>
+<p>The <code>EndOfMonthAdjuster</code> evaluates two conditions before activating:</p>
+<ol>
+<li>The reference date (cycle anchor) must be the last day of its month</li>
+<li>The cycle must have a month-based period (months > 0)</li>
+</ol>
+<p>If both conditions are met and the EOM convention is enabled, every generated schedule date is shifted to the last day of its month. Otherwise, the SameDay convention applies (no adjustment).</p>
+<table>
+<thead>
+<tr>
+<th>EOM Convention</th>
+<th>Starting Jan 31</th>
+<th>February</th>
+<th>March</th>
+<th>April</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EOM (enabled)</td>
+<td>Jan 31</td>
+<td>Feb 28/29</td>
+<td>Mar 31</td>
+<td>Apr 30</td>
+</tr>
+<tr>
+<td>SD (disabled)</td>
+<td>Jan 31</td>
+<td>Feb 28/29</td>
+<td>Mar 31</td>
+<td>Apr 30*</td>
+</tr>
+</tbody>
+</table>
+<p>*In practice, SD keeps the day-of-month where possible (e.g., 31st → 28/29 → 31st → 30th).</p>
+<h3>Implementation Detail</h3>
+<p>The <code>EndOfMonth</code> shift implementation:</p>
+<pre><code>Shift(date) → new DateTime(date.Year, date.Month, DaysInMonth(date.Year, date.Month))
+</code></pre>
+<p>The <code>SameDay</code> implementation returns the date unchanged.</p>
+<h2>Calendars</h2>
+<p>The calendar determines which days are business days. Three calendar types are supported:</p>
+<h3>NC — No Calendar</h3>
+<p>All days are business days. No shifting ever occurs. This is the default and is used when no business day adjustments are needed.</p>
+<h3>MF — Monday to Friday</h3>
+<p>Standard weekday calendar. Saturdays and Sundays are non-business days. No holiday support.</p>
+<h3>MFH — Monday to Friday with Holidays</h3>
+<p>Weekdays minus a specific set of holiday dates. The implementation stores holidays as a <code>HashSet&#x3C;DateTime></code> for O(1) lookup. A day is a business day if it is Monday–Friday and not in the holiday set.</p>
+<h3>Calendar Providers</h3>
+<p>All calendars extend the <code>BusinessDayCalendarProvider</code> base class, which defines the <code>IsBusinessDay(DateTime)</code> method. The base implementation returns true for weekdays (used by MF). The <code>NoHolidaysCalendar</code> always returns true (used by NC). The <code>MondayToFridayWithHolidaysCalendar</code> additionally checks against the holiday set.</p>
+<h2>How Conventions Flow Through the Engine</h2>
+<pre><code class="language-mermaid">graph TD
+    TERMS["Contract Terms&#x3C;br/>(convention selections)"] --> BDA["BusinessDayAdjuster&#x3C;br/>(shift + calc strategies)"]
+    TERMS --> DCC["DayCountCalculator&#x3C;br/>(year fraction computation)"]
+    TERMS --> EOM["EndOfMonthAdjuster&#x3C;br/>(schedule date snapping)"]
+
+    BDA --> SCHED["Schedule Generation&#x3C;br/>(shift event dates)"]
+    EOM --> SCHED
+
+    BDA --> EVAL["Event Evaluation&#x3C;br/>(ShiftCalcTime for accrual dates)"]
+    DCC --> EVAL
+
+    SCHED --> EVENTS["Events with two times:&#x3C;br/>Time (shifted) + ScheduleTime (original)"]
+    EVENTS --> EVAL
+</code></pre>
+<p>The convention selections in the contract terms instantiate the appropriate implementations at the start of processing. These implementations are then threaded through schedule generation (for date shifting and EOM snapping) and event evaluation (for year fraction calculation using the correct date pair).</p>
+<h2>Continue Reading</h2>
+<ul>
+<li><a href="./scheduling.md">Schedule Generation</a> — how cycle strings produce periodic date sequences</li>
+<li><a href="./state-machine.md">State Machine</a> — how conventions affect interest accrual between events</li>
+<li><a href="./pam-contract.md">PAM Contract</a> — where conventions are used in the full contract pipeline</li>
+<li><a href="./reference.md">Technical Reference</a> — enum values for all convention types</li>
+</ul>
+
+      </article>
+    
+      <div class="page-break"></div>
+      <article id="doc-15" class="doc-section">
+        <h1 class="doc-title">CLI Demo Tool — Monte Carlo Portfolio Valuation</h1>
+        <h2>CLI Demo Tool — Monte Carlo Portfolio Valuation</h2>
+<h2>Overview</h2>
+<p>The PamMonteCarlo50Y CLI tool demonstrates the complete pipeline: portfolio generation (or loading), scenario generation, GPU (or CPU) evaluation, sink aggregation, and reporting. It is the primary way to exercise the system end to end.</p>
+<h2>Modes of Operation</h2>
+<p>The CLI supports two input modes:</p>
+<p><strong>Synthetic mode</strong> — generates a random portfolio and Monte Carlo scenarios from parameters:</p>
+<pre><code>PamMonteCarlo50Y --backend gpu --contracts 10000 --scenarios 1000 --months 600 --seed 42
+</code></pre>
+<p><strong>Input-directory mode</strong> — loads a pre-built portfolio and scenarios from CSV/JSON files:</p>
+<pre><code>PamMonteCarlo50Y --backend gpu --input ./samples/input --out ./results
+</code></pre>
+<h2>Key CLI Options</h2>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--backend</code></td>
+<td>cpu, gpu, or both</td>
+<td>both</td>
+</tr>
+<tr>
+<td><code>--contracts</code></td>
+<td>Number of synthetic contracts</td>
+<td>1000</td>
+</tr>
+<tr>
+<td><code>--scenarios</code></td>
+<td>Number of Monte Carlo scenarios</td>
+<td>100</td>
+</tr>
+<tr>
+<td><code>--months</code></td>
+<td>Projection horizon in months</td>
+<td>600 (50 years)</td>
+</tr>
+<tr>
+<td><code>--seed</code></td>
+<td>Random seed for reproducibility</td>
+<td>42</td>
+</tr>
+<tr>
+<td><code>--calcDateIndex</code></td>
+<td>Boundary between historical and forward rates</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>--runs</code></td>
+<td>Path to runs.json for multi-run configuration</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--input</code></td>
+<td>Input directory for pre-built portfolios</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>--out</code></td>
+<td>Output directory</td>
+<td>./out</td>
+</tr>
+<tr>
+<td><code>--reporting</code></td>
+<td>Enable detailed reporting exports</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>--export-fact</code></td>
+<td>Export long-format fact table</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>--export-portfolio</code></td>
+<td>Export generated portfolio to CSV</td>
+<td>false</td>
+</tr>
+<tr>
+<td><code>--metadata</code></td>
+<td>Path to contract metadata CSV for joined reporting</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<h2>Execution Pipeline</h2>
+<pre><code class="language-mermaid">graph TD
+    INPUT["Input&#x3C;br/>(synthetic or directory)"] --> PORTFOLIO["Portfolio&#x3C;br/>PamContractTerms[]"]
+    INPUT --> SCENARIOS["Scenarios&#x3C;br/>Rate paths via Vasicek model"]
+    PORTFOLIO --> ORCHESTRATE["DemoOrchestrator&#x3C;br/>Routes to CPU or GPU engine"]
+    SCENARIOS --> ORCHESTRATE
+    ORCHESTRATE --> EVAL["Evaluation&#x3C;br/>PayoffCube (GPU) or CPU loop"]
+    EVAL --> SINKS["Sink Aggregation&#x3C;br/>Per-contract statistics"]
+    SINKS --> EXPORT["Export&#x3C;br/>CSV + JSON reports"]
+</code></pre>
+<h2>Portfolio Generator</h2>
+<p>The synthetic portfolio generator creates realistic PAM contracts with varied parameters:</p>
+<ul>
+<li>Notional principal (randomised within configurable range)</li>
+<li>Interest rates (randomised, possibly floating with rate resets)</li>
+<li>Maturity dates (varied horizons)</li>
+<li>Payment frequencies (monthly, quarterly, semi-annual, annual)</li>
+<li>Day count conventions (varied across contracts)</li>
+</ul>
+<p>The generator is <strong>deterministic</strong> — the same seed always produces the same portfolio.</p>
+<h2>Vasicek Rate Generator</h2>
+<p>Monte Carlo scenarios are generated using the Vasicek interest rate model, which produces mean-reverting rate paths characterised by:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>κ (kappa)</td>
+<td>Mean reversion speed</td>
+</tr>
+<tr>
+<td>θ (theta)</td>
+<td>Long-term mean rate</td>
+</tr>
+<tr>
+<td>σ (sigma)</td>
+<td>Volatility</td>
+</tr>
+<tr>
+<td>r₀</td>
+<td>Initial rate</td>
+</tr>
+</tbody>
+</table>
+<p>Each scenario is an independent rate path. The generator uses a seeded PRNG for full reproducibility.</p>
+<h2>Reporting Exports</h2>
+<p>When <code>--reporting true</code> is enabled, the tool produces:</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>{runId}_portfolio_by_scenario.csv</code></td>
+<td>RunId, ScenarioId, PortfolioPV</td>
+</tr>
+<tr>
+<td><code>{runId}_contract_summary.csv</code></td>
+<td>Per-contract statistics: Mean, StdDev, P05, P25, Median, P75, P95, ES95, ES99</td>
+</tr>
+<tr>
+<td><code>{runId}_fact_results_long.csv</code></td>
+<td>Long-format fact table (when --export-fact true)</td>
+</tr>
+<tr>
+<td><code>runs.csv</code></td>
+<td>Run dimension table with metadata</td>
+</tr>
+</tbody>
+</table>
+<p>These outputs are designed to be opened directly in Excel or imported into BI tools for further analysis.</p>
+<h2>Input Directory Structure</h2>
+<p>When using <code>--input</code>, the directory must follow this structure:</p>
+<pre><code>input_dir/
+├── portfolio.csv                    — Contract terms in CSV format
+├── scenarios/
+│   ├── scenario_set.json            — Scenario metadata
+│   └── riskfactors/
+│       ├── interest_rate_prior.csv  — Historical rates (before calcDateIndex)
+│       └── interest_rate_after.csv  — Forward rates (scenario-specific)
+├── runs.json                        — (optional) Multi-run definitions
+└── contract_metadata.csv            — (optional) Extra contract attributes for reporting
+</code></pre>
+
+      </article>
+    
+  </div>
+
+</body>
+</html>

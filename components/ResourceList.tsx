@@ -42,6 +42,21 @@ const TYPE_META: Record<
 /** Types that can be previewed inline in the modal */
 const PREVIEWABLE: Resource['type'][] = ['video', 'pdf']
 
+/** For cross-origin URLs (e.g. Vercel Blob) the browser ignores the `download`
+ *  attribute and opens the file in a new tab instead. Route those through our
+ *  server-side proxy so the browser always gets a download disposition. */
+function downloadHref(url: string, title: string): string {
+  try {
+    const parsed = new URL(url)
+    if (parsed.origin !== window.location.origin) {
+      return `/api/download?url=${encodeURIComponent(url)}&filename=${encodeURIComponent(title)}`
+    }
+  } catch {
+    // relative URL – fine as-is
+  }
+  return url
+}
+
 // ─── Media Modal ─────────────────────────────────────────────────────────────
 
 interface MediaModalProps {
@@ -95,7 +110,7 @@ function MediaModal({ resource, onClose }: MediaModalProps) {
               </a>
               {/* Download */}
               <a
-                href={resource.url}
+                href={downloadHref(resource.url, resource.title)}
                 download
                 className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium text-white transition-colors"
                 style={{ backgroundColor: '#D4891A' }}
@@ -209,7 +224,7 @@ export function ResourceList({ ids }: ResourceListProps) {
                 {/* Action buttons */}
                 <div className="flex flex-wrap gap-2">
                   <a
-                    href={resource.url}
+                    href={downloadHref(resource.url, resource.title)}
                     download
                     className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600"
                   >
