@@ -28,16 +28,27 @@
       line-height: 1.65;
     }
 
+    /* ── @page rules (WeasyPrint + browsers) ── */
+    @page {
+      size: A4;
+      margin: 15mm 15mm 18mm 15mm;
+    }
+
+    @page :first {
+      margin: 0;
+    }
+
     /* ── Cover page ── */
     .cover {
       width: 100%;
-      min-height: 100vh;
+      height: 297mm;
       display: flex;
       flex-direction: column;
       background: var(--navy-dark);
       color: #ffffff;
       padding: 0;
       page-break-after: always;
+      break-after: page;
     }
 
     .cover-top {
@@ -341,23 +352,98 @@
       break-before: page;
     }
 
+    /* ── Mermaid diagrams ── */
+    .mermaid-wrap {
+      margin: 1.5em 0;
+      text-align: center;
+    }
+
+    /* Rendered state: SVG replaces the <pre> */
+    .mermaid-wrap svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Unrendered / WeasyPrint fallback: show source as a styled block */
+    pre.mermaid {
+      background: #f0f4f8;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--amber);
+      border-radius: 4px;
+      padding: 1em 1.25em;
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 0.82em;
+      color: var(--text-light);
+      white-space: pre;
+      text-align: left;
+    }
+
+    /* Label shown above the source in WeasyPrint fallback */
+    .mermaid-wrap::before {
+      content: "Diagram (rendered interactively in browser)";
+      display: block;
+      font-size: 0.72em;
+      font-weight: 600;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4em;
+      text-align: left;
+    }
+
+    /* Hide the label once mermaid has replaced the pre with an svg */
+    .mermaid-wrap:has(svg)::before {
+      display: none;
+    }
+
     /* ── Print-specific ── */
     @media print {
-      .cover     { min-height: 100vh; page-break-after: always; }
-      .toc-page  { page-break-after: always; }
-      .page-break { page-break-before: always; }
+      .cover     { height: 297mm; page-break-after: always; break-after: page; }
+      .toc-page  { page-break-after: always; break-after: page; }
+      .page-break { page-break-before: always; break-before: page; }
 
       pre { white-space: pre-wrap; word-break: break-all; }
       a   { color: inherit; text-decoration: none; }
 
-      thead { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .cover { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .cover-top { background: var(--navy) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .section-header { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      blockquote { background: #fdf6ec !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      pre { background: #1e2a3a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .mermaid-wrap svg { page-break-inside: avoid; }
+      pre.mermaid { background: #f0f4f8 !important; -webkit-print-color-adjust: exact; }
+
+      thead { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      .cover { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      .cover-top { background: var(--navy) !important; -webkit-print-color-adjust: exact; }
+      .section-header { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      blockquote { background: #fdf6ec !important; -webkit-print-color-adjust: exact; }
+      pre { background: #1e2a3a !important; -webkit-print-color-adjust: exact; }
     }
   </style>
+  <!-- Mermaid: renders diagrams in browsers and Puppeteer; ignored by WeasyPrint -->
+  <script type="module">
+    try {
+      const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs');
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: {
+          primaryColor:       '#1A3550',
+          primaryTextColor:   '#ffffff',
+          primaryBorderColor: '#D4891A',
+          lineColor:          '#D4891A',
+          secondaryColor:     '#0D2038',
+          tertiaryColor:      '#f0f4f8',
+          fontFamily:         'Arial, Helvetica, sans-serif',
+          fontSize:           '13px',
+        },
+        flowchart:  { useMaxWidth: true, htmlLabels: true },
+        sequence:   { useMaxWidth: true },
+        gantt:      { useMaxWidth: true },
+      });
+      await mermaid.run({ querySelector: '.mermaid' });
+    } catch (e) {
+      console.warn('Mermaid CDN not available; diagrams shown as source.', e.message);
+    }
+  </script>
 </head>
 <body>
 
@@ -430,7 +516,7 @@
 <p>Each area starts with a conceptual overview and progressively adds implementation detail. Developers who need to understand the codebase, contribute to it, or integrate it into other systems should start here.</p>
 <h2>Architecture at a Glance</h2>
 <p>The system is organized into four repositories, each with a specific responsibility:</p>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     subgraph "Actus-Insurance.Core"
         CORE[Core Library&#x3C;br/>Models, Types, Conventions]
         CPU[CPU Engine&#x3C;br/>PAM Contract Implementation]
@@ -464,7 +550,7 @@
     GPU_LIB --> TESTS_GPU
     RUNNER --> CLI
     GPU_LIB --> SAMPLE
-</code></pre>
+</pre></div>
 <h2>Technology Stack</h2>
 <table>
 <thead>
@@ -566,13 +652,13 @@
 <p><strong>Convention-driven computation.</strong> Financial contracts differ not just in their structure but in the conventions they use for dates, interest accrual, and calendar adjustments. Rather than hard-coding these rules, the engine parameterizes them: each contract specifies which day count convention, business day convention, end-of-month convention, and calendar to use. The engine dispatches to the correct implementation at runtime.</p>
 <h2>The Three-Stage Pipeline</h2>
 <p>Every contract evaluation follows the same three-stage pipeline:</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     Terms["Contract Terms&#x3C;br/>(PamContractTerms)"] --> Schedule["Stage 1: Schedule&#x3C;br/>(generate events)"]
     Schedule --> Events["Raw Events&#x3C;br/>(typed, timed, unsorted)"]
     Events --> Apply["Stage 2: Apply&#x3C;br/>(sort, initialize, evaluate)"]
     Market["Risk Factor Model&#x3C;br/>(market rates)"] --> Apply
     Apply --> Result["Stage 3: Result&#x3C;br/>(evaluated events with payoffs)"]
-</code></pre>
+</pre></div>
 <h3>Stage 1: Schedule Generation</h3>
 <p>The <code>Schedule()</code> method reads the contract terms and generates every event that will occur during the contract's lifetime. It creates mandatory events (Initial Exchange Date, Maturity Date) and then generates periodic events from cycle definitions (interest payments, rate resets, fee payments, scaling updates). Each event is stamped with two times: the original schedule time (the contractually specified date) and the shifted time (the date adjusted for business day conventions). Events are not yet sorted or evaluated — they are raw placeholders.</p>
 <h3>Stage 2: Event Application</h3>
@@ -678,7 +764,7 @@ ActusInsurance.Tests.CPU/
     └── actus-tests-pam.json            — Test data: terms, market data, expected results
 </code></pre>
 <h2>How It All Connects</h2>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     subgraph "ActusInsurance.Core (shared)"
         TERMS["PamContractTerms&#x3C;br/>(40+ fields)"]
         CONV["Conventions&#x3C;br/>(day count, business day,&#x3C;br/>EOM, calendar)"]
@@ -703,7 +789,7 @@ ActusInsurance.Tests.CPU/
     PAM --> STATE
     PAM --> RISK
     TESTS --> PAM
-</code></pre>
+</pre></div>
 <h2>Continue Reading</h2>
 <ul>
 <li><a href="./pam-contract.md">PAM Contract</a> — full walkthrough of the PAM implementation: terms, schedule generation, event evaluation, and all payoff formulas</li>
@@ -722,7 +808,7 @@ ActusInsurance.Tests.CPU/
         <h2>GPU Architecture</h2>
 <h2>Overview</h2>
 <p>The GPU execution pipeline transforms CPU domain objects into flat GPU-compatible structures, runs massively parallel kernels, and returns results. The architecture is organised into three layers: the adapter (data transformation), the kernel (GPU computation), and the executor (orchestration).</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     subgraph "CPU Domain"
         TERMS["PamContractTerms[]&#x3C;br/>Rich domain objects"]
         MARKET["RiskFactorModel&#x3C;br/>Market data"]
@@ -752,7 +838,7 @@ ActusInsurance.Tests.CPU/
     EGPU --> KERN
     MGPU --> KERN
     KERN --> RGPU
-</code></pre>
+</pre></div>
 <h2>The Three Layers</h2>
 <h3>Adapter (PamV3Adapter)</h3>
 <p>The adapter sits between the CPU domain model and the GPU. It performs two jobs: it generates the event schedule for each contract (using the same schedule logic as the CPU engine), and it flattens the results into GPU-compatible flat arrays.</p>
@@ -798,7 +884,7 @@ ActusInsurance.Tests.CPU/
 </ul>
 <p>Buffer pooling ensures that repeated evaluations of similar-sized portfolios incur no GPU memory allocation after the first call.</p>
 <h2>Data Flow: Single Evaluation</h2>
-<pre><code class="language-mermaid">sequenceDiagram
+<div class="mermaid-wrap"><pre class="mermaid">sequenceDiagram
     participant App as Application
     participant Adapt as PamV3Adapter
     participant Exec as PamGpuExecutor
@@ -814,10 +900,10 @@ ActusInsurance.Tests.CPU/
     GPU->>GPU: Each thread: process one contract's events
     GPU-->>Exec: D2H: copy PamEventResultGpu[]
     Exec-->>App: Results array
-</code></pre>
+</pre></div>
 <h2>Data Flow: Monte Carlo (PayoffCube)</h2>
 <p>For scenario-based valuation, the kernel operates in 2D:</p>
-<pre><code class="language-mermaid">sequenceDiagram
+<div class="mermaid-wrap"><pre class="mermaid">sequenceDiagram
     participant App as Application
     participant Exec as PayoffCubeExecutor
     participant GPU as GPU Device
@@ -829,7 +915,7 @@ ActusInsurance.Tests.CPU/
     GPU->>GPU: Accumulate payoffs into flat cube
     GPU-->>Exec: D2H: PayoffCube[K×C×S×T]
     Exec-->>App: Aggregated results
-</code></pre>
+</pre></div>
 <h2>Continue Reading</h2>
 <ul>
 <li><a href="./data-structures.md">Data Structures</a> — blittable structs and SoA layout</li>
@@ -860,7 +946,7 @@ ActusInsurance.Tests.CPU/
 </ul>
 <p>Each test case defines: contract terms, observed market data (rate observations), and expected results (event date, type, payoff, and state values for every event).</p>
 <h2>Test Architecture</h2>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     JSON["actus-tests-pam.json&#x3C;br/>42 reference test cases"] --> CPU_TEST["CPU Test Suite&#x3C;br/>(PamTests.cs)"]
     JSON --> GPU_TEST["GPU Test Suite&#x3C;br/>(PamTestsGpu.cs)"]
 
@@ -870,7 +956,7 @@ ActusInsurance.Tests.CPU/
 
     CPU_ENGINE --> COMPARE_CPU["Compare vs expected&#x3C;br/>Tolerance: 2×10⁻¹⁰"]
     GPU_ENGINE --> COMPARE_GPU["Compare vs expected&#x3C;br/>Tolerance: 2×10⁻¹⁰"]
-</code></pre>
+</pre></div>
 <h2>CPU Test Suite (PamTests.cs)</h2>
 <p>The CPU test suite loads the JSON test file, parses each test case into contract terms and risk factors, generates the event schedule, applies all events, and compares the computed payoff and state values against expected results.</p>
 <p>The tolerance is 2×10⁻¹⁰ (two ten-billionths). This is tight enough to catch subtle calculation errors while accommodating the inherent limits of double-precision floating-point arithmetic.</p>
@@ -1727,7 +1813,7 @@ events.Add(MD at MaturityDate)
 </table>
 <h2>SoA vs AoS Layout</h2>
 <p>The GPU layer uses <strong>Structure of Arrays</strong> (SoA) rather than Array of Structures (AoS) for memory layout. This ensures coalesced memory access when thousands of GPU threads read the same field across different contracts.</p>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     subgraph "AoS (Array of Structures)"
         AOS["Contract1{principal, rate, date} | Contract2{principal, rate, date} | ..."]
     end
@@ -1737,7 +1823,7 @@ events.Add(MD at MaturityDate)
         SOA2["rates: [c1_rate, c2_rate, c3_rate, ...]"]
         SOA3["dates: [c1_date, c2_date, c3_date, ...]"]
     end
-</code></pre>
+</pre></div>
 <p>When all threads read the <code>principal</code> field simultaneously, SoA ensures these reads hit consecutive memory addresses, maximising GPU memory bandwidth.</p>
 
       </article>
@@ -1891,19 +1977,19 @@ dotnet run -c Release --project src/ActusInsurance.Benchmarks
 <p>This distinction matters when an event date falls on a weekend. A CalcShift convention says "calculate interest as if the payment happened on the scheduled date, but actually settle on the next business day." A ShiftCalc convention says "the payment date is the business day, and interest accrues to that date."</p>
 <h2>Event Evaluation: The Three-Step Process</h2>
 <p>Every event's <code>Evaluate()</code> method follows the same three-step pattern:</p>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     A["Step 1: ComputePayoff"] --> B["Step 2: UpdateState"]
     B --> C["Step 3: Snapshot"]
-</code></pre>
+</pre></div>
 <p><strong>Step 1 — ComputePayoff:</strong> Calculate the cash flow for this event type. The payoff depends on the event type and the current state (see <a href="./pam-contract.md">PAM Contract</a> for all formulas).</p>
 <p><strong>Step 2 — UpdateState:</strong> Modify the state space according to this event type's transition rules. This is where interest accrual happens (for applicable event types), followed by the type-specific state change.</p>
 <p><strong>Step 3 — Snapshot:</strong> Copy the four key state variables (NotionalPrincipal, NominalInterestRate, AccruedInterest, FeeAccrued) from the state space into the event object. This creates a permanent record of the state after this event, which appears in the output.</p>
 <h2>State Transitions by Event Type</h2>
 <h3>IED — Initial Exchange Date</h3>
 <p>The contract begins. The principal is established and the interest rate is set.</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     Before["Principal = 0&#x3C;br/>Rate = 0&#x3C;br/>Accrued = 0"] -->|IED| After["Principal = RoleSign × Notional&#x3C;br/>Rate = NominalRate&#x3C;br/>Accrued = pre-IED accrual (if any)"]
-</code></pre>
+</pre></div>
 <p><strong>State changes:</strong></p>
 <ul>
 <li><code>NotionalPrincipal</code> = <code>RoleSign × model.NotionalPrincipal</code></li>
@@ -1915,9 +2001,9 @@ dotnet run -c Release --project src/ActusInsurance.Benchmarks
 </code></pre>
 <h3>IP — Interest Payment</h3>
 <p>Accrued interest is paid out and the accrual counter resets to zero.</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     Before["Accrued = A"] -->|IP| After["Accrued = 0"]
-</code></pre>
+</pre></div>
 <p><strong>State changes:</strong></p>
 <ul>
 <li>Interest accrual is computed (adding to AccruedInterest) before the state update</li>
@@ -1930,9 +2016,9 @@ dotnet run -c Release --project src/ActusInsurance.Benchmarks
 <p>The payoff includes both the previously accrued amount and the interest for the final sub-period. The scaling multiplier adjusts for inflation-linked contracts.</p>
 <h3>IPCI — Interest Capitalization</h3>
 <p>Instead of paying interest out as cash, the accrued interest is added to the principal. This increases the base for future interest calculations (compound interest).</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     Before["Principal = P&#x3C;br/>Accrued = A"] -->|IPCI| After["Principal = P + A&#x3C;br/>Accrued = 0"]
-</code></pre>
+</pre></div>
 <p><strong>State changes:</strong></p>
 <ul>
 <li>Interest accrual is computed before the state update</li>
@@ -1942,9 +2028,9 @@ dotnet run -c Release --project src/ActusInsurance.Benchmarks
 <p><strong>Payoff:</strong> 0 (no cash flow — the interest stays inside the contract)</p>
 <h3>RR — Rate Reset (Market-Driven)</h3>
 <p>The interest rate is updated from market data. The new rate is derived from an external market rate, adjusted by a multiplier and spread, and constrained by period-level and lifetime caps and floors.</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     Before["Rate = R_old"] -->|RR| After["Rate = R_new&#x3C;br/>(constrained)"]
-</code></pre>
+</pre></div>
 <p><strong>The rate reset algorithm has four steps:</strong></p>
 <ol>
 <li>
@@ -1981,9 +2067,9 @@ newRate = currentRate + deltaRate
 <p><strong>Payoff:</strong> 0</p>
 <h3>MD — Maturity Date</h3>
 <p>The contract ends. The principal is returned and all state variables are zeroed.</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     Before["Principal = P&#x3C;br/>Accrued = A"] -->|MD| After["Principal = 0&#x3C;br/>Accrued = 0"]
-</code></pre>
+</pre></div>
 <p><strong>State changes:</strong></p>
 <ul>
 <li><code>NotionalPrincipal</code> = 0</li>
@@ -1994,9 +2080,9 @@ newRate = currentRate + deltaRate
 </code></pre>
 <h3>TD — Termination Date</h3>
 <p>Early contract termination. Functionally similar to maturity, but the payoff is the agreed termination price rather than the notional.</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     Before["Principal = P"] -->|TD| After["Principal = 0&#x3C;br/>Accrued = 0"]
-</code></pre>
+</pre></div>
 <p><strong>State changes:</strong></p>
 <ul>
 <li><code>NotionalPrincipal</code> = 0</li>
@@ -2026,9 +2112,9 @@ newRate = currentRate + deltaRate
 </code></pre>
 <h3>SC — Scaling</h3>
 <p>Scaling multipliers are updated from an external index. This changes the magnitude of future notional-dependent and interest-dependent cash flows.</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     Before["S_n = old&#x3C;br/>S_i = old"] -->|SC| After["S_n = factor × base_n&#x3C;br/>S_i = factor × base_i"]
-</code></pre>
+</pre></div>
 <p><strong>The scaling algorithm:</strong></p>
 <pre><code>scalingFactor = currentIndex / ScalingIndexAtContractDealDate
 </code></pre>
@@ -2114,7 +2200,7 @@ newRate = currentRate + deltaRate
 <p>This ordering ensures correct behavior. For example, on a date where both an IP and an RR event occur, the interest is paid at the old rate (IP at priority 1) before the rate changes (RR at priority 5). Similarly, on the maturity date, any final interest payment (IP at priority 1) is processed before the principal return (MD at priority 9).</p>
 <h2>The Complete Processing Flow</h2>
 <p>Putting it all together, here is the complete sequence for evaluating a PAM contract:</p>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     TERMS["Contract Terms"] --> INIT["Initialize StateSpace&#x3C;br/>(principal, rate, accrued)"]
     TERMS --> SCHED["Generate Schedule&#x3C;br/>(all event types)"]
     SCHED --> SORT["Sort Events&#x3C;br/>(time, then priority)"]
@@ -2127,7 +2213,7 @@ newRate = currentRate + deltaRate
     SNAP --> LOOP
     LOOP -->|No| POST["Post-Process&#x3C;br/>(remove pre-purchase events)"]
     POST --> RESULT["Return Evaluated Events"]
-</code></pre>
+</pre></div>
 <h2>Continue Reading</h2>
 <ul>
 <li><a href="./pam-contract.md">PAM Contract</a> — contract terms and schedule generation details</li>
@@ -2385,19 +2471,19 @@ newRate = currentRate + deltaRate
 <p>Selection happens once at construction time. The chosen accelerator is reused for all subsequent evaluations.</p>
 <h3>Execution Modes</h3>
 <p><strong>EvaluateBatch</strong> — all-in-one pipeline:</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     A["Allocate&#x3C;br/>buffers"] --> B["H2D&#x3C;br/>transfer"]
     B --> C["Launch&#x3C;br/>kernel"]
     C --> D["Synchronise"]
     D --> E["D2H&#x3C;br/>transfer"]
     E --> F["Return&#x3C;br/>results"]
-</code></pre>
+</pre></div>
 <p><strong>UploadAndExecute + DownloadResults</strong> — split phases for batching:</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     A["Upload +&#x3C;br/>Execute"] --> B["Upload +&#x3C;br/>Execute"]
     B --> C["Upload +&#x3C;br/>Execute"]
     C --> D["Download&#x3C;br/>all results"]
-</code></pre>
+</pre></div>
 <p>This split mode is used by the Monte Carlo pipeline to submit multiple scenario batches before downloading.</p>
 <h3>Buffer Pooling</h3>
 <p>GPU memory allocation is expensive. The executor pools buffers to avoid repeated allocation:</p>
@@ -2694,7 +2780,7 @@ else: round up to next hour
 <p><strong>Step 3 — LOCF fallback.</strong> If no exact match exists in the time series, scan all entries to find the most recent date that is on or before the requested date. Return that value.</p>
 <p><strong>Step 4 — Default.</strong> If no data exists at all (no constant rate, no time series, or no observations before the requested date), return 0.0.</p>
 <h3>Lookup Priority Diagram</h3>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     REQ["GetRate(code, time)"] --> CONST{"Constant rate&#x3C;br/>exists?"}
     CONST -->|Yes| RET1["Return constant"]
     CONST -->|No| TS{"Time series&#x3C;br/>exists?"}
@@ -2704,7 +2790,7 @@ else: round up to next hour
     EXACT -->|No| LOCF{"Find most recent&#x3C;br/>date ≤ requested"}
     LOCF -->|Found| RET3["Return LOCF value"]
     LOCF -->|Not found| DEF
-</code></pre>
+</pre></div>
 <h3>LOCF Example</h3>
 <p>Given a time series for "LIBOR_6M":</p>
 <table>
@@ -3815,7 +3901,7 @@ if shiftedDate.Month ≠ date.Month:
 <h3>Calendar Providers</h3>
 <p>All calendars extend the <code>BusinessDayCalendarProvider</code> base class, which defines the <code>IsBusinessDay(DateTime)</code> method. The base implementation returns true for weekdays (used by MF). The <code>NoHolidaysCalendar</code> always returns true (used by NC). The <code>MondayToFridayWithHolidaysCalendar</code> additionally checks against the holiday set.</p>
 <h2>How Conventions Flow Through the Engine</h2>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     TERMS["Contract Terms&#x3C;br/>(convention selections)"] --> BDA["BusinessDayAdjuster&#x3C;br/>(shift + calc strategies)"]
     TERMS --> DCC["DayCountCalculator&#x3C;br/>(year fraction computation)"]
     TERMS --> EOM["EndOfMonthAdjuster&#x3C;br/>(schedule date snapping)"]
@@ -3828,7 +3914,7 @@ if shiftedDate.Month ≠ date.Month:
 
     SCHED --> EVENTS["Events with two times:&#x3C;br/>Time (shifted) + ScheduleTime (original)"]
     EVENTS --> EVAL
-</code></pre>
+</pre></div>
 <p>The convention selections in the contract terms instantiate the appropriate implementations at the start of processing. These implementations are then threaded through schedule generation (for date shifting and EOM snapping) and event evaluation (for year fraction calculation using the correct date pair).</p>
 <h2>Continue Reading</h2>
 <ul>
@@ -3932,7 +4018,7 @@ if shiftedDate.Month ≠ date.Month:
 </tbody>
 </table>
 <h2>Execution Pipeline</h2>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     INPUT["Input&#x3C;br/>(synthetic or directory)"] --> PORTFOLIO["Portfolio&#x3C;br/>PamContractTerms[]"]
     INPUT --> SCENARIOS["Scenarios&#x3C;br/>Rate paths via Vasicek model"]
     PORTFOLIO --> ORCHESTRATE["DemoOrchestrator&#x3C;br/>Routes to CPU or GPU engine"]
@@ -3940,7 +4026,7 @@ if shiftedDate.Month ≠ date.Month:
     ORCHESTRATE --> EVAL["Evaluation&#x3C;br/>PayoffCube (GPU) or CPU loop"]
     EVAL --> SINKS["Sink Aggregation&#x3C;br/>Per-contract statistics"]
     SINKS --> EXPORT["Export&#x3C;br/>CSV + JSON reports"]
-</code></pre>
+</pre></div>
 <h2>Portfolio Generator</h2>
 <p>The synthetic portfolio generator creates realistic PAM contracts with varied parameters:</p>
 <ul>

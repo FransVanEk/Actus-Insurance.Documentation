@@ -22,6 +22,8 @@
 
 const path    = require('path');
 const fs      = require('fs');
+const os      = require('os');
+const { execSync } = require('child_process');
 const matter  = require('gray-matter');
 
 // ---------------------------------------------------------------------------
@@ -42,6 +44,11 @@ if (!fs.existsSync(DOWNLOADS_DIR)) {
 }
 
 // ---------------------------------------------------------------------------
+// Mermaid path (local, for puppeteer inline injection)
+// ---------------------------------------------------------------------------
+const MERMAID_JS = path.join(ROOT, 'node_modules', 'mermaid', 'dist', 'mermaid.min.js');
+
+// ---------------------------------------------------------------------------
 // Markdown → HTML  (using remark pipeline already in the project)
 // ---------------------------------------------------------------------------
 async function markdownToHtml(markdown) {
@@ -54,7 +61,29 @@ async function markdownToHtml(markdown) {
     .use(remarkHtml, { sanitize: false })
     .process(markdown);
 
-  return String(result);
+  return postProcessMermaid(String(result));
+}
+
+// ---------------------------------------------------------------------------
+// Convert remark's  <pre><code class="language-mermaid">…</code></pre>
+// into  <div class="mermaid-wrap"><pre class="mermaid">…</pre></div>
+// Browsers + Puppeteer will render these via mermaid.js;
+// WeasyPrint will display them as styled source-code blocks.
+// ---------------------------------------------------------------------------
+function postProcessMermaid(html) {
+  return html.replace(
+    /<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g,
+    (_, src) => {
+      // Decode HTML entities that remark may have encoded
+      const decoded = src
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'");
+      return `<div class="mermaid-wrap"><pre class="mermaid">${decoded}</pre></div>`;
+    }
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -211,16 +240,27 @@ async function buildSectionHtml(section, docs) {
       line-height: 1.65;
     }
 
+    /* ── @page rules (WeasyPrint + browsers) ── */
+    @page {
+      size: A4;
+      margin: 15mm 15mm 18mm 15mm;
+    }
+
+    @page :first {
+      margin: 0;
+    }
+
     /* ── Cover page ── */
     .cover {
       width: 100%;
-      min-height: 100vh;
+      height: 297mm;
       display: flex;
       flex-direction: column;
       background: var(--navy-dark);
       color: #ffffff;
       padding: 0;
       page-break-after: always;
+      break-after: page;
     }
 
     .cover-top {
@@ -524,23 +564,98 @@ async function buildSectionHtml(section, docs) {
       break-before: page;
     }
 
+    /* ── Mermaid diagrams ── */
+    .mermaid-wrap {
+      margin: 1.5em 0;
+      text-align: center;
+    }
+
+    /* Rendered state: SVG replaces the <pre> */
+    .mermaid-wrap svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Unrendered / WeasyPrint fallback: show source as a styled block */
+    pre.mermaid {
+      background: #f0f4f8;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--amber);
+      border-radius: 4px;
+      padding: 1em 1.25em;
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 0.82em;
+      color: var(--text-light);
+      white-space: pre;
+      text-align: left;
+    }
+
+    /* Label shown above the source in WeasyPrint fallback */
+    .mermaid-wrap::before {
+      content: "Diagram (rendered interactively in browser)";
+      display: block;
+      font-size: 0.72em;
+      font-weight: 600;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4em;
+      text-align: left;
+    }
+
+    /* Hide the label once mermaid has replaced the pre with an svg */
+    .mermaid-wrap:has(svg)::before {
+      display: none;
+    }
+
     /* ── Print-specific ── */
     @media print {
-      .cover     { min-height: 100vh; page-break-after: always; }
-      .toc-page  { page-break-after: always; }
-      .page-break { page-break-before: always; }
+      .cover     { height: 297mm; page-break-after: always; break-after: page; }
+      .toc-page  { page-break-after: always; break-after: page; }
+      .page-break { page-break-before: always; break-before: page; }
 
       pre { white-space: pre-wrap; word-break: break-all; }
       a   { color: inherit; text-decoration: none; }
 
-      thead { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .cover { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .cover-top { background: var(--navy) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .section-header { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      blockquote { background: #fdf6ec !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      pre { background: #1e2a3a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .mermaid-wrap svg { page-break-inside: avoid; }
+      pre.mermaid { background: #f0f4f8 !important; -webkit-print-color-adjust: exact; }
+
+      thead { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      .cover { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      .cover-top { background: var(--navy) !important; -webkit-print-color-adjust: exact; }
+      .section-header { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      blockquote { background: #fdf6ec !important; -webkit-print-color-adjust: exact; }
+      pre { background: #1e2a3a !important; -webkit-print-color-adjust: exact; }
     }
   </style>
+  <!-- Mermaid: renders diagrams in browsers and Puppeteer; ignored by WeasyPrint -->
+  <script type="module">
+    try {
+      const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs');
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: {
+          primaryColor:       '#1A3550',
+          primaryTextColor:   '#ffffff',
+          primaryBorderColor: '#D4891A',
+          lineColor:          '#D4891A',
+          secondaryColor:     '#0D2038',
+          tertiaryColor:      '#f0f4f8',
+          fontFamily:         'Arial, Helvetica, sans-serif',
+          fontSize:           '13px',
+        },
+        flowchart:  { useMaxWidth: true, htmlLabels: true },
+        sequence:   { useMaxWidth: true },
+        gantt:      { useMaxWidth: true },
+      });
+      await mermaid.run({ querySelector: '.mermaid' });
+    } catch (e) {
+      console.warn('Mermaid CDN not available; diagrams shown as source.', e.message);
+    }
+  </script>
 </head>
 <body>
 
@@ -634,8 +749,38 @@ async function generateSectionPdf(section, puppeteer) {
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: 'networkidle0' });
 
-    // Give Mermaid-like diagrams a moment to render (not needed here but safe)
-    await new Promise(r => setTimeout(r, 300));
+    // Inject mermaid.js from local node_modules (avoids CDN dependency)
+    if (fs.existsSync(MERMAID_JS)) {
+      await page.addScriptTag({ path: MERMAID_JS });
+      await page.evaluate(() => {
+        window.mermaid.initialize({
+          startOnLoad: false,
+          theme: 'base',
+          themeVariables: {
+            primaryColor:       '#1A3550',
+            primaryTextColor:   '#ffffff',
+            primaryBorderColor: '#D4891A',
+            lineColor:          '#D4891A',
+            secondaryColor:     '#0D2038',
+            tertiaryColor:      '#f0f4f8',
+            fontFamily:         'Arial, Helvetica, sans-serif',
+            fontSize:           '13px',
+          },
+          flowchart:  { useMaxWidth: true, htmlLabels: true },
+          sequence:   { useMaxWidth: true },
+          gantt:      { useMaxWidth: true },
+        });
+      });
+      await page.evaluate(() => window.mermaid.run({ querySelector: '.mermaid' }));
+      // Wait until every .mermaid block has been replaced by an SVG (or timeout after 15s)
+      await page.waitForFunction(
+        () => document.querySelectorAll('pre.mermaid').length === 0 ||
+              document.querySelectorAll('.mermaid-wrap svg').length > 0,
+        { timeout: 15000 }
+      ).catch(() => { /* some diagrams may have failed — continue anyway */ });
+      // Extra settle time for complex diagrams
+      await new Promise(r => setTimeout(r, 500));
+    }
 
     await page.pdf({
       path:              outPath,
@@ -703,6 +848,76 @@ function getSizeLabel(filePath) {
 }
 
 // ---------------------------------------------------------------------------
+// Detect available PDF engine
+// ---------------------------------------------------------------------------
+function detectEngine(requestedEngine) {
+  if (requestedEngine === 'puppeteer' || requestedEngine === 'weasyprint') {
+    return requestedEngine;
+  }
+  // Auto-detect: try Puppeteer's bundled Chrome first
+  try {
+    const puppeteer = require('puppeteer');
+    const chromePath = puppeteer.executablePath();
+    if (fs.existsSync(chromePath)) return 'puppeteer';
+  } catch { /* not installed */ }
+
+  // Fall back to WeasyPrint
+  try {
+    const candidates = [
+      'weasyprint',
+      path.join(os.homedir(), '.local', 'bin', 'weasyprint'),
+    ];
+    for (const cmd of candidates) {
+      try { execSync(`"${cmd}" --version`, { stdio: 'ignore' }); return 'weasyprint'; } catch { /* try next */ }
+    }
+  } catch { /* not found */ }
+
+  return null;
+}
+
+function weasyprintPath() {
+  const candidates = [
+    'weasyprint',
+    path.join(os.homedir(), '.local', 'bin', 'weasyprint'),
+  ];
+  for (const cmd of candidates) {
+    try { execSync(`"${cmd}" --version`, { stdio: 'ignore' }); return cmd; } catch { /* next */ }
+  }
+  return null;
+}
+
+// ---------------------------------------------------------------------------
+// Generate a single section PDF using WeasyPrint
+// ---------------------------------------------------------------------------
+async function generateSectionPdfWeasyprint(section) {
+  console.log(`\n📄 Generating: ${section.title} (WeasyPrint) …`);
+
+  const docs = collectSectionDocs(section.id);
+  if (docs.length === 0) {
+    console.warn(`  ⚠️  No markdown files found in docs/${section.id}/ — skipping`);
+    return null;
+  }
+  console.log(`  Found ${docs.length} document(s)`);
+
+  const html     = await buildSectionHtml(section, docs);
+  const filename = `${section.id}-documentation.pdf`;
+  const outPath  = path.join(DOWNLOADS_DIR, filename);
+
+  // Write HTML to a temp file
+  const tmpHtml = path.join(os.tmpdir(), `actus-${section.id}-${Date.now()}.html`);
+  fs.writeFileSync(tmpHtml, html, 'utf8');
+
+  try {
+    const wp = weasyprintPath();
+    execSync(`"${wp}" "${tmpHtml}" "${outPath}"`, { stdio: ['ignore', 'ignore', 'pipe'] });
+    console.log(`  ✅ Saved → public/downloads/${filename}`);
+    return { filename, section };
+  } finally {
+    try { fs.unlinkSync(tmpHtml); } catch { /* ignore */ }
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Generate HTML-only preview (no Puppeteer needed)
 // ---------------------------------------------------------------------------
 async function generateSectionHtmlPreview(section) {
@@ -732,23 +947,33 @@ async function main() {
   console.log('  ACTUS Documentation PDF Generator');
   console.log('════════════════════════════════════════');
 
-  // Parse CLI args  (npm run generate-pdfs -- [sectionId] [--html-only])
-  const args     = process.argv.slice(2);
-  const htmlOnly = args.includes('--html-only');
+  // Parse CLI args
+  //   npm run generate-pdfs -- [sectionId] [--html-only] [--engine=puppeteer|weasyprint]
+  const args          = process.argv.slice(2);
+  const htmlOnly      = args.includes('--html-only');
+  const engineArg     = (args.find(a => a.startsWith('--engine=')) || '').replace('--engine=', '') || null;
   const sectionFilter = args.find(a => !a.startsWith('--'));
 
-  // Lazy-require puppeteer only when generating PDFs
+  // Resolve PDF engine (only needed when not in html-only mode)
+  let engine = null;
   let puppeteer;
+
   if (!htmlOnly) {
-    try {
-      puppeteer = require('puppeteer');
-    } catch {
-      console.error('\n❌  Puppeteer is not installed.');
-      console.error('    Run:  npm install\n');
-      console.error('    Or preview the HTML design first:');
-      console.error('    npm run generate-pdfs -- --html-only\n');
+    engine = detectEngine(engineArg);
+
+    if (!engine) {
+      console.error('\n❌  No PDF engine found.');
+      console.error('    Option 1: npm install  (downloads Puppeteer + Chrome, ~170 MB)');
+      console.error('    Option 2: pip install weasyprint --break-system-packages');
+      console.error('    Option 3: preview HTML first:  npm run generate-pdfs:preview\n');
       process.exit(1);
     }
+
+    if (engine === 'puppeteer') {
+      puppeteer = require('puppeteer');
+    }
+
+    console.log(`\nPDF engine: ${engine}`);
   }
 
   const allSections = JSON.parse(fs.readFileSync(SECTIONS_FILE, 'utf8'));
@@ -767,9 +992,14 @@ async function main() {
 
   const generated = [];
   for (const section of sections) {
-    const result = htmlOnly
-      ? await generateSectionHtmlPreview(section)
-      : await generateSectionPdf(section, puppeteer);
+    let result;
+    if (htmlOnly) {
+      result = await generateSectionHtmlPreview(section);
+    } else if (engine === 'weasyprint') {
+      result = await generateSectionPdfWeasyprint(section);
+    } else {
+      result = await generateSectionPdf(section, puppeteer);
+    }
     if (result) generated.push(result);
   }
 

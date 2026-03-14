@@ -28,16 +28,27 @@
       line-height: 1.65;
     }
 
+    /* ── @page rules (WeasyPrint + browsers) ── */
+    @page {
+      size: A4;
+      margin: 15mm 15mm 18mm 15mm;
+    }
+
+    @page :first {
+      margin: 0;
+    }
+
     /* ── Cover page ── */
     .cover {
       width: 100%;
-      min-height: 100vh;
+      height: 297mm;
       display: flex;
       flex-direction: column;
       background: var(--navy-dark);
       color: #ffffff;
       padding: 0;
       page-break-after: always;
+      break-after: page;
     }
 
     .cover-top {
@@ -341,23 +352,98 @@
       break-before: page;
     }
 
+    /* ── Mermaid diagrams ── */
+    .mermaid-wrap {
+      margin: 1.5em 0;
+      text-align: center;
+    }
+
+    /* Rendered state: SVG replaces the <pre> */
+    .mermaid-wrap svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Unrendered / WeasyPrint fallback: show source as a styled block */
+    pre.mermaid {
+      background: #f0f4f8;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--amber);
+      border-radius: 4px;
+      padding: 1em 1.25em;
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 0.82em;
+      color: var(--text-light);
+      white-space: pre;
+      text-align: left;
+    }
+
+    /* Label shown above the source in WeasyPrint fallback */
+    .mermaid-wrap::before {
+      content: "Diagram (rendered interactively in browser)";
+      display: block;
+      font-size: 0.72em;
+      font-weight: 600;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4em;
+      text-align: left;
+    }
+
+    /* Hide the label once mermaid has replaced the pre with an svg */
+    .mermaid-wrap:has(svg)::before {
+      display: none;
+    }
+
     /* ── Print-specific ── */
     @media print {
-      .cover     { min-height: 100vh; page-break-after: always; }
-      .toc-page  { page-break-after: always; }
-      .page-break { page-break-before: always; }
+      .cover     { height: 297mm; page-break-after: always; break-after: page; }
+      .toc-page  { page-break-after: always; break-after: page; }
+      .page-break { page-break-before: always; break-before: page; }
 
       pre { white-space: pre-wrap; word-break: break-all; }
       a   { color: inherit; text-decoration: none; }
 
-      thead { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .cover { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .cover-top { background: var(--navy) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .section-header { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      blockquote { background: #fdf6ec !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      pre { background: #1e2a3a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .mermaid-wrap svg { page-break-inside: avoid; }
+      pre.mermaid { background: #f0f4f8 !important; -webkit-print-color-adjust: exact; }
+
+      thead { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      .cover { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      .cover-top { background: var(--navy) !important; -webkit-print-color-adjust: exact; }
+      .section-header { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      blockquote { background: #fdf6ec !important; -webkit-print-color-adjust: exact; }
+      pre { background: #1e2a3a !important; -webkit-print-color-adjust: exact; }
     }
   </style>
+  <!-- Mermaid: renders diagrams in browsers and Puppeteer; ignored by WeasyPrint -->
+  <script type="module">
+    try {
+      const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs');
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: {
+          primaryColor:       '#1A3550',
+          primaryTextColor:   '#ffffff',
+          primaryBorderColor: '#D4891A',
+          lineColor:          '#D4891A',
+          secondaryColor:     '#0D2038',
+          tertiaryColor:      '#f0f4f8',
+          fontFamily:         'Arial, Helvetica, sans-serif',
+          fontSize:           '13px',
+        },
+        flowchart:  { useMaxWidth: true, htmlLabels: true },
+        sequence:   { useMaxWidth: true },
+        gantt:      { useMaxWidth: true },
+      });
+      await mermaid.run({ querySelector: '.mermaid' });
+    } catch (e) {
+      console.warn('Mermaid CDN not available; diagrams shown as source.', e.message);
+    }
+  </script>
 </head>
 <body>
 
@@ -977,7 +1063,7 @@ ArrayList&#x3C;ContractEvent> results =
 </code></pre>
 <p><code>ContractType</code> is the single public dispatcher. It inspects <code>model.getAs("contractType")</code> and routes both calls to the correct contract-type class.</p>
 <h2>Layered Architecture</h2>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     CALLER["Caller"] --> API["ContractType\ndispatcher"]
     API --> IMPL["Contract Implementations\n(19 classes)"]
     IMPL --> EF["EventFactory\n(creates ContractEvent objects)"]
@@ -993,9 +1079,9 @@ ArrayList&#x3C;ContractEvent> results =
     STF --> RFM
     POF --> CM["ContractModelProvider\n(contract terms)"]
     STF --> CM
-</code></pre>
+</pre></div>
 <h2>Processing Flow</h2>
-<pre><code class="language-mermaid">sequenceDiagram
+<div class="mermaid-wrap"><pre class="mermaid">sequenceDiagram
     participant Caller
     participant CT as ContractType
     participant Impl as e.g. PrincipalAtMaturity
@@ -1021,7 +1107,7 @@ ArrayList&#x3C;ContractEvent> results =
         CE-->>Impl: updated states + payoff
     end
     Impl-->>Caller: ArrayList&#x3C;ContractEvent> with states and payoffs
-</code></pre>
+</pre></div>
 <h2>Package Summary</h2>
 <table>
 <thead>
@@ -1315,7 +1401,7 @@ ArrayList&#x3C;ContractEvent> results =
         └── ResultSet.java
 </code></pre>
 <h2>Package Dependency Map</h2>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     subgraph "Public API"
         CT["org.actus.contracts\nContractType (dispatcher)"]
         ATTR["org.actus.attributes\nContractModelProvider"]
@@ -1371,7 +1457,7 @@ ArrayList&#x3C;ContractEvent> results =
     ATTR --> TYPES
     EV --> TYPES
     SS --> TYPES
-</code></pre>
+</pre></div>
 <h2>Class Count by Package</h2>
 <table>
 <thead>
@@ -1513,7 +1599,7 @@ ArrayList&#x3C;ContractEvent> results =
         <h1 class="doc-title">Public API</h1>
         <h2>Public API</h2>
 <p>The public API of the ACTUS Java implementation consists of three classes/interfaces. A caller needs nothing else.</p>
-<pre><code class="language-mermaid">classDiagram
+<div class="mermaid-wrap"><pre class="mermaid">classDiagram
     class ContractType {
         +schedule(LocalDateTime to, ContractModelProvider model) ArrayList~ContractEvent~
         +apply(ArrayList~ContractEvent~ events, ContractModelProvider model, RiskFactorModelProvider observer) ArrayList~ContractEvent~
@@ -1537,7 +1623,7 @@ ArrayList&#x3C;ContractEvent> results =
     ContractModelProvider &#x3C;|.. ContractModel
     ContractType ..> ContractModelProvider : reads
     ContractType ..> RiskFactorModelProvider : reads
-</code></pre>
+</pre></div>
 <hr>
 <h2>ContractType</h2>
 <p><code>org.actus.contracts.ContractType</code> — <code>public final class</code></p>
@@ -1895,7 +1981,7 @@ ContractModel model = ContractModel.parse(Map.of(
 </code></pre>
 <p><strong><code>schedule</code></strong> reads contract terms, builds date sets using <code>ScheduleFactory</code>, wraps each date into a <code>ContractEvent</code> via <code>EventFactory</code>, and returns them sorted.</p>
 <p><strong><code>apply</code></strong> initialises a <code>StateSpace</code> from the model, then iterates over the sorted events calling <code>event.eval()</code> on each, accumulating state changes.</p>
-<pre><code class="language-mermaid">flowchart LR
+<div class="mermaid-wrap"><pre class="mermaid">flowchart LR
     A["schedule(to, model)"] --> B["Read contract terms\nfrom model"]
     B --> C["ScheduleFactory\nfor each cycle"]
     C --> D["EventFactory\ncreateEvent / createEvents"]
@@ -1909,7 +1995,7 @@ ContractModel model = ContractModel.parse(Map.of(
     J --> L["STF → updated StateSpace"]
     L --> I
     K --> M["return events with\npayoffs + states"]
-</code></pre>
+</pre></div>
 <hr>
 <h2>Contract Implementations</h2>
 <h3>PAM — Principal at Maturity</h3>
@@ -2076,7 +2162,7 @@ states.interestScalingMultiplier = 1.0;
 <p>When the monitored risk factor crosses the defined boundary, a <code>ME</code> (Monitoring Event) triggers a switch between legs.</p>
 <hr>
 <h2>Class Relationships</h2>
-<pre><code class="language-mermaid">classDiagram
+<div class="mermaid-wrap"><pre class="mermaid">classDiagram
     class ContractType {
         +schedule()
         +apply()
@@ -2102,7 +2188,7 @@ states.interestScalingMultiplier = 1.0;
     ContractType --> CreditEnhancementGuarantee : CEG
     ContractType --> BoundaryControlledSwitch : BCS
     ContractType --> OtherContracts : others
-</code></pre>
+</pre></div>
 <hr>
 <h2>Approximate Implementation Size</h2>
 <table>
@@ -2199,7 +2285,7 @@ states.interestScalingMultiplier = 1.0;
         <h2>Contract Events</h2>
 <h2>Overview</h2>
 <p>A <code>ContractEvent</code> is the fundamental unit of computation. It carries everything needed to evaluate a single point in the contract's lifecycle: its timestamp, its type, references to the payoff and state-transition functions to call, and — after evaluation — its computed payoff and post-event state.</p>
-<pre><code class="language-mermaid">classDiagram
+<div class="mermaid-wrap"><pre class="mermaid">classDiagram
     class ContractEvent {
         -long epochOffset
         -LocalDateTime scheduleTime
@@ -2227,7 +2313,7 @@ states.interestScalingMultiplier = 1.0;
     }
     EventFactory --> ContractEvent : creates
     ContractEvent --> EventSequence : uses for epochOffset
-</code></pre>
+</pre></div>
 <hr>
 <h2>ContractEvent</h2>
 <p><code>org.actus.events.ContractEvent</code> — <code>public final class implements Comparable&#x3C;ContractEvent></code> (256 lines)</p>
@@ -2453,12 +2539,12 @@ events.addAll(EventFactory.createEvents(
 <p>Consider a contract where principal redemption (PR) and interest payment (IP) both fall on June 30. The interest for the period must be computed on the <em>outstanding principal before redemption</em>, so PR must be processed first. The offsets enforce this automatically — no contract implementation needs to sort manually.</p>
 <hr>
 <h2>Event Lifecycle Summary</h2>
-<pre><code class="language-mermaid">stateDiagram-v2
+<div class="mermaid-wrap"><pre class="mermaid">stateDiagram-v2
     [*] --> Created : EventFactory.createEvent()
     Created --> Sorted : Added to ArrayList, sorted by epochOffset
     Sorted --> Evaluated : ContractEvent.eval() called in apply()
     Evaluated --> [*] : payoff and states populated
-</code></pre>
+</pre></div>
 <table>
 <thead>
 <tr>
@@ -2787,7 +2873,7 @@ public interface StateTransitionFunction {
 }
 </code></pre>
 <p>Both receive the same six arguments — the event time, the pre-event state, contract terms, market data, and the two convention calculators. <code>PayOffFunction</code> returns a <code>double</code> (the cash flow). <code>StateTransitionFunction</code> returns a <code>StateSpace</code> (the post-event state).</p>
-<pre><code class="language-mermaid">classDiagram
+<div class="mermaid-wrap"><pre class="mermaid">classDiagram
     class PayOffFunction {
         &#x3C;&#x3C;interface>>
         +eval(time, states, model, riskFactorModel, dayCounter, timeAdjuster) double
@@ -2809,7 +2895,7 @@ public interface StateTransitionFunction {
     StateTransitionFunction &#x3C;|.. STF_IED_PAM
     StateTransitionFunction &#x3C;|.. STF_IP_PAM
     StateTransitionFunction &#x3C;|.. STF_MD_PAM
-</code></pre>
+</pre></div>
 <hr>
 <h2>Naming Convention</h2>
 <p>Every implementation class follows a strict naming pattern:</p>
@@ -3332,7 +3418,7 @@ contractPerformance     = model.contractPerformance  (usually PF)
 <p>For a contract that has already been running (mid-life state rehydration), the accrued values and current rate come from the model attributes as of the status date.</p>
 <hr>
 <h2>State Evolution Diagram</h2>
-<pre><code class="language-mermaid">stateDiagram-v2
+<div class="mermaid-wrap"><pre class="mermaid">stateDiagram-v2
     [*] --> Initialised : apply() reads model attributes
 
     Initialised --> PostIED : STF_IED\nnotionalPrincipal set\naccruedInterest = 0
@@ -3350,7 +3436,7 @@ contractPerformance     = model.contractPerformance  (usually PF)
     PostIP --> PostMD : STF_MD\nnotionalPrincipal = 0\naccruedInterest = 0
 
     PostMD --> [*]
-</code></pre>
+</pre></div>
 <hr>
 <h2>Accrued Interest Accumulation</h2>
 <p>Interest accrues continuously between events. Any STF that does not pay interest must still accumulate the accrual into <code>accruedInterest</code> so it is available at the next IP event.</p>
@@ -3385,7 +3471,7 @@ NominalInterestRate: 0.05 | AccruedInterest: 0.0 | ...
         <h1 class="doc-title">Conventions</h1>
         <h2>Conventions</h2>
 <p>The Java implementation provides four convention families, each realised as a set of interfaces and implementations in <code>org.actus.conventions</code>.</p>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     subgraph daycount["org.actus.conventions.daycount"]
         DCP["DayCountConventionProvider\n(interface)"]
         DCC["DayCountCalculator\n(factory + coordinator)"]
@@ -3443,7 +3529,7 @@ NominalInterestRate: 0.05 | AccruedInterest: 0.0 | ...
     EOM -.-> EOMC
     SD -.-> EOMC
     EOMA --> EOMC
-</code></pre>
+</pre></div>
 <hr>
 <h2>Day Count Conventions</h2>
 <h3>Interface — <code>DayCountConventionProvider</code></h3>
@@ -3702,7 +3788,7 @@ LocalDateTime shiftCalcTime(LocalDateTime time);   // shifted or original, per c
 <p><code>roleSign</code> is called inside virtually every <code>POF_*</code> function to flip the direction of cash flows based on the contract's role in the transaction. A lender (RPA) receives principal inflow at IED and pays out at MD; a borrower (RPL) is the mirror image.</p>
 <hr>
 <h2>How Conventions Flow Through the Engine</h2>
-<pre><code class="language-mermaid">sequenceDiagram
+<div class="mermaid-wrap"><pre class="mermaid">sequenceDiagram
     participant CT as ContractType impl
     participant SF as ScheduleFactory
     participant EF as EventFactory
@@ -3725,7 +3811,7 @@ LocalDateTime shiftCalcTime(LocalDateTime time);   // shifted or original, per c
     CT->>CE: event.eval(states, model, observer, dcc, bda)
     CE->>POF: eval(..., dcc, bda) uses dcc.dayCountFraction()
     CE->>STF: eval(..., dcc, bda) uses bda.shiftCalcTime()
-</code></pre>
+</pre></div>
 
       </article>
     
@@ -3735,7 +3821,7 @@ LocalDateTime shiftCalcTime(LocalDateTime time);   // shifted or original, per c
         <h2>Schedule Generation</h2>
 <h2>Overview</h2>
 <p>Schedule generation converts a contract's cycle parameters into an ordered set of <code>LocalDateTime</code> values that will become contract events. The core class is <code>ScheduleFactory</code>; it delegates cycle arithmetic to <code>CycleAdjuster</code> and date snapping to <code>EndOfMonthAdjuster</code>.</p>
-<pre><code class="language-mermaid">classDiagram
+<div class="mermaid-wrap"><pre class="mermaid">classDiagram
     class ScheduleFactory {
         +createSchedule(start, end, cycle, eomConvention) Set~LocalDateTime~
         +createSchedule(start, end, cycle, eomConvention, addEndTime) Set~LocalDateTime~
@@ -3761,7 +3847,7 @@ LocalDateTime shiftCalcTime(LocalDateTime time);   // shifted or original, per c
     CycleAdjuster --> CycleAdjusterProvider
     CycleAdjusterProvider &#x3C;|.. PeriodCycleAdjuster
     CycleAdjusterProvider &#x3C;|.. WeekdayCycleAdjuster
-</code></pre>
+</pre></div>
 <hr>
 <h2>ScheduleFactory</h2>
 <p><code>org.actus.time.ScheduleFactory</code> — <code>public final class</code> (177 lines)</p>
@@ -3890,7 +3976,7 @@ public LocalDateTime minusCycle(LocalDateTime time) { return adjuster.minusCycle
 }
 </code></pre>
 <h3>Implementations</h3>
-<pre><code class="language-mermaid">classDiagram
+<div class="mermaid-wrap"><pre class="mermaid">classDiagram
     class BusinessDayCalendarProvider {
         &#x3C;&#x3C;interface>>
         +isBusinessDay(LocalDate) boolean
@@ -3912,7 +3998,7 @@ public LocalDateTime minusCycle(LocalDateTime time) { return adjuster.minusCycle
     BusinessDayCalendarProvider &#x3C;|.. NoHolidaysCalendar
     BusinessDayCalendarProvider &#x3C;|.. MondayToFridayCalendar
     BusinessDayCalendarProvider &#x3C;|.. MondayToFridayWithHolidaysCalendar
-</code></pre>
+</pre></div>
 <table>
 <thead>
 <tr>
@@ -3965,7 +4051,7 @@ public static final Period MAX_LIFETIME_UMP = Period.ofYears(10);
         <h2>Type System</h2>
 <h2>Overview</h2>
 <p>The <code>org.actus.types</code> package contains 25 source files: 23 enumerations and the <code>ContractReference</code> value class. Every enum constant corresponds to a code string defined in the ACTUS Data Dictionary. The package has no dependencies on other <code>org.actus</code> packages; all other packages import from here.</p>
-<pre><code class="language-mermaid">classDiagram
+<div class="mermaid-wrap"><pre class="mermaid">classDiagram
     class ContractTypeEnum { PAM ANN NAM LAM LAX CLM UMP CSH STK COM SWAPS SWPPV FXOUT CAPFL FUTUR OPTNS CEG CEC BCS }
     class EventType { AD IED FP PR PD PRF PY PP IP IPCI CE RRF RR DV PRD MR TD SC IPCB MD XD STD PI IPFX IPFL ME AFD }
     class ContractRole { RPA RPL RFL PFL RF PF BUY SEL COL CNO UDL UDLP UDLM }
@@ -3981,7 +4067,7 @@ public static final Period MAX_LIFETIME_UMP = Period.ofYears(10);
     }
     ContractReference --> ReferenceRole
     ContractReference --> ReferenceType
-</code></pre>
+</pre></div>
 <hr>
 <h2>ContractTypeEnum</h2>
 <p><code>org.actus.types.ContractTypeEnum</code> — 19 values</p>
@@ -4870,7 +4956,7 @@ public static final Period MAX_LIFETIME_UMP = Period.ofYears(10);
 <p>Retrieves a specific event from the referenced contract's evaluated schedule. Used when one contract's payoff depends on a specific event of an underlying contract.</p>
 <h3>Usage in Contract Types</h3>
 <p><code>ContractReference</code> is used in structured product types where one contract wraps or references another:</p>
-<pre><code class="language-mermaid">flowchart LR
+<div class="mermaid-wrap"><pre class="mermaid">flowchart LR
     CEG["CEG\n(Credit Enhancement Guarantee)"]
     CEC["CEG\n(Credit Enhancement Collateral)"]
     SWAPS["SWAPS\n(Swap)"]
@@ -4883,7 +4969,7 @@ public static final Period MAX_LIFETIME_UMP = Period.ofYears(10);
     SWAPS --> REF
     OPTNS --> REF
     REF --> RFM
-</code></pre>
+</pre></div>
 <p>The parent contract's <code>apply()</code> method calls <code>getStateSpaceAtTimepoint()</code> or <code>getEvent()</code> on each <code>ContractReference</code> to obtain the state or events of the underlying at the relevant evaluation timestamps.</p>
 
       </article>
@@ -4904,7 +4990,7 @@ public static final Period MAX_LIFETIME_UMP = Period.ofYears(10);
 <hr>
 <h2>Test Utility Classes</h2>
 <h3>Class Diagram</h3>
-<pre><code class="language-mermaid">classDiagram
+<div class="mermaid-wrap"><pre class="mermaid">classDiagram
     class ContractTestUtils {
         +createModel(Map) ContractModel
         +createObserver(List~ObservedDataSet~) DataObserver
@@ -4962,7 +5048,7 @@ public static final Period MAX_LIFETIME_UMP = Period.ofYears(10);
     TestData --> ResultSet
     ObservedDataSet --> ObservedDataPoint
     DataObserver ..|> RiskFactorModelProvider
-</code></pre>
+</pre></div>
 <hr>
 <h2>ContractTestUtils</h2>
 <p><code>org.actus.testutils.ContractTestUtils</code> — <code>public final class</code></p>
@@ -5265,7 +5351,7 @@ public Stream&#x3C;DynamicTest> test() throws Exception {
 </code></pre>
 <p>The <code>@TestFactory</code> method returns a <code>Stream&#x3C;DynamicTest></code>, so JUnit 5 reports each test case as a separately named test in the test runner. A single JSON file with 500 test cases produces 500 individually trackable test results.</p>
 <h3>Test Flow Diagram</h3>
-<pre><code class="language-mermaid">sequenceDiagram
+<div class="mermaid-wrap"><pre class="mermaid">sequenceDiagram
     participant JUnit
     participant TestClass
     participant CTU as ContractTestUtils
@@ -5289,7 +5375,7 @@ public Stream&#x3C;DynamicTest> test() throws Exception {
         TestClass->>JUnit: DynamicTest (expected vs computed)
     end
     JUnit->>JUnit: run each DynamicTest
-</code></pre>
+</pre></div>
 <hr>
 <h2>JSON Test File Format</h2>
 <p>Each JSON file contains a top-level object whose keys are test case identifiers. Each value is a <code>TestData</code> object.</p>

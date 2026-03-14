@@ -28,16 +28,27 @@
       line-height: 1.65;
     }
 
+    /* ── @page rules (WeasyPrint + browsers) ── */
+    @page {
+      size: A4;
+      margin: 15mm 15mm 18mm 15mm;
+    }
+
+    @page :first {
+      margin: 0;
+    }
+
     /* ── Cover page ── */
     .cover {
       width: 100%;
-      min-height: 100vh;
+      height: 297mm;
       display: flex;
       flex-direction: column;
       background: var(--navy-dark);
       color: #ffffff;
       padding: 0;
       page-break-after: always;
+      break-after: page;
     }
 
     .cover-top {
@@ -341,23 +352,98 @@
       break-before: page;
     }
 
+    /* ── Mermaid diagrams ── */
+    .mermaid-wrap {
+      margin: 1.5em 0;
+      text-align: center;
+    }
+
+    /* Rendered state: SVG replaces the <pre> */
+    .mermaid-wrap svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Unrendered / WeasyPrint fallback: show source as a styled block */
+    pre.mermaid {
+      background: #f0f4f8;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--amber);
+      border-radius: 4px;
+      padding: 1em 1.25em;
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 0.82em;
+      color: var(--text-light);
+      white-space: pre;
+      text-align: left;
+    }
+
+    /* Label shown above the source in WeasyPrint fallback */
+    .mermaid-wrap::before {
+      content: "Diagram (rendered interactively in browser)";
+      display: block;
+      font-size: 0.72em;
+      font-weight: 600;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4em;
+      text-align: left;
+    }
+
+    /* Hide the label once mermaid has replaced the pre with an svg */
+    .mermaid-wrap:has(svg)::before {
+      display: none;
+    }
+
     /* ── Print-specific ── */
     @media print {
-      .cover     { min-height: 100vh; page-break-after: always; }
-      .toc-page  { page-break-after: always; }
-      .page-break { page-break-before: always; }
+      .cover     { height: 297mm; page-break-after: always; break-after: page; }
+      .toc-page  { page-break-after: always; break-after: page; }
+      .page-break { page-break-before: always; break-before: page; }
 
       pre { white-space: pre-wrap; word-break: break-all; }
       a   { color: inherit; text-decoration: none; }
 
-      thead { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .cover { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .cover-top { background: var(--navy) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .section-header { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      blockquote { background: #fdf6ec !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      pre { background: #1e2a3a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .mermaid-wrap svg { page-break-inside: avoid; }
+      pre.mermaid { background: #f0f4f8 !important; -webkit-print-color-adjust: exact; }
+
+      thead { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      .cover { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      .cover-top { background: var(--navy) !important; -webkit-print-color-adjust: exact; }
+      .section-header { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      blockquote { background: #fdf6ec !important; -webkit-print-color-adjust: exact; }
+      pre { background: #1e2a3a !important; -webkit-print-color-adjust: exact; }
     }
   </style>
+  <!-- Mermaid: renders diagrams in browsers and Puppeteer; ignored by WeasyPrint -->
+  <script type="module">
+    try {
+      const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs');
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: {
+          primaryColor:       '#1A3550',
+          primaryTextColor:   '#ffffff',
+          primaryBorderColor: '#D4891A',
+          lineColor:          '#D4891A',
+          secondaryColor:     '#0D2038',
+          tertiaryColor:      '#f0f4f8',
+          fontFamily:         'Arial, Helvetica, sans-serif',
+          fontSize:           '13px',
+        },
+        flowchart:  { useMaxWidth: true, htmlLabels: true },
+        sequence:   { useMaxWidth: true },
+        gantt:      { useMaxWidth: true },
+      });
+      await mermaid.run({ querySelector: '.mermaid' });
+    } catch (e) {
+      console.warn('Mermaid CDN not available; diagrams shown as source.', e.message);
+    }
+  </script>
 </head>
 <body>
 
@@ -422,7 +508,7 @@
 <p>ACTUS was designed for banking contracts — loans, bonds, deposits — where the contract follows a fixed schedule. Insurance contracts are fundamentally different: a life insurance policy can be active, lapse, enter a grace period, trigger a death benefit, or be reinstated. The path a policy takes depends on probabilities, not a fixed schedule.</p>
 <p>This project extends ACTUS to handle insurance contracts while preserving the standard's core property: <strong>determinism</strong>. The same policy, with the same actuarial tables and the same terms, always produces the same expected cash flows.</p>
 <h2>The Insurance Extension Architecture</h2>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     subgraph "Banking Contracts (ACTUS Standard)"
         PAM["PAM: Fixed schedule&#x3C;br/>Events at known dates&#x3C;br/>Deterministic path"]
     end
@@ -442,7 +528,7 @@
     GPU --> SINK
     PAM --> DET
     LIFE --> DET
-</code></pre>
+</pre></div>
 <p>The extension adds three new capabilities:</p>
 <ol>
 <li><strong>Markov state transition model</strong> — defines all possible states a policy can be in and the probabilities of moving between them</li>
@@ -679,14 +765,14 @@ var cube = executor.Execute(contracts, rf, scenarioSet, plan);
 </table>
 <h2>Projection Algorithm</h2>
 <p>At each monthly time step, the kernel performs these calculations for each policy:</p>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     A["Look up mortality rate&#x3C;br/>(age, gender, smoker)"] --> E["Apply competing-risk&#x3C;br/>decrements"]
     B["Look up lapse rate&#x3C;br/>(duration, premium mode)"] --> E
     C["Look up disability rate&#x3C;br/>(age, gender)"] --> E
     E --> F["Compute expected cash flow&#x3C;br/>premium inflow − benefit outflow"]
     F --> G["Update state probabilities&#x3C;br/>(active, death, lapse)"]
     G --> H["Write 4-channel output"]
-</code></pre>
+</pre></div>
 <h3>Step 1: Look Up Hazard Rates</h3>
 <p>Three hazard rates are retrieved from pre-built lookup tables:</p>
 <p><strong>Mortality rate</strong> — based on the Gompertz-Makeham model: a parametric formula that increases exponentially with age. The base rate is adjusted for gender (female rates are 85% of male) and loaded for smoker status (1.35× for smokers) and underwriting adjustments.</p>
@@ -1027,7 +1113,7 @@ if snapshot.extra_prem_bps > 0.0 then snapshot.extra_prem_bps else 0.0
 <p>The "Markov" property is the key simplification: the probability of moving to the next state depends only on the <strong>current state</strong>, not on how the policy got there. This is both mathematically tractable and actuarially defensible — what matters for a lapse rate is how long the policy has been active, not what happened in an earlier grace period.</p>
 <hr>
 <h2>The 10 Policy States</h2>
-<pre><code class="language-mermaid">stateDiagram-v2
+<div class="mermaid-wrap"><pre class="mermaid">stateDiagram-v2
     [*] --> Prospect
     Prospect --> Active: Policy issued
     Active --> GracePeriod: Missed premium
@@ -1046,7 +1132,7 @@ if snapshot.extra_prem_bps > 0.0 then snapshot.extra_prem_bps else 0.0
     DeathClaimPaid --> Terminated
     Lapsed --> Terminated: No reinstatement
     Terminated --> [*]
-</code></pre>
+</pre></div>
 <table>
 <thead>
 <tr>
@@ -1157,7 +1243,7 @@ if snapshot.extra_prem_bps > 0.0 then snapshot.extra_prem_bps else 0.0
 <p><code>expected cash flow = probability(Active) x premium inflow - probability(Death) x death benefit</code></p>
 <p>This is the key output: not what will happen to this specific policy, but what a large cohort of identical policies would produce on average.</p>
 <p><strong>Step 5 — Carry forward and repeat.</strong> The updated probability distribution becomes the input for the next time step. Over 360 monthly steps, the distribution gradually migrates — Active probability declines, terminal state probabilities accumulate — producing a complete cash flow timeline from today to the end of the projection horizon.</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     T0["Step 0: 100% Active"] --> T1["Step 1: 98.3% Active, 0.4% Death, 1.3% Lapsed"]
     T1 --> T2["Step 2: 96.7% Active, 0.8% Death, 2.5% Lapsed"]
     T2 --> Tn["360 steps later: 62% Active, 18% Death, 20% Lapsed"]
@@ -1165,7 +1251,7 @@ if snapshot.extra_prem_bps > 0.0 then snapshot.extra_prem_bps else 0.0
     T1 -. monthly cash flow .-> CF
     T2 -. monthly cash flow .-> CF
     Tn -. monthly cash flow .-> CF
-</code></pre>
+</pre></div>
 <hr>
 <h2>Transition Hazards</h2>
 <h3>Mortality Model (Gompertz-Makeham)</h3>
@@ -1234,7 +1320,7 @@ if snapshot.extra_prem_bps > 0.0 then snapshot.extra_prem_bps else 0.0
 <p>None of these fit a simple actuarial table keyed on age and duration. They depend on the product definition itself.</p>
 <p>This is where the <strong>DSL rule set</strong> steps in. Rather than reading a probability directly from a table, the model evaluates a rule. The rule has access to the policy's current attributes and state, can reference actuarial factors, and can read from specialised tables. It returns either a transition probability or a guard condition.</p>
 <p>A <strong>guard condition</strong> acts as a gate. It evaluates whether a transition is even possible at this time step. If the guard is false — for example, a reinstatement request arriving more than 24 months after lapse — the transition probability is set to zero regardless of any other calculation. If the guard is true, a further rule expression computes what the probability actually is.</p>
-<pre><code class="language-mermaid">flowchart TD
+<div class="mermaid-wrap"><pre class="mermaid">flowchart TD
     STATE["Current state (e.g. Lapsed)"] --> QUESTION{"How is the transition\nprobability determined?"}
     QUESTION -- "Standard hazard\n(mortality, lapse, disability)" --> TABLE["Actuarial table lookup\nreturns a percentage"]
     QUESTION -- "Product-specific logic\n(reinstatement, paid-up,\ngrace period)" --> GUARD["Rule guard\nevaluates conditions"]
@@ -1243,7 +1329,7 @@ if snapshot.extra_prem_bps > 0.0 then snapshot.extra_prem_bps else 0.0
     TABLE --> MATRIX["Hazard matrix entry\nused by the projection step"]
     EXPR --> MATRIX
     ZERO --> MATRIX
-</code></pre>
+</pre></div>
 <p>The result is a <strong>hybrid model</strong>: standard actuarial tables handle the dominant probabilistic transitions, and DSL rules handle the product-specific conditional logic. The Markov projection engine itself is indifferent to the source — it receives a completed hazard matrix for each time step and advances the probability distribution. Whether a matrix cell came from a parametric formula, a lookup table, or a DSL expression makes no difference to the step-forward calculation.</p>
 <p>This separation means actuaries can introduce new products by writing new rule packs — adjusting grace period lengths, defining conversion options, setting reinstatement windows — without touching the projection engine. The engine is common infrastructure; the product is expressed in rules.</p>
 <hr>
@@ -1259,7 +1345,7 @@ if snapshot.extra_prem_bps > 0.0 then snapshot.extra_prem_bps else 0.0
 <h2>One Graph Per Product Type</h2>
 <p>Each product type carries its own Markov graph. The graph is bundled inside the rule pack alongside the DSL rules and actuarial table references, so when a policy is processed, the engine loads the rule pack for <em>that</em> product and uses <em>that</em> product's graph. A term life policy and a disability income policy can have entirely different state structures running simultaneously in the same portfolio projection.</p>
 <p>This matters because different products genuinely need different topologies. A term life policy is relatively simple — Active, Lapsed, Death Claim Paid, Terminated are the meaningful states. A disability income policy needs additional states such as Disabled, Benefit Paying, and Rehabilitation, plus recovery transitions back to Active that term life does not have at all. A single-premium critical illness contract may not have a Lapsed state at all, since there are no ongoing premiums to miss. Forcing all of these into one universal graph would mean carrying unreachable states and impossible transitions for every product — unnecessary complexity with no benefit.</p>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     subgraph "Term Life rule pack"
         TL_G["Graph: Active, Lapsed,\nDeath Claim Paid, Terminated\n4 states, 6 transitions"]
         TL_R["Rules: mortality loading,\ngrace period length"]
@@ -1275,7 +1361,7 @@ if snapshot.extra_prem_bps > 0.0 then snapshot.extra_prem_bps else 0.0
     TL_G --> ENGINE["Projection engine\n(common kernel)"]
     DI_G --> ENGINE
     CI_G --> ENGINE
-</code></pre>
+</pre></div>
 <p>The projection engine itself is indifferent to which graph it receives. It reads the hazard matrix, steps the probability distribution forward, and writes the cash flows. The graph tells it the shape of the matrix; the rule pack tells it the values. Neither the shape nor the values are baked into the engine.</p>
 <p><strong>Mixed portfolios work naturally.</strong> When a portfolio contains policies of different product types, each policy is projected using its own rule pack. A batch of 10,000 policies — some term life, some disability income, some critical illness — runs in a single pass. Each policy carries a reference to its product type; the engine resolves the correct rule pack and graph for each one before the projection starts.</p>
 <p><strong>The kernel constraint.</strong> The kernel's data structures have a fixed maximum state count, since GPU memory layouts are static. In practice this is resolved by padding: smaller graphs are padded to the maximum size with states that have zero transition probabilities everywhere and are never entered. The projection is mathematically correct regardless — zero-probability states contribute nothing to the probability distribution or the cash flows. The maximum state count is a deployment parameter, not a fundamental limit, and can be increased when a new product requires more states than the current ceiling allows.</p>
@@ -1518,13 +1604,13 @@ if meta.policy_tier == "Gold" then 0.95 else 1.0
 <li><strong>Table lookups</strong> — references into actuarial tables for mortality, lapse, and disability rates</li>
 </ul>
 <h2>How Rules Integrate with the Engine</h2>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     POLICY["Policy data&#x3C;br/>(contract attributes)"] --> INTERP["DSL Interpreter"]
     TABLES["Actuarial tables&#x3C;br/>(mortality, lapse, disability)"] --> INTERP
     RULES["Product rule pack&#x3C;br/>(DSL definitions)"] --> INTERP
     INTERP --> RESULT["Computed values&#x3C;br/>(premiums, benefits, loadings)"]
     RESULT --> KERNEL["GPU Kernel&#x3C;br/>(projection)"]
-</code></pre>
+</pre></div>
 <p>The DSL interpreter runs on the CPU during the setup phase. It evaluates product rules to compute per-policy parameters that are then passed to the GPU kernel as pre-computed scalars. The kernel itself operates on those values — it does not interpret DSL at runtime.</p>
 <p>This division keeps the GPU kernel fast and simple (no string processing or dynamic dispatch), while the DSL provides the flexibility to define complex product-specific logic.</p>
 <h2>Extensibility</h2>
@@ -1685,7 +1771,7 @@ table_lookup("disability_incidence_table", (snapshot.age_at_eval, snapshot.insur
 <h2>What Monte Carlo Means Here</h2>
 <p>Monte Carlo simulation runs the Markov projection not once but thousands of times. Each run uses a different set of actuarial assumptions — a different "scenario." The collection of results forms a distribution: a picture of the range of possible outcomes and how likely each region of that range is.</p>
 <p>The name comes from the idea of repeated random sampling. Rather than trying to enumerate every possible future analytically (which would be intractable), you draw many random scenarios and observe where the results cluster. With enough scenarios, the distribution of outcomes converges to a reliable picture of the risk.</p>
-<pre><code class="language-mermaid">flowchart TD
+<div class="mermaid-wrap"><pre class="mermaid">flowchart TD
     BASE["Base actuarial assumptions\n(best-estimate mortality, lapse, disability)"]
     BASE --> S1["Scenario 1\nmortality +5%, lapse unchanged"]
     BASE --> S2["Scenario 2\nmortality −8%, lapse +15%"]
@@ -1702,7 +1788,7 @@ table_lookup("disability_incidence_table", (snapshot.age_at_eval, snapshot.insur
     DIST --> P50["Median outcome"]
     DIST --> P95["95th percentile (stress)"]
     DIST --> TAIL["Tail risk / capital requirement"]
-</code></pre>
+</pre></div>
 <hr>
 <h2>How Scenarios Are Constructed</h2>
 <p>Each scenario is a set of adjustments applied to the base actuarial assumptions. Common scenario dimensions include:</p>
@@ -1719,7 +1805,7 @@ table_lookup("disability_incidence_table", (snapshot.age_at_eval, snapshot.insur
 <h2>The Markov Model as the Inner Engine</h2>
 <p>The critical point is that the Markov model does not change between scenarios. The same 10-state structure, the same transition logic, the same DSL rules, the same competing-risk decrement calculation — all of it runs identically in every scenario. What changes is only the input: the hazard rates fed into the model at each time step.</p>
 <p>This is why the architecture separates the projection engine from the actuarial assumptions. The projection engine does one thing: given a set of transition probabilities, step the probability distribution forward. The scenarios are simply different flavours of transition probabilities.</p>
-<pre><code class="language-mermaid">sequenceDiagram
+<div class="mermaid-wrap"><pre class="mermaid">sequenceDiagram
     participant MC as Monte Carlo Controller
     participant SA as Scenario Adjuster
     participant MM as Markov Model
@@ -1732,7 +1818,7 @@ table_lookup("disability_incidence_table", (snapshot.age_at_eval, snapshot.insur
     MM-->>OUT: Cash flow timeline for scenario k
     MC->>MC: Repeat for all N scenarios
     OUT->>OUT: Aggregate into distribution
-</code></pre>
+</pre></div>
 <p>For a portfolio of 10,000 policies, running 1,000 scenarios means executing 10,000 × 1,000 = 10 million independent policy projections. Each projection consists of 360 time steps. This is the computational load that the parallel architecture is designed to absorb: each policy-scenario pair maps to an independent thread, and all threads run simultaneously.</p>
 <hr>
 <h2>What the Output Looks Like</h2>
@@ -1772,12 +1858,12 @@ table_lookup("disability_incidence_table", (snapshot.age_at_eval, snapshot.insur
 </tr>
 </tbody>
 </table>
-<pre><code class="language-mermaid">xychart-beta
+<div class="mermaid-wrap"><pre class="mermaid">xychart-beta
     title "Distribution of portfolio net cash flows across 1,000 scenarios"
     x-axis ["Very adverse", "Adverse", "Near median", "Favourable", "Very favourable"]
     y-axis "Number of scenarios" 0 --> 350
     bar [40, 180, 320, 290, 170]
-</code></pre>
+</pre></div>
 <p>The shape of this distribution matters as much as any single number. A narrow, symmetric distribution indicates stable, predictable outcomes. A wide distribution with a fat left tail indicates significant downside risk. The Monte Carlo output makes this visible.</p>
 <hr>
 <h2>Stress Testing vs. Full Stochastic</h2>
@@ -2084,13 +2170,13 @@ table_lookup("disability_incidence_table", (snapshot.age_at_eval, snapshot.insur
 <p>Rule packs are loaded from embedded assembly resources at startup by <code>DslRulePackLoader</code>. The loader parses every expression and guard with <code>DslParser</code> and caches the resulting ASTs. Parsing happens once; all subsequent evaluations operate directly on the cached AST.</p>
 <hr>
 <h2>Compilation Pipeline</h2>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     JSON["rule_set.json / factor_set.json"] --> LEXER["Lexer\nTokenise source"]
     LEXER --> PARSER["Parser\nBuild AST"]
     PARSER --> AST["Cached AST\n(per rule / factor)"]
     AST --> INTERP["Interpreter\nEval against EvalContext"]
     INTERP --> RESULT["GuardResult / f64 factor value"]
-</code></pre>
+</pre></div>
 <p>The four stages map directly to four classes:</p>
 <table>
 <thead>

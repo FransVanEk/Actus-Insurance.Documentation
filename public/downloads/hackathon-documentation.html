@@ -28,16 +28,27 @@
       line-height: 1.65;
     }
 
+    /* ── @page rules (WeasyPrint + browsers) ── */
+    @page {
+      size: A4;
+      margin: 15mm 15mm 18mm 15mm;
+    }
+
+    @page :first {
+      margin: 0;
+    }
+
     /* ── Cover page ── */
     .cover {
       width: 100%;
-      min-height: 100vh;
+      height: 297mm;
       display: flex;
       flex-direction: column;
       background: var(--navy-dark);
       color: #ffffff;
       padding: 0;
       page-break-after: always;
+      break-after: page;
     }
 
     .cover-top {
@@ -341,23 +352,98 @@
       break-before: page;
     }
 
+    /* ── Mermaid diagrams ── */
+    .mermaid-wrap {
+      margin: 1.5em 0;
+      text-align: center;
+    }
+
+    /* Rendered state: SVG replaces the <pre> */
+    .mermaid-wrap svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Unrendered / WeasyPrint fallback: show source as a styled block */
+    pre.mermaid {
+      background: #f0f4f8;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--amber);
+      border-radius: 4px;
+      padding: 1em 1.25em;
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 0.82em;
+      color: var(--text-light);
+      white-space: pre;
+      text-align: left;
+    }
+
+    /* Label shown above the source in WeasyPrint fallback */
+    .mermaid-wrap::before {
+      content: "Diagram (rendered interactively in browser)";
+      display: block;
+      font-size: 0.72em;
+      font-weight: 600;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4em;
+      text-align: left;
+    }
+
+    /* Hide the label once mermaid has replaced the pre with an svg */
+    .mermaid-wrap:has(svg)::before {
+      display: none;
+    }
+
     /* ── Print-specific ── */
     @media print {
-      .cover     { min-height: 100vh; page-break-after: always; }
-      .toc-page  { page-break-after: always; }
-      .page-break { page-break-before: always; }
+      .cover     { height: 297mm; page-break-after: always; break-after: page; }
+      .toc-page  { page-break-after: always; break-after: page; }
+      .page-break { page-break-before: always; break-before: page; }
 
       pre { white-space: pre-wrap; word-break: break-all; }
       a   { color: inherit; text-decoration: none; }
 
-      thead { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .cover { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .cover-top { background: var(--navy) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .section-header { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      blockquote { background: #fdf6ec !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      pre { background: #1e2a3a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .mermaid-wrap svg { page-break-inside: avoid; }
+      pre.mermaid { background: #f0f4f8 !important; -webkit-print-color-adjust: exact; }
+
+      thead { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      .cover { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      .cover-top { background: var(--navy) !important; -webkit-print-color-adjust: exact; }
+      .section-header { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      blockquote { background: #fdf6ec !important; -webkit-print-color-adjust: exact; }
+      pre { background: #1e2a3a !important; -webkit-print-color-adjust: exact; }
     }
   </style>
+  <!-- Mermaid: renders diagrams in browsers and Puppeteer; ignored by WeasyPrint -->
+  <script type="module">
+    try {
+      const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs');
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: {
+          primaryColor:       '#1A3550',
+          primaryTextColor:   '#ffffff',
+          primaryBorderColor: '#D4891A',
+          lineColor:          '#D4891A',
+          secondaryColor:     '#0D2038',
+          tertiaryColor:      '#f0f4f8',
+          fontFamily:         'Arial, Helvetica, sans-serif',
+          fontSize:           '13px',
+        },
+        flowchart:  { useMaxWidth: true, htmlLabels: true },
+        sequence:   { useMaxWidth: true },
+        gantt:      { useMaxWidth: true },
+      });
+      await mermaid.run({ querySelector: '.mermaid' });
+    } catch (e) {
+      console.warn('Mermaid CDN not available; diagrams shown as source.', e.message);
+    }
+  </script>
 </head>
 <body>
 
@@ -443,7 +529,7 @@
 <p>The ACTUS standard already had a reference implementation — a working single-lane test track written in Java. It is correct and well-tested. But it processes one contract at a time. For institutional-scale portfolios, it is simply too slow.</p>
 <h2>What I Built</h2>
 <p>Working largely on my own, with a little help from one other person, I followed a disciplined sequence — like upgrading a test facility one step at a time, verifying that test results stay identical at every stage:</p>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     A["Study the&#x3C;br/>single-lane track"] -->|Build| B["Build my own&#x3C;br/>test track"]
     B -->|Verify| C["Prove it gives&#x3C;br/>identical results"]
     C -->|Optimise| D["Tune the track&#x3C;br/>for speed"]
@@ -455,7 +541,7 @@
     class B,C,D nodeNavy
     class E nodeAmber
     class F,G nodeSuccess
-</code></pre>
+</pre></div>
 <p>The result:</p>
 <table>
 <thead>
@@ -697,19 +783,19 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <hr>
 <h2>Stage 1 — One Car, One Track</h2>
 <p>In the simplest setup, you have a single test track. One car goes out, drives the scenario, comes back. The next car goes out. One at a time.</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     subgraph "Single Test Track"
         S["Start"] --> C1["Car 1 runs"] --> D1["Collect data"]
         D1 --> C2["Car 2 runs"] --> D2["Collect data"]
         D2 --> C3["Car 3 runs"] --> D3["Collect data"]
     end
-</code></pre>
+</pre></div>
 <p>For 100,000 cars under 1,000 road conditions, that is 100 million runs. Sequentially. You will be here for a very long time.</p>
 <p><strong>This is how the original ACTUS reference implementation works.</strong> It evaluates one contract at a time, one scenario at a time. The results are correct — the track itself is excellent — but the throughput is limited to the speed of one track.</p>
 <hr>
 <h2>Stage 2 — Eight Parallel Tracks (the CPU)</h2>
 <p>A modern computer processor — the CPU — is not one track. It has multiple cores, typically 8 to 16, each of which can run a test independently. Think of it as upgrading your facility from one track to eight:</p>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     subgraph "CPU: 8 Parallel Tracks"
         T1["Track 1 → Car A"]
         T2["Track 2 → Car B"]
@@ -720,14 +806,14 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
         T7["Track 7 → Car G"]
         T8["Track 8 → Car H"]
     end
-</code></pre>
+</pre></div>
 <p>Now 8 cars are tested at the same time. Each track is powerful and versatile — it can handle complex test programmes, change conditions mid-run, and adapt to very different car types. But there are only 8 tracks.</p>
 <p>For 100,000 cars, this is 8 times faster than before. "Impossibly long" becomes "long but feasible."</p>
 <p><strong>This is the optimised CPU engine I built during the hackathon.</strong> Same ACTUS calculations, but running on all available processor cores simultaneously.</p>
 <hr>
 <h2>Stage 3 — The Thousand-Lane Highway (the GPU)</h2>
 <p>A GPU is a fundamentally different kind of facility. Instead of 8 sophisticated tracks, it is a <strong>massive highway with thousands of lanes</strong> where thousands of cars drive at the same time.</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     subgraph "GPU Highway — 1k+ Lanes"
         L1["Lane 1"]
         L2["Lane 2"]
@@ -737,7 +823,7 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
         L6["Lane 999"]
         L7["Lane 1000"]
     end
-</code></pre>
+</pre></div>
 <p>Each individual lane is simpler than a CPU track. A lane cannot handle complex mid-run changes the way a CPU track can. But the sheer number of lanes — a thousand or more running at once — means you can test the entire fleet in a fraction of the time.</p>
 <p>There is one crucial property that makes this possible: <strong>every car's test is independent.</strong> The result of testing Car A on wet roads has no effect on the result of testing Car B on icy roads. They do not need to wait for each other or share information. This kind of workload — thousands of completely independent tasks — is exactly what a highway is built for.</p>
 <p><strong>This is the GPU engine.</strong> The same ACTUS calculations, but running on thousands of GPU lanes simultaneously.</p>
@@ -746,7 +832,7 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <p>Here is where it gets interesting. The highway is enormously fast, but the on-ramp is narrow.</p>
 <p>Before a car can enter the highway, it has to be prepared. In a real factory, that might mean fuelling up, checking tyre pressure, and programming the navigation system. In the financial world, it means <strong>converting each contract from its natural, human-readable format into the compact format the highway demands</strong>.</p>
 <p>The highway lanes are uniform and standardised. They do not accept cars with custom bodywork sticking out, trailers attached, or luggage strapped to the roof. Every car must be stripped down to a sleek, uniform shape that fits perfectly into a lane.</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     subgraph "Parking Lot (CPU Memory)"
         C1["Contract 1&#x3C;br/>with all the details"]
         C2["Contract 2&#x3C;br/>with all the details"]
@@ -771,7 +857,7 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
     XFER --> L1
     XFER --> L2
     XFER --> L3
-</code></pre>
+</pre></div>
 <p>No matter how many lanes the highway has, if the on-ramp is congested, lanes sit empty waiting for traffic. <strong>The on-ramp is often the real bottleneck — not the highway itself.</strong></p>
 <h3>The solution: make the cars as small and uniform as possible.</h3>
 <p>In the financial world, this means converting contract data into the most compact possible form:</p>
@@ -806,7 +892,7 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <h2>Staying on the Highway</h2>
 <p>After a car completes one test run, it needs to run the next scenario. If it exits the highway, drives all the way back to the parking lot, gets re-prepared, and enters through the on-ramp again — you have just doubled the on-ramp congestion.</p>
 <p>The much better approach: <strong>keep the car on the highway.</strong> After completing one run, each car loops back to the start of its lane and begins the next scenario immediately. No off-ramp, no parking lot, no on-ramp. Just a change of road conditions.</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     subgraph "GPU Highway — One Lane"
         START["Start"] --> R1["Run Scenario 1&#x3C;br/>(dry road)"]
         R1 --> R2["Run Scenario 2&#x3C;br/>(wet road)"]
@@ -814,14 +900,14 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
         R3 --> LOOP["Loop back"]
         LOOP -.-> R1
     end
-</code></pre>
+</pre></div>
 <p>The contract data stays on the highway — it is loaded once and reused for every scenario. Only the scenario parameters (the road conditions) change between runs. This is a lightweight update: instead of moving the entire car, you just change the weather on the track.</p>
 <p>This is enormously powerful for Monte Carlo simulation, where the same portfolio of 100,000 contracts is tested under 1,000 or even 10,000 different interest rate scenarios. The portfolio crosses the on-ramp once. The scenarios flow in as small, fast updates.</p>
 <hr>
 <h2>The Second Bottleneck: The Off-Ramp</h2>
 <p>Now the highway is running at full speed. Thousands of cars are completing their runs and producing data. But here is the new problem: <strong>every car generates a huge number of measurements during its run.</strong></p>
 <p>For 100,000 cars, each producing 50 data points per scenario, under 1,000 scenarios, that is <strong>5 billion individual measurements</strong> trying to get off the highway and back to the analysis centre.</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     subgraph "Highway"
         L1["Lane 1&#x3C;br/>50 metrics × 1000 scenarios"]
         L2["Lane 2&#x3C;br/>50 metrics × 1000 scenarios"]
@@ -841,11 +927,11 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
     L2 --> BOTTLE
     L4 --> BOTTLE
     BOTTLE --> REPORT
-</code></pre>
+</pre></div>
 <p>The off-ramp becomes the new bottleneck. If you are not careful, the time spent getting data off the highway exceeds the time saved by running on it.</p>
 <h3>The solution: aggregate before leaving the highway.</h3>
 <p>Instead of sending every raw measurement off the highway, I built <strong>sinks</strong> — structured collection points that gather the raw results and then compute compact summaries. Each sink takes the thousand scenario results for one car and produces just a handful of numbers: the average, the spread, the best case, the worst case, and a few key risk percentiles.</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     subgraph "Highway"
         L1["Lane 1&#x3C;br/>1,000 raw results"]
         L2["Lane 2&#x3C;br/>1,000 raw results"]
@@ -869,13 +955,13 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
     L3 --> SINK
     SINK --> SMALL
     SMALL --> REPORT
-</code></pre>
+</pre></div>
 <p>Now instead of 5 billion raw data points, only 500,000 summary values cross the off-ramp (5 numbers per car × 100,000 cars). That is a <strong>10,000× reduction</strong> in off-ramp traffic. The analysis centre receives exactly what it needs for reporting — compact, pre-digested, ready to use.</p>
 <p>The key design insight is that the raw measurements are collected in a structured, flat format that makes aggregation extremely efficient. The sinks are not an afterthought — they are a core part of the highway architecture, designed from the start to prevent the off-ramp from becoming the bottleneck.</p>
 <hr>
 <h2>The Complete Journey</h2>
 <p>Here is the full picture, from fleet to final report:</p>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     subgraph "1. The Fleet (CPU)"
         FLEET["100,000 contracts&#x3C;br/>in the portfolio"] --> PREP["Strip down &#x26; standardise&#x3C;br/>each contract"]
         SCENARIOS["1,000 market scenarios&#x3C;br/>(road conditions)"] --> SCENPREP["Package scenario&#x3C;br/>parameters"]
@@ -901,7 +987,7 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
     subgraph "6. The Report (CPU)"
         OFFRAMP --> REPORT["Generate final reports,&#x3C;br/>exports, dashboards"]
     end
-</code></pre>
+</pre></div>
 <p>The bottlenecks are never on the highway itself — the GPU handles the raw computation easily. The engineering challenge is entirely in the <strong>on-ramp</strong> (getting data onto the highway efficiently) and the <strong>off-ramp</strong> (getting results back without congestion):</p>
 <table>
 <thead>
@@ -1009,7 +1095,7 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <p>I started this project in December 2025, after being introduced to ACTUS by Francis Gross and Willi Brammertz. The competition deadline was March 16, 2026 — roughly three and a half months to go from knowing nothing about ACTUS to delivering a working GPU-accelerated engine with insurance extensions.</p>
 <p>The project followed a strict rule: before upgrading the facility, prove that the current version produces correct results. Before adding lanes, prove the single track works. Before opening the highway, prove the 8-track facility matches. Before adding new car types, prove the highway matches the 8-track facility.</p>
 <p>This discipline means every layer of the system stands on a verified foundation.</p>
-<pre><code class="language-mermaid">gantt
+<div class="mermaid-wrap"><pre class="mermaid">gantt
     title Construction Phases
     dateFormat  YYYY-MM-DD
     axisFormat  %b %d
@@ -1034,7 +1120,7 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
     section The Report Centre
     Demo tools &#x26; reporting           :done, e1, after c3, 10d
     Documentation site               :done, e2, after e1, 10d
-</code></pre>
+</pre></div>
 <h2>Phase 1: Studying the Existing Track</h2>
 <p>The ACTUS standard already had a working test track — the reference implementation in Java. Before building anything new, I needed to understand exactly how it works: how cars enter the track, what measurements are taken at each checkpoint, and how the results are computed.</p>
 <p>This was my first encounter with ACTUS. I had no prior experience with financial contract projections, Monte Carlo simulations, or deterministic cash flow modelling. But I could relate it to what I knew from insurance — where accuracy and speed are equally critical — and the car factory analogy quickly took shape in my mind.</p>
@@ -1106,7 +1192,7 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <p>Contracts in their natural form carry rich, human-friendly descriptions: text labels like "Annual" for payment frequency, date objects, nested lists of events, and optional fields. On the 8-track facility (CPU), this is fine — each track is powerful enough to handle the complexity.</p>
 <p>The highway (GPU) cannot work with this kind of data. Its lanes are simple and uniform. Every car must be the same shape, the same size, with no loose parts.</p>
 <p>I built a translation layer — an automated preparation station at the on-ramp — that converts every contract into the most compact possible form:</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     subgraph "Before the On-Ramp"
         NATURAL["Contract as designed:&#x3C;br/>text labels, dates,&#x3C;br/>nested structures,&#x3C;br/>optional fields"]
     end
@@ -1120,7 +1206,7 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
     end
 
     NATURAL --> STRIP --> COMPACT
-</code></pre>
+</pre></div>
 <p>This means the engine works with contracts in their natural, readable form for everything except highway execution. The stripping happens automatically and transparently.</p>
 <h2>Decision 3: One Car Per Lane</h2>
 <p>How should work be divided across the highway? There were two options:</p>
@@ -1128,7 +1214,7 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <p><strong>Option B: One car per lane.</strong> Each lane handles one car, running all its checkpoints sequentially from start to finish. The car goes through checkpoint 1, then 2, then 3, in order — as it must, because each checkpoint depends on the state left by the previous one.</p>
 <p>I chose <strong>Option B</strong>. The parallelism comes not from splitting one car's work, but from running <strong>thousands of cars simultaneously</strong>, each in its own lane. Since cars are completely independent of each other, there is no waiting, no coordination, no bottleneck between lanes.</p>
 <p>For Monte Carlo scenarios, the parallelism becomes two-dimensional: each combination of (car, road condition) gets its own lane. For 10,000 cars under 1,000 scenarios, that is 10 million independent lanes — exactly what the highway was designed for.</p>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     subgraph "Highway: Each car runs its full test in one lane"
         subgraph "Lane 1 — Loan A"
             A1["Start"] --> A2["Interest payment"] --> A3["Rate reset"] --> A4["Maturity"]
@@ -1140,7 +1226,7 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
             C1["Start"] --> C2["Premium due"] --> C3["Claim event"] --> C4["Benefit paid"]
         end
     end
-</code></pre>
+</pre></div>
 <h2>Decision 4: The Highway Runs on Any Road Surface</h2>
 <p>GPU hardware comes from different manufacturers — NVIDIA, AMD, Intel — and each has its own highway specification. Some facilities do not have a highway at all.</p>
 <p>I chose a construction method that builds the same highway design on whatever surface is available:</p>
@@ -1179,14 +1265,14 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <h2>Decision 6: Re-Certify After Every Change</h2>
 <p>Many construction projects do a final safety inspection at the end. I inspected at every stage.</p>
 <p>After every change — every track modification, every on-ramp optimisation, every lane adjustment — all 42 reference cars were re-run and their measurements compared to the certified values. If even one measurement drifted by more than a billionth, the change was rejected.</p>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     CHANGE["Make a change&#x3C;br/>to the facility"] --> TEST["Run all 42&#x3C;br/>reference cars"]
     TEST -->|"All measurements&#x3C;br/>match ✓"| KEEP["Keep the change"]
     TEST -->|"Any measurement&#x3C;br/>differs ✗"| REJECT["Reject the change"]
     KEEP --> NEXT["Continue"]
     REJECT --> FIX["Investigate &#x26; fix"]
     FIX --> TEST
-</code></pre>
+</pre></div>
 <p>This means the facility was never in an incorrect state. Every version, from the first to the last, passes all tests.</p>
 <h2>Decision 7: Insurance Products Are Templates, Not Hard-Wired</h2>
 <p>Insurance car models behave differently from banking car models. A loan follows a fixed route; an insurance policy can take different turns at each intersection. The rules governing these turns — premium calculations, claim eligibility, benefit formulas — vary by product.</p>
@@ -1218,7 +1304,7 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <h2>Decision 8: Insurance Vehicles Use a State Map</h2>
 <p>Banking cars follow a pre-programmed route: start → periodic checkpoints → destination. Every turn is known in advance.</p>
 <p>Insurance vehicles need a <strong>state map</strong> — a diagram of all the places the car might be (Active, Grace Period, Claim Pending, Lapsed, Terminated) and the probabilities of moving from one place to another at each intersection.</p>
-<pre><code class="language-mermaid">stateDiagram-v2
+<div class="mermaid-wrap"><pre class="mermaid">stateDiagram-v2
     [*] --> Active
     Active --> GracePeriod: Missed premium
     Active --> ClaimPending: Claim filed
@@ -1231,7 +1317,7 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
     Lapsed --> [*]
     ClaimPaid --> [*]
     DeathBenefit --> [*]
-</code></pre>
+</pre></div>
 <p>The probabilities come from actuarial tables — the same tables insurers use to set premiums. At each checkpoint, the highway looks up the probability of each transition and computes the expected cash flow as a weighted average across all possible paths.</p>
 <p>This approach is mathematically precise, widely used in actuarial science, and works naturally on the highway — the table lookups are fast, uniform operations that the GPU lanes handle efficiently.</p>
 
@@ -1418,13 +1504,13 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <h3>Single-Scenario Fleet Testing</h3>
 <p>The 8-track facility (CPU) and the highway (GPU) were benchmarked at different fleet sizes:</p>
 <p>These benchmarks use PAM (Principal-at-Maturity) contracts — 50-year monthly schedules, the most event-dense contract type in the ACTUS standard, with around 600 cash-flow events per contract.</p>
-<pre><code class="language-mermaid">xychart-beta
+<div class="mermaid-wrap"><pre class="mermaid">xychart-beta
     title "Fleet Processing Time: 8-Track Facility vs. Highway (PAM, 50-year monthly)"
     x-axis ["10,000 cars", "100,000 cars", "200,000 cars"]
     y-axis "Time (seconds)" 0 --> 30
     bar [1.355, 13.864, 28.651]
     bar [0.892, 8.323, 20.270]
-</code></pre>
+</pre></div>
 <table>
 <thead>
 <tr>
@@ -1491,12 +1577,12 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 </tbody>
 </table>
 <p>The advantage grows with the number of scenarios because the fleet stays on the highway and loops through each scenario without re-entering the on-ramp. At 10,000 scenarios, the highway is handling <strong>100 million independent test runs</strong> — and finishing in under 30 seconds.</p>
-<pre><code class="language-mermaid">xychart-beta
+<div class="mermaid-wrap"><pre class="mermaid">xychart-beta
     title "Highway Advantage by Number of Scenarios (10K fleet)"
     x-axis ["100", "1,000", "10,000"]
     y-axis "Speedup (× faster)" 0 --> 6
     bar [1.7, 4.7, 5.4]
-</code></pre>
+</pre></div>
 <h3>Insurance Fleet Projections</h3>
 <p>Insurance vehicles — running the state transition model with actuarial table lookups — were also tested on the highway. Times shown are for the GPU compute path (results aggregated on device before PCIe transfer). End-to-end wall-clock time including PCIe data transfer is shown separately.</p>
 <table>
@@ -1574,7 +1660,7 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
 <p>These benchmarks were produced on an NVIDIA RTX 3060 Ti — a mid-range consumer GPU with 8 GB of memory. Institutional-grade GPUs (like NVIDIA A100 or H100) have 10–20 times more compute power and memory bandwidth. The highway architecture is designed to scale with the hardware — more lanes mean proportionally faster results.</p>
 <h3>The System Is Complete</h3>
 <p>The project did not just build a highway. It built the full infrastructure around it:</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     FLEET["Fleet&#x3C;br/>generation"] --> ONRAMP["On-ramp&#x3C;br/>preparation"]
     ONRAMP --> HWY["Highway&#x3C;br/>evaluation"]
     HWY --> SINKS["Sink&#x3C;br/>aggregation"]
@@ -1585,7 +1671,7 @@ The system supports both CPU and GPU execution. Smaller workloads run efficientl
     class ONRAMP,OFFRAMP nodeNavy
     class HWY,SINKS nodeAmber
     class REPORT nodeSuccess
-</code></pre>
+</pre></div>
 <table>
 <thead>
 <tr>
@@ -2112,6 +2198,7 @@ BatchSize=200k    101,352  GPU compute
 <p><em>Raw data: <code>results/ActusInsurance.Benchmarks.UltimatePamCrossoverBenchmarks-report.csv</code></em></p>
 <p><em>Run log: <code>run-results.txt</code></em></p>
 </blockquote>
+<ResourceList ids="Benchmark.zip" />
 
       </article>
     
@@ -2132,7 +2219,7 @@ BatchSize=200k    101,352  GPU compute
 <p>End-to-end examples showing how to use the insurance extension in your own solution. This is the recommended starting point for implementers. It consumes the published GPU packages as a dependency and demonstrates how the Core, GPU, and Documentation components work together in practice.</p>
 <hr>
 <h2>How They Fit Together</h2>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     GPU["Actus-Insurance.GPU\n(private — published as packages)"]
     CORE["Actus-Insurance.Core\n(public)"]
     DEMO["Actus-Insurance.DemoAndSamples\n(public — start here)"]
@@ -2143,7 +2230,7 @@ BatchSize=200k    101,352  GPU compute
     DOCS -. "explains" .-> CORE
     DOCS -. "explains" .-> GPU
     DOCS -. "explains" .-> DEMO
-</code></pre>
+</pre></div>
 <p>The GPU component is the only proprietary piece. Because it ships as a package, you can build and run the demo and samples without access to the GPU source — the compiled package is sufficient. The Core and DemoAndSamples repositories are fully open and show the complete integration pattern.</p>
 
       </article>
@@ -2190,7 +2277,7 @@ BatchSize=200k    101,352  GPU compute
 </tr>
 </tbody>
 </table>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     GPU["Actus-Insurance.GPU\n(private — compiled packages only)"]
     CORE["Actus-Insurance.Core\n(public)"]
     DEMO["Actus-Insurance.DemoAndSamples\n(public — start here for the demo)"]
@@ -2201,7 +2288,7 @@ BatchSize=200k    101,352  GPU compute
     DOCS -. "explains" .-> CORE
     DOCS -. "explains" .-> GPU
     DOCS -. "explains" .-> DEMO
-</code></pre>
+</pre></div>
 <p>The GPU component is the only proprietary piece. It ships as compiled packages, so you can build and run everything else without access to the GPU source.</p>
 <hr>
 <h2>Prerequisites</h2>
@@ -2657,16 +2744,10 @@ docker-compose logs frontend
       <div class="page-break"></div>
       <article id="doc-10" class="doc-section">
         <h1 class="doc-title">Resources &amp; Downloads</h1>
-        <h2>Resources &#x26; Downloads</h2>
+        <blockquote>
 <p>Everything produced during the hackathon is available here for download or inline viewing. Whether you want to walk through the slides, inspect the GPU architecture diagrams, watch the live demo, or dig into the raw test data — it's all in one place.</p>
-<hr>
-<h2>Presentation</h2>
-<p>The slide deck used to present the hackathon results covers the problem statement, the car factory analogy, architectural decisions, benchmark numbers, and next steps.</p>
-<ResourceList ids="hackathon-slides" />
-<hr>
-<h2>Live Demo Recording</h2>
-<p>A screen recording of the web-based scenario demo — entering contract terms, injecting risk factors, and watching real-time cash flow projections computed on the GPU.</p>
-<ResourceList ids="demo-video" />
+</blockquote>
+<ResourceList />
 
       </article>
     

@@ -28,16 +28,27 @@
       line-height: 1.65;
     }
 
+    /* ── @page rules (WeasyPrint + browsers) ── */
+    @page {
+      size: A4;
+      margin: 15mm 15mm 18mm 15mm;
+    }
+
+    @page :first {
+      margin: 0;
+    }
+
     /* ── Cover page ── */
     .cover {
       width: 100%;
-      min-height: 100vh;
+      height: 297mm;
       display: flex;
       flex-direction: column;
       background: var(--navy-dark);
       color: #ffffff;
       padding: 0;
       page-break-after: always;
+      break-after: page;
     }
 
     .cover-top {
@@ -341,23 +352,98 @@
       break-before: page;
     }
 
+    /* ── Mermaid diagrams ── */
+    .mermaid-wrap {
+      margin: 1.5em 0;
+      text-align: center;
+    }
+
+    /* Rendered state: SVG replaces the <pre> */
+    .mermaid-wrap svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    /* Unrendered / WeasyPrint fallback: show source as a styled block */
+    pre.mermaid {
+      background: #f0f4f8;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--amber);
+      border-radius: 4px;
+      padding: 1em 1.25em;
+      font-family: "Consolas", "Courier New", monospace;
+      font-size: 0.82em;
+      color: var(--text-light);
+      white-space: pre;
+      text-align: left;
+    }
+
+    /* Label shown above the source in WeasyPrint fallback */
+    .mermaid-wrap::before {
+      content: "Diagram (rendered interactively in browser)";
+      display: block;
+      font-size: 0.72em;
+      font-weight: 600;
+      color: var(--amber);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.4em;
+      text-align: left;
+    }
+
+    /* Hide the label once mermaid has replaced the pre with an svg */
+    .mermaid-wrap:has(svg)::before {
+      display: none;
+    }
+
     /* ── Print-specific ── */
     @media print {
-      .cover     { min-height: 100vh; page-break-after: always; }
-      .toc-page  { page-break-after: always; }
-      .page-break { page-break-before: always; }
+      .cover     { height: 297mm; page-break-after: always; break-after: page; }
+      .toc-page  { page-break-after: always; break-after: page; }
+      .page-break { page-break-before: always; break-before: page; }
 
       pre { white-space: pre-wrap; word-break: break-all; }
       a   { color: inherit; text-decoration: none; }
 
-      thead { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .cover { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .cover-top { background: var(--navy) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      .section-header { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      blockquote { background: #fdf6ec !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-      pre { background: #1e2a3a !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .mermaid-wrap svg { page-break-inside: avoid; }
+      pre.mermaid { background: #f0f4f8 !important; -webkit-print-color-adjust: exact; }
+
+      thead { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      .cover { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      .cover-top { background: var(--navy) !important; -webkit-print-color-adjust: exact; }
+      .section-header { background: var(--navy-dark) !important; -webkit-print-color-adjust: exact; }
+      blockquote { background: #fdf6ec !important; -webkit-print-color-adjust: exact; }
+      pre { background: #1e2a3a !important; -webkit-print-color-adjust: exact; }
     }
   </style>
+  <!-- Mermaid: renders diagrams in browsers and Puppeteer; ignored by WeasyPrint -->
+  <script type="module">
+    try {
+      const { default: mermaid } = await import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs');
+      mermaid.initialize({
+        startOnLoad: false,
+        theme: 'base',
+        themeVariables: {
+          primaryColor:       '#1A3550',
+          primaryTextColor:   '#ffffff',
+          primaryBorderColor: '#D4891A',
+          lineColor:          '#D4891A',
+          secondaryColor:     '#0D2038',
+          tertiaryColor:      '#f0f4f8',
+          fontFamily:         'Arial, Helvetica, sans-serif',
+          fontSize:           '13px',
+        },
+        flowchart:  { useMaxWidth: true, htmlLabels: true },
+        sequence:   { useMaxWidth: true },
+        gantt:      { useMaxWidth: true },
+      });
+      await mermaid.run({ querySelector: '.mermaid' });
+    } catch (e) {
+      console.warn('Mermaid CDN not available; diagrams shown as source.', e.message);
+    }
+  </script>
 </head>
 <body>
 
@@ -417,7 +503,7 @@
 <p>A GPU (Graphics Processing Unit) is a processor that was originally designed to render images for computer displays. Rendering a frame of video or a 3D scene involves performing the same mathematical operation (a colour or lighting calculation) on millions of pixels simultaneously. To handle this workload, GPUs evolved a fundamentally different architecture from CPUs.</p>
 <p>A CPU has a small number of powerful cores (typically 4–16 on consumer hardware, up to 128 on server hardware). Each core is optimised for complex, branching logic and can execute different instructions independently. A CPU is like a small team of highly skilled specialists — each one can handle any task, but there are only a few of them.</p>
 <p>A GPU has thousands of smaller, simpler cores (typically 2,000–16,000). Each core is less powerful than a CPU core, but they work together in lockstep, all executing the same instruction on different data. A GPU is like a factory floor with thousands of workers — each one performs a simple, repetitive task, but together they achieve enormous throughput.</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     subgraph CPU ["CPU — Few Powerful Cores"]
         C1[Core 1&#x3C;br/>Complex Logic]
         C2[Core 2&#x3C;br/>Complex Logic]
@@ -432,7 +518,7 @@
         G4[...]
         G5[Core 4096]
     end
-</code></pre>
+</pre></div>
 <p>In this project, the GPU used is an NVIDIA GeForce RTX 3060 Ti with 8 GB of memory and 4,864 CUDA cores. The CPU is an AMD Ryzen 7 3800X with 8 cores at 3.90 GHz and 48 GB of RAM. Even this mid-range consumer GPU delivered substantial speedups for large portfolio evaluations.</p>
 <h2>Key Concepts</h2>
 <p>Before diving deeper, here are the concepts needed to understand GPU computing in the context of this project.</p>
@@ -532,7 +618,7 @@
 <li>Within each thread, events are processed sequentially (same as CPU)</li>
 </ol>
 <p>With 4,864 active threads, this achieves massive parallelism on the contract dimension. Each individual thread is slower than a CPU core, but the sheer number of threads more than compensates.</p>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     subgraph CPU["CPU Processing (8 cores)"]
         direction LR
         CP1["Core 1&#x3C;br/>12,500 contracts&#x3C;br/>sequential"]
@@ -549,7 +635,7 @@
         GP4["Thread 4,864&#x3C;br/>1 contract"]
         GP5["(next wave)&#x3C;br/>Thread 4,865–9,728"]
     end
-</code></pre>
+</pre></div>
 <h2>The Crossover Point</h2>
 <p>GPU acceleration has overhead that does not exist in CPU processing:</p>
 <ol>
@@ -559,7 +645,7 @@
 <li><strong>D2H transfer:</strong> Results must be copied back to CPU memory</li>
 </ol>
 <p>For small portfolios (under ~5,000 contracts), this overhead exceeds the time saved by parallelism. The GPU wins only when the computation time is large enough to amortise the overhead.</p>
-<pre><code class="language-mermaid">graph LR
+<div class="mermaid-wrap"><pre class="mermaid">graph LR
     subgraph "Small Portfolio (1K contracts)"
         S1["CPU: ~15 ms total"]
         S2["GPU: ~5 ms overhead + 27 ms = ~32 ms"]
@@ -569,7 +655,7 @@
         L1["CPU: ~735 ms total"]
         L2["GPU: ~250 ms overhead + 23 ms = ~273 ms"]
     end
-</code></pre>
+</pre></div>
 <h2>When to Use CPU vs GPU</h2>
 <table>
 <thead>
@@ -636,14 +722,14 @@
 <h2>Property 2: Uniform Computation</h2>
 <p>All PAM contracts follow the same algorithm: generate events, process them in order, compute payoffs, update state. The specific parameters differ (different principals, rates, dates), but the computation structure is the same.</p>
 <p>GPUs achieve peak performance when all threads execute the same instructions. This is called SIMT (Single Instruction, Multiple Threads). Because ACTUS contracts share the same processing logic, GPU threads stay in lockstep, maximising hardware utilisation.</p>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     subgraph "All threads execute the same logic"
         T1["Thread 1: IED → IP → IP → MD"]
         T2["Thread 2: IED → IP → IP → MD"]
         T3["Thread 3: IED → RR → IP → MD"]
         T4["Thread 4: IED → IP → TD"]
     end
-</code></pre>
+</pre></div>
 <p>The minor variations (some contracts have rate resets, others don't) cause slight divergence, but the overall structure is uniform enough for efficient GPU execution.</p>
 <h2>Property 3: Scalable Parallelism</h2>
 <p>Financial risk management requires evaluating portfolios under many scenarios. A portfolio of 100,000 contracts under 1,000 Monte Carlo scenarios produces 100 million independent evaluations. This is a two-dimensional parallelism that maps naturally to the GPU's thread grid:</p>
@@ -735,7 +821,7 @@
 <h2>What ILGPU Does</h2>
 <p>Traditional GPU programming requires writing kernels in CUDA C/C++ (for NVIDIA) or OpenCL C (for cross-vendor). This means maintaining a separate codebase in a different language, with a separate toolchain and build process.</p>
 <p>ILGPU eliminates this by allowing kernels to be written in standard C#. At runtime, ILGPU's compiler translates the C# code into the appropriate GPU instruction set.</p>
-<pre><code class="language-mermaid">graph TD
+<div class="mermaid-wrap"><pre class="mermaid">graph TD
     CS["C# Kernel Code"] --> ILGPU["ILGPU Compiler"]
     ILGPU --> CUDA["CUDA PTX&#x3C;br/>(NVIDIA)"]
     ILGPU --> OCL["OpenCL SPIR-V&#x3C;br/>(AMD, Intel)"]
@@ -744,7 +830,7 @@
     CUDA --> NV["NVIDIA GPU"]
     OCL --> AMD["AMD / Intel GPU"]
     CPU --> PROC["Any CPU"]
-</code></pre>
+</pre></div>
 <h2>The Accelerator Fallback Chain</h2>
 <p>When the executor initialises, it selects the best available backend:</p>
 <ol>
