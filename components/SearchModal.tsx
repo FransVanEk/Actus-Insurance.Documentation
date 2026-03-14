@@ -118,42 +118,6 @@ export function SearchModal({ isOpen, onClose, initialSection }: SearchModalProp
     onClose()
   }
 
-  // Convert a snippet to sentence case while preserving ALL-CAPS acronyms (GPU, PAM, API…)
-  // and restoring entries from PROPER_NOUNS.
-  const toSentenceCase = (text: string): string => {
-    if (!text) return text
-
-    // Collect all-caps words from the original (2+ letters = likely an acronym/initialism)
-    const acronyms = new Set<string>()
-    text.replace(/\b([A-Z]{2,})\b/g, (_, w) => { acronyms.add(w); return w })
-
-    // Lowercase everything, then re-capitalise after sentence-ending punctuation and at start
-    let result = text.toLowerCase().replace(
-      /(^|[.!?]\s+)([\wÀ-ÿ])/g,
-      (_, boundary, char) => boundary + char.toUpperCase()
-    )
-
-    // Restore ALL-CAPS acronyms
-    acronyms.forEach(acr => {
-      result = result.replace(
-        new RegExp(`\\b${acr.toLowerCase()}\\b`, 'g'),
-        acr
-      )
-    })
-
-    // Restore proper nouns from the curated list (longest first to handle multi-word names)
-    const sorted = [...PROPER_NOUNS].sort((a, b) => b.length - a.length)
-    sorted.forEach(name => {
-      const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-      result = result.replace(
-        new RegExp(escaped, 'gi'),
-        name
-      )
-    })
-
-    return result
-  }
-
   // Build a content snippet that shows the matching text in context
   const generatePreview = (content: string, searchQuery?: string): string => {
     const CONTEXT = 120
