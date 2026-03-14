@@ -1,0 +1,327 @@
+---
+title: GPU Insurance Valuation Engine
+description: A detailed description of the propietory repository.
+category: Background GPU
+order: 5
+---
+
+# GPU Insurance Valuation Engine – Architecture Overview
+
+## Overview
+
+This repository implements a **GPU-accelerated insurance and financial contract valuation engine** written in **C# (.NET 9)** using **ILGPU**. The system focuses on two main workloads:
+
+1. **ACTUS PAM contract valuation**
+2. **Life-insurance forward projections**
+
+Both engines transform insurance/financial contract data into **GPU-friendly memory layouts**, execute **parallel kernels** on the GPU, and return aggregated cashflow or state projection results.
+
+The goal is to enable **high-throughput valuation of large insurance portfolios** by exploiting GPU parallelism.
+
+---
+
+# Core Architecture
+
+The repository is organized into several logical modules.
+
+### GPU Contract Engine (ACTUS PAM)
+
+Location:
+
+```
+ActusInsurance.GPU
+```
+
+This module implements **Parallelizable ACTUS PAM contract valuation**.
+
+Key components include:
+
+* **GPU data models**
+
+  * `PamContractGpu`
+  * `PamEventGpu`
+  * `PamEventResultGpu`
+
+* **Kernel execution**
+
+  * `PamGpuKernel`
+
+* **Execution orchestration**
+
+  * `PamGpuExecutor`
+
+* **CPU-side adapters**
+
+  * `PamV3Adapter`
+    Converts ACTUS contracts and events into GPU structs.
+
+The system supports **12 ACTUS event types**, including:
+
+```
+IED, IP, IPCI, PRD, TD, RR, RRF, FP, SC, MD, AD, CD
+```
+
+These represent the lifecycle events used to calculate contract cashflows.
+
+Each **GPU thread processes one contract**, iterating over its events and updating contract state variables such as:
+
+* Notional principal
+* Accrued interest
+* Fees
+* Redemption amounts
+* Event cashflows
+
+---
+
+### Life Insurance Projection Engine
+
+Location:
+
+```
+ActusInsurance.LifeInsurance.GPU
+```
+
+This module performs **forward actuarial projections** for life insurance portfolios.
+
+Core components include:
+
+* GPU models
+
+  * `LifeContractGpu`
+  * `ProjectionInputGpu`
+  * `ProjectionOutputGpu`
+
+* Kernel
+
+  * `LifeProjectionKernel`
+
+* Executor
+
+  * `LifeGpuExecutor`
+
+* Rule and logic layers
+
+  * rule packs
+  * DSL evaluation
+  * actuarial table lookups
+
+The engine models insurance contracts using a **Markov state transition framework** with **10 policy states**.
+
+Examples include:
+
+```
+Active
+Lapsed
+Death claimed
+Disabled
+Paid-up
+```
+
+For each projection timestep, the kernel computes:
+
+1. Risk factor evaluation
+2. Hazard lookup from actuarial tables
+3. State transition probabilities
+4. Expected cashflows
+5. Updated state distribution
+
+Inputs include:
+
+* Age
+* Gender
+* Smoker status
+* Sum assured
+* Premium mode
+* Years in force
+
+Outputs include:
+
+* Expected cashflow
+* State probabilities per timestep
+
+---
+
+# GPU Execution Model
+
+Both engines follow the same execution pipeline.
+
+### 1. CPU Adaptation
+
+Domain objects are converted into **blittable GPU structs**.
+
+Example:
+
+```
+Contract → PamContractGpu
+Events → PamEventGpu[]
+```
+
+These structs use **sequential memory layout** to ensure efficient transfer to GPU memory.
+
+---
+
+### 2. Host → Device Transfer
+
+Contract arrays and lookup tables are copied into **GPU device memory**.
+
+Example resources:
+
+* Contract arrays
+* Event arrays
+* Interest rate curves
+* Mortality tables
+* Lapse tables
+
+---
+
+### 3. Kernel Execution
+
+The GPU launches a **parallel kernel**.
+
+Typical pattern:
+
+```
+1 thread = 1 contract
+```
+
+Each thread independently processes its contract's events or projection timeline.
+
+This design provides **embarrassingly parallel portfolio valuation**.
+
+---
+
+### 4. Synchronization
+
+The host waits for kernel completion.
+
+```
+accelerator.Synchronize()
+```
+
+---
+
+### 5. Device → Host Transfer
+
+Result buffers (cashflows, projections, states) are copied back to CPU memory.
+
+---
+
+# GPU Platform Abstraction
+
+The system uses **ILGPU** to abstract hardware execution.
+
+Supported backends:
+
+* **CUDA (NVIDIA GPUs)**
+* **OpenCL**
+* **CPU fallback**
+
+The executor selects the best available accelerator automatically.
+
+This enables:
+
+* GPU production workloads
+* CPU testing environments
+* Portable execution
+
+---
+
+# Performance Strategy
+
+Performance is achieved through:
+
+### Data-parallel execution
+
+Large portfolios are evaluated simultaneously.
+
+### Memory-efficient structs
+
+GPU data uses **blittable sequential layouts** to avoid serialization overhead.
+
+### Fused kernels
+
+Projection logic is combined into **single kernels** to minimize memory round-trips.
+
+### Table-driven actuarial logic
+
+Hazard rates and factors are stored in **GPU lookup tables**, avoiding large branching logic inside kernels.
+
+---
+
+# Benchmarking
+
+Benchmarking is implemented using **BenchmarkDotNet**.
+
+The benchmark suite measures:
+
+* CPU vs GPU valuation
+* GPU kernel execution time
+* Memory transfer overhead
+* Portfolio scaling performance
+* Scenario throughput
+
+Test datasets include:
+
+* 42 ACTUS PAM contracts
+* 42 synthetic life-insurance contracts
+
+These datasets are scaled to simulate large portfolios.
+
+Observed crossover point for GPU acceleration:
+
+```
+~5,000 – 10,000 contracts
+```
+
+Below that size, CPU execution may be faster due to transfer overhead.
+
+---
+
+# Testing
+
+Separate test projects exist for both GPU engines.
+
+They validate:
+
+* Kernel correctness
+* Event processing logic
+* Projection consistency
+* CPU vs GPU parity
+
+---
+
+# Key Design Principles
+
+The repository is built around several core design principles.
+
+### Deterministic kernels
+
+GPU kernels are designed to produce reproducible financial results.
+
+### Blittable GPU models
+
+All GPU data structures use layouts compatible with direct memory transfer.
+
+### Portfolio-level parallelism
+
+Each contract is evaluated independently on separate GPU threads.
+
+### Separation of concerns
+
+* Domain models remain CPU-side.
+* GPU models are specialized for parallel execution.
+
+---
+
+# Summary
+
+This repository provides a **GPU-accelerated actuarial and financial contract valuation framework** that enables large-scale insurance portfolio analysis.
+
+It achieves this by:
+
+* Mapping contract calculations to **parallel GPU kernels**
+* Using **ILGPU for cross-platform acceleration**
+* Structuring actuarial models around **table-driven projections**
+* Providing **benchmarks and test suites** for performance validation
+
+The result is a system capable of evaluating **thousands to millions of contracts efficiently using GPU compute resources**.
