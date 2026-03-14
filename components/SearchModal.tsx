@@ -6,6 +6,7 @@ import { Dialog } from '@headlessui/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import { searchDocs, initializeSearch, highlightMatch, SearchResult } from '../lib/search'
 import { DocContent } from '../lib/markdown'
+import { toSentenceCase } from '../lib/sentenceCase'
 import sectionsData from '../config/sections.json'
 
 // Accent colours per section id
@@ -117,10 +118,48 @@ export function SearchModal({ isOpen, onClose, initialSection }: SearchModalProp
     onClose()
   }
 
+  // Convert a snippet to sentence case while preserving ALL-CAPS acronyms (GPU, PAM, API…)
+  // and restoring entries from PROPER_NOUNS.
+  const toSentenceCase = (text: string): string => {
+    if (!text) return text
+
+    // Collect all-caps words from the original (2+ letters = likely an acronym/initialism)
+    const acronyms = new Set<string>()
+    text.replace(/\b([A-Z]{2,})\b/g, (_, w) => { acronyms.add(w); return w })
+
+    // Lowercase everything, then re-capitalise after sentence-ending punctuation and at start
+    let result = text.toLowerCase().replace(
+      /(^|[.!?]\s+)([\wÀ-ÿ])/g,
+      (_, boundary, char) => boundary + char.toUpperCase()
+    )
+
+    // Restore ALL-CAPS acronyms
+    acronyms.forEach(acr => {
+      result = result.replace(
+        new RegExp(`\\b${acr.toLowerCase()}\\b`, 'g'),
+        acr
+      )
+    })
+
+    // Restore proper nouns from the curated list (longest first to handle multi-word names)
+    const sorted = [...PROPER_NOUNS].sort((a, b) => b.length - a.length)
+    sorted.forEach(name => {
+      const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      result = result.replace(
+        new RegExp(escaped, 'gi'),
+        name
+      )
+    })
+
+    return result
+  }
+
   // Build a content snippet that shows the matching text in context
   const generatePreview = (content: string, searchQuery?: string): string => {
     const CONTEXT = 120
     const MAX = 280
+
+    let snippet: string
 
     if (searchQuery && searchQuery.trim().length >= 2) {
       const q = searchQuery.trim().toLowerCase()
@@ -128,14 +167,20 @@ export function SearchModal({ isOpen, onClose, initialSection }: SearchModalProp
       if (idx !== -1) {
         const start = Math.max(0, idx - CONTEXT)
         const end = Math.min(content.length, idx + q.length + CONTEXT)
-        return (start > 0 ? '…' : '') + content.substring(start, end) + (end < content.length ? '…' : '')
+        snippet = (start > 0 ? '…' : '') + content.substring(start, end) + (end < content.length ? '…' : '')
+      } else {
+        const cut = content.substring(0, MAX)
+        const space = cut.lastIndexOf(' ')
+        snippet = (space > 0 ? cut.substring(0, space) : cut) + (content.length > MAX ? '…' : '')
       }
+    } else {
+      if (content.length <= MAX) return toSentenceCase(content)
+      const cut = content.substring(0, MAX)
+      const space = cut.lastIndexOf(' ')
+      snippet = (space > 0 ? cut.substring(0, space) : cut) + '…'
     }
 
-    if (content.length <= MAX) return content
-    const cut = content.substring(0, MAX)
-    const space = cut.lastIndexOf(' ')
-    return (space > 0 ? cut.substring(0, space) : cut) + '…'
+    return toSentenceCase(snippet)
   }
 
   const activeSectionTitle = selectedSection === 'all'
