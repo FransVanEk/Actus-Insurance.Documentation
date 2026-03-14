@@ -421,7 +421,7 @@ export function Sidebar({ navigation }: SidebarProps) {
       )}
 
       {/* Search Modal */}
-      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} initialSection={currentSection} />
     </>
   )
 }
