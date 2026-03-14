@@ -5,6 +5,7 @@ export interface SearchResult {
   item: DocContent
   matches?: readonly FuseResultMatch[]
   score?: number
+  occurrences?: number
 }
 
 const fuseOptions: IFuseOptions<DocContent> = {
@@ -23,9 +24,11 @@ const fuseOptions: IFuseOptions<DocContent> = {
 }
 
 let fuse: Fuse<DocContent> | null = null
+let allIndexedDocs: DocContent[] = []
 
 export function initializeSearch(docs: DocContent[]): void {
   // Content is already cleaned by the API endpoint
+  allIndexedDocs = docs
   fuse = new Fuse(docs, fuseOptions)
 }
 
@@ -35,46 +38,62 @@ export function searchDocs(query: string): SearchResult[] {
   }
   
   const searchQuery = query.trim()
-  const allResults: SearchResult[] = []
+  const lowerQuery = searchQuery.toLowerCase()
+  const exactResults: SearchResult[] = []
   
-  // Get all documents for manual filtering
-  const allDocs = (fuse as any)._docs || []
-  
-  // First pass: Find exact word matches (case insensitive)
-  allDocs.forEach((doc: DocContent) => {
-    const titleMatch = doc.metadata.title.toLowerCase().includes(searchQuery.toLowerCase())
-    const descriptionMatch = doc.metadata.description?.toLowerCase().includes(searchQuery.toLowerCase())
-    const contentMatch = doc.content.toLowerCase().includes(searchQuery.toLowerCase())
+  // Count all occurrences of the query string in a text
+  const countOccurrences = (text: string): number => {
+    let count = 0
+    let pos = 0
+    const lower = text.toLowerCase()
+    while ((pos = lower.indexOf(lowerQuery, pos)) !== -1) {
+      count++
+      pos += lowerQuery.length
+    }
+    return count
+  }
+
+  // Find documents with exact (case-insensitive) substring matches
+  allIndexedDocs.forEach((doc: DocContent) => {
+    const titleMatch = doc.metadata.title.toLowerCase().includes(lowerQuery)
+    const descriptionMatch = doc.metadata.description?.toLowerCase().includes(lowerQuery) ?? false
+    const contentMatch = doc.content.toLowerCase().includes(lowerQuery)
     
     if (titleMatch || descriptionMatch || contentMatch) {
-      allResults.push({
+      // Score: title match = 0 (best), description = 0.1, content-only = 0.2
+      const score = titleMatch ? 0 : descriptionMatch ? 0.1 : 0.2
+      const occurrences =
+        countOccurrences(doc.metadata.title) +
+        countOccurrences(doc.metadata.description ?? '') +
+        countOccurrences(doc.content)
+      exactResults.push({
         item: doc,
         matches: [
           ...(titleMatch ? [{ key: 'metadata.title', value: doc.metadata.title, indices: [[0, 1] as [number, number]] }] : []),
           ...(descriptionMatch ? [{ key: 'metadata.description', value: doc.metadata.description || '', indices: [[0, 1] as [number, number]] }] : []),
           ...(contentMatch ? [{ key: 'content', value: doc.content, indices: [[0, 1] as [number, number]] }] : [])
         ],
-        score: 0
+        score,
+        occurrences,
       })
     }
   })
   
-  // If no exact matches found, fall back to fuzzy search
-  if (allResults.length === 0) {
-    const fuseResults = fuse.search(searchQuery, { limit: 10 })
-    return fuseResults.map(result => ({
+  if (exactResults.length > 0) {
+    return exactResults
+      .sort((a, b) => (a.score ?? 0) - (b.score ?? 0))
+      .slice(0, 20)
+  }
+  
+  // Only fall back to fuzzy search (with stricter threshold) when no exact matches exist
+  const fuseResults = fuse.search(searchQuery, { limit: 10 })
+  return fuseResults
+    .filter(r => (r.score ?? 1) <= 0.25) // Only keep close fuzzy matches
+    .map(result => ({
       item: result.item,
       matches: result.matches,
       score: result.score,
     }))
-  }
-  
-  // Sort exact matches by relevance (title matches first)
-  return allResults.sort((a, b) => {
-    const aHasTitle = a.matches?.some(m => m.key === 'metadata.title') ? 1 : 0
-    const bHasTitle = b.matches?.some(m => m.key === 'metadata.title') ? 1 : 0
-    return bHasTitle - aHasTitle
-  }).slice(0, 10)
 }
 
 export function highlightMatch(text: string, matches?: FuseResultMatch[], originalQuery?: string): string {
