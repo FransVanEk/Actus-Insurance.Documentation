@@ -20,7 +20,7 @@ import "./globals.css";
 // });
 
 export const metadata: Metadata = {
-  title: "ACTUS Documentation",
+  title: "ACTUS-I Documentation",
   description: "Documentation for the ACTUS Projection Engine",
 };
 

@@ -146,9 +146,9 @@ export function SearchModal({ isOpen, onClose, initialSection }: SearchModalProp
     <Dialog open={isOpen} onClose={handleClose} initialFocus={inputRef} className="relative z-50">
       <div className="fixed inset-0 bg-black bg-opacity-50" />
 
-      <div className="fixed inset-0 overflow-y-auto p-4 sm:p-6 md:p-14">
+      <div className="fixed inset-0 overflow-y-auto p-4 sm:p-6 md:p-10">
         <Dialog.Panel
-          className="mx-auto max-w-3xl transform overflow-hidden rounded-xl shadow-2xl ring-1 transition-all"
+          className="mx-auto max-w-4xl transform overflow-hidden rounded-xl shadow-2xl ring-1 transition-all"
           style={{ backgroundColor: '#0D2038', borderColor: '#D4891A40' }}
         >
           {/* ── Search input ── */}
@@ -170,7 +170,7 @@ export function SearchModal({ isOpen, onClose, initialSection }: SearchModalProp
 
           {/* ── Section filter pills ── */}
           <div
-            className="flex items-center gap-2 px-4 py-2.5 overflow-x-auto"
+            className="flex flex-wrap items-center gap-2 px-4 py-2.5"
             style={{ borderBottom: '1px solid #D4891A20' }}
           >
             <button

@@ -26,13 +26,13 @@ By combining a standardized contract representation with scalable projection tec
 
 ## URL to Demonstration Video
 
-[Video of the presentationapplication demo](https://actus-insurance-documentation-iuybsndtx-fransvaneks-projects.vercel.app/downloads/demo-video.mp4)
+[Video of the presentationapplication demo](https://actus-insurance-documentation.vercel.app/downloads/demo-video.mp4)
 
 ---
 
 ## URL to Solution
 
-[Demo site with information and resources](https://actus-insurance-documentation-iuybsndtx-fransvaneks-projects.vercel.app/){:target="_blank"}
+[Demo site with information and resources](https://actus-insurance-documentation.vercel.app/)
 
 ---
 
