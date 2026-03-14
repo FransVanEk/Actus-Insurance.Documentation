@@ -1,8 +1,8 @@
 ---
 title: Code Resources
 description: The GitHub repositories that make up the ACTUS Insurance extension — what each contains, what is open, and how they fit together.
-category: ACTUS Insurance
-order: 5
+category: Hackathon
+order: 90
 ---
 
 # Code Resources
