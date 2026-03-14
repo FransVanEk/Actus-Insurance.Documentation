@@ -47,24 +47,26 @@ The reference cars cover the full range of contract types: fixed and floating in
 
 The 8-track facility (CPU) and the highway (GPU) were benchmarked at different fleet sizes:
 
+These benchmarks use PAM (Principal-at-Maturity) contracts — 50-year monthly schedules, the most event-dense contract type in the ACTUS standard, with around 600 cash-flow events per contract.
+
 ```mermaid
 xychart-beta
-    title "Fleet Processing Time: 8-Track Facility vs. Highway"
-    x-axis ["1,000 cars", "10,000 cars", "100,000 cars"]
-    y-axis "Time (milliseconds)" 0 --> 700
-    bar [15, 148, 685]
-    bar [32, 88, 312]
+    title "Fleet Processing Time: 8-Track Facility vs. Highway (PAM, 50-year monthly)"
+    x-axis ["10,000 cars", "100,000 cars", "200,000 cars"]
+    y-axis "Time (seconds)" 0 --> 30
+    bar [1.355, 13.864, 28.651]
+    bar [0.892, 8.323, 20.270]
 ```
 
 | Fleet Size | 8-Track Facility (CPU) | Highway (GPU) | Which Is Faster |
 |---|---|---|---|
-| 1,000 cars | ~15 ms | ~32 ms | 8-track (2× faster) |
-| 10,000 cars | ~148 ms | ~88 ms | Highway (1.7× faster) |
-| 100,000 cars | ~685 ms | ~312 ms | Highway (2.2× faster) |
+| 10,000 cars | ~1.4 s | ~0.9 s | Highway (1.5× faster) |
+| 100,000 cars | ~13.9 s | ~8.3 s | Highway (1.7× faster) |
+| 200,000 cars | ~28.7 s | ~20.3 s | Highway (1.4× faster) |
 
-The pattern is exactly what the car factory analogy predicts: the on-ramp overhead makes the highway slower for small fleets, but once the fleet is large enough to fill the lanes, the highway's massive parallelism dominates.
+The pattern is exactly what the car factory analogy predicts: the on-ramp overhead makes the highway slower for very small fleets, but once the fleet is large enough to fill the lanes, the highway's massive parallelism takes over. For complex ACTUS banking contracts, the highway delivers a consistent 1.4–1.7× speed advantage across all large fleet sizes.
 
-The crossover point is around 5,000–10,000 contracts. Above that, the highway wins — and the advantage keeps growing.
+The crossover point is around 5,000–10,000 contracts. Above that, the highway wins.
 
 ### Multi-Scenario Testing — Where the Highway Shines Brightest
 
@@ -90,15 +92,15 @@ xychart-beta
 
 ### Insurance Fleet Projections
 
-Insurance vehicles — running the state transition model with actuarial table lookups — were also tested on the highway:
+Insurance vehicles — running the state transition model with actuarial table lookups — were also tested on the highway. Times shown are for the GPU compute path (results aggregated on device before PCIe transfer). End-to-end wall-clock time including PCIe data transfer is shown separately.
 
-| Fleet Size | Projection Horizon | Highway Time |
-|---|---|---|
-| 1,000 policies | 30 years | ~15 ms |
-| 10,000 policies | 30 years | ~45 ms |
-| 100,000 policies | 30 years | ~180 ms |
+| Fleet Size | Projection Horizon | GPU Compute | GPU Full (end-to-end) |
+|---|---|---|---|
+| 10,000 policies | 50 years | ~5.6 ms | ~34.6 ms |
+| 100,000 policies | 50 years | ~23.4 ms | ~273 ms |
+| 200,000 policies | 50 years | ~41.5 ms | ~545 ms |
 
-Projecting 100,000 life insurance policies over a 30-year horizon in under 200 milliseconds is fast enough for **interactive analysis**. An actuary could change an assumption — adjust a mortality table, modify a lapse rate — and see the portfolio-wide impact within a fraction of a second.
+The GPU compute path — where risk metrics are aggregated on the device before the results leave the highway — projects 100,000 life insurance policies over a 50-year horizon in under 25 milliseconds. Even end-to-end including PCIe data transfer, 100,000 policies complete in under 275 milliseconds. For workloads where results stay on the GPU (feeding into further GPU-side analytics), this is fast enough for **interactive analysis**: an actuary could change an assumption — adjust a mortality table, modify a lapse rate — and see the portfolio-wide impact within a fraction of a second.
 
 ## Part 3: Performance Targets
 

@@ -107,7 +107,7 @@ With the highway certified, I tested it at scale — not 42 reference cars, but 
 
 A fleet generator was built that creates realistic synthetic portfolios: contracts with varied loan amounts, interest rates, maturities, and payment schedules. The generator is deterministic — the same settings always produce the same fleet — so results are reproducible.
 
-The benchmarks confirmed what the highway analogy predicts: for small fleets (under ~5,000 cars), the on-ramp overhead makes the 8-track facility faster. Above 10,000 cars, the highway dominates. At 100,000 cars, it is over twice as fast.
+The benchmarks confirmed what the highway analogy predicts: for small fleets (under ~5,000 cars), the on-ramp overhead makes the 8-track facility faster. Above 10,000 cars, the highway dominates. The size of the advantage depends on the type of contract: for complex ACTUS banking contracts, the highway runs 1.4–1.7× faster at large scale; for insurance state-transition models, the advantage reaches 30× or more.
 
 ## Phase 7: Monte Carlo — Thousands of Road Conditions
 

@@ -83,9 +83,9 @@ graph LR
         S2["GPU: ~5 ms overhead + 27 ms = ~32 ms"]
     end
 
-    subgraph "Large Portfolio (100K contracts)"
-        L1["CPU: ~685 ms total"]
-        L2["GPU: ~30 ms overhead + 282 ms = ~312 ms"]
+    subgraph "Large Portfolio (100K life insurance policies)"
+        L1["CPU: ~735 ms total"]
+        L2["GPU: ~250 ms overhead + 23 ms = ~273 ms"]
     end
 ```
 

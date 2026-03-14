@@ -83,7 +83,7 @@ Additionally, the test suite checks not just the final result of each car's run,
 | Under 5,000 | 8-track facility (CPU) | On-ramp overhead exceeds highway savings |
 | 5,000 – 10,000 | About equal | Crossover zone |
 | Over 10,000 | Highway (GPU) | Parallel lanes dominate |
-| Over 100,000 | Highway (GPU), 2×+ faster | Advantage keeps growing |
+| Over 100,000 | Highway (GPU) — advantage varies by car type | 1.4–1.7× for complex banking contracts; up to 30× for insurance state-transition models |
 
 **Lesson:** The right tool depends on the job. A highway is not better than a test track — it is better at a specific kind of job: large-scale, parallel work.
 
