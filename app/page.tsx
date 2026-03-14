@@ -148,10 +148,10 @@ export default function Home() {
                 <div className="text-center">
                   <CurrentIcon className="h-24 w-24 mx-auto mb-6" style={{ color: '#D4891A' }} />
                   <h3 className="text-xl font-semibold text-white mb-4">
-                    Professional Documentation
+                    {currentSection.title}
                   </h3>
                   <p style={{ color: '#9FB8D0' }}>
-                    Comprehensive, standardized documentation designed for professional use in {currentSection.blurb}.
+                    {currentSection.blurb}.
                   </p>
                 </div>
               </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import { toSentenceCase } from '../lib/sentenceCase'
 
 interface TocItem {
   id: string
@@ -159,7 +160,7 @@ export function TableOfContents({ content }: TableOfContentsProps) {
               ...(activeId === item.id ? { color: 'var(--color-amber-light)' } : {}),
             }}
           >
-            {item.text}
+            {toSentenceCase(item.text)}
           </button>
         ))}
       </nav>

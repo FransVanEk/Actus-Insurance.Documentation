@@ -12,6 +12,7 @@ import { MermaidChart } from './MermaidChart'
 import { ResourceList } from './ResourceList'
 import { useLayout } from './LayoutContext'
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/outline'
+import { toSentenceCase, applyToReactChildren } from '../lib/sentenceCase'
 
 interface DocumentRendererProps {
   doc: DocContent
@@ -150,11 +151,11 @@ export function DocumentRenderer({ doc }: DocumentRendererProps) {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
-              {doc.metadata.title}
+              {toSentenceCase(doc.metadata.title)}
             </h1>
             {doc.metadata.description && (
               <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">
-                {doc.metadata.description}
+                {toSentenceCase(doc.metadata.description)}
               </p>
             )}
           </div>
@@ -252,42 +253,42 @@ export function DocumentRenderer({ doc }: DocumentRendererProps) {
                 ? children.map(child => typeof child === 'string' ? child : '').join(' ')
                 : String(children || '')
               const id = getHeadingId(text)
-              return <h1 {...props} id={id}>{children}</h1>
+              return <h1 {...props} id={id}>{applyToReactChildren(children)}</h1>
             },
             h2: ({ node, children, ...props }) => {
               const text = Array.isArray(children) 
                 ? children.map(child => typeof child === 'string' ? child : '').join(' ')
                 : String(children || '')
               const id = getHeadingId(text)
-              return <h2 {...props} id={id}>{children}</h2>
+              return <h2 {...props} id={id}>{applyToReactChildren(children)}</h2>
             },
             h3: ({ node, children, ...props }) => {
               const text = Array.isArray(children) 
                 ? children.map(child => typeof child === 'string' ? child : '').join(' ')
                 : String(children || '')
               const id = getHeadingId(text)
-              return <h3 {...props} id={id}>{children}</h3>
+              return <h3 {...props} id={id}>{applyToReactChildren(children)}</h3>
             },
             h4: ({ node, children, ...props }) => {
               const text = Array.isArray(children) 
                 ? children.map(child => typeof child === 'string' ? child : '').join(' ')
                 : String(children || '')
               const id = getHeadingId(text)
-              return <h4 {...props} id={id}>{children}</h4>
+              return <h4 {...props} id={id}>{applyToReactChildren(children)}</h4>
             },
             h5: ({ node, children, ...props }) => {
               const text = Array.isArray(children) 
                 ? children.map(child => typeof child === 'string' ? child : '').join(' ')
                 : String(children || '')
               const id = getHeadingId(text)
-              return <h5 {...props} id={id}>{children}</h5>
+              return <h5 {...props} id={id}>{applyToReactChildren(children)}</h5>
             },
             h6: ({ node, children, ...props }) => {
               const text = Array.isArray(children) 
                 ? children.map(child => typeof child === 'string' ? child : '').join(' ')
                 : String(children || '')
               const id = getHeadingId(text)
-              return <h6 {...props} id={id}>{children}</h6>
+              return <h6 {...props} id={id}>{applyToReactChildren(children)}</h6>
             },
           }}
         >

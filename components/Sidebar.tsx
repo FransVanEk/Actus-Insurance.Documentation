@@ -14,6 +14,7 @@ import {
 import { SearchModal } from './SearchModal'
 import { useLayout } from './LayoutContext'
 import sectionsData from '../config/sections.json'
+import { toSentenceCase } from '../lib/sentenceCase'
 
 const ICON_MAP: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
   BuildingOffice: BuildingOfficeIcon,
@@ -203,7 +204,7 @@ export function Sidebar({ navigation }: SidebarProps) {
           {/* Home link */}
           <Link href="/" title="Go to home" className="flex items-center gap-2 flex-shrink-0">
             <img src="/logo_A_dark.svg" alt="ACTUS Logo" style={{ height: 32, width: 28, objectFit: 'contain' }} />
-            <span className="text-sm font-bold text-white tracking-wide">ACTUS</span>
+            <span className="text-sm font-bold text-white tracking-wide">ACTUS-I</span>
           </Link>
 
           <div className="flex-1" />
@@ -469,7 +470,7 @@ function NavigationItemComponent({
                 className="flex-1 text-left"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                {item.title}
+                {toSentenceCase(item.title)}
               </Link>
               {isCollapsed ? (
                 <ChevronRightIcon className="h-4 w-4 flex-shrink-0 ml-2" />
@@ -489,7 +490,7 @@ function NavigationItemComponent({
             style={isActive ? { color: '#F0A83A', backgroundColor: '#F0A83A15' } : {}}
             onClick={() => setIsMobileMenuOpen(false)}
           >
-            {item.title}
+            {toSentenceCase(item.title)}
           </Link>
         )}
       </div>
