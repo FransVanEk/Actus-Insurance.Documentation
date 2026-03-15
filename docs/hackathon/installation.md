@@ -1,6 +1,6 @@
 ---
 title: Installation & Getting Started
-description: How to install, run, and explore the ACTUS Insurance extension — from a five-minute Docker demo to a full developer build.
+description: How to install, run, and explore the ACTUS Insurance extension — from a two-minute pre-built Docker image to a full developer build.
 category: Hackathon
 order: 92
 ---
@@ -13,7 +13,9 @@ The ACTUS Insurance extension is delivered across four repositories. You do not 
 
 | Goal | What to use | Time |
 |---|---|---|
+| Run pre-built images immediately | Pre-built Docker images from Docker Hub | ~2 min |
 | See the demo UI running | Docker Compose — DemoAndSamples | ~5 min |
+| Run PAM Monte Carlo analysis (containerised) | Pre-built `pam-monte-carlo` image | ~2 min |
 | Run the CLI projection tool | CLI inside DemoAndSamples | ~10 min |
 | Build and test the Core engine | Actus-Insurance.Core | ~10 min |
 | Run the docs site locally | Actus-Insurance.Documentation | ~5 min |
@@ -63,9 +65,321 @@ The GPU component is the only proprietary piece. It ships as compiled packages, 
 
 ---
 
-## Option A — Quick Start: Docker Demo
+## Option A — Pre-built Docker Images
 
-This is the fastest way to see the full system running. The Docker Compose setup starts the .NET backend API (port 8080) and the Next.js frontend (port 3000) together with a single command.
+Ready-to-use containerised applications are published to Docker Hub. Pull and run them directly without cloning any repository or building from source. This is the fastest way to get results.
+
+### Available images
+
+| Image | Description |
+|---|---|
+| `neobluetechlabs/pam-monte-carlo:latest` | PAM Monte Carlo 50-Year Analysis |
+| `neobluetechlabs/scenario-cpu-gpu-demo:latest` | CPU vs GPU Scenario Analysis |
+| `neobluetechlabs/actus-api:latest` | FastEndpoints REST API |
+| `neobluetechlabs/actus-designer:latest` | Next.js Frontend Dashboard |
+
+All images are published as multi-architecture manifests and support `linux/amd64` (Intel/AMD 64-bit) and `linux/arm64` (ARM 64-bit, including Apple Silicon). Docker automatically selects the correct variant for your system when pulling.
+
+---
+
+### PAM Monte Carlo Analysis
+
+#### 1. Pull the image
+
+```bash
+docker pull neobluetechlabs/pam-monte-carlo:latest
+```
+
+#### 2. Create an output directory
+
+```bash
+mkdir -p out-monte-carlo
+```
+
+#### 3. Run the analysis
+
+```bash
+docker run --rm -v $(pwd)/out-monte-carlo:/app/out neobluetechlabs/pam-monte-carlo:latest
+```
+
+By default this runs both CPU and GPU backends with 10 000 contracts, 1 000 scenarios, and a 50-year (600-month) horizon.
+
+#### Backend selection
+
+```bash
+# GPU only
+docker run --rm -v $(pwd)/out-monte-carlo:/app/out neobluetechlabs/pam-monte-carlo:latest --backend gpu
+
+# CPU only
+docker run --rm -v $(pwd)/out-monte-carlo:/app/out neobluetechlabs/pam-monte-carlo:latest --backend cpu
+
+# Both (default)
+docker run --rm -v $(pwd)/out-monte-carlo:/app/out neobluetechlabs/pam-monte-carlo:latest --backend both
+```
+
+#### Custom parameters
+
+```bash
+# Smaller test run
+docker run --rm -v $(pwd)/out-monte-carlo:/app/out neobluetechlabs/pam-monte-carlo:latest \
+  --backend gpu \
+  --contracts 1000 \
+  --scenarios 100 \
+  --months 240
+
+# Export portfolio for reuse
+docker run --rm -v $(pwd)/out-monte-carlo:/app/out neobluetechlabs/pam-monte-carlo:latest \
+  --backend cpu \
+  --contracts 500 \
+  --scenarios 200 \
+  --export-portfolio true
+```
+
+#### Parameters reference
+
+| Parameter | Default | Description |
+|---|---|---|
+| `--backend` | `both` | Execution backend: `cpu`, `gpu`, or `both` |
+| `--contracts` | `10000` | Portfolio size |
+| `--scenarios` | `1000` | Monte Carlo scenarios |
+| `--months` | `600` | Time horizon (600 = 50 years) |
+| `--seed` | `12345` | Random seed for reproducibility |
+| `--calcDateIndex` | `0` | Calculation date month index |
+| `--export-portfolio` | — | Export generated portfolio to CSV when set to `true` |
+
+#### Expected output files
+
+```
+out-monte-carlo/
+├── run0_cpu_portfolio_pv_by_scenario.csv
+├── run0_cpu_summary.json
+├── run0_gpu_portfolio_pv_by_scenario.csv
+├── run0_gpu_summary.json
+├── run1_backtest_cpu_*
+└── run1_backtest_gpu_*
+```
+
+---
+
+### Scenario CPU-GPU Demo
+
+#### 1. Pull the image
+
+```bash
+docker pull neobluetechlabs/scenario-cpu-gpu-demo:latest
+```
+
+#### 2. Create an output directory
+
+```bash
+mkdir -p out-scenario
+```
+
+#### 3. Run the demo
+
+```bash
+docker run --rm -v $(pwd)/out-scenario:/app/out neobluetechlabs/scenario-cpu-gpu-demo:latest
+```
+
+This runs three experiments and writes results to the output directory.
+
+| Experiment | Description |
+|---|---|
+| Experiment 1 | CPU vs GPU backend comparison — validates 15/15 pairs within tolerance |
+| Experiment 2 | Interest rate scenario impact analysis |
+| Experiment 3 | Calculation date causality effects |
+
+#### Expected output files
+
+```
+out-scenario/
+├── portfolio.csv
+├── scenarios.csv
+├── exp1_cpu_vs_gpu.csv
+├── exp2_scenario_impact.csv
+└── exp3_calcdate_impact.csv
+```
+
+---
+
+### API and Frontend Services (Pre-built)
+
+#### Pull the images
+
+```bash
+docker pull neobluetechlabs/actus-api:latest
+docker pull neobluetechlabs/actus-designer:latest
+```
+
+#### Run individual services
+
+```bash
+# Start the API server
+docker run --rm -p 8080:8080 neobluetechlabs/actus-api:latest
+
+# Start the frontend dashboard
+docker run --rm -p 3000:3000 neobluetechlabs/actus-designer:latest
+```
+
+#### Run the complete stack with Docker Compose
+
+Create a `docker-compose.yml` file:
+
+```yaml
+version: '3.8'
+services:
+  actus-api:
+    image: neobluetechlabs/actus-api:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - actus-data:/app/data
+
+  actus-designer:
+    image: neobluetechlabs/actus-designer:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - actus-api
+
+volumes:
+  actus-data:
+```
+
+Then start the stack:
+
+```bash
+# Start both services
+docker compose up -d
+
+# Check service status
+docker compose ps
+
+# Stop services
+docker compose down
+```
+
+#### Access URLs
+
+| Service | URL |
+|---|---|
+| Frontend (ACTUS Designer) | http://localhost:3000 |
+| API | http://localhost:8080 |
+| API documentation (Swagger) | http://localhost:8080/swagger |
+| Health check | http://localhost:8080/health |
+
+---
+
+### Volume mounting
+
+```bash
+# Mount the current directory's output folder
+docker run --rm -v $(pwd)/out:/app/out neobluetechlabs/pam-monte-carlo:latest
+
+# Mount a specific absolute path
+docker run --rm -v /path/to/output:/app/out neobluetechlabs/pam-monte-carlo:latest
+
+# Mount with explicit read-write permissions
+docker run --rm -v $(pwd)/out:/app/out:rw neobluetechlabs/pam-monte-carlo:latest
+
+# API data persistence
+docker run --rm -p 8080:8080 -v $(pwd)/api-data:/app/data neobluetechlabs/actus-api:latest
+```
+
+---
+
+### Environment variables
+
+#### API Service
+
+| Variable | Default | Description |
+|---|---|---|
+| `ASPNETCORE_URLS` | `http://+:8080` | Server binding |
+| `Calculation__PreferGpu` | `false` | GPU preference |
+| `Logging__LogLevel__Default` | `Information` | Log level |
+
+#### Frontend Service
+
+| Variable | Default | Description |
+|---|---|---|
+| `NODE_ENV` | `production` | Environment mode |
+| `API_BASE_URL` | `http://actus-api:8080` | API endpoint |
+| `PORT` | `3000` | Server port |
+
+---
+
+### Performance and resource limits
+
+Limit CPU and memory usage to avoid contention with other processes:
+
+```bash
+docker run --rm --cpus="2.0" --memory="4g" \
+  -v $(pwd)/out:/app/out neobluetechlabs/pam-monte-carlo:latest
+```
+
+Run multiple containers in parallel for different parameter sets:
+
+```bash
+docker run --rm -v $(pwd)/out-gpu:/app/out neobluetechlabs/pam-monte-carlo:latest --backend gpu --scenarios 500 &
+docker run --rm -v $(pwd)/out-cpu:/app/out neobluetechlabs/pam-monte-carlo:latest --backend cpu --scenarios 500 &
+wait
+```
+
+---
+
+### CI/CD integration example
+
+```yaml
+# .github/workflows/docker.yml
+name: Test Monte Carlo
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Pull and test Monte Carlo
+        run: |
+          docker pull neobluetechlabs/pam-monte-carlo:latest
+          mkdir -p test-output
+          docker run --rm -v $(pwd)/test-output:/app/out neobluetechlabs/pam-monte-carlo:latest --contracts 100 --scenarios 50
+          ls -la test-output/
+```
+
+---
+
+### Custom orchestration example
+
+```yaml
+# custom-docker-compose.yml
+version: '3.8'
+services:
+  monte-carlo:
+    image: neobluetechlabs/pam-monte-carlo:latest
+    command: ["--backend", "gpu", "--contracts", "5000"]
+    volumes:
+      - ./monte-carlo-output:/app/out
+
+  api:
+    image: neobluetechlabs/actus-api:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - Calculation__PreferGpu=true
+
+  frontend:
+    image: neobluetechlabs/actus-designer:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+```
+
+---
+
+## Option B — Docker Compose: Full Stack (Build from Source)
+
+This starts the .NET backend API (port 8080) and the Next.js frontend (port 3000) together by building images from source. Use this when you want to modify the code or need the latest unreleased changes.
 
 ### 1. Clone the repository
 
@@ -131,7 +445,7 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
 
 ---
 
-## Option B — CLI Tool: Portfolio Projection
+## Option C — CLI Tool: Portfolio Projection
 
 The `PamMonteCarlo50Y` CLI tool runs the full evaluation pipeline from the command line — no UI required. It is the best way to exercise the GPU/CPU engine and see benchmark results directly.
 
@@ -258,7 +572,7 @@ input_dir/
 
 ---
 
-## Option C — Developer Build: Core Engine
+## Option D — Developer Build: Core Engine
 
 Use this if you want to read, modify, or extend the core C# engine — the PAM contract implementation, conventions, state machine, or actuarial components.
 
@@ -328,7 +642,7 @@ If you are extending the insurance components (Markov model, DSL, actuarial tabl
 
 ---
 
-## Option D — Documentation Site (Local)
+## Option E — Documentation Site (Local)
 
 Run the documentation website locally to preview documentation changes before publishing.
 
@@ -417,7 +731,61 @@ The GPU package depends on `Actus-Insurance.Core`. Add a reference to the Core p
 
 ## Troubleshooting
 
-### Docker: containers fail to start
+### Pre-built images: empty output directory
+
+If no files appear in the output directory after the container exits, check that the volume mount points to `/app/out` (for CLI images), that the host directory exists before running, and that Docker has write permissions to it. Inspect the container logs for errors:
+
+```bash
+docker logs <container-id>
+```
+
+### Pre-built images: port conflicts
+
+If Docker reports `Port already allocated`, stop the conflicting container or use a different host port:
+
+```bash
+# Stop a named container
+docker stop <container-name>
+
+# Map to a different host port
+docker run --rm -p 8081:8080 neobluetechlabs/actus-api:latest
+
+# List running containers
+docker ps
+```
+
+### Pre-built images: image cannot be pulled
+
+Verify the image name and tag, then try pulling explicitly:
+
+```bash
+docker pull neobluetechlabs/pam-monte-carlo:latest
+```
+
+### Pre-built images: GPU backend not producing GPU output files
+
+GPU acceleration uses a CPU fallback by default if no compatible GPU is detected. This is not an error — it is a silent performance difference. Verify which backend was used by checking for `*_gpu_*.csv` files in the output directory and reviewing the container logs. To force CPU-only execution: `--backend cpu`.
+
+### Pre-built images: debugging container internals
+
+```bash
+# Interactive shell access
+docker run --rm -it neobluetechlabs/pam-monte-carlo:latest /bin/bash
+
+# List files inside the container
+docker run --rm neobluetechlabs/pam-monte-carlo:latest ls -la /app/
+
+# Monitor resource usage
+docker stats <container-name>
+
+# Inspect image layers
+docker history neobluetechlabs/pam-monte-carlo:latest
+
+# View available CLI options
+docker run --rm neobluetechlabs/pam-monte-carlo:latest --help
+```
+
+### Docker Compose: containers fail to start
 
 Check the logs for the specific container that failed:
 
