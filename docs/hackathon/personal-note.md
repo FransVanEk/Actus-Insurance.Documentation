@@ -5,8 +5,6 @@ category: Hackathon
 order: 7
 ---
 
-# Personal Note
-
 ## Where It Began
 
 Starting with nothing — only a basic curiosity and the opportunity to attend the CORA Summit in Zagreb — I began my journey into the ACTUS world. At that moment, the terminology, the structure, and even the way financial contracts were reasoned about were completely new to me.

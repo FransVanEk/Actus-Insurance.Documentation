@@ -1,0 +1,290 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 580" font-family="Trebuchet MS, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2836"/>
+      <stop offset="100%" style="stop-color:#243344"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#e6a040"/>
+    </linearGradient>
+    <!-- GPU zone fill: dark teal gradient -->
+    <linearGradient id="gpuZone" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a4a3a;stop-opacity:0.7"/>
+      <stop offset="100%" style="stop-color:#0a2820;stop-opacity:0.5"/>
+    </linearGradient>
+    <!-- CPU zone fill: dark amber gradient -->
+    <linearGradient id="cpuZone" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3a2a10;stop-opacity:0.7"/>
+      <stop offset="100%" style="stop-color:#201808;stop-opacity:0.5"/>
+    </linearGradient>
+    <!-- D2H warning zone -->
+    <linearGradient id="d2hZone" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3a1010;stop-opacity:0.5"/>
+      <stop offset="100%" style="stop-color:#1a0808;stop-opacity:0.3"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowSoft">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowGold" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,1 L7,4 L0,7 Z" fill="#D4891A"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1300" height="580" fill="url(#bgGrad)"/>
+  <rect x="0" y="0" width="1300" height="4" fill="url(#goldGrad)"/>
+  <rect x="0" y="576" width="1300" height="4" fill="url(#goldGrad)"/>
+
+  <!-- Title -->
+  <text x="650" y="36" text-anchor="middle" fill="#FFFFFF" font-size="20" font-weight="bold" letter-spacing="2">C × S WORKLOAD SURFACE — GPU vs CPU REGIME BOUNDARIES</text>
+  <text x="650" y="56" text-anchor="middle" fill="#8FAAB8" font-size="11" letter-spacing="1">C = batch size (contracts) · S = scenario count · diagonal lines = constant C·S pairs · shading = which backend wins</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LEFT PANEL: 2D C×S grid with regime zones
+       x-axis: log10(C)  C = 1..1M  (6 decades)
+       y-axis: log10(S)  S = 1..10k (4 decades)
+       chart area: x=100..660, y=80..440
+       x(C) = 100 + log10(C)*93.3   (560px / 6 decades)
+       y(S) = 440 - log10(S)*90     (360px / 4 decades)
+       ═══════════════════════════════════════════════════════════════ -->
+
+  <rect x="80" y="68" width="600" height="405" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+  <rect x="80" y="68" width="600" height="24" rx="8" fill="#1e2a40" stroke="#D4891A" stroke-width="1.2"/>
+  <text x="380" y="84" text-anchor="middle" fill="#D4891A" font-size="11" font-weight="bold">C × S REGIME MAP — WHERE GPU BEATS CPU</text>
+
+  <!-- Y gridlines  y(1)=440  y(10)=350  y(100)=260  y(1k)=170  y(10k)=80 -->
+  <line x1="100" y1="440" x2="660" y2="440" stroke="#253545" stroke-width="0.8"/>
+  <text x="94" y="444" text-anchor="end" fill="#4a6a7a" font-size="8">S=1</text>
+  <line x1="100" y1="350" x2="660" y2="350" stroke="#253545" stroke-width="0.8"/>
+  <text x="94" y="354" text-anchor="end" fill="#4a6a7a" font-size="8">S=10</text>
+  <line x1="100" y1="260" x2="660" y2="260" stroke="#253545" stroke-width="0.8"/>
+  <text x="94" y="264" text-anchor="end" fill="#4a6a7a" font-size="8">S=100</text>
+  <line x1="100" y1="170" x2="660" y2="170" stroke="#253545" stroke-width="0.8"/>
+  <text x="94" y="174" text-anchor="end" fill="#4a6a7a" font-size="8">S=1k</text>
+  <line x1="100" y1="80"  x2="660" y2="80"  stroke="#253545" stroke-width="0.8"/>
+  <text x="94" y="84"  text-anchor="end" fill="#4a6a7a" font-size="8">S=10k</text>
+
+  <!-- X gridlines  x(1)=100  x(10)=193  x(100)=287  x(1k)=380  x(10k)=473  x(100k)=567  x(1M)=660 -->
+  <line x1="100" y1="80" x2="100" y2="440" stroke="#253545" stroke-width="0.8"/>
+  <text x="100" y="454" text-anchor="middle" fill="#4a6a7a" font-size="8">1</text>
+  <line x1="193" y1="80" x2="193" y2="440" stroke="#253545" stroke-width="0.6" opacity="0.6"/>
+  <text x="193" y="454" text-anchor="middle" fill="#4a6a7a" font-size="8">10</text>
+  <line x1="287" y1="80" x2="287" y2="440" stroke="#253545" stroke-width="0.6" opacity="0.6"/>
+  <text x="287" y="454" text-anchor="middle" fill="#4a6a7a" font-size="8">100</text>
+  <line x1="380" y1="80" x2="380" y2="440" stroke="#253545" stroke-width="0.8"/>
+  <text x="380" y="454" text-anchor="middle" fill="#4a6a7a" font-size="8">1k</text>
+  <line x1="473" y1="80" x2="473" y2="440" stroke="#253545" stroke-width="0.8"/>
+  <text x="473" y="454" text-anchor="middle" fill="#4a6a7a" font-size="8">10k</text>
+  <line x1="567" y1="80" x2="567" y2="440" stroke="#253545" stroke-width="0.8"/>
+  <text x="567" y="454" text-anchor="middle" fill="#4a6a7a" font-size="8">100k</text>
+  <line x1="660" y1="80" x2="660" y2="440" stroke="#253545" stroke-width="0.8"/>
+  <text x="660" y="454" text-anchor="middle" fill="#4a6a7a" font-size="8">1M</text>
+
+  <text x="380" y="470" text-anchor="middle" fill="#8FAAB8" font-size="10">C  (batch size)  →  log scale</text>
+  <text x="54" y="260" text-anchor="middle" fill="#8FAAB8" font-size="10" transform="rotate(-90,54,260)">S  (scenarios)  →  log scale</text>
+
+  <!-- ── Diagonal iso-lines C·S = const
+       C·S = k  →  log10(S) = log10(k) - log10(C)
+       For k=100: S = 100/C
+         when C=1, S=100 → (100,260); when C=100, S=1 → (287,440)
+         line from (100,260) to (287,440)
+       For k=1k:
+         C=1,S=1k→(100,170); C=1k,S=1→(380,440)
+       For k=10k (crossover):
+         C=1,S=10k→(100,80); C=10k,S=1→(473,440)
+       For k=100k:
+         C=10,S=10k→(193,80); C=100k,S=1→(567,440)
+       For k=1M:
+         C=100,S=10k→(287,80); C=1M,S=1→(660,440)
+       For k=10M:
+         C=1k,S=10k→(380,80); only visible near C=1M end
+         line from (380,80) to (660,80+90*(log10(10000000)-log10(1000000)))... -->
+
+  <!-- Diagonal iso-lines -->
+  <!-- C·S=100 -->
+  <line x1="100" y1="260" x2="287" y2="440" stroke="#3a5060" stroke-width="0.8" stroke-dasharray="3,4" opacity="0.6"/>
+  <text x="160" y="370" fill="#3a5060" font-size="7" transform="rotate(-57,160,370)">C·S=100</text>
+
+  <!-- C·S=1k -->
+  <line x1="100" y1="170" x2="380" y2="440" stroke="#3a5060" stroke-width="0.8" stroke-dasharray="3,4" opacity="0.6"/>
+  <text x="220" y="330" fill="#3a5060" font-size="7" transform="rotate(-48,220,330)">C·S=1k</text>
+
+  <!-- C·S=10k (CROSSOVER LINE — prominent) -->
+  <line x1="100" y1="80" x2="473" y2="440" stroke="#D4891A" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="265" y="266" fill="#D4891A" font-size="9" font-weight="bold" transform="rotate(-44,265,266)">C · S = 10,000  (CROSSOVER)</text>
+
+  <!-- C·S=100k -->
+  <line x1="193" y1="80" x2="567" y2="440" stroke="#3a5060" stroke-width="1" stroke-dasharray="4,4" opacity="0.7"/>
+  <text x="360" y="278" fill="#4a7080" font-size="7" transform="rotate(-44,360,278)">C·S=100k</text>
+
+  <!-- C·S=1M -->
+  <line x1="287" y1="80" x2="660" y2="440" stroke="#3a5060" stroke-width="1" stroke-dasharray="4,4" opacity="0.7"/>
+  <text x="460" y="268" fill="#4a7080" font-size="7" transform="rotate(-44,460,268)">C·S=1M</text>
+
+  <!-- C·S=10M: from (380,80) visible til (660,80+(3)*90=350) -->
+  <line x1="380" y1="80" x2="660" y2="332" stroke="#3a5060" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+  <text x="560" y="200" fill="#4a7080" font-size="7" transform="rotate(-45,560,200)">C·S=10M</text>
+
+  <!-- ── Zone fills (below crossover = CPU zone; above = GPU zone) ── -->
+  <!-- CPU zone: triangle below C·S=10k line -->
+  <!-- Points: bottom-left (100,440), crossover line hits bottom at (473,440), line top at (100,80) -->
+  <!-- Simplified: polygon for CPU zone (small C·S) -->
+  <polygon points="100,440 473,440 100,80" fill="url(#cpuZone)" opacity="0.4"/>
+
+  <!-- GPU zone: everything above crossover line -->
+  <polygon points="100,80 473,440 660,440 660,80" fill="url(#gpuZone)" opacity="0.3"/>
+
+  <!-- Zone text labels -->
+  <text x="200" y="400" text-anchor="middle" fill="#e6a040" font-size="13" font-weight="bold" opacity="0.8">CPU</text>
+  <text x="200" y="415" text-anchor="middle" fill="#8a6030" font-size="8" opacity="0.8">overhead dominates</text>
+  <text x="200" y="427" text-anchor="middle" fill="#8a6030" font-size="8" opacity="0.8">GPU not worth it</text>
+
+  <text x="560" y="180" text-anchor="middle" fill="#3aaa8a" font-size="13" font-weight="bold" opacity="0.8">GPU</text>
+  <text x="560" y="196" text-anchor="middle" fill="#2a8a6a" font-size="8" opacity="0.8">launch cost amortised</text>
+  <text x="560" y="208" text-anchor="middle" fill="#2a8a6a" font-size="8" opacity="0.8">efficiency scales up</text>
+
+  <!-- D2H VRAM limit line (horizontal, high C·S → memory bound)
+       VRAM limit: C·S ≈ 2×10^9 floats (8GB)
+       But that's off the chart; instead show practical VRAM limit at C·S~10^8 (100M pairs, ~400MB)
+       C·S=100M: above our grid (S goes to 10k, C goes to 1M → 10^10 theoretical max) — mark on C axis
+       Actually let's mark C=100k limit line as a practical boundary for single VRAM allocation -->
+  <rect x="100" y="80" width="467" height="14" rx="4" fill="#2a1818" stroke="#e04040" stroke-width="1" opacity="0.85"/>
+  <text x="333" y="90" text-anchor="middle" fill="#e06060" font-size="8" font-weight="bold">⚠  VRAM LIMIT: C · S result buffer ≈ 8 GB / 4 B = 2 × 10⁹ pairs max  →  chunk above this</text>
+
+  <!-- Annotated real-world demo points -->
+  <!-- Monte Carlo demo: C=10k, S=1000 → log10(10k)=4 → x=473, log10(1000)=3 → y=170 -->
+  <circle cx="473" cy="170" r="9" fill="#3aaa8a" stroke="#FFFFFF" stroke-width="1.5" filter="url(#glowSoft)"/>
+  <text x="487" y="155" fill="#3aaa8a" font-size="9" font-weight="bold">MC demo</text>
+  <text x="487" y="167" fill="#3aaa8a" font-size="8">10k × 1k = 10M</text>
+  <text x="487" y="179" fill="#3aaa8a" font-size="8">7.5× speedup</text>
+
+  <!-- Benchmark Life 200k, S=1: C=200k→x=567+0.3*93=595, S=1→y=440 -->
+  <circle cx="590" cy="440" r="9" fill="#e6a040" stroke="#FFFFFF" stroke-width="1.5" filter="url(#glowSoft)"/>
+  <text x="600" y="434" fill="#e6a040" font-size="9" font-weight="bold">Benchmark</text>
+  <text x="600" y="446" fill="#e6a040" font-size="8">200k × 1 = 200k · 35.7×</text>
+
+  <!-- Scenario causality demo: C=5, S=3 → x=100+0.7*93=165, S=3→y=440-0.477*90=397 -->
+  <circle cx="165" cy="397" r="7" fill="#8FAAB8" stroke="#FFFFFF" stroke-width="1.2"/>
+  <text x="172" y="392" fill="#8FAAB8" font-size="8">Causality demo</text>
+  <text x="172" y="403" fill="#8FAAB8" font-size="8">5×3=15 pairs · CPU wins</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       RIGHT PANEL: Memory size chart
+       ═══════════════════════════════════════════════════════════════ -->
+  <rect x="710" y="68" width="560" height="405" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+  <rect x="710" y="68" width="560" height="24" rx="8" fill="#1e2a40" stroke="#D4891A" stroke-width="1.2"/>
+  <text x="990" y="84" text-anchor="middle" fill="#D4891A" font-size="11" font-weight="bold">MEMORY COMPLEXITY — BUFFER SIZES</text>
+
+  <!-- Table layout showing which buffer grows with what -->
+  <!-- Header row -->
+  <rect x="720" y="96" width="540" height="22" rx="3" fill="#253545"/>
+  <text x="870" y="111" text-anchor="middle" fill="#8FAAB8" font-size="9" font-weight="bold">BUFFER</text>
+  <text x="985" y="111" text-anchor="middle" fill="#8FAAB8" font-size="9" font-weight="bold">GROWS WITH</text>
+  <text x="1100" y="111" text-anchor="middle" fill="#8FAAB8" font-size="9" font-weight="bold">BIG-O</text>
+  <text x="1200" y="111" text-anchor="middle" fill="#8FAAB8" font-size="9" font-weight="bold">EXAMPLE (C=100k,S=1k)</text>
+
+  <!-- Rows -->
+  <!-- Contract input buffer -->
+  <rect x="720" y="118" width="540" height="28" rx="2" fill="#1e2a3a" stroke="#2a3a4a" stroke-width="0.5"/>
+  <text x="870" y="136" text-anchor="middle" fill="#5ab8d8" font-size="9">Contract input (VRAM)</text>
+  <text x="985" y="136" text-anchor="middle" fill="#8FAAB8" font-size="9">C × field_width</text>
+  <text x="1100" y="136" text-anchor="middle" fill="#e6c070" font-size="10" font-weight="bold">O(C)</text>
+  <text x="1200" y="136" text-anchor="middle" fill="#5a9ab8" font-size="8">~80 MB at C=100k</text>
+
+  <!-- Scenario buffer -->
+  <rect x="720" y="146" width="540" height="28" rx="2" fill="#1e2a3a" stroke="#2a3a4a" stroke-width="0.5"/>
+  <text x="870" y="164" text-anchor="middle" fill="#D4891A" font-size="9">Scenario paths (VRAM)</text>
+  <text x="985" y="164" text-anchor="middle" fill="#8FAAB8" font-size="9">S × T × R × 4B</text>
+  <text x="1100" y="164" text-anchor="middle" fill="#e6c070" font-size="10" font-weight="bold">O(S · T · R)</text>
+  <text x="1200" y="164" text-anchor="middle" fill="#5a9ab8" font-size="8">~2.4 MB at S=1k,T=600</text>
+
+  <!-- Results buffer — DOMINANT -->
+  <rect x="720" y="174" width="540" height="34" rx="2" fill="#1a3028" stroke="#3aaa8a" stroke-width="1.5"/>
+  <text x="870" y="191" text-anchor="middle" fill="#3aaa8a" font-size="9" font-weight="bold">★ Results buffer (VRAM)</text>
+  <text x="870" y="202" text-anchor="middle" fill="#2a8a6a" font-size="7">dominant — binding VRAM constraint</text>
+  <text x="985" y="196" text-anchor="middle" fill="#8FAAB8" font-size="9">C × S × 4B</text>
+  <text x="1100" y="196" text-anchor="middle" fill="#e6c070" font-size="11" font-weight="bold">O(C · S)</text>
+  <text x="1200" y="191" text-anchor="middle" fill="#3aaa8a" font-size="9" font-weight="bold">400 MB at C=100k,S=1k</text>
+  <text x="1200" y="203" text-anchor="middle" fill="#2a8a6a" font-size="7">8 GB / 4 B = 2×10⁹ pairs max</text>
+
+  <!-- On-ramp CPU buffer -->
+  <rect x="720" y="208" width="540" height="28" rx="2" fill="#1e2a3a" stroke="#2a3a4a" stroke-width="0.5"/>
+  <text x="870" y="226" text-anchor="middle" fill="#e6a040" font-size="9">On-ramp buffer (RAM)</text>
+  <text x="985" y="226" text-anchor="middle" fill="#8FAAB8" font-size="9">C × field_width × 4B</text>
+  <text x="1100" y="226" text-anchor="middle" fill="#e6c070" font-size="10" font-weight="bold">O(C)</text>
+  <text x="1200" y="226" text-anchor="middle" fill="#5a9ab8" font-size="8">same as VRAM input</text>
+
+  <!-- D2H receive buffer -->
+  <rect x="720" y="236" width="540" height="34" rx="2" fill="#2a1818" stroke="#e04040" stroke-width="1.2"/>
+  <text x="870" y="253" text-anchor="middle" fill="#e06060" font-size="9" font-weight="bold">⚠ D2H receive buffer (RAM)</text>
+  <text x="870" y="264" text-anchor="middle" fill="#c04040" font-size="7">only allocated when full path is used</text>
+  <text x="985" y="258" text-anchor="middle" fill="#8FAAB8" font-size="9">C × S × 4B</text>
+  <text x="1100" y="258" text-anchor="middle" fill="#e6c070" font-size="11" font-weight="bold">O(C · S)</text>
+  <text x="1200" y="253" text-anchor="middle" fill="#e06060" font-size="9" font-weight="bold">400 MB at C=100k,S=1k</text>
+  <text x="1200" y="265" text-anchor="middle" fill="#c04040" font-size="7">mirrors VRAM results buffer</text>
+
+  <!-- separator -->
+  <line x1="720" y1="280" x2="1260" y2="280" stroke="#3a4f60" stroke-width="0.8" stroke-dasharray="4,3"/>
+
+  <!-- VRAM capacity visualisation bar chart -->
+  <text x="990" y="300" text-anchor="middle" fill="#8FAAB8" font-size="10" font-weight="bold">VRAM HEADROOM — RTX 3060 Ti (8 GB)</text>
+
+  <!-- Bar: 8GB total -->
+  <!-- Each bar segment proportional to size at C=100k, S=1k -->
+  <!-- Total: contracts=80MB, scenarios=2.4MB, results=400MB, code+overhead=~100MB → total ~582MB of 8192MB -->
+  <!-- x scale: 8192 MB → 500px wide, so px_per_mb = 500/8192 = 0.061 -->
+
+  <text x="720" y="325" fill="#5a7a8a" font-size="8">0</text>
+  <text x="1230" y="325" fill="#5a7a8a" font-size="8">8 GB</text>
+  <!-- Empty background bar -->
+  <rect x="730" y="328" width="500" height="22" rx="4" fill="#1e2830" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- Code + overhead ~100MB = 6.1px -->
+  <rect x="730" y="328" width="6" height="22" rx="2" fill="#3a4f60"/>
+  <!-- Contracts 80MB = 4.9px -->
+  <rect x="736" y="328" width="5" height="22" fill="#5ab8d8" opacity="0.8"/>
+  <!-- Scenarios 2.4MB ≈ 0 visible -->
+  <!-- Results 400MB = 24.4px -->
+  <rect x="741" y="328" width="24" height="22" fill="#3aaa8a" opacity="0.9" filter="url(#glowSoft)"/>
+
+  <!-- Free space -->
+  <rect x="765" y="328" width="465" height="22" fill="#1a3028" opacity="0.4"/>
+  <text x="1000" y="343" text-anchor="middle" fill="#3aaa8a" font-size="9">FREE  ≈  7.5 GB available</text>
+
+  <text x="730" y="363" fill="#5ab8d8" font-size="8">code/overhead</text>
+  <text x="742" y="363" fill="#3aaa8a" font-size="8">results</text>
+  <text x="770" y="363" fill="#5a7a8a" font-size="8">(C=100k, S=1k  →  ~580 MB total used)</text>
+
+  <!-- C·S chunking note -->
+  <rect x="720" y="376" width="540" height="60" rx="6" fill="#1a2830" stroke="#D4891A" stroke-width="1"/>
+  <text x="990" y="394" text-anchor="middle" fill="#D4891A" font-size="10" font-weight="bold">CHUNKING STRATEGY FOR LARGE C · S</text>
+  <text x="990" y="410" text-anchor="middle" fill="#8FAAB8" font-size="9">When C · S exceeds VRAM capacity:  split C into chunks  →  process each chunk  →  reduce on-device</text>
+  <text x="990" y="424" text-anchor="middle" fill="#8FAAB8" font-size="9">Chunk size  =  floor( VRAM_free / (S × 4B) )  contracts per batch</text>
+  <text x="990" y="428" text-anchor="middle" fill="#5a7a8a" font-size="7"> </text>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       BOTTOM LEGEND
+       ═══════════════════════════════════════════════════════════════ -->
+  <line x1="30" y1="498" x2="1270" y2="498" stroke="#D4891A" stroke-width="0.8" opacity="0.35"/>
+
+  <rect x="80" y="506" width="16" height="16" rx="2" fill="url(#cpuZone)" stroke="#e6a040" stroke-width="1"/>
+  <text x="103" y="518" fill="#e6a040" font-size="11">CPU regime  (C·S &lt; 10k — launch overhead too high)</text>
+
+  <rect x="380" y="506" width="16" height="16" rx="2" fill="url(#gpuZone)" stroke="#3aaa8a" stroke-width="1"/>
+  <text x="403" y="518" fill="#3aaa8a" font-size="11">GPU regime  (C·S ≥ 10k — launch amortised, GPU wins)</text>
+
+  <line x1="700" y1="514" x2="750" y2="514" stroke="#D4891A" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="758" y="518" fill="#D4891A" font-size="11">Crossover boundary  C·S = 10,000</text>
+
+  <circle cx="1030" cy="514" r="6" fill="#3aaa8a" stroke="#FFFFFF" stroke-width="1"/>
+  <text x="1042" y="518" fill="#3aaa8a" font-size="11">MC demo (10M pairs · 7.5×)</text>
+
+  <circle cx="1170" cy="514" r="6" fill="#e6a040" stroke="#FFFFFF" stroke-width="1"/>
+  <text x="1182" y="518" fill="#e6a040" font-size="11">Benchmark (200k pairs · 35.7×)</text>
+</svg>
