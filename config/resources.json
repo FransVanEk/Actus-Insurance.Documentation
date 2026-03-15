@@ -18,6 +18,34 @@
     "viewUrl": "https://5zctpd9jyxecuidw.public.blob.vercel-storage.com/actus-Video-presentation-%20large.mp4"
   },
   {
+    "id": "demo-video-monte-carlo",
+    "title": "Monte Carlo Simulation Walkthrough",
+    "description": "Video guide demonstrating how to use the Monte Carlo simulation features in the ACTUS Insurance documentation site.",
+    "type": "video",
+    "size": "194 MB",
+    "url": "https://5zctpd9jyxecuidw.public.blob.vercel-storage.com/Demo-Monte-Carlo.mp4",
+    "viewUrl": "https://5zctpd9jyxecuidw.public.blob.vercel-storage.com/Demo-Monte-Carlo.mp4"
+  },
+  {
+    "id": "testing-gpu-kernel",
+    "title": "Testing GPU Kernel",
+    "description": "Video guide demonstrating how the GPU kernel was tested to ensure regression correctness.",
+    "type": "video",
+    "size": "28 MB",
+    "url": "/downloads/Testing-GPU-Kernel.mp4",
+    "viewUrl": "/downloads/Testing-GPU-Kernel.mp4"
+  },
+
+    {
+    "id": "testing-cpu-implementation",
+    "title": "Testing CPU Implementation",
+    "description": "Video guide demonstrating how the CPU implementation was tested to ensure regression correctness.",
+    "type": "video",
+    "size": "28 MB",
+    "url": "/downloads/Testing-CPU-Implementation.mp4",
+    "viewUrl": "/downloads/Testing-CPU-Implementation.mp4"
+  },
+  {
     "id": "pam-test-data",
     "title": "PAM Test Data (json)",
     "description": "All 42 PAM test cases in JSON format — input terms, expected cash flows, and state vectors per event type.",

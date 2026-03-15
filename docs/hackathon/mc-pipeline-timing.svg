@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 500" font-family="Trebuchet MS, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2836"/>
+      <stop offset="100%" style="stop-color:#243344"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#e6a040"/>
+    </linearGradient>
+    <!-- CPU CALC: orange -->
+    <linearGradient id="cpuCalc" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#8a5010"/>
+    </linearGradient>
+    <!-- GPU CALC: teal -->
+    <linearGradient id="gpuCalc" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3aaa8a"/>
+      <stop offset="100%" style="stop-color:#1a6a50"/>
+    </linearGradient>
+    <!-- FETCH: blue -->
+    <linearGradient id="fetchGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5a90c0"/>
+      <stop offset="100%" style="stop-color:#2a5070"/>
+    </linearGradient>
+    <!-- REPORTING: gray-blue -->
+    <linearGradient id="reportGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a6a80"/>
+      <stop offset="100%" style="stop-color:#2a3a50"/>
+    </linearGradient>
+    <filter id="glowSoft">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="500" fill="url(#bgGrad)"/>
+  <rect x="0" y="0" width="1200" height="4" fill="url(#goldGrad)"/>
+  <rect x="0" y="496" width="1200" height="4" fill="url(#goldGrad)"/>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" fill="#FFFFFF" font-size="21" font-weight="bold" letter-spacing="2">PIPELINE TIMING — CPU vs GPU</text>
+  <text x="600" y="58" text-anchor="middle" fill="#8FAAB8" font-size="12" letter-spacing="1">PAM MONTE CARLO · ACTUS CORE C# · NVIDIA RTX 3060 Ti · PHASE BREAKDOWN</text>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       SECTION 1: run0 — Full Portfolio (10,000 × 1,000)
+       Scale: bar_area = 830px, total = 13,728ms → 0.06046 px/ms
+       Bar starts at x=210, bar end x=1040
+       CALC px/ms = 0.06046:  CPU CALC: 13,530→818; FETCH: 120→7; REPORT: 78→5
+       GPU CALC: 1796→109; FETCH: 113→7; REPORT: 11→1
+       ══════════════════════════════════════════════════════════════ -->
+
+  <!-- Section header -->
+  <rect x="38" y="74" width="1124" height="24" rx="4" fill="#1e3050" stroke="#D4891A" stroke-width="1.2"/>
+  <text x="600" y="91" text-anchor="middle" fill="#D4891A" font-size="12" font-weight="bold">RUN 0 · FULL PORTFOLIO · 10,000 CONTRACTS × 1,000 SCENARIOS · scale: 1 px ≈ 16.5 ms</text>
+
+  <!-- CPU row label -->
+  <rect x="38" y="102" width="165" height="52" rx="4" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+  <text x="120" y="123" text-anchor="middle" fill="#D4891A" font-size="11" font-weight="bold">CPU</text>
+  <text x="120" y="139" text-anchor="middle" fill="#8FAAB8" font-size="9">13,728 ms total</text>
+  <text x="120" y="150" text-anchor="middle" fill="#5a7a8a" font-size="8">1.35 µs/c·s</text>
+
+  <!-- CPU CALC bar: x=210, width=818 -->
+  <rect x="210" y="104" width="818" height="48" rx="3" fill="url(#cpuCalc)"/>
+  <text x="619" y="133" text-anchor="middle" fill="#FFFFFF" font-size="12" font-weight="bold">CALC  13,530 ms</text>
+  <!-- CPU FETCH bar: x=1028, width=7 -->
+  <rect x="1028" y="104" width="7" height="48" rx="1" fill="url(#fetchGrad)"/>
+  <!-- CPU REPORT bar: x=1035, width=5 -->
+  <rect x="1035" y="104" width="5" height="48" rx="1" fill="url(#reportGrad)"/>
+  <!-- End label -->
+  <text x="1050" y="133" fill="#8FAAB8" font-size="9">Fetch 120ms</text>
+  <text x="1050" y="145" fill="#8FAAB8" font-size="9">Report 78ms</text>
+
+  <!-- GPU row label -->
+  <rect x="38" y="162" width="165" height="52" rx="4" fill="#1a2530" stroke="#3aaa8a" stroke-width="1.2"/>
+  <text x="120" y="183" text-anchor="middle" fill="#3aaa8a" font-size="11" font-weight="bold">GPU</text>
+  <text x="120" y="199" text-anchor="middle" fill="#8FAAB8" font-size="9">1,920 ms total</text>
+  <text x="120" y="210" text-anchor="middle" fill="#5a7a8a" font-size="8">0.18 µs/c·s</text>
+
+  <!-- GPU CALC bar: x=210, width=109 -->
+  <rect x="210" y="164" width="109" height="48" rx="3" fill="url(#gpuCalc)" filter="url(#glowSoft)"/>
+  <text x="264" y="193" text-anchor="middle" fill="#FFFFFF" font-size="10" font-weight="bold">1,796 ms</text>
+  <!-- GPU FETCH bar: x=319, width=7 -->
+  <rect x="319" y="164" width="7" height="48" rx="1" fill="url(#fetchGrad)"/>
+  <!-- GPU REPORT bar: x=326, width=1 -->
+  <rect x="326" y="164" width="1" height="48" rx="1" fill="url(#reportGrad)"/>
+  <!-- Speedup badge -->
+  <rect x="340" y="175" width="80" height="26" rx="13" fill="#1a3028" stroke="#3aaa8a" stroke-width="1.2"/>
+  <text x="380" y="192" text-anchor="middle" fill="#3aaa8a" font-size="11" font-weight="bold">7.53× faster</text>
+  <!-- Ghost remainder to show gap -->
+  <rect x="327" y="179" width="703" height="14" rx="3" fill="#1a3040" opacity="0.3"/>
+  <text x="680" y="190" text-anchor="middle" fill="#253545" font-size="9" font-style="italic">GPU completes here · remaining time = idle</text>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       SECTION 2: run1 — Backtest (500 × 100)
+       Scale: bar_area = 830px, total_cpu = 91ms → 9.12 px/ms
+       CPU CALC: 81*9.12=739; FETCH: 1*9.12=9; REPORT: 9*9.12=82 → total=830
+       GPU CALC: 26*9.12=237; FETCH: 1*9.12=9; REPORT: 4*9.12=36 → total=282
+       ══════════════════════════════════════════════════════════════ -->
+
+  <!-- Separator -->
+  <line x1="38" y1="228" x2="1162" y2="228" stroke="#D4891A" stroke-width="0.8" opacity="0.3"/>
+
+  <!-- Section header -->
+  <rect x="38" y="236" width="1124" height="24" rx="4" fill="#1e3050" stroke="#6ab0d8" stroke-width="1.2"/>
+  <text x="600" y="253" text-anchor="middle" fill="#6ab0d8" font-size="12" font-weight="bold">RUN 1 · BACKTEST · 500 CONTRACTS × 100 SCENARIOS · CalcDate 2025-01-01 · scale: 1 px ≈ 0.11 ms</text>
+
+  <!-- CPU row label -->
+  <rect x="38" y="264" width="165" height="52" rx="4" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+  <text x="120" y="285" text-anchor="middle" fill="#D4891A" font-size="11" font-weight="bold">CPU</text>
+  <text x="120" y="301" text-anchor="middle" fill="#8FAAB8" font-size="9">91 ms total</text>
+  <text x="120" y="312" text-anchor="middle" fill="#5a7a8a" font-size="8">1.62 µs/c·s</text>
+
+  <!-- CPU CALC: width=739 -->
+  <rect x="210" y="266" width="739" height="48" rx="3" fill="url(#cpuCalc)"/>
+  <text x="579" y="295" text-anchor="middle" fill="#FFFFFF" font-size="12" font-weight="bold">CALC  81 ms</text>
+  <!-- CPU FETCH: width=9 -->
+  <rect x="949" y="266" width="9" height="48" rx="1" fill="url(#fetchGrad)"/>
+  <!-- CPU REPORT: width=82 -->
+  <rect x="958" y="266" width="82" height="48" rx="3" fill="url(#reportGrad)"/>
+  <text x="999" y="295" text-anchor="middle" fill="#FFFFFF" font-size="9">Report 9ms</text>
+
+  <!-- GPU row label -->
+  <rect x="38" y="324" width="165" height="52" rx="4" fill="#1a2530" stroke="#3aaa8a" stroke-width="1.2"/>
+  <text x="120" y="345" text-anchor="middle" fill="#3aaa8a" font-size="11" font-weight="bold">GPU</text>
+  <text x="120" y="361" text-anchor="middle" fill="#8FAAB8" font-size="9">31 ms total</text>
+  <text x="120" y="372" text-anchor="middle" fill="#5a7a8a" font-size="8">0.62 µs/c·s</text>
+
+  <!-- GPU CALC: width=237 -->
+  <rect x="210" y="326" width="237" height="48" rx="3" fill="url(#gpuCalc)" filter="url(#glowSoft)"/>
+  <text x="328" y="355" text-anchor="middle" fill="#FFFFFF" font-size="10" font-weight="bold">CALC  26 ms</text>
+  <!-- GPU FETCH: width=9 -->
+  <rect x="447" y="326" width="9" height="48" rx="1" fill="url(#fetchGrad)"/>
+  <!-- GPU REPORT: width=36 -->
+  <rect x="456" y="326" width="36" height="48" rx="3" fill="url(#reportGrad)"/>
+  <text x="474" y="355" text-anchor="middle" fill="#FFFFFF" font-size="8">4ms</text>
+  <!-- Speedup badge -->
+  <rect x="506" y="337" width="80" height="26" rx="13" fill="#1a3028" stroke="#3aaa8a" stroke-width="1.2"/>
+  <text x="546" y="354" text-anchor="middle" fill="#3aaa8a" font-size="11" font-weight="bold">3.12× faster</text>
+  <!-- Ghost remainder -->
+  <rect x="492" y="341" width="548" height="14" rx="3" fill="#1a3040" opacity="0.3"/>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       LEGEND + NOTES
+       ══════════════════════════════════════════════════════════════ -->
+  <line x1="30" y1="394" x2="1170" y2="394" stroke="#D4891A" stroke-width="0.8" opacity="0.35"/>
+
+  <!-- Legend row -->
+  <rect x="80" y="404" width="14" height="14" rx="2" fill="url(#cpuCalc)"/>
+  <text x="100" y="415" fill="#FFFFFF" font-size="10">CALC (CPU)</text>
+  <rect x="200" y="404" width="14" height="14" rx="2" fill="url(#gpuCalc)"/>
+  <text x="220" y="415" fill="#FFFFFF" font-size="10">CALC (GPU)</text>
+  <rect x="320" y="404" width="14" height="14" rx="2" fill="url(#fetchGrad)"/>
+  <text x="340" y="415" fill="#FFFFFF" font-size="10">FETCH</text>
+  <rect x="400" y="404" width="14" height="14" rx="2" fill="url(#reportGrad)"/>
+  <text x="420" y="415" fill="#FFFFFF" font-size="10">REPORTING</text>
+  <text x="620" y="415" fill="#8FAAB8" font-size="10" font-style="italic">Each section uses its own scale — bars within each section are comparable</text>
+
+  <!-- Note row -->
+  <text x="80" y="435" fill="#5a7a8a" font-size="9">run0 note: CALC dominates at 98.5% of CPU time · GPU kernel throughput: 0.18 µs/contract·scenario</text>
+  <text x="80" y="451" fill="#5a7a8a" font-size="9">run1 note: Backtest at CalcDate month 60 (2025-01-01) · smaller portfolio delivers sub-100ms CPU total</text>
+  <text x="80" y="467" fill="#3aaa8a" font-size="9" font-weight="bold">Both runs: CPU and GPU produce bit-identical risk metrics (PV mean, VaR99, ES99, all percentiles)</text>
+</svg>

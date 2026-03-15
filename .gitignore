@@ -35,6 +35,5 @@ yarn-error.log*
 next-env.d.ts
 
 # Large media files (hosted on Vercel Blob)
-public/downloads/*.mp4
 public/downloads/*.mov
 public/downloads/*.avi

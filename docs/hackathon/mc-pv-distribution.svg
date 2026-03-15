@@ -1,0 +1,231 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" font-family="Trebuchet MS, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2836"/>
+      <stop offset="100%" style="stop-color:#243344"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#e6a040"/>
+    </linearGradient>
+    <!-- Distribution curve fill: teal fade -->
+    <linearGradient id="curveFill0" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3aaa8a;stop-opacity:0.45"/>
+      <stop offset="100%" style="stop-color:#3aaa8a;stop-opacity:0.08"/>
+    </linearGradient>
+    <linearGradient id="curveFill1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#6ab0d8;stop-opacity:0.45"/>
+      <stop offset="100%" style="stop-color:#6ab0d8;stop-opacity:0.08"/>
+    </linearGradient>
+    <!-- Loss zone fill -->
+    <linearGradient id="lossFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#c04030;stop-opacity:0.35"/>
+      <stop offset="100%" style="stop-color:#c04030;stop-opacity:0.05"/>
+    </linearGradient>
+    <filter id="glowSoft">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="560" fill="url(#bgGrad)"/>
+  <rect x="0" y="0" width="1200" height="4" fill="url(#goldGrad)"/>
+  <rect x="0" y="556" width="1200" height="4" fill="url(#goldGrad)"/>
+
+  <!-- Main title -->
+  <text x="600" y="36" text-anchor="middle" fill="#FFFFFF" font-size="21" font-weight="bold" letter-spacing="2">PORTFOLIO PV DISTRIBUTION — MONTE CARLO</text>
+  <text x="600" y="58" text-anchor="middle" fill="#8FAAB8" font-size="12" letter-spacing="1">PAM · 50-YEAR HORIZON · VASICEK INTEREST RATE SCENARIOS · SEED 12345</text>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       LEFT PANEL — run0: Full Portfolio (10k × 1000 scenarios)
+       X display range: −3B to 13B (16B span → 480px → 30px/B)
+       x_pixel(v) = 80 + (v + 3) × 30
+       Baseline y=380, peak y≈185
+       ══════════════════════════════════════════════════════════════ -->
+  <rect x="38" y="74" width="546" height="432" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+  <rect x="38" y="64" width="546" height="26" rx="4" fill="#243344" stroke="#3aaa8a" stroke-width="1.5"/>
+  <text x="311" y="82" text-anchor="middle" fill="#3aaa8a" font-size="13" font-weight="bold">run0 · FULL PORTFOLIO · 10,000 CONTRACTS × 1,000 SCENARIOS</text>
+
+  <!-- Loss zone (value < 0): x=80 to x=170 -->
+  <rect x="80" y="100" width="90" height="280" fill="url(#lossFill)" rx="2"/>
+  <text x="125" y="115" text-anchor="middle" fill="#e06050" font-size="9" font-style="italic">loss zone</text>
+
+  <!-- Distribution curve fill (closed polygon approximating right-skewed normal)
+       mean=3.46B → x=80+(3.46+3)*30 = 80+193.8 = 274
+       sigma~3.29B → sigma_px~99px -->
+  <path d="M 80,380
+    L 100,378 L 123,374 L 150,365 L 180,350
+    L 210,326 L 235,298 L 255,267 L 270,240
+    L 274,186 L 280,192 L 295,218 L 320,256
+    L 352,295 L 385,326 L 418,351 L 445,365
+    L 451,368 L 480,374 L 520,378 L 560,380 L 80,380 Z"
+    fill="url(#curveFill0)"/>
+
+  <!-- Curve stroke -->
+  <path d="M 80,380
+    L 100,378 L 123,374 L 150,365 L 180,350
+    L 210,326 L 235,298 L 255,267 L 270,240
+    L 274,186 L 280,192 L 295,218 L 320,256
+    L 352,295 L 385,326 L 418,351 L 445,365
+    L 451,368 L 480,374 L 520,378 L 560,380"
+    fill="none" stroke="#3aaa8a" stroke-width="1.5" opacity="0.8"/>
+
+  <!-- X-axis baseline -->
+  <line x1="80" y1="380" x2="560" y2="380" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- Zero line (x=170) -->
+  <line x1="170" y1="100" x2="170" y2="380" stroke="#4a6a7a" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.6"/>
+  <text x="170" y="396" text-anchor="middle" fill="#5a7a8a" font-size="8">0</text>
+
+  <!-- P05 marker (x=123) -->
+  <line x1="123" y1="160" x2="123" y2="380" stroke="#e06050" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.9"/>
+  <text x="123" y="155" text-anchor="middle" fill="#e06050" font-size="9" font-weight="bold">P05</text>
+  <text x="123" y="396" text-anchor="middle" fill="#e06050" font-size="8">−1.58bn</text>
+
+  <!-- VaR99 marker (x=259: 2.91B → 80+(2.91+3)*30=257) -->
+  <line x1="257" y1="140" x2="257" y2="380" stroke="#D4891A" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.85"/>
+  <text x="257" y="133" text-anchor="middle" fill="#D4891A" font-size="9" font-weight="bold">VaR99</text>
+  <text x="257" y="408" text-anchor="middle" fill="#D4891A" font-size="8">2.91bn</text>
+
+  <!-- P50 marker (x=270: 3.24B → 80+(3.24+3)*30=267) -->
+  <line x1="267" y1="168" x2="267" y2="380" stroke="#7cc0e8" stroke-width="1.5" opacity="0.9"/>
+  <text x="267" y="162" text-anchor="middle" fill="#7cc0e8" font-size="9" font-weight="bold">P50</text>
+  <text x="252" y="420" text-anchor="middle" fill="#7cc0e8" font-size="8">3.24bn</text>
+
+  <!-- Mean marker (x=276: 3.46B → 80+(3.46+3)*30=274) -->
+  <line x1="276" y1="183" x2="276" y2="380" stroke="#FFFFFF" stroke-width="2" opacity="0.8" filter="url(#glowSoft)"/>
+  <text x="290" y="177" text-anchor="start" fill="#FFFFFF" font-size="9" font-weight="bold">Mean</text>
+  <text x="284" y="408" text-anchor="middle" fill="#FFFFFF" font-size="8">3.46bn</text>
+
+  <!-- ES99 marker (x=277: 3.51B → 80+(3.51+3)*30=275) — just label -->
+  <text x="295" y="190" text-anchor="start" fill="#D4891A" font-size="8" font-style="italic">ES99=3.51bn</text>
+
+  <!-- P95 marker (x=451: 9.23B → 80+(9.23+3)*30=447) -->
+  <line x1="447" y1="180" x2="447" y2="380" stroke="#7cc0e8" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.9"/>
+  <text x="447" y="173" text-anchor="middle" fill="#7cc0e8" font-size="9" font-weight="bold">P95</text>
+  <text x="447" y="396" text-anchor="middle" fill="#7cc0e8" font-size="8">9.23bn</text>
+
+  <!-- P99 marker (x=521: 11.56B → 80+(11.56+3)*30=517) -->
+  <line x1="517" y1="210" x2="517" y2="380" stroke="#e06050" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.85"/>
+  <text x="517" y="203" text-anchor="middle" fill="#e06050" font-size="9" font-weight="bold">P99</text>
+  <text x="517" y="396" text-anchor="middle" fill="#e06050" font-size="8">11.56bn</text>
+
+  <!-- X-axis tick labels: −2, 0, 2, 4, 6, 8, 10, 12 (in billions) -->
+  <!-- x = 80+(v+3)*30 -->
+  <!-- −2B: x=110; 2B: x=230; 4B: x=290; 6B: x=350; 8B: x=410; 10B: x=470 -->
+  <text x="110" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">−2bn</text>
+  <text x="230" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">2bn</text>
+  <text x="350" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">6bn</text>
+  <text x="470" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">10bn</text>
+
+  <!-- 90% range bracket -->
+  <line x1="123" y1="430" x2="447" y2="430" stroke="#3aaa8a" stroke-width="1" opacity="0.6"/>
+  <line x1="123" y1="427" x2="123" y2="433" stroke="#3aaa8a" stroke-width="1" opacity="0.6"/>
+  <line x1="447" y1="427" x2="447" y2="433" stroke="#3aaa8a" stroke-width="1" opacity="0.6"/>
+  <text x="285" y="443" text-anchor="middle" fill="#3aaa8a" font-size="9">90% of outcomes span 10.81bn</text>
+
+  <!-- StdDev annotation -->
+  <text x="311" y="466" text-anchor="middle" fill="#5a7a8a" font-size="9" font-style="italic">σ = 3.29bn   (wide distribution: rate uncertainty over 50 years)</text>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       RIGHT PANEL — run1 Backtest (500 × 100 scenarios)
+       X display range: −100M to 560M (660M span → 480px → 0.727px/M)
+       x_pixel(v_M) = 660 + (v + 100) × 0.727
+       mean=163.9M → x=660+(163.9+100)*0.727=660+191.8=852
+       ══════════════════════════════════════════════════════════════ -->
+  <rect x="618" y="74" width="544" height="432" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+  <rect x="618" y="64" width="544" height="26" rx="4" fill="#243344" stroke="#6ab0d8" stroke-width="1.5"/>
+  <text x="890" y="82" text-anchor="middle" fill="#6ab0d8" font-size="13" font-weight="bold">run1 · BACKTEST · 500 CONTRACTS × 100 SCENARIOS · MONTH 60</text>
+
+  <!-- Loss zone (v < 0): x=660 to x=733 -->
+  <rect x="660" y="100" width="73" height="280" fill="url(#lossFill)" rx="2"/>
+  <text x="696" y="115" text-anchor="middle" fill="#e06050" font-size="9" font-style="italic">loss zone</text>
+
+  <!-- Distribution curve fill
+       mean=163.9M → x=852; sigma~162.8M → sigma_px~118px -->
+  <path d="M 660,380
+    L 680,378 L 689,375 L 710,369 L 735,358
+    L 762,337 L 790,308 L 818,272 L 840,241
+    L 852,188 L 865,213 L 888,252 L 915,290
+    L 945,323 L 974,349 L 1003,365 L 1030,372
+    L 1046,374 L 1080,377 L 1115,379 L 1140,380 L 660,380 Z"
+    fill="url(#curveFill1)"/>
+
+  <!-- Curve stroke -->
+  <path d="M 660,380
+    L 680,378 L 689,375 L 710,369 L 735,358
+    L 762,337 L 790,308 L 818,272 L 840,241
+    L 852,188 L 865,213 L 888,252 L 915,290
+    L 945,323 L 974,349 L 1003,365 L 1030,372
+    L 1046,374 L 1080,377 L 1115,379 L 1140,380"
+    fill="none" stroke="#6ab0d8" stroke-width="1.5" opacity="0.8"/>
+
+  <!-- X-axis baseline -->
+  <line x1="660" y1="380" x2="1140" y2="380" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- Zero line (x=733) -->
+  <line x1="733" y1="100" x2="733" y2="380" stroke="#4a6a7a" stroke-width="0.8" stroke-dasharray="4,3" opacity="0.6"/>
+  <text x="733" y="396" text-anchor="middle" fill="#5a7a8a" font-size="8">0</text>
+
+  <!-- P05 marker (x=689: −60.3M → 660+39.7*0.727=689) -->
+  <line x1="689" y1="165" x2="689" y2="380" stroke="#e06050" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.9"/>
+  <text x="689" y="158" text-anchor="middle" fill="#e06050" font-size="9" font-weight="bold">P05</text>
+  <text x="689" y="396" text-anchor="middle" fill="#e06050" font-size="8">−60m</text>
+
+  <!-- VaR99 marker (x=821: 121.3M → 660+(121.3+100)*0.727=821) -->
+  <line x1="821" y1="145" x2="821" y2="380" stroke="#D4891A" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.85"/>
+  <text x="821" y="138" text-anchor="middle" fill="#D4891A" font-size="9" font-weight="bold">VaR99</text>
+  <text x="821" y="408" text-anchor="middle" fill="#D4891A" font-size="8">121m</text>
+
+  <!-- P50 marker (x=834: 137.4M → 660+(137.4+100)*0.727=833) -->
+  <line x1="833" y1="168" x2="833" y2="380" stroke="#7cc0e8" stroke-width="1.5" opacity="0.9"/>
+  <text x="833" y="162" text-anchor="middle" fill="#7cc0e8" font-size="9" font-weight="bold">P50</text>
+  <text x="820" y="420" text-anchor="middle" fill="#7cc0e8" font-size="8">137m</text>
+
+  <!-- Mean marker (x=852: 163.9M) -->
+  <line x1="852" y1="185" x2="852" y2="380" stroke="#FFFFFF" stroke-width="2" opacity="0.8" filter="url(#glowSoft)"/>
+  <text x="866" y="179" text-anchor="start" fill="#FFFFFF" font-size="9" font-weight="bold">Mean</text>
+  <text x="860" y="408" text-anchor="middle" fill="#FFFFFF" font-size="8">164m</text>
+
+  <!-- P95 marker (x=1046: 424.9M → 660+(424.9+100)*0.727=1042) -->
+  <line x1="1042" y1="178" x2="1042" y2="380" stroke="#7cc0e8" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.9"/>
+  <text x="1042" y="171" text-anchor="middle" fill="#7cc0e8" font-size="9" font-weight="bold">P95</text>
+  <text x="1042" y="396" text-anchor="middle" fill="#7cc0e8" font-size="8">425m</text>
+
+  <!-- P99 marker (x=1115: 519.2M → 660+(519.2+100)*0.727=1110) -->
+  <line x1="1110" y1="205" x2="1110" y2="380" stroke="#e06050" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.85"/>
+  <text x="1110" y="198" text-anchor="middle" fill="#e06050" font-size="9" font-weight="bold">P99</text>
+  <text x="1110" y="396" text-anchor="middle" fill="#e06050" font-size="8">519m</text>
+
+  <!-- X-axis labels in millions -->
+  <text x="696" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">−50m</text>
+  <text x="769" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">100m</text>
+  <text x="914" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">300m</text>
+  <text x="1059" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">500m</text>
+
+  <!-- 90% range bracket -->
+  <line x1="689" y1="430" x2="1042" y2="430" stroke="#6ab0d8" stroke-width="1" opacity="0.6"/>
+  <line x1="689" y1="427" x2="689" y2="433" stroke="#6ab0d8" stroke-width="1" opacity="0.6"/>
+  <line x1="1042" y1="427" x2="1042" y2="433" stroke="#6ab0d8" stroke-width="1" opacity="0.6"/>
+  <text x="866" y="443" text-anchor="middle" fill="#6ab0d8" font-size="9">90% of outcomes span 485m</text>
+
+  <!-- StdDev annotation -->
+  <text x="890" y="466" text-anchor="middle" fill="#5a7a8a" font-size="9" font-style="italic">σ = 162.8m   (tighter at year 5: shorter remaining tenors)</text>
+
+  <!-- Divider -->
+  <line x1="30" y1="510" x2="1170" y2="510" stroke="#D4891A" stroke-width="0.8" opacity="0.35"/>
+
+  <!-- Legend -->
+  <rect x="130" y="520" width="12" height="12" rx="2" fill="#3aaa8a" opacity="0.7"/>
+  <text x="148" y="530" fill="#FFFFFF" font-size="10">Gain zone (PDF)</text>
+  <rect x="290" y="520" width="12" height="12" rx="2" fill="#c04030" opacity="0.6"/>
+  <text x="308" y="530" fill="#FFFFFF" font-size="10">Loss zone (PV &lt; 0)</text>
+  <rect x="460" y="521" width="20" height="2" fill="#FFFFFF" opacity="0.8"/>
+  <text x="486" y="530" fill="#FFFFFF" font-size="10">Mean</text>
+  <rect x="535" y="521" width="14" height="2" fill="#7cc0e8" opacity="0.9"/>
+  <text x="555" y="530" fill="#7cc0e8" font-size="10">P50 / P95</text>
+  <rect x="635" y="521" width="14" height="2" fill="#D4891A" opacity="0.9" stroke-dasharray="4,2"/>
+  <text x="655" y="530" fill="#D4891A" font-size="10">VaR99</text>
+  <text x="800" y="530" fill="#8FAAB8" font-size="10" font-style="italic">Results are bit-identical on CPU and GPU backends</text>
+</svg>
