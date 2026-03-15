@@ -5,7 +5,7 @@
     "description": "Slide deck from the GPU-accelerated ACTUS hackathon — problem statement, solution design, architecture, and benchmark results.",
     "type": "powerpoint",
     "size": "",
-    "url": "/downloads/Hackathon–2025-CPU-GPU.pptx",
+    "url": "/downloads/hackathon-gpu-presentation.pptx",
     "viewUrl": ""
   },
   {
@@ -17,12 +17,21 @@
     "url": "https://5zctpd9jyxecuidw.public.blob.vercel-storage.com/actus-Video-presentation-%20large.mp4",
     "viewUrl": "https://5zctpd9jyxecuidw.public.blob.vercel-storage.com/actus-Video-presentation-%20large.mp4"
   },
+ {
+    "id": "demo-video-webinterface",
+    "title": "Showing the ACTUS Web Interface using GPU and CPU implementation",
+    "description": "Video guide demonstrating the ACTUS web interface, showcasing both the GPU and CPU implementations in action for Monte Carlo simulations.",
+    "type": "video",
+    "size": "29 MB",
+    "url": "/downloads/actus-webinterface-presentation.mp4",
+    "viewUrl": "/downloads/actus-webinterface-presentation.mp4"
+  },
   {
     "id": "demo-video-monte-carlo",
     "title": "Monte Carlo Simulation Walkthrough",
     "description": "Video guide demonstrating how to use the Monte Carlo simulation features in the ACTUS Insurance documentation site.",
     "type": "video",
-    "size": "194 MB",
+    "size": "82 MB",
     "url": "https://5zctpd9jyxecuidw.public.blob.vercel-storage.com/Demo-Monte-Carlo.mp4",
     "viewUrl": "https://5zctpd9jyxecuidw.public.blob.vercel-storage.com/Demo-Monte-Carlo.mp4"
   },
@@ -35,13 +44,12 @@
     "url": "/downloads/Testing-GPU-Kernel.mp4",
     "viewUrl": "/downloads/Testing-GPU-Kernel.mp4"
   },
-
-    {
+  {
     "id": "testing-cpu-implementation",
     "title": "Testing CPU Implementation",
     "description": "Video guide demonstrating how the CPU implementation was tested to ensure regression correctness.",
     "type": "video",
-    "size": "28 MB",
+    "size": "32 MB",
     "url": "/downloads/Testing-CPU-Implementation.mp4",
     "viewUrl": "/downloads/Testing-CPU-Implementation.mp4"
   },
@@ -68,10 +76,10 @@
     "title": "The Hackathon Story — Full Documentation (PDF)",
     "description": "Follow the journey from a single-threaded ACTUS prototype to a massively parallel GPU engine — covering the motivation, architecture decisions, trade-offs, and benchmark results that defined the project",
     "type": "pdf",
-    "size": "733 KB",
+    "size": "1.4 MB",
     "url": "/downloads/hackathon-documentation.pdf",
     "viewUrl": "/downloads/hackathon-documentation.pdf",
-    "generated": "2026-03-14T17:20:41.589Z",
+    "generated": "2026-03-15T16:08:17.823Z",
     "section": "hackathon"
   },
   {
@@ -82,7 +90,7 @@
     "size": "1.1 MB",
     "url": "/downloads/actus-org-documentation.pdf",
     "viewUrl": "/downloads/actus-org-documentation.pdf",
-    "generated": "2026-03-14T17:20:41.591Z",
+    "generated": "2026-03-15T16:08:17.826Z",
     "section": "actus-org"
   },
   {
@@ -93,7 +101,7 @@
     "size": "128 KB",
     "url": "/downloads/background-gpu-documentation.pdf",
     "viewUrl": "/downloads/background-gpu-documentation.pdf",
-    "generated": "2026-03-14T17:20:41.593Z",
+    "generated": "2026-03-15T16:08:17.828Z",
     "section": "background-gpu"
   },
   {
@@ -101,10 +109,10 @@
     "title": "Technical Documentation — Full Documentation (PDF)",
     "description": "Deep-dive into the implementation — the PAM contract engine, state machine, schedule generation, risk factor model, GPU data structures and kernels, sample demos, and the full test suite",
     "type": "pdf",
-    "size": "639 KB",
+    "size": "638 KB",
     "url": "/downloads/technical-documentation.pdf",
     "viewUrl": "/downloads/technical-documentation.pdf",
-    "generated": "2026-03-14T17:20:41.595Z",
+    "generated": "2026-03-15T16:08:17.830Z",
     "section": "technical"
   },
   {
@@ -115,7 +123,7 @@
     "size": "498 KB",
     "url": "/downloads/actus-insurance-documentation.pdf",
     "viewUrl": "/downloads/actus-insurance-documentation.pdf",
-    "generated": "2026-03-14T17:20:41.597Z",
+    "generated": "2026-03-15T16:08:17.832Z",
     "section": "actus-insurance"
   }
 ]
