@@ -1,0 +1,216 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" font-family="Trebuchet MS, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2836"/>
+      <stop offset="100%" style="stop-color:#243344"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#e6a040"/>
+    </linearGradient>
+    <linearGradient id="decBarGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e6a040"/>
+      <stop offset="100%" style="stop-color:#c06020"/>
+    </linearGradient>
+    <linearGradient id="incBarGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2a7888"/>
+      <stop offset="100%" style="stop-color:#5ab8d8"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowSoft">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="580" fill="url(#bgGrad)"/>
+  <rect x="0" y="0" width="1200" height="4" fill="url(#goldGrad)"/>
+  <rect x="0" y="576" width="1200" height="4" fill="url(#goldGrad)"/>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" fill="#FFFFFF" font-size="21" font-weight="bold" letter-spacing="2">CALCDATE SHIFT IMPACT ON PRESENT VALUE</text>
+  <text x="600" y="57" text-anchor="middle" fill="#8FAAB8" font-size="12" letter-spacing="1">CALC DATE INDEX 0 → 12  ·  PRIOR RATE 5% REPLACES SCENARIO RATE FOR MONTHS [0, 12)  ·  5 CONTRACTS × 3 SCENARIOS</text>
+
+  <!-- Panel header -->
+  <rect x="60" y="64" width="1080" height="26" rx="4" fill="#1e2a40" stroke="#D4891A" stroke-width="1.5"/>
+  <text x="600" y="82" text-anchor="middle" fill="#D4891A" font-size="13" font-weight="bold">ΔPV = PV(calcDate=12) − PV(calcDate=0)  ·  ORANGE = DECREASE (prior 5% &gt; scenario rate)  ·  TEAL = INCREASE (prior 5% &lt; 6.5%)</text>
+
+  <!-- Chart panel -->
+  <rect x="60" y="90" width="1080" height="430" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- Scale: x_center=640, scale=0.0055px/unit (400px covers ~72k) -->
+  <!-- Vertical gridlines -->
+  <!-- x(-70k)=255  x(-50k)=365  x(-25k)=503  x(0)=640  x(+25k)=778  x(+50k)=915 -->
+  <line x1="255" y1="97" x2="255" y2="460" stroke="#253545" stroke-width="0.6" opacity="0.5"/>
+  <text x="255" y="472" text-anchor="middle" fill="#4a6a7a" font-size="8">-70k</text>
+  <line x1="365" y1="97" x2="365" y2="460" stroke="#253545" stroke-width="0.6" opacity="0.6"/>
+  <text x="365" y="472" text-anchor="middle" fill="#4a6a7a" font-size="8">-50k</text>
+  <line x1="503" y1="97" x2="503" y2="460" stroke="#253545" stroke-width="0.8"/>
+  <text x="503" y="472" text-anchor="middle" fill="#4a6a7a" font-size="9">-25k</text>
+  <!-- Center axis -->
+  <line x1="640" y1="90" x2="640" y2="463" stroke="#D4891A" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.7"/>
+  <text x="640" y="472" text-anchor="middle" fill="#D4891A" font-size="10" font-weight="bold">0</text>
+  <line x1="778" y1="97" x2="778" y2="460" stroke="#253545" stroke-width="0.8"/>
+  <text x="778" y="472" text-anchor="middle" fill="#4a6a7a" font-size="9">+25k</text>
+  <line x1="915" y1="97" x2="915" y2="460" stroke="#253545" stroke-width="0.6" opacity="0.6"/>
+  <text x="915" y="472" text-anchor="middle" fill="#4a6a7a" font-size="8">+50k</text>
+
+  <!-- Direction labels -->
+  <text x="400" y="105" text-anchor="middle" fill="#e6a040" font-size="9" font-style="italic">← PV DECREASED  (5% prior &gt; scenario rate → heavier discounting)</text>
+  <text x="860" y="105" text-anchor="middle" fill="#5ab8d8" font-size="9" font-style="italic">PV INCREASED → (5% prior &lt; 6.5% → lighter discounting)</text>
+
+  <!-- ══ CONTRACT GROUP LABELS ══ -->
+  <!-- C001 rows at y=118,136,154  C002 y=188,206,224  C003 y=258,276,294  C004 y=328,346,364  C005 y=398,416,434 -->
+
+  <!-- C001 group header -->
+  <rect x="62" y="109" width="55" height="52" rx="3" fill="#1e2a3a" stroke="#3a4f60" stroke-width="1"/>
+  <text x="89" y="128" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">C001</text>
+  <text x="89" y="143" text-anchor="middle" fill="#5a7a8a" font-size="8">4% fixed</text>
+  <text x="89" y="156" text-anchor="middle" fill="#5a7a8a" font-size="8">1M notional</text>
+
+  <!-- Row labels C001 -->
+  <text x="200" y="122" text-anchor="end" fill="#5ab8d8" font-size="9">Low 1.5%</text>
+  <text x="200" y="140" text-anchor="end" fill="#e6a040" font-size="9">Base 3.0%</text>
+  <text x="200" y="158" text-anchor="end" fill="#e05858" font-size="9">High 6.5%</text>
+
+  <!-- C001 bars  scale=0.0055  x_center=640  bar_h=14  y-rect = row-7 -->
+  <!-- Low:  -37735 → w=208 → x=432, rect from 432 to 640 -->
+  <rect x="432" y="111" width="208" height="14" rx="3" fill="url(#decBarGrad)" opacity="0.85"/>
+  <text x="428" y="121" text-anchor="end" fill="#e6a040" font-size="9">−37.7k</text>
+  <!-- Base: -20549 → w=113 → x=527 -->
+  <rect x="527" y="129" width="113" height="14" rx="3" fill="url(#decBarGrad)" opacity="0.75"/>
+  <text x="523" y="139" text-anchor="end" fill="#e6a040" font-size="9">−20.5k</text>
+  <!-- High: +13780 → w=76 → x=640, end=716 -->
+  <rect x="640" y="147" width="76" height="14" rx="3" fill="url(#incBarGrad)" opacity="0.85"/>
+  <text x="720" y="157" fill="#5ab8d8" font-size="9">+13.8k</text>
+
+  <!-- C001 % annotations -->
+  <text x="440" y="109" fill="#8a5a1a" font-size="7">−38.85%</text>
+  <text x="535" y="127" fill="#8a5a1a" font-size="7">−54.43%</text>
+  <text x="648" y="145" fill="#2a6878" font-size="7">+15.62%</text>
+
+  <!-- Separator -->
+  <line x1="120" y1="172" x2="1100" y2="172" stroke="#2a3a4a" stroke-width="0.6" stroke-dasharray="4,2"/>
+
+  <!-- C002 group header -->
+  <rect x="62" y="179" width="55" height="52" rx="3" fill="#1e2a3a" stroke="#3a4f60" stroke-width="1"/>
+  <text x="89" y="198" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">C002</text>
+  <text x="89" y="213" text-anchor="middle" fill="#5a7a8a" font-size="8">4% fixed</text>
+  <text x="89" y="226" text-anchor="middle" fill="#5a7a8a" font-size="8">500k notional</text>
+
+  <text x="200" y="192" text-anchor="end" fill="#5ab8d8" font-size="9">Low 1.5%</text>
+  <text x="200" y="210" text-anchor="end" fill="#e6a040" font-size="9">Base 3.0%</text>
+  <text x="200" y="228" text-anchor="end" fill="#e05858" font-size="9">High 6.5%</text>
+
+  <!-- C002: Low -18641→w=103 x=537 | Base -10281→w=57 x=583 | High +7101→w=39 x=640 -->
+  <rect x="537" y="181" width="103" height="14" rx="3" fill="url(#decBarGrad)" opacity="0.85"/>
+  <text x="533" y="191" text-anchor="end" fill="#e6a040" font-size="9">−18.6k</text>
+  <rect x="583" y="199" width="57" height="14" rx="3" fill="url(#decBarGrad)" opacity="0.75"/>
+  <text x="579" y="209" text-anchor="end" fill="#e6a040" font-size="9">−10.3k</text>
+  <rect x="640" y="217" width="39" height="14" rx="3" fill="url(#incBarGrad)" opacity="0.85"/>
+  <text x="683" y="227" fill="#5ab8d8" font-size="9">+7.1k</text>
+
+  <text x="545" y="179" fill="#8a5a1a" font-size="7">−36.40%</text>
+  <text x="591" y="197" fill="#8a5a1a" font-size="7">−36.16%</text>
+  <text x="648" y="215" fill="#2a6878" font-size="7">+33.84%</text>
+
+  <!-- Separator -->
+  <line x1="120" y1="242" x2="1100" y2="242" stroke="#2a3a4a" stroke-width="0.6" stroke-dasharray="4,2"/>
+
+  <!-- C003 group header -->
+  <rect x="62" y="249" width="55" height="52" rx="3" fill="#1e2a3a" stroke="#D4891A" stroke-width="1"/>
+  <text x="89" y="268" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">C003</text>
+  <text x="89" y="283" text-anchor="middle" fill="#5a7a8a" font-size="8">3% fixed</text>
+  <text x="89" y="296" text-anchor="middle" fill="#5a7a8a" font-size="8">500k notional</text>
+
+  <text x="200" y="262" text-anchor="end" fill="#5ab8d8" font-size="9">Low 1.5%</text>
+  <text x="200" y="280" text-anchor="end" fill="#e6a040" font-size="9">Base 3.0%</text>
+  <text x="200" y="298" text-anchor="end" fill="#e05858" font-size="9">High 6.5%</text>
+
+  <!-- C003: Low -69888→w=384 x=256 | Base -39065→w=215 x=425 | High +27832→w=153 x=640 -->
+  <rect x="256" y="251" width="384" height="14" rx="3" fill="url(#decBarGrad)" opacity="0.90" filter="url(#glow)"/>
+  <text x="252" y="261" text-anchor="end" fill="#e6a040" font-size="9">−69.9k</text>
+  <rect x="425" y="269" width="215" height="14" rx="3" fill="url(#decBarGrad)" opacity="0.85"/>
+  <text x="421" y="279" text-anchor="end" fill="#e6a040" font-size="9">−39.1k</text>
+  <rect x="640" y="287" width="153" height="14" rx="3" fill="url(#incBarGrad)" opacity="0.85" filter="url(#glowSoft)"/>
+  <text x="797" y="297" fill="#5ab8d8" font-size="9">+27.8k</text>
+
+  <!-- C003 special badge (Base PV was ~0 so delta% is extreme) -->
+  <rect x="428" y="257" width="128" height="15" rx="7" fill="#2a1800" stroke="#D4891A" stroke-width="0.8" opacity="0.9"/>
+  <text x="492" y="268" text-anchor="middle" fill="#D4891A" font-size="8">−56,394% (from near-zero PV)</text>
+
+  <text x="264" y="249" fill="#8a5a1a" font-size="7">−118.23%</text>
+
+  <text x="648" y="285" fill="#2a6878" font-size="7">+21.16%</text>
+
+  <!-- Separator -->
+  <line x1="120" y1="312" x2="1100" y2="312" stroke="#2a3a4a" stroke-width="0.6" stroke-dasharray="4,2"/>
+
+  <!-- C004 group header -->
+  <rect x="62" y="319" width="55" height="52" rx="3" fill="#1a2a1a" stroke="#3aaa5a" stroke-width="1"/>
+  <text x="89" y="338" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">C004</text>
+  <text x="89" y="353" text-anchor="middle" fill="#3aaa5a" font-size="8">floating</text>
+  <text x="89" y="366" text-anchor="middle" fill="#5a7a8a" font-size="8">500k notional</text>
+
+  <text x="200" y="332" text-anchor="end" fill="#5ab8d8" font-size="9">Low 1.5%</text>
+  <text x="200" y="350" text-anchor="end" fill="#e6a040" font-size="9">Base 3.0%</text>
+  <text x="200" y="368" text-anchor="end" fill="#e05858" font-size="9">High 6.5%</text>
+
+  <!-- C004: Low -999→w=5.5→6 x=634 | Base -589→w=3 x=637 | High +465→w=3 x=640 -->
+  <!-- These bars are tiny — draw them at minimum 6px and add magnifier note -->
+  <rect x="626" y="321" width="14" height="14" rx="3" fill="url(#decBarGrad)" opacity="0.85"/>
+  <text x="622" y="331" text-anchor="end" fill="#e6a040" font-size="9">−999</text>
+  <rect x="630" y="339" width="10" height="14" rx="3" fill="url(#decBarGrad)" opacity="0.75"/>
+  <text x="626" y="349" text-anchor="end" fill="#e6a040" font-size="9">−589</text>
+  <rect x="640" y="357" width="9" height="14" rx="3" fill="url(#incBarGrad)" opacity="0.85"/>
+  <text x="653" y="367" fill="#5ab8d8" font-size="9">+465</text>
+
+  <!-- Floating stability annotation -->
+  <rect x="680" y="318" width="230" height="60" rx="4" fill="#1a2a1a" stroke="#3aaa5a" stroke-width="1" opacity="0.9"/>
+  <text x="795" y="334" text-anchor="middle" fill="#3aaa5a" font-size="9" font-weight="bold">FLOATING-RATE STABILITY</text>
+  <text x="795" y="348" text-anchor="middle" fill="#5aaa7a" font-size="8">Coupons reprice with market →</text>
+  <text x="795" y="361" text-anchor="middle" fill="#5aaa7a" font-size="8">CalcDate shift has minimal impact</text>
+  <text x="795" y="374" text-anchor="middle" fill="#3aaa5a" font-size="8">Max |ΔPV| = $999  vs  C003 Low $69,888</text>
+
+  <!-- Separator -->
+  <line x1="120" y1="382" x2="1100" y2="382" stroke="#2a3a4a" stroke-width="0.6" stroke-dasharray="4,2"/>
+
+  <!-- C005 group header -->
+  <rect x="62" y="389" width="55" height="52" rx="3" fill="#1e2a3a" stroke="#3a4f60" stroke-width="1"/>
+  <text x="89" y="408" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">C005</text>
+  <text x="89" y="423" text-anchor="middle" fill="#5a7a8a" font-size="8">4% fixed</text>
+  <text x="89" y="436" text-anchor="middle" fill="#5a7a8a" font-size="8">2M notional</text>
+
+  <text x="200" y="402" text-anchor="end" fill="#5ab8d8" font-size="9">Low 1.5%</text>
+  <text x="200" y="420" text-anchor="end" fill="#e6a040" font-size="9">Base 3.0%</text>
+  <text x="200" y="438" text-anchor="end" fill="#e05858" font-size="9">High 6.5%</text>
+
+  <!-- C005: Low -29830→w=164 x=476 | Base -15757→w=87 x=553 | High +9729→w=54 x=640 -->
+  <rect x="476" y="391" width="164" height="14" rx="3" fill="url(#decBarGrad)" opacity="0.85"/>
+  <text x="472" y="401" text-anchor="end" fill="#e6a040" font-size="9">−29.8k</text>
+  <rect x="553" y="409" width="87" height="14" rx="3" fill="url(#decBarGrad)" opacity="0.75"/>
+  <text x="549" y="419" text-anchor="end" fill="#e6a040" font-size="9">−15.8k</text>
+  <rect x="640" y="427" width="54" height="14" rx="3" fill="url(#incBarGrad)" opacity="0.85"/>
+  <text x="698" y="437" fill="#5ab8d8" font-size="9">+9.7k</text>
+
+  <text x="484" y="389" fill="#8a5a1a" font-size="7">−23.05%</text>
+  <text x="561" y="407" fill="#8a5a1a" font-size="7">−26.00%</text>
+  <text x="648" y="425" fill="#2a6878" font-size="7">+11.45%</text>
+
+  <!-- Mechanism explanation box -->
+  <rect x="130" y="455" width="940" height="28" rx="4" fill="#1e2a3a" stroke="#4a6a7a" stroke-width="1" opacity="0.85"/>
+  <text x="600" y="465" text-anchor="middle" fill="#8FAAB8" font-size="9">MECHANISM: CalcDate 0→12 replaces scenario rates with 5% prior rate for months [0, 12).  Low (1.5%) &amp; Base (3.0%): 5% &gt; scenario → heavier discount → ΔPV &lt; 0</text>
+  <text x="600" y="478" text-anchor="middle" fill="#8FAAB8" font-size="9">High (6.5%): 5% &lt; scenario → lighter discount in [0,12) → ΔPV &gt; 0  ·  Floating C004: coupon adjusts to market → near-zero sensitivity</text>
+
+  <!-- Legend -->
+  <line x1="30" y1="496" x2="1170" y2="496" stroke="#D4891A" stroke-width="0.8" opacity="0.35"/>
+  <rect x="220" y="507" width="30" height="12" rx="3" fill="url(#decBarGrad)"/>
+  <text x="256" y="518" fill="#FFFFFF" font-size="11">ΔPV &lt; 0 (prior 5% &gt; scenario rate → heavier early discounting)</text>
+  <rect x="650" y="507" width="30" height="12" rx="3" fill="url(#incBarGrad)"/>
+  <text x="686" y="518" fill="#FFFFFF" font-size="11">ΔPV &gt; 0 (prior 5% &lt; 6.5% → lighter early discounting)</text>
+  <text x="1050" y="518" fill="#8FAAB8" font-size="10" font-style="italic">scale: USD</text>
+</svg>
