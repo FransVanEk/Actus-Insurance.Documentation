@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" font-family="Trebuchet MS, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2836"/>
+      <stop offset="100%" style="stop-color:#243344"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#e6a040"/>
+    </linearGradient>
+    <linearGradient id="tealBar" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5ad0a0"/>
+      <stop offset="100%" style="stop-color:#2a7a5a"/>
+    </linearGradient>
+    <linearGradient id="tealBarPeak" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#80e8c0"/>
+      <stop offset="100%" style="stop-color:#3aaa80"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowSoft">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowTeal" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#3aaa8a"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="580" fill="url(#bgGrad)"/>
+  <rect x="0" y="0" width="1200" height="4" fill="url(#goldGrad)"/>
+  <rect x="0" y="576" width="1200" height="4" fill="url(#goldGrad)"/>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" fill="#FFFFFF" font-size="21" font-weight="bold" letter-spacing="2">GPU COMPUTE SPEEDUP vs CPU BASELINE</text>
+  <text x="600" y="58" text-anchor="middle" fill="#8FAAB8" font-size="12" letter-spacing="1">PAM MONTE CARLO · 50-YEAR HORIZON · 600 MONTHLY STEPS · NVIDIA RTX 3060 Ti</text>
+
+  <!-- Panel -->
+  <rect x="60" y="74" width="1080" height="400" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+  <rect x="60" y="64" width="1080" height="26" rx="4" fill="#243344" stroke="#3aaa8a" stroke-width="1.5"/>
+  <text x="600" y="82" text-anchor="middle" fill="#3aaa8a" font-size="13" font-weight="bold">PAM CONTRACTS · ACTUS EVENT SCHEDULE · GPU COMPUTE PATH (H2D + KERNEL)</text>
+
+  <!-- Y-axis gridlines: 0–8×, y(v) = 440 − v×45 -->
+  <line x1="120" y1="440" x2="1100" y2="440" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="444" text-anchor="end" fill="#4a6a7a" font-size="9">0×</text>
+  <line x1="120" y1="395" x2="1100" y2="395" stroke="#D4891A" stroke-width="1.2" stroke-dasharray="6,3" opacity="0.9"/>
+  <text x="114" y="399" text-anchor="end" fill="#D4891A" font-size="10" font-weight="bold">1× CPU</text>
+  <line x1="120" y1="350" x2="1100" y2="350" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="354" text-anchor="end" fill="#4a6a7a" font-size="9">2×</text>
+  <line x1="120" y1="305" x2="1100" y2="305" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="309" text-anchor="end" fill="#4a6a7a" font-size="9">3×</text>
+  <line x1="120" y1="260" x2="1100" y2="260" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="264" text-anchor="end" fill="#4a6a7a" font-size="9">4×</text>
+  <line x1="120" y1="215" x2="1100" y2="215" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="219" text-anchor="end" fill="#4a6a7a" font-size="9">5×</text>
+  <line x1="120" y1="170" x2="1100" y2="170" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="174" text-anchor="end" fill="#4a6a7a" font-size="9">6×</text>
+  <line x1="120" y1="125" x2="1100" y2="125" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="129" text-anchor="end" fill="#4a6a7a" font-size="9">7×</text>
+  <line x1="120" y1="80" x2="1100" y2="80" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="84" text-anchor="end" fill="#4a6a7a" font-size="9">8×</text>
+
+  <!-- Chart axes -->
+  <line x1="120" y1="80" x2="120" y2="440" stroke="#3a4f60" stroke-width="1"/>
+  <line x1="120" y1="440" x2="1100" y2="440" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- GPU faster label -->
+  <text x="75" y="200" fill="#3aaa8a" font-size="9" font-style="italic">GPU faster ↑</text>
+
+  <!-- ── BAR: run1_backtest · 3.12× ─────────────────────────── -->
+  <!-- top = 440 − 3.12×45 = 300, height = 95 -->
+  <rect x="260" y="300" width="200" height="95" rx="4" fill="url(#tealBar)" opacity="0.85"/>
+  <text x="360" y="294" text-anchor="middle" fill="#5ad0a0" font-size="16" font-weight="bold">3.12×</text>
+  <!-- Timing inside bar -->
+  <text x="360" y="350" text-anchor="middle" fill="#FFFFFF" font-size="9" opacity="0.75">GPU: 26 ms</text>
+  <text x="360" y="363" text-anchor="middle" fill="#FFFFFF" font-size="9" opacity="0.75">CPU: 81 ms</text>
+  <!-- Labels below -->
+  <text x="360" y="456" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">run1 · Backtest</text>
+  <text x="360" y="471" text-anchor="middle" fill="#5a7a8a" font-size="10">50,000 contract·scenario pairs</text>
+  <text x="360" y="486" text-anchor="middle" fill="#5a7a8a" font-size="9">500 contracts × 100 scenarios · CalcDate: 2025-01-01</text>
+
+  <!-- ── BAR: run0_full · 7.53× ────────────────────────────── -->
+  <!-- top = 440 − 7.53×45 = 101, height = 294 -->
+  <rect x="740" y="101" width="200" height="294" rx="4" fill="url(#tealBarPeak)" filter="url(#glow)"/>
+  <text x="840" y="94" text-anchor="middle" fill="#80e8c0" font-size="18" font-weight="bold" filter="url(#glowSoft)">7.53×</text>
+  <!-- Peak badge -->
+  <rect x="813" y="74" width="54" height="16" rx="8" fill="#3aaa8a" opacity="0.9"/>
+  <text x="840" y="86" text-anchor="middle" fill="#FFFFFF" font-size="9" font-weight="bold">★ PEAK</text>
+  <!-- Timing inside bar -->
+  <text x="840" y="225" text-anchor="middle" fill="#FFFFFF" font-size="10" opacity="0.80">GPU: 1,796 ms</text>
+  <text x="840" y="240" text-anchor="middle" fill="#FFFFFF" font-size="10" opacity="0.80">CPU: 13,530 ms</text>
+  <!-- Labels below -->
+  <text x="840" y="456" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">run0 · Full Portfolio</text>
+  <text x="840" y="471" text-anchor="middle" fill="#5a7a8a" font-size="10">10,000,000 contract·scenario pairs</text>
+  <text x="840" y="486" text-anchor="middle" fill="#5a7a8a" font-size="9">10,000 contracts × 1,000 scenarios · CalcDate: 2020-01-01</text>
+
+  <!-- Trend arc from run1 top-centre to run0 top-centre -->
+  <path d="M 460,296 Q 600,215 740,101" stroke="#3aaa8a" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#arrowTeal)" opacity="0.65"/>
+  <text x="600" y="235" text-anchor="middle" fill="#3aaa8a" font-size="10" font-style="italic">speedup scales with workload</text>
+  <text x="600" y="248" text-anchor="middle" fill="#5a7a8a" font-size="9">200× more pairs → 2.4× higher speedup</text>
+
+  <!-- Divider -->
+  <line x1="30" y1="510" x2="1170" y2="510" stroke="#D4891A" stroke-width="0.8" opacity="0.35"/>
+
+  <!-- Legend -->
+  <rect x="350" y="520" width="14" height="14" rx="2" fill="url(#tealBarPeak)"/>
+  <text x="370" y="531" fill="#FFFFFF" font-size="11">GPU faster than CPU — both runs above 1× baseline</text>
+  <text x="730" y="531" fill="#8FAAB8" font-size="11" font-style="italic">Results bit-identical: CPU ↔ GPU</text>
+</svg>

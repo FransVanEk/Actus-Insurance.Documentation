@@ -1,0 +1,516 @@
+'use client'
+
+import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import {
+  MagnifyingGlassIcon, Bars3Icon, XMarkIcon,
+  ChevronDownIcon, ChevronRightIcon, ChevronLeftIcon,
+  BuildingOfficeIcon, CurrencyDollarIcon, HeartIcon,
+  DocumentTextIcon, ShieldCheckIcon, BeakerIcon,
+  ChartBarIcon, GlobeAltIcon, CogIcon, LightBulbIcon,
+  CommandLineIcon, WrenchScrewdriverIcon, SparklesIcon,
+} from '@heroicons/react/24/outline'
+import { SearchModal } from './SearchModal'
+import { useLayout } from './LayoutContext'
+import sectionsData from '../config/sections.json'
+import { toSentenceCase } from '../lib/sentenceCase'
+
+const ICON_MAP: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
+  BuildingOffice: BuildingOfficeIcon,
+  CurrencyDollar: CurrencyDollarIcon,
+  Heart: HeartIcon,
+  DocumentText: DocumentTextIcon,
+  ShieldCheck: ShieldCheckIcon,
+  Beaker: BeakerIcon,
+  ChartBar: ChartBarIcon,
+  GlobeAlt: GlobeAltIcon,
+  Cog: CogIcon,
+  LightBulb: LightBulbIcon,
+  CommandLine: CommandLineIcon,
+  WrenchScrewdriver: WrenchScrewdriverIcon,
+  Sparkles: SparklesIcon,
+  Worker: WrenchScrewdriverIcon, // friendly fallback for unknown names
+}
+
+interface NavigationItem {
+  title: string
+  slug: string
+  order: number
+  parent?: string
+  children?: NavigationItem[]
+}
+
+interface Navigation {
+  [category: string]: NavigationItem[]
+}
+
+interface SidebarProps {
+  navigation: Navigation
+}
+
+export function Sidebar({ navigation }: SidebarProps) {
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [isSectionDropdownOpen, setIsSectionDropdownOpen] = useState(false)
+  const [collapsedCategories, setCollapsedCategories] = useState<Set<string>>(new Set())
+  const [collapsedItems, setCollapsedItems] = useState<Set<string>>(new Set())
+  const pathname = usePathname()
+  const { isSidebarCollapsed, setSidebarCollapsed } = useLayout()
+
+  // Detect current section from pathname
+  const getCurrentSection = () => {
+    for (const section of sectionsData) {
+      if (pathname.startsWith(`/docs/${section.id}`)) return section.id
+    }
+    return sectionsData[0]?.id ?? ''
+  }
+
+  const currentSection = getCurrentSection()
+
+  // Filter navigation based on current section
+  const getFilteredNavigation = () => {
+    const filtered: Navigation = {}
+
+    Object.entries(navigation).forEach(([category, items]) => {
+      const filteredItems = items.filter(item =>
+        currentSection ? item.slug.startsWith(`${currentSection}/`) : false
+      )
+      if (filteredItems.length > 0) {
+        filtered[category] = filteredItems
+      }
+    })
+
+    return filtered
+  }
+
+  const filteredNavigation = getFilteredNavigation()
+
+  // Dynamic category sorting - prioritize main section categories, then alphabetical
+  const sortedCategories = Object.keys(filteredNavigation).sort((a, b) => {
+    // Main section categories come first
+    const isMainCategoryA = a.toLowerCase().includes(currentSection.toLowerCase())
+    const isMainCategoryB = b.toLowerCase().includes(currentSection.toLowerCase())
+    
+    if (isMainCategoryA && !isMainCategoryB) return -1
+    if (!isMainCategoryA && isMainCategoryB) return 1
+    
+    // Then sort alphabetically
+    return a.localeCompare(b)
+  })
+
+  // Get section title for logo
+  const getSectionTitle = () => {
+    return sectionsData.find(s => s.id === currentSection)?.title ?? 'ACTUS Docs'
+  }
+
+  const toggleCategory = (category: string) => {
+    const newCollapsed = new Set(collapsedCategories)
+    if (newCollapsed.has(category)) {
+      newCollapsed.delete(category)
+    } else {
+      newCollapsed.add(category)
+    }
+    setCollapsedCategories(newCollapsed)
+  }
+
+  const toggleItem = (itemSlug: string) => {
+    const newCollapsed = new Set(collapsedItems)
+    if (newCollapsed.has(itemSlug)) {
+      newCollapsed.delete(itemSlug)
+    } else {
+      newCollapsed.add(itemSlug)
+    }
+    setCollapsedItems(newCollapsed)
+  }
+
+  const collapseAll = () => {
+    const allCategories = new Set(Object.keys(filteredNavigation))
+    setCollapsedCategories(allCategories)
+    const allItems = new Set<string>()
+    const collectSlugs = (items: NavigationItem[]) => {
+      items.forEach(item => {
+        if (item.children && item.children.length > 0) {
+          allItems.add(item.slug)
+          collectSlugs(item.children)
+        }
+      })
+    }
+    Object.values(filteredNavigation).forEach(items => collectSlugs(items))
+    setCollapsedItems(allItems)
+  }
+
+  // Collapse the category itself and deep-collapse all its descendants (no state preserved)
+  const collapseCategoryLevel = (category: string) => {
+    setCollapsedCategories(prev => new Set([...prev, category]))
+    setCollapsedItems(prev => {
+      const next = new Set(prev)
+      const deepCollect = (items: NavigationItem[]) => {
+        items.forEach(item => {
+          if (item.children && item.children.length > 0) {
+            next.add(item.slug)
+            deepCollect(item.children)
+          }
+        })
+      }
+      deepCollect(filteredNavigation[category] ?? [])
+      return next
+    })
+  }
+
+  // Auto-expand the category/item for the current pathname (e.g. after navigating from search)
+  useEffect(() => {
+    const slug = pathname.replace(/^\/docs\//, '')
+    if (!slug) return
+
+    // Find and expand the category containing this slug
+    Object.entries(filteredNavigation).forEach(([category, items]) => {
+      const findInItems = (list: NavigationItem[]): boolean => {
+        for (const item of list) {
+          if (item.slug === slug) return true
+          if (item.children && findInItems(item.children)) {
+            // Expand parent item if it was collapsed
+            setCollapsedItems(prev => {
+              const next = new Set(prev)
+              next.delete(item.slug)
+              return next
+            })
+            return true
+          }
+        }
+        return false
+      }
+      if (findInItems(items)) {
+        // Expand this category if it was collapsed
+        setCollapsedCategories(prev => {
+          const next = new Set(prev)
+          next.delete(category)
+          return next
+        })
+      }
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
+
+  const SidebarContent = () => {
+    const activeSection = sectionsData.find(s => s.id === currentSection)
+    const ActiveIcon = activeSection ? (ICON_MAP[activeSection.icon] ?? DocumentTextIcon) : DocumentTextIcon
+
+    return (
+    <div className="flex h-full flex-col">
+      {/* Header: brand + section picker in one row */}
+      <div className="border-b" style={{ borderColor: '#D4891A30' }}>
+        <div className="flex h-14 items-center gap-2 px-3">
+          {/* Home link */}
+          <Link href="/" title="Go to home" className="flex items-center gap-2 flex-shrink-0">
+            <img src="/logo_A_dark.svg" alt="ACTUS Logo" style={{ height: 32, width: 28, objectFit: 'contain' }} />
+            <span className="text-sm font-bold text-white tracking-wide">ACTUS-I</span>
+          </Link>
+
+          <div className="flex-1" />
+
+          {/* Section dropdown trigger */}
+          <div className="relative">
+            <button
+              onClick={() => setIsSectionDropdownOpen(prev => !prev)}
+              className="flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors"
+              style={{ backgroundColor: '#1A3550', color: '#D4891A', border: '1px solid #D4891A30' }}
+            >
+              <ActiveIcon style={{ width: 16, height: 16, flexShrink: 0, marginRight: 2 }} />
+              <span className="max-w-[100px] truncate">{activeSection?.shortTitle ?? '—'}</span>
+              <ChevronDownIcon style={{
+                width: 13, height: 13, flexShrink: 0,
+                transform: isSectionDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 150ms',
+              }} />
+            </button>
+
+            {isSectionDropdownOpen && (
+              <>
+                <div className="fixed inset-0 z-40" onClick={() => setIsSectionDropdownOpen(false)} />
+                <div
+                  className="absolute right-0 z-50 mt-1 rounded-md shadow-xl overflow-hidden"
+                  style={{ minWidth: 160, backgroundColor: '#0D2038', border: '1px solid #D4891A40', top: '100%' }}
+                >
+                  <div className="max-h-72 overflow-y-auto py-1">
+                    {sectionsData.map(section => {
+                      const Icon = ICON_MAP[section.icon] ?? DocumentTextIcon
+                      const isActive = currentSection === section.id
+                      return (
+                        <Link
+                          key={section.id}
+                          href={`/docs/${section.id}`}
+                          onClick={() => setIsSectionDropdownOpen(false)}
+                          className="flex items-center gap-4 px-4 py-3 text-sm font-medium transition-colors hover:bg-[#1A3550]"
+                          style={{ color: isActive ? '#D4891A' : '#9FB8D0' }}
+                        >
+                          <Icon style={{ width: 16, height: 16, flexShrink: 0, marginRight: 8 }} />
+                          <span>{section.shortTitle}</span>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Search Button */}
+      <div className="px-6 pt-4 pb-4 flex items-center gap-2">
+        <button
+          onClick={() => setIsSearchOpen(true)}
+          className="flex flex-1 items-center rounded-md px-3 py-2 text-left text-sm shadow-sm transition-colors"
+          style={{ border: '1px solid #D4891A30', backgroundColor: '#1A3550', color: '#9FB8D0' }}
+        >
+          <MagnifyingGlassIcon className="mr-3 h-4 w-4" />
+          Search documentation...
+        </button>
+        <button
+          onClick={collapseAll}
+          className="flex-shrink-0 text-xs transition-colors hover:text-white whitespace-nowrap"
+          style={{ color: '#4A6580' }}
+          title="Collapse all"
+        >
+          ⊟
+        </button>
+      </div>
+
+      {/* Navigation */}
+      <nav className="flex-1 overflow-y-auto px-6 pb-4">
+        <ul className="space-y-1">
+          {sortedCategories.map((category) => {
+            const isCollapsed = collapsedCategories.has(category)
+            return (
+              <li key={category}>
+                <div className="mb-2 mt-6 first:mt-0 flex items-center justify-between">
+                  <button
+                    onClick={() => toggleCategory(category)}
+                    className="flex-1 text-left text-xs font-semibold uppercase tracking-wide"
+                    style={{ color: '#F0A83A' }}
+                  >
+                    {category}
+                  </button>
+                  <div className="group flex items-center gap-1">
+                    {!isCollapsed && (
+                      <button
+                        onClick={() => collapseCategoryLevel(category)}
+                        className="opacity-0 group-hover:opacity-100 transition-opacity leading-none"
+                        style={{ color: '#F0A83A', fontSize: '14px' }}
+                        title={`Collapse & reset ${category}`}
+                      >
+                        &#8863;
+                      </button>
+                    )}
+                    <button
+                      onClick={() => toggleCategory(category)}
+                      className="transition-colors"
+                      style={{ color: '#F0A83A' }}
+                    >
+                      {isCollapsed ? (
+                        <ChevronRightIcon className="h-3 w-3" />
+                      ) : (
+                        <ChevronDownIcon className="h-3 w-3" />
+                      )}
+                    </button>
+                  </div>
+                </div>
+                {!isCollapsed && (
+                  <ul className="space-y-1">
+                    {filteredNavigation[category].map((item) => {
+                      return (
+                        <li key={item.slug}>
+                          <NavigationItemComponent 
+                            item={item}
+                            level={0}
+                            collapsedItems={collapsedItems}
+                            toggleItem={toggleItem}
+                            pathname={pathname}
+                            setIsMobileMenuOpen={setIsMobileMenuOpen}
+                          />
+                        </li>
+                      )
+                    })}
+                  </ul>
+                )}
+              </li>
+            )
+          })}
+        </ul>
+      </nav>
+    </div>
+  )
+  }
+
+  return (
+    <>
+      {/* Mobile menu button */}
+      <div className="sticky top-0 z-40 lg:hidden">
+        <div className="flex h-16 items-center justify-between px-4 shadow-sm" style={{ backgroundColor: '#0D2038' }}>
+          <Link href="/" className="flex items-center">
+            <img src="/logo_A_dark.svg" alt="ACTUS Logo" className="h-10 w-9 object-contain" />
+            <span className="ml-3 text-xl font-semibold text-white">
+              ACTUS Docs
+            </span>
+          </Link>
+          <button
+            type="button"
+            className="text-[#9FB8D0] hover:text-white"
+            onClick={() => setIsMobileMenuOpen(true)}
+          >
+            <Bars3Icon className="h-6 w-6" />
+          </button>
+        </div>
+      </div>
+
+      {/* Desktop sidebar */}
+      <div
+        className="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-80 lg:flex-col transition-transform duration-300 ease-in-out"
+        style={{ transform: isSidebarCollapsed ? 'translateX(-100%)' : 'translateX(0)' }}
+      >
+        <div className="flex grow flex-col overflow-y-auto" style={{ backgroundColor: '#0D2038', borderRight: '1px solid #D4891A20' }}>
+          <SidebarContent />
+        </div>
+      </div>
+
+      {/* Collapse tab — fixed at 40% on the right edge of the sidebar, only when expanded */}
+      {!isSidebarCollapsed && (
+        <button
+          onClick={() => setSidebarCollapsed(true)}
+          className="hidden lg:flex fixed z-50 -translate-y-1/2 items-center justify-center rounded-r-md transition-opacity opacity-30 hover:opacity-100"
+          style={{ top: '40%', left: '320px', backgroundColor: 'transparent', color: '#D4891A', width: '20px', height: '48px', borderRight: '2px solid #D4891A', borderTop: '2px solid #D4891A', borderBottom: '2px solid #D4891A' }}
+          title="Collapse sidebar"
+        >
+          <ChevronLeftIcon className="h-3 w-3" />
+        </button>
+      )}
+
+      {/* Expand tab — fixed at 40% on the left edge, only when collapsed */}
+      {isSidebarCollapsed && (
+        <button
+          onClick={() => setSidebarCollapsed(false)}
+          className="hidden lg:flex fixed z-50 -translate-y-1/2 items-center justify-center rounded-r-md transition-opacity opacity-30 hover:opacity-100"
+          style={{ top: '40%', left: '0', backgroundColor: 'transparent', color: '#D4891A', width: '20px', height: '48px', borderRight: '2px solid #D4891A', borderTop: '2px solid #D4891A', borderBottom: '2px solid #D4891A' }}
+          title="Expand sidebar"
+        >
+          <ChevronRightIcon className="h-3 w-3" />
+        </button>
+      )}
+
+      {/* Mobile sidebar */}
+      {isMobileMenuOpen && (
+        <div className="relative z-50 lg:hidden">
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-75" onClick={() => setIsMobileMenuOpen(false)} />
+          <div className="fixed inset-0 flex">
+            <div className="relative mr-16 flex w-full max-w-xs flex-1">
+              <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
+                <button
+                  type="button"
+                  className="text-white hover:text-gray-300"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  <XMarkIcon className="h-6 w-6" />
+                </button>
+              </div>
+              <div className="flex grow flex-col overflow-y-auto" style={{ backgroundColor: '#0D2038' }}>
+                <SidebarContent />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Search Modal */}
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} initialSection={currentSection} />
+    </>
+  )
+}
+
+// Component for rendering hierarchical navigation items
+interface NavigationItemProps {
+  item: NavigationItem
+  level: number
+  collapsedItems: Set<string>
+  toggleItem: (itemSlug: string) => void
+  pathname: string
+  setIsMobileMenuOpen: (open: boolean) => void
+}
+
+function NavigationItemComponent({ 
+  item, 
+  level, 
+  collapsedItems, 
+  toggleItem, 
+  pathname, 
+  setIsMobileMenuOpen 
+}: NavigationItemProps) {
+  const href = `/docs/${item.slug}`
+  const isActive = pathname === href
+  const hasChildren = item.children && item.children.length > 0
+  const isCollapsed = collapsedItems.has(item.slug)
+  const indentStyle = { paddingLeft: `${level * 16 + 12}px` }
+
+  return (
+    <>
+      <div className="flex items-center" style={level > 0 ? indentStyle : undefined}>
+        {hasChildren ? (
+          <div className="flex items-center w-full">
+            <button
+              onClick={() => toggleItem(item.slug)}
+              className={`flex items-center justify-between w-full rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                isActive
+                  ? ''
+                  : 'text-[#9FB8D0] hover:bg-[#1A3550] hover:text-white'
+              }`}
+              style={isActive ? { color: '#F0A83A', backgroundColor: '#F0A83A15' } : {}}
+            >
+              <Link
+                href={href}
+                className="flex-1 text-left"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {toSentenceCase(item.title)}
+              </Link>
+              {isCollapsed ? (
+                <ChevronRightIcon className="h-4 w-4 flex-shrink-0 ml-2" />
+              ) : (
+                <ChevronDownIcon className="h-4 w-4 flex-shrink-0 ml-2" />
+              )}
+            </button>
+          </div>
+        ) : (
+          <Link
+            href={href}
+            className={`block w-full rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+              isActive
+                ? ''
+                : 'text-[#9FB8D0] hover:bg-[#1A3550] hover:text-white'
+            }`}
+            style={isActive ? { color: '#F0A83A', backgroundColor: '#F0A83A15' } : {}}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            {toSentenceCase(item.title)}
+          </Link>
+        )}
+      </div>
+      
+      {hasChildren && !isCollapsed && (
+        <ul className="space-y-1 mt-1">
+          {item.children!.map((child) => (
+            <li key={child.slug}>
+              <NavigationItemComponent
+                item={child}
+                level={level + 1}
+                collapsedItems={collapsedItems}
+                toggleItem={toggleItem}
+                pathname={pathname}
+                setIsMobileMenuOpen={setIsMobileMenuOpen}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
+  )
+}

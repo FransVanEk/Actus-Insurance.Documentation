@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" font-family="Trebuchet MS, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2836"/>
+      <stop offset="100%" style="stop-color:#243344"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#e6a040"/>
+    </linearGradient>
+    <linearGradient id="barLow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5ab8d8"/>
+      <stop offset="100%" style="stop-color:#2a6888"/>
+    </linearGradient>
+    <linearGradient id="barBase" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e6a040"/>
+      <stop offset="100%" style="stop-color:#8a4a10"/>
+    </linearGradient>
+    <linearGradient id="barHigh" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e05858"/>
+      <stop offset="100%" style="stop-color:#803030"/>
+    </linearGradient>
+    <linearGradient id="barHighNeg" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#e05858"/>
+      <stop offset="100%" style="stop-color:#803030"/>
+    </linearGradient>
+    <linearGradient id="barBaseNeg" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#e6a040"/>
+      <stop offset="100%" style="stop-color:#8a4a10"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowSoft">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="580" fill="url(#bgGrad)"/>
+  <rect x="0" y="0" width="1200" height="4" fill="url(#goldGrad)"/>
+  <rect x="0" y="576" width="1200" height="4" fill="url(#goldGrad)"/>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" fill="#FFFFFF" font-size="21" font-weight="bold" letter-spacing="2">SCENARIO RATE IMPACT ON PORTFOLIO PV</text>
+  <text x="600" y="57" text-anchor="middle" fill="#8FAAB8" font-size="12" letter-spacing="1">5 PAM CONTRACTS · LOW 1.5% / BASE 3.0% / HIGH 6.5% · 48-MONTH HORIZON · CALC DATE = MONTH 0</text>
+
+  <!-- Panel header -->
+  <rect x="60" y="64" width="1080" height="26" rx="4" fill="#1e2a40" stroke="#D4891A" stroke-width="1.5"/>
+  <text x="600" y="82" text-anchor="middle" fill="#D4891A" font-size="13" font-weight="bold">PRESENT VALUE (USD) BY CONTRACT AND RATE SCENARIO · FIXED-RATE INVERSE PV RELATIONSHIP CONFIRMED</text>
+
+  <!-- Chart panel -->
+  <rect x="60" y="90" width="1080" height="390" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- Y-axis gridlines  y(v) = 228 - v*0.00106 -->
+  <!-- y=80 → 140k  y=122 → 100k  y=175 → 50k  y=228 → 0  y=281 → -50k  y=334 → -100k  y=387 → -150k  y=440 → -200k -->
+  <line x1="120" y1="122" x2="1100" y2="122" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="126" text-anchor="end" fill="#4a6a7a" font-size="9">+100k</text>
+  <line x1="120" y1="175" x2="1100" y2="175" stroke="#253545" stroke-width="0.6" opacity="0.6"/>
+  <text x="114" y="179" text-anchor="end" fill="#3a5a6a" font-size="8">+50k</text>
+  <!-- Zero line (gold dashed) -->
+  <line x1="120" y1="228" x2="1100" y2="228" stroke="#D4891A" stroke-width="1.5" stroke-dasharray="6,3" opacity="0.9"/>
+  <text x="114" y="232" text-anchor="end" fill="#D4891A" font-size="10" font-weight="bold">0</text>
+  <line x1="120" y1="281" x2="1100" y2="281" stroke="#253545" stroke-width="0.6" opacity="0.6"/>
+  <text x="114" y="285" text-anchor="end" fill="#3a5a6a" font-size="8">-50k</text>
+  <line x1="120" y1="334" x2="1100" y2="334" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="338" text-anchor="end" fill="#4a6a7a" font-size="9">-100k</text>
+  <line x1="120" y1="387" x2="1100" y2="387" stroke="#253545" stroke-width="0.6" opacity="0.6"/>
+  <text x="114" y="391" text-anchor="end" fill="#3a5a6a" font-size="8">-150k</text>
+  <line x1="120" y1="440" x2="1100" y2="440" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="444" text-anchor="end" fill="#4a6a7a" font-size="9">-200k</text>
+
+  <!-- Axes -->
+  <line x1="120" y1="80" x2="120" y2="440" stroke="#3a4f60" stroke-width="1"/>
+  <line x1="120" y1="440" x2="1100" y2="440" stroke="#3a4f60" stroke-width="1"/>
+  <text x="75" y="140" fill="#6ab0d8" font-size="9" font-style="italic">PV gain ↑</text>
+  <text x="75" y="380" fill="#e05858" font-size="9" font-style="italic">PV loss ↓</text>
+
+  <!-- Negative zone fill -->
+  <rect x="120" y="228" width="980" height="212" fill="#e05858" opacity="0.04"/>
+
+  <!-- ══ GROUP 1: PAM_C001 · centre x=218 ══════════════════════════════════ -->
+  <!-- Low(97124): y=125, h=103 | Base(37756): y=188, h=40 | High(-88222): y=228, h=94 -->
+  <rect x="149" y="125" width="42" height="103" rx="3" fill="url(#barLow)" opacity="0.85"/>
+  <rect x="197" y="188" width="42" height="40"  rx="3" fill="url(#barBase)" opacity="0.85"/>
+  <rect x="245" y="228" width="42" height="94"  rx="3" fill="url(#barHighNeg)" opacity="0.85"/>
+  <!-- value labels -->
+  <text x="170" y="119" text-anchor="middle" fill="#6acce0" font-size="9">97.1k</text>
+  <text x="218" y="182" text-anchor="middle" fill="#e6a040" font-size="9">37.8k</text>
+  <text x="266" y="335" text-anchor="middle" fill="#f07070" font-size="9">-88.2k</text>
+  <!-- contract label -->
+  <text x="218" y="460" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">C001</text>
+  <text x="218" y="474" text-anchor="middle" fill="#5a7a8a" font-size="9">4% fixed · 1M notional</text>
+
+  <!-- ══ GROUP 2: PAM_C002 · centre x=414 ══════════════════════════════════ -->
+  <!-- Low(51214): y=174, h=54 | Base(28435): y=198, h=30 | High(-20984): y=228, h=22 -->
+  <rect x="345" y="174" width="42" height="54" rx="3" fill="url(#barLow)" opacity="0.85"/>
+  <rect x="393" y="198" width="42" height="30" rx="3" fill="url(#barBase)" opacity="0.85"/>
+  <rect x="441" y="228" width="42" height="22" rx="3" fill="url(#barHighNeg)" opacity="0.85"/>
+  <text x="366" y="168" text-anchor="middle" fill="#6acce0" font-size="9">51.2k</text>
+  <text x="414" y="192" text-anchor="middle" fill="#e6a040" font-size="9">28.4k</text>
+  <text x="462" y="263" text-anchor="middle" fill="#f07070" font-size="9">-21.0k</text>
+  <text x="414" y="460" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">C002</text>
+  <text x="414" y="474" text-anchor="middle" fill="#5a7a8a" font-size="9">4% fixed · 500k notional</text>
+
+  <!-- ══ GROUP 3: PAM_C003 · centre x=610 ══════════════════════════════════ -->
+  <!-- Low(59114): y=165, h=63 | Base(-69): y=228, h=2(min) | High(-131516): y=228, h=139 -->
+  <rect x="541" y="165" width="42" height="63" rx="3" fill="url(#barLow)" opacity="0.85"/>
+  <!-- Base: essentially zero — tiny sliver with special indicator -->
+  <rect x="589" y="226" width="42" height="4" rx="2" fill="#D4891A" opacity="0.8"/>
+  <rect x="637" y="228" width="42" height="139" rx="3" fill="url(#barHighNeg)" opacity="0.85" filter="url(#glow)"/>
+  <text x="562" y="159" text-anchor="middle" fill="#6acce0" font-size="9">59.1k</text>
+  <text x="610" y="215" text-anchor="middle" fill="#D4891A" font-size="8" font-style="italic">≈ 0</text>
+  <text x="658" y="380" text-anchor="middle" fill="#f07070" font-size="9">-131.5k</text>
+  <!-- ★ badge for C003 coupon note -->
+  <rect x="560" y="91" width="100" height="16" rx="8" fill="#1e2a3a" stroke="#D4891A" stroke-width="1" opacity="0.9"/>
+  <text x="610" y="103" text-anchor="middle" fill="#D4891A" font-size="8">coupon ≈ Base rate</text>
+  <text x="610" y="460" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">C003</text>
+  <text x="610" y="474" text-anchor="middle" fill="#5a7a8a" font-size="9">3% fixed · 500k notional</text>
+
+  <!-- ══ GROUP 4: PAM_C004 · centre x=806 ══════════════════════════════════ -->
+  <!-- Low(28022): y=198, h=30 | Base(27710): y=199, h=29 | High(26299): y=200, h=28 -->
+  <rect x="737" y="198" width="42" height="30" rx="3" fill="url(#barLow)" opacity="0.85"/>
+  <rect x="785" y="199" width="42" height="29" rx="3" fill="url(#barBase)" opacity="0.85"/>
+  <rect x="833" y="200" width="42" height="28" rx="3" fill="url(#barLow)" opacity="0.60"/>
+  <!-- Floating-rate annotation -->
+  <rect x="750" y="91" width="112" height="30" rx="4" fill="#1a2a1a" stroke="#3aaa5a" stroke-width="1" opacity="0.9"/>
+  <text x="806" y="103" text-anchor="middle" fill="#3aaa5a" font-size="8" font-weight="bold">FLOATING RATE</text>
+  <text x="806" y="115" text-anchor="middle" fill="#3aaa5a" font-size="8">PV rate-neutral (+1% spread)</text>
+  <text x="758" y="192" text-anchor="middle" fill="#6acce0" font-size="9">28.0k</text>
+  <text x="806" y="193" text-anchor="middle" fill="#e6a040" font-size="9">27.7k</text>
+  <text x="854" y="194" text-anchor="middle" fill="#6acce0" font-size="9">26.3k</text>
+  <text x="806" y="460" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">C004</text>
+  <text x="806" y="474" text-anchor="middle" fill="#5a7a8a" font-size="9">floating (+1% spread) · 500k</text>
+
+  <!-- ══ GROUP 5: PAM_C005 · centre x=1002 ══════════════════════════════════ -->
+  <!-- Low(129417): y=91, h=137 | Base(60615): y=164, h=64 | High(-84997): y=228, h=90 -->
+  <rect x="933" y="91" width="42" height="137" rx="3" fill="url(#barLow)" opacity="0.85" filter="url(#glow)"/>
+  <rect x="981" y="164" width="42" height="64"  rx="3" fill="url(#barBase)" opacity="0.85"/>
+  <rect x="1029" y="228" width="42" height="90" rx="3" fill="url(#barHighNeg)" opacity="0.85"/>
+  <!-- Peak badge -->
+  <rect x="923" y="72" width="62" height="16" rx="8" fill="#4a8ab5" opacity="0.9"/>
+  <text x="954" y="84" text-anchor="middle" fill="#FFFFFF" font-size="9" font-weight="bold">★ MAX PV</text>
+  <text x="954" y="85" text-anchor="middle" fill="#a0e0ff" font-size="11" font-weight="bold" filter="url(#glowSoft)"></text>
+  <text x="954" y="186" text-anchor="middle" fill="#6acce0" font-size="9">129.4k</text>
+  <text x="1002" y="158" text-anchor="middle" fill="#e6a040" font-size="9">60.6k</text>
+  <text x="1050" y="328" text-anchor="middle" fill="#f07070" font-size="9">-85.0k</text>
+  <text x="1002" y="460" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">C005</text>
+  <text x="1002" y="474" text-anchor="middle" fill="#5a7a8a" font-size="9">4% fixed · 2M notional</text>
+
+  <!-- Summary insight box -->
+  <rect x="130" y="493" width="940" height="22" rx="4" fill="#1e2a3a" stroke="#4a6a7a" stroke-width="1" opacity="0.85"/>
+  <text x="600" y="508" text-anchor="middle" fill="#8FAAB8" font-size="10">C003 Base PV ≈ $0  (coupon rate = scenario rate → par pricing)  ·  C004 PV range = $1,724  (floating-rate stability)  ·  C001–C003–C005 range = $185k–$214k (fixed-rate sensitivity)</text>
+
+  <!-- Legend -->
+  <line x1="30" y1="525" x2="1170" y2="525" stroke="#D4891A" stroke-width="0.8" opacity="0.35"/>
+  <rect x="200" y="535" width="14" height="14" rx="2" fill="url(#barLow)"/>
+  <text x="220" y="546" fill="#FFFFFF" font-size="11">Low (1.5% flat)</text>
+  <rect x="420" y="535" width="14" height="14" rx="2" fill="url(#barBase)"/>
+  <text x="440" y="546" fill="#FFFFFF" font-size="11">Base (3.0% flat)</text>
+  <rect x="640" y="535" width="14" height="14" rx="2" fill="url(#barHighNeg)"/>
+  <text x="660" y="546" fill="#FFFFFF" font-size="11">High (6.5% flat)</text>
+  <text x="900" y="546" fill="#8FAAB8" font-size="11" font-style="italic">Bars above zero-line = gain · below = loss</text>
+</svg>

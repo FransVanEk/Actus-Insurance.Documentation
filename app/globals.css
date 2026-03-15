@@ -1,0 +1,337 @@
+@import "tailwindcss";
+
+/* Prevent highlight.js from adding its own background/padding —
+   our custom code block container handles that. */
+code.hljs {
+  background: transparent !important;
+  padding: 0 !important;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  /* Brand colours */
+  --color-navy-dark:  #0D2038;
+  --color-navy:       #1A3550;
+  --color-amber:      #D4891A;
+  --color-amber-light:#F0A83A;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Professional code block styling */
+.prose pre {
+  @apply bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4 overflow-x-auto font-mono text-sm leading-relaxed;
+}
+
+.prose code {
+  @apply bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 px-1.5 py-0.5 rounded text-sm font-mono;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0 text-sm text-gray-800 dark:text-gray-200;
+}
+
+/* Code language indicators */
+.prose pre[class*="language-"]::before {
+  @apply absolute top-2 right-2 text-xs text-gray-500 dark:text-gray-400 font-sans;
+  content: attr(data-language);
+}
+
+.prose pre {
+  @apply relative;
+}
+
+/* Enhanced table styling for professional documentation */
+.prose table {
+  @apply border-collapse border border-gray-300 dark:border-gray-600 w-full my-4;
+}
+
+.prose th {
+  @apply bg-gray-50 dark:bg-gray-800 font-semibold border border-gray-300 dark:border-gray-600 px-4 py-2;
+}
+
+.prose td {
+  @apply border border-gray-300 dark:border-gray-600 px-4 py-2;
+}
+
+/* Enhanced list styling */
+.prose ul, .prose ol {
+  @apply my-4 pl-6;
+}
+
+/* Golden headings — !important needed to override Tailwind prose + prose-invert */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6,
+.prose-invert h1,
+.prose-invert h2,
+.prose-invert h3,
+.prose-invert h4,
+.prose-invert h5,
+.prose-invert h6 {
+  color: var(--color-amber) !important;
+}
+
+.dark .prose h1,
+.dark .prose h2,
+.dark .prose h3,
+.dark .prose h4,
+.dark .prose h5,
+.dark .prose h6,
+.dark .prose-invert h1,
+.dark .prose-invert h2,
+.dark .prose-invert h3,
+.dark .prose-invert h4,
+.dark .prose-invert h5,
+.dark .prose-invert h6 {
+  color: var(--color-amber-light) !important;
+}
+
+.prose ul {
+  @apply list-disc;
+}
+
+.prose ol {
+  @apply list-decimal;
+}
+
+.prose li {
+  @apply my-1 pl-1;
+}
+
+.prose ul ul, .prose ol ol, .prose ul ol, .prose ol ul {
+  @apply my-2 pl-4;
+}
+
+/* Nested list styling */
+.prose ul ul {
+  @apply list-[circle];
+}
+
+.prose ul ul ul {
+  @apply list-[square];
+}
+
+/* Headers with better spacing */
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  @apply mt-8 mb-4 first:mt-0;
+}
+
+.prose h1 {
+  @apply text-3xl font-bold border-b border-gray-200 dark:border-gray-700 pb-2;
+}
+
+.prose h2 {
+  @apply text-2xl font-semibold;
+}
+
+.prose h3 {
+  @apply text-xl font-semibold;
+}
+
+/* Better paragraph spacing */
+.prose p {
+  @apply my-4 leading-relaxed;
+}
+
+/* Professional blockquote styling */
+.prose blockquote {
+  @apply border-l-4 p-4 my-4;
+  background-color: #D4891A18;
+  border-left-color: #D4891A;
+}
+
+/* Enhanced link styling */
+.prose a {
+  @apply no-underline hover:underline font-medium;
+  color: #D4891A;
+}
+.prose a:hover {
+  color: #F0A83A;
+}
+
+/* Professional heading anchors */
+.prose h2, .prose h3, .prose h4 {
+  @apply scroll-mt-20;
+}
+
+/* Search result highlighting */
+mark {
+  background-color: #D4891A30;
+  color: #0D2038;
+  @apply px-1 py-0.5 rounded;
+}
+
+/* Loading states */
+.loading-skeleton {
+  @apply animate-pulse bg-gray-200 dark:bg-gray-700 rounded;
+}
+
+/* Focus states for accessibility */
+.focus-visible:focus-visible {
+  @apply outline-2 outline-blue-500 outline-offset-2;
+}
+
+/* Search highlighting */
+mark {
+  background-color: #D4891A30;
+  color: #0D2038;
+  padding: 0;
+  border-radius: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+  mark {
+    background-color: #D4891A40;
+    color: #F0A83A;
+  }
+}
+
+/* ─── Mermaid diagram styling ────────────────────────────────────────────────
+   The base theme sets the palette via themeVariables in MermaidChart.tsx.
+   These rules handle layout, subgraph appearance, and edge labels so every
+   diagram looks consistent with the site's navy/amber theme without any
+   per-diagram inline style declarations.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.mermaid-diagram svg {
+  /* overflow:visible prevents text from being clipped by the SVG viewport
+     boundary when Mermaid underestimates a label's rendered width. */
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  overflow: visible;
+  border-radius: 0.5rem;
+}
+
+/* Subgraph / cluster boxes */
+.mermaid-diagram svg .cluster rect {
+  fill: #f0f4f8 !important;
+  stroke: #1A3550 !important;
+  stroke-width: 1.5px !important;
+  rx: 6px !important;
+}
+
+.mermaid-diagram svg .cluster .cluster-label,
+.mermaid-diagram svg .cluster span {
+  color: #0D2038 !important;
+}
+
+/* Prevent subgraph titles from wrapping. Mermaid wraps them to fit the cluster
+   box width during JS layout — CSS can override this because htmlLabels:true
+   renders titles as HTML inside a foreignObject. The SVG overflow:visible
+   above ensures the title is never clipped even if it extends past the box. */
+.mermaid-diagram svg .cluster-label foreignObject div,
+.mermaid-diagram svg .cluster-label foreignObject span,
+.mermaid-diagram svg .cluster-label foreignObject p {
+  white-space: nowrap !important;
+}
+
+/* Edge labels */
+.mermaid-diagram svg .edgeLabel {
+  isolation: isolate;
+}
+
+.mermaid-diagram svg .edgeLabel .label rect {
+  fill: #1a2836 !important;
+}
+
+.mermaid-diagram svg .edgeLabel foreignObject > div,
+.mermaid-diagram svg .edgeLabel foreignObject > div > span,
+.mermaid-diagram svg .edgeLabel foreignObject > div > p {
+  background: #1a2836 !important;
+  background-color: #1a2836 !important;
+  color: #D4891A !important;
+}
+
+.mermaid-diagram svg .edgeLabel span,
+.mermaid-diagram svg .edgeLabel foreignObject div,
+.mermaid-diagram svg .edgeLabel foreignObject p {
+  color: #D4891A !important;
+  background: #1a2836 !important;
+  background-color: #1a2836 !important;
+}
+
+/* Default node text */
+.mermaid-diagram svg .nodeLabel,
+.mermaid-diagram svg .label foreignObject div {
+  color: #0D2038;
+}
+
+/* Arrows / edges */
+.mermaid-diagram svg .edgePath .path {
+  stroke: #D4891A !important;
+  stroke-width: 2px !important;
+}
+
+.mermaid-diagram svg marker path {
+  fill: #D4891A !important;
+  stroke: #D4891A !important;
+}
+
+/* xychart title and axis labels */
+.mermaid-diagram svg text.title {
+  fill: #0D2038 !important;
+  font-weight: 600 !important;
+}
+
+.mermaid-diagram svg .xyChart .xTitle,
+.mermaid-diagram svg .xyChart .yTitle,
+.mermaid-diagram svg .xyChart text {
+  fill: #0D2038 !important;
+}
+
+/* Gantt chart */
+.mermaid-diagram svg .mermaid-gantt .section0,
+.mermaid-diagram svg rect.task0 {
+  fill: #1A3550 !important;
+}
+
+.mermaid-diagram svg .titleText,
+.mermaid-diagram svg text.sectionTitle {
+  fill: #0D2038 !important;
+  font-weight: 600 !important;
+}
+
+/* State diagram */
+.mermaid-diagram svg .state-start circle,
+.mermaid-diagram svg .state-end circle {
+  fill: #1A3550 !important;
+}
+
+.mermaid-diagram svg .stateBox rect,
+.mermaid-diagram svg .stateGroup rect {
+  fill: #e8f0f7 !important;
+  stroke: #1A3550 !important;
+}
+
+/* Outer container — very subtle tint, no card border */
+.mermaid-diagram {
+  background: rgba(232, 240, 247, 0.25);
+  border-radius: 0.5rem;
+  padding: 1.25rem 0.5rem;
+}

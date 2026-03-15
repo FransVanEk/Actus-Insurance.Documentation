@@ -1,0 +1,80 @@
+[
+  {
+    "id": "hackathon",
+    "title": "The Hackathon Story",
+    "shortTitle": "Hackathon",
+    "icon": "Rocket",
+    "description": "The project story from start to finish — how a single-lane test track became a thousand-lane highway for financial contract evaluation, told through the car factory analogy.",
+    "blurb": "Follow the journey from a single-threaded ACTUS prototype to a massively parallel GPU engine — covering the motivation, architecture decisions, trade-offs, and benchmark results that defined the project",
+    "features": [
+      "Car Factory & Highway Analogy",
+      "Development Timeline & Milestones",
+      "Key Decisions & Trade-Offs",
+      "Challenges & Solutions",
+      "Results & Performance Benchmarks"
+    ]
+  },
+  {
+    "id": "actus-org",
+    "title": "ACTUS Organization",
+    "shortTitle": "ACTUS Org",
+    "icon": "BuildingLibrary",
+    "description": "The ACTUS Financial Research Foundation — the open standard for financial contract representation, its taxonomy, data dictionary, technical specification, and the organizations behind it.",
+    "blurb": "Understand the ACTUS open standard — its contract taxonomy of ~32 types, data dictionary, state transition functions, business rules, and the foundation that maintains the specification",
+    "features": [
+      "ACTUS Standard Overview",
+      "Contract Type Taxonomy — ~32 Types",
+      "Data Dictionary — CT Attributes & Applicability",
+      "Technical Specification & State Transition Functions",
+      "Business Rules Notation",
+      "Developer Access & Reference Implementation",
+      "Membership & Resources"
+    ]
+  },
+  {
+    "id": "background-gpu",
+    "title": "Background — GPU Computing",
+    "shortTitle": "GPU Background",
+    "icon": "Cpu",
+    "description": "What a GPU is, how it differs from a CPU, and why GPU architecture is well-suited for large-scale financial contract evaluation using ILGPU.",
+    "blurb": "Build intuition for why GPUs are a natural fit for bulk financial contract evaluation — comparing CPU and GPU architectures, and introducing ILGPU as the bridge from C# to CUDA and OpenCL",
+    "features": [
+      "CPU vs GPU Architecture Comparison",
+      "Why GPU for Financial Contracts",
+      "ILGPU Framework — C# to CUDA/OpenCL",
+      "Hardware Specifications & Constraints"
+    ]
+  },
+  {
+    "id": "technical",
+    "title": "Technical Documentation",
+    "shortTitle": "Technical",
+    "icon": "CodeBracket",
+    "description": "Full implementation reference — core engine architecture, PAM contract processor, state machine, financial conventions, schedule generation, GPU acceleration, demos, and testing.",
+    "blurb": "Deep-dive into the implementation — the PAM contract engine, state machine, schedule generation, risk factor model, GPU data structures and kernels, sample demos, and the full test suite",
+    "features": [
+      "Core Engine — PAM Contract, State Machine, Conventions",
+      "Schedule Generation & Cycle Parsing",
+      "Risk Factor Model & Market Data",
+      "GPU Acceleration — Data Structures, Kernels, Executors",
+      "Demos & Sample Applications",
+      "Testing — 42 PAM Tests, GPU Validation",
+      "Technical Reference — Types, Enums, Interfaces"
+    ]
+  },
+  {
+    "id": "actus-insurance",
+    "title": "ACTUS Insurance Extensions",
+    "shortTitle": "ACTUS Insurance",
+    "icon": "ShieldCheck",
+    "description": "How the ACTUS framework was extended to model insurance contracts — life insurance projection, Markov state transitions, and a domain-specific language for product rules.",
+    "blurb": "Explore how ACTUS was extended into insurance — projecting life insurance cashflows on GPU using Markov state transitions and a domain-specific language that encodes product rules without code changes",
+    "features": [
+      "Life Insurance Projection on GPU",
+      "Markov State Transition Model",
+      "Domain-Specific Language for Product Rules",
+      "LifeProjectionCube Data Structure"
+    ]
+  }
+]
+

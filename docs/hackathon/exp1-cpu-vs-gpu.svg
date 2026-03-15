@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" font-family="Trebuchet MS, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2836"/>
+      <stop offset="100%" style="stop-color:#243344"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#e6a040"/>
+    </linearGradient>
+    <linearGradient id="safeZone" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a5a3a;stop-opacity:0.25"/>
+      <stop offset="100%" style="stop-color:#1a3a2a;stop-opacity:0.10"/>
+    </linearGradient>
+    <linearGradient id="cpuBar" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e6a040"/>
+      <stop offset="100%" style="stop-color:#8a4a10"/>
+    </linearGradient>
+    <linearGradient id="gpuBar" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5ab8d8"/>
+      <stop offset="100%" style="stop-color:#2a6888"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowSoft">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="580" fill="url(#bgGrad)"/>
+  <rect x="0" y="0" width="1200" height="4" fill="url(#goldGrad)"/>
+  <rect x="0" y="576" width="1200" height="4" fill="url(#goldGrad)"/>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" fill="#FFFFFF" font-size="21" font-weight="bold" letter-spacing="2">CPU vs GPU NUMERICAL PRECISION</text>
+  <text x="600" y="57" text-anchor="middle" fill="#8FAAB8" font-size="12" letter-spacing="1">15 CONTRACT-SCENARIO PAIRS · TOLERANCE 1E-09 · ILGPU BACKEND · NVIDIA RTX 3060 Ti</text>
+
+  <!-- Panel header -->
+  <rect x="60" y="64" width="1080" height="26" rx="4" fill="#1e2a40" stroke="#3aaa5a" stroke-width="1.5"/>
+  <text x="600" y="82" text-anchor="middle" fill="#3aaa5a" font-size="13" font-weight="bold">ABSOLUTE DELTA (CPU PV − GPU PV) PER CONTRACT-SCENARIO PAIR · LOG₁₀ SCALE · ALL 15/15 WITHIN TOLERANCE ✓</text>
+
+  <!-- Chart panel -->
+  <rect x="60" y="90" width="1080" height="390" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- Safe zone fill (below tolerance) -->
+  <rect x="120" y="80" width="980" height="360" fill="url(#safeZone)"/>
+
+  <!-- Y-axis: log10 scale   y(v) = 440 - (log10(v)+12)*120 -->
+  <!-- 1E-12: y=440  1E-11: y=320  1E-10: y=200  1E-9: y=80 -->
+  <line x1="120" y1="440" x2="1100" y2="440" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="444" text-anchor="end" fill="#4a6a7a" font-size="9">10⁻¹²</text>
+  <line x1="120" y1="320" x2="1100" y2="320" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="324" text-anchor="end" fill="#4a6a7a" font-size="9">10⁻¹¹</text>
+  <line x1="120" y1="200" x2="1100" y2="200" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="204" text-anchor="end" fill="#4a6a7a" font-size="9">10⁻¹⁰</text>
+
+  <!-- Tolerance line (red, prominent) -->
+  <line x1="120" y1="80" x2="1100" y2="80" stroke="#e04040" stroke-width="2" stroke-dasharray="8,4"/>
+  <text x="114" y="84" text-anchor="end" fill="#e04040" font-size="10" font-weight="bold">10⁻⁹</text>
+  <text x="1108" y="77" fill="#e04040" font-size="9" font-style="italic">tolerance</text>
+  <text x="1108" y="89" fill="#e04040" font-size="9" font-style="italic">boundary</text>
+
+  <!-- Axes -->
+  <line x1="120" y1="80" x2="120" y2="440" stroke="#3a4f60" stroke-width="1"/>
+  <line x1="120" y1="440" x2="1100" y2="440" stroke="#3a4f60" stroke-width="1"/>
+  <text x="74" y="150" fill="#3aaa5a" font-size="9" font-style="italic" transform="rotate(-90, 74, 150)" text-anchor="middle">|Δ| AbsDelta</text>
+
+  <!-- ══ DOTS: y(v) = 440-(log10(v)+12)*120 ═══════════════════════════════ -->
+  <!-- Contract group x-centres: C001=218  C002=414  C003=610  C004=806  C005=1002 -->
+  <!-- Scenario x within group: Low=centre-25  Base=centre  High=centre+25 -->
+
+  <!-- ── C001 ──────────────────────────────────────────────────────────── -->
+  <!-- Low  2.91E-11  → y=264  | Base 3.638E-11 → y=253 | High 1.455E-11 → y=300 -->
+  <circle cx="193" cy="264" r="8" fill="#5ab8d8" filter="url(#glowSoft)"/>
+  <circle cx="218" cy="253" r="8" fill="#e6a040" filter="url(#glowSoft)"/>
+  <circle cx="243" cy="300" r="8" fill="#e05858" filter="url(#glowSoft)"/>
+  <text x="193" y="250" text-anchor="middle" fill="#5ab8d8" font-size="8">2.91E-11</text>
+  <text x="218" y="240" text-anchor="middle" fill="#e6a040" font-size="8">3.64E-11</text>
+  <text x="243" y="315" text-anchor="middle" fill="#e05858" font-size="8">1.46E-11</text>
+  <text x="218" y="460" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">C001</text>
+
+  <!-- ── C002 ──────────────────────────────────────────────────────────── -->
+  <!-- Low EXACT 0 (special) | Base 7.276E-12 → y=337 | High 7.276E-12 → y=337 -->
+  <!-- Exact=0: show at y=440 with special diamond -->
+  <polygon points="389,432 397,440 389,448 381,440" fill="#5ab8d8" opacity="0.7"/>
+  <text x="389" y="428" text-anchor="middle" fill="#5ab8d8" font-size="7">EXACT</text>
+  <circle cx="414" cy="337" r="8" fill="#e6a040" filter="url(#glowSoft)"/>
+  <circle cx="439" cy="337" r="8" fill="#e05858" filter="url(#glowSoft)"/>
+  <text x="414" y="323" text-anchor="middle" fill="#e6a040" font-size="8">7.28E-12</text>
+  <text x="439" y="323" text-anchor="middle" fill="#e05858" font-size="8">7.28E-12</text>
+  <text x="414" y="460" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">C002</text>
+
+  <!-- ── C003 ──────────────────────────────────────────────────────────── -->
+  <!-- Low 6.548E-11 → y=222 | Base 4.094E-11 → y=247 | High EXACT 0 -->
+  <circle cx="585" cy="222" r="8" fill="#5ab8d8" filter="url(#glowSoft)"/>
+  <circle cx="610" cy="247" r="8" fill="#e6a040" filter="url(#glowSoft)"/>
+  <polygon points="635,432 643,440 635,448 627,440" fill="#e05858" opacity="0.7"/>
+  <text x="585" y="208" text-anchor="middle" fill="#5ab8d8" font-size="8">6.55E-11</text>
+  <text x="610" y="233" text-anchor="middle" fill="#e6a040" font-size="8">4.09E-11</text>
+  <text x="635" y="428" text-anchor="middle" fill="#e05858" font-size="7">EXACT</text>
+  <text x="610" y="460" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">C003</text>
+
+  <!-- ── C004 ──────────────────────────────────────────────────────────── -->
+  <!-- Low 2.183E-11 → y=279 | Base 2.91E-11 → y=264 | High 4.366E-11 → y=243 -->
+  <circle cx="781" cy="279" r="8" fill="#5ab8d8" filter="url(#glowSoft)"/>
+  <circle cx="806" cy="264" r="8" fill="#e6a040" filter="url(#glowSoft)"/>
+  <circle cx="831" cy="243" r="8" fill="#e05858" filter="url(#glowSoft)"/>
+  <text x="781" y="265" text-anchor="middle" fill="#5ab8d8" font-size="8">2.18E-11</text>
+  <text x="806" y="250" text-anchor="middle" fill="#e6a040" font-size="8">2.91E-11</text>
+  <text x="831" y="229" text-anchor="middle" fill="#e05858" font-size="8">4.37E-11</text>
+  <text x="806" y="460" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">C004</text>
+
+  <!-- ── C005 ──────────────────────────────────────────────────────────── -->
+  <!-- Low 2.037E-10 → y=163 | Base 4.366E-11 → y=243 | High 8.731E-11 → y=207 -->
+  <circle cx="977" cy="163" r="8" fill="#5ab8d8" filter="url(#glow)"/>
+  <circle cx="1002" cy="243" r="8" fill="#e6a040" filter="url(#glowSoft)"/>
+  <circle cx="1027" cy="207" r="8" fill="#e05858" filter="url(#glowSoft)"/>
+  <!-- Peak label -->
+  <rect x="944" y="144" width="66" height="15" rx="7" fill="#4a8ab5" opacity="0.9"/>
+  <text x="977" y="155" text-anchor="middle" fill="#FFFFFF" font-size="8" font-weight="bold">★ MAX DELTA</text>
+  <text x="977" y="149" text-anchor="middle" fill="#a0e0ff" font-size="8" filter="url(#glowSoft)"></text>
+  <text x="977" y="178" text-anchor="middle" fill="#5ab8d8" font-size="8">2.04E-10</text>
+  <text x="1002" y="229" text-anchor="middle" fill="#e6a040" font-size="8">4.37E-11</text>
+  <text x="1027" y="193" text-anchor="middle" fill="#e05858" font-size="8">8.73E-11</text>
+  <text x="1002" y="460" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">C005</text>
+
+  <!-- Group vertical separators -->
+  <line x1="307" y1="90" x2="307" y2="440" stroke="#2a3a4a" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <line x1="503" y1="90" x2="503" y2="440" stroke="#2a3a4a" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <line x1="699" y1="90" x2="699" y2="440" stroke="#2a3a4a" stroke-width="0.5" stroke-dasharray="3,3"/>
+  <line x1="895" y1="90" x2="895" y2="440" stroke="#2a3a4a" stroke-width="0.5" stroke-dasharray="3,3"/>
+
+  <!-- ══ TIMING INSET PANEL ══════════════════════════════════════════════ -->
+  <rect x="130" y="99" width="260" height="90" rx="6" fill="#1e2a3a" stroke="#D4891A" stroke-width="1" opacity="0.95"/>
+  <text x="260" y="115" text-anchor="middle" fill="#D4891A" font-size="10" font-weight="bold">COMPUTE TIME COMPARISON</text>
+  <text x="145" y="135" fill="#8FAAB8" font-size="9">CPU</text>
+  <rect x="170" y="123" width="88" height="14" rx="3" fill="url(#cpuBar)" opacity="0.85"/>
+  <text x="263" y="135" fill="#e6a040" font-size="9" font-weight="bold">93 ms</text>
+  <text x="145" y="153" fill="#8FAAB8" font-size="9">GPU</text>
+  <rect x="170" y="141" width="18" height="14" rx="3" fill="url(#gpuBar)" opacity="0.85"/>
+  <text x="263" y="153" fill="#5ab8d8" font-size="9" font-weight="bold">19 ms</text>
+  <rect x="170" y="162" width="200" height="18" rx="4" fill="#1a3030" stroke="#3aaa5a" stroke-width="1"/>
+  <text x="270" y="175" text-anchor="middle" fill="#3aaa5a" font-size="10" font-weight="bold">GPU 4.9× faster · same results</text>
+
+  <!-- "ALL SAFE" annotation -->
+  <rect x="830" y="99" width="250" height="34" rx="6" fill="#1a3a1a" stroke="#3aaa5a" stroke-width="1.5" opacity="0.95"/>
+  <text x="955" y="115" text-anchor="middle" fill="#3aaa5a" font-size="12" font-weight="bold">✓ 15 / 15 WITHIN TOLERANCE</text>
+  <text x="955" y="128" text-anchor="middle" fill="#5aaa7a" font-size="9">Max delta 2.0E-10  ≪  threshold 1E-09</text>
+
+  <!-- Note about diamonds -->
+  <text x="260" y="477" text-anchor="middle" fill="#5a7a8a" font-size="9">◆ = exact 0 (integer arithmetic match)</text>
+
+  <!-- Legend -->
+  <line x1="30" y1="495" x2="1170" y2="495" stroke="#D4891A" stroke-width="0.8" opacity="0.35"/>
+  <circle cx="214" cy="508" r="6" fill="#5ab8d8"/>
+  <text x="226" y="512" fill="#FFFFFF" font-size="11">Low (1.5%)</text>
+  <circle cx="370" cy="508" r="6" fill="#e6a040"/>
+  <text x="382" y="512" fill="#FFFFFF" font-size="11">Base (3.0%)</text>
+  <circle cx="526" cy="508" r="6" fill="#e05858"/>
+  <text x="538" y="512" fill="#FFFFFF" font-size="11">High (6.5%)</text>
+  <line x1="660" y1="505" x2="720" y2="505" stroke="#e04040" stroke-width="2" stroke-dasharray="6,3"/>
+  <text x="726" y="512" fill="#e04040" font-size="11">Tolerance limit (1E-09)</text>
+  <text x="950" y="512" fill="#8FAAB8" font-size="11" font-style="italic">Y-axis: |CPU PV − GPU PV| (log₁₀ scale)</text>
+</svg>

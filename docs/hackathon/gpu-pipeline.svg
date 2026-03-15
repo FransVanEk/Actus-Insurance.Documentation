@@ -1,0 +1,266 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 520" font-family="Trebuchet MS, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2836"/>
+      <stop offset="100%" style="stop-color:#243344"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#e6a040"/>
+    </linearGradient>
+    <linearGradient id="kernelGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#2a4a3a"/>
+      <stop offset="100%" style="stop-color:#1a3028"/>
+    </linearGradient>
+    <linearGradient id="stageGold" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3a3010"/>
+      <stop offset="100%" style="stop-color:#2a2208"/>
+    </linearGradient>
+    <linearGradient id="stageBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3050"/>
+      <stop offset="100%" style="stop-color:#162238"/>
+    </linearGradient>
+    <linearGradient id="stageTeal" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a3a38"/>
+      <stop offset="100%" style="stop-color:#112828"/>
+    </linearGradient>
+    <linearGradient id="stageRed" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#3a1818"/>
+      <stop offset="100%" style="stop-color:#280e0e"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowSoft">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowGold" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#D4891A"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#4a6a7a"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#c04030"/>
+    </marker>
+    <marker id="arrowTeal" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#3aaa8a"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="520" fill="url(#bgGrad)"/>
+  <rect x="0" y="0" width="1200" height="4" fill="url(#goldGrad)"/>
+  <rect x="0" y="516" width="1200" height="4" fill="url(#goldGrad)"/>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" fill="#FFFFFF" font-size="21" font-weight="bold" letter-spacing="2">GPU EVALUATION PIPELINE — STAGE BREAKDOWN</text>
+  <text x="600" y="58" text-anchor="middle" fill="#8FAAB8" font-size="12" letter-spacing="1">LIFE INSURANCE · 100 000 CONTRACTS · 600 MONTHLY STEPS · 50-YEAR HORIZON</text>
+
+  <!-- ══════════════════════════════════════════
+       ROW LABELS
+       ══════════════════════════════════════════ -->
+  <!-- Compute path label -->
+  <rect x="14" y="116" width="72" height="80" rx="5" fill="#1a2530" stroke="#D4891A" stroke-width="1.5"/>
+  <text x="50" y="145" text-anchor="middle" fill="#D4891A" font-size="9" font-weight="bold">COMPUTE</text>
+  <text x="50" y="157" text-anchor="middle" fill="#D4891A" font-size="9" font-weight="bold">PATH</text>
+  <text x="50" y="173" text-anchor="middle" fill="#8FAAB8" font-size="8">(fair vs</text>
+  <text x="50" y="184" text-anchor="middle" fill="#8FAAB8" font-size="8">CPU)</text>
+
+  <!-- Full path label -->
+  <rect x="14" y="290" width="72" height="80" rx="5" fill="#1a2530" stroke="#4a8ab5" stroke-width="1.5"/>
+  <text x="50" y="317" text-anchor="middle" fill="#6ab0d8" font-size="9" font-weight="bold">FULL</text>
+  <text x="50" y="329" text-anchor="middle" fill="#6ab0d8" font-size="9" font-weight="bold">PATH</text>
+  <text x="50" y="345" text-anchor="middle" fill="#8FAAB8" font-size="8">(incl.</text>
+  <text x="50" y="356" text-anchor="middle" fill="#8FAAB8" font-size="8">D2H)</text>
+
+  <!-- ══════════════════════════════════════════
+       STAGE BOXES — COMPUTE PATH (y=116, h=80)
+       ══════════════════════════════════════════ -->
+
+  <!-- Stage 1: CONTRACTS BATCH -->
+  <rect x="96" y="116" width="110" height="80" rx="6" fill="#1e2e40" stroke="#3a4f60" stroke-width="1.5"/>
+  <text x="151" y="149" text-anchor="middle" fill="#8FAAB8" font-size="10" font-weight="bold">CONTRACTS</text>
+  <text x="151" y="163" text-anchor="middle" fill="#8FAAB8" font-size="10" font-weight="bold">BATCH</text>
+  <text x="151" y="179" text-anchor="middle" fill="#5a7a8a" font-size="9">100k items</text>
+
+  <!-- Arrow → ON-RAMP -->
+  <line x1="206" y1="156" x2="224" y2="156" stroke="#D4891A" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <!-- Stage 2: ON-RAMP (serialize + flatten) -->
+  <rect x="226" y="116" width="120" height="80" rx="6" fill="url(#stageGold)" stroke="#D4891A" stroke-width="1.5"/>
+  <text x="286" y="145" text-anchor="middle" fill="#D4891A" font-size="10" font-weight="bold">ON-RAMP</text>
+  <text x="286" y="159" text-anchor="middle" fill="#8FAAB8" font-size="9">serialize &amp;</text>
+  <text x="286" y="171" text-anchor="middle" fill="#8FAAB8" font-size="9">flatten</text>
+  <text x="286" y="186" text-anchor="middle" fill="#5a7a8a" font-size="8">CPU → buffer</text>
+
+  <!-- Arrow → H2D -->
+  <line x1="346" y1="156" x2="364" y2="156" stroke="#D4891A" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <!-- Stage 3: H2D TRANSFER -->
+  <rect x="366" y="116" width="120" height="80" rx="6" fill="url(#stageBlue)" stroke="#4a8ab5" stroke-width="1.5"/>
+  <text x="426" y="145" text-anchor="middle" fill="#6ab0d8" font-size="10" font-weight="bold">H2D COPY</text>
+  <text x="426" y="159" text-anchor="middle" fill="#8FAAB8" font-size="9">host → device</text>
+  <text x="426" y="173" text-anchor="middle" fill="#8FAAB8" font-size="9">PCIe transfer</text>
+  <text x="426" y="186" text-anchor="middle" fill="#5a7a8a" font-size="8">RAM → VRAM</text>
+
+  <!-- Arrow → GPU KERNEL -->
+  <line x1="486" y1="156" x2="504" y2="156" stroke="#D4891A" stroke-width="2" marker-end="url(#arrowGold)"/>
+
+  <!-- Stage 4: GPU KERNEL (tall, centrepiece) -->
+  <rect x="506" y="98" width="210" height="116" rx="8" fill="url(#kernelGrad)" stroke="#3aaa8a" stroke-width="2" filter="url(#glowSoft)"/>
+  <text x="611" y="126" text-anchor="middle" fill="#3aaa8a" font-size="12" font-weight="bold" letter-spacing="1">GPU KERNEL</text>
+  <text x="611" y="143" text-anchor="middle" fill="#8FAAB8" font-size="9">SIMT parallel execution</text>
+  <!-- Mini thread grid -->
+  <g fill="#3aaa8a" opacity="0.5">
+    <rect x="524" y="152" width="6" height="6" rx="1"/><rect x="534" y="152" width="6" height="6" rx="1"/><rect x="544" y="152" width="6" height="6" rx="1"/>
+    <rect x="554" y="152" width="6" height="6" rx="1"/><rect x="564" y="152" width="6" height="6" rx="1"/><rect x="574" y="152" width="6" height="6" rx="1"/>
+    <rect x="584" y="152" width="6" height="6" rx="1"/><rect x="594" y="152" width="6" height="6" rx="1"/><rect x="604" y="152" width="6" height="6" rx="1"/>
+    <rect x="614" y="152" width="6" height="6" rx="1"/><rect x="624" y="152" width="6" height="6" rx="1"/><rect x="634" y="152" width="6" height="6" rx="1"/>
+    <rect x="644" y="152" width="6" height="6" rx="1"/><rect x="654" y="152" width="6" height="6" rx="1"/><rect x="664" y="152" width="6" height="6" rx="1"/>
+    <rect x="674" y="152" width="6" height="6" rx="1"/><rect x="684" y="152" width="6" height="6" rx="1"/><rect x="694" y="152" width="6" height="6" rx="1"/>
+    <rect x="524" y="162" width="6" height="6" rx="1"/><rect x="534" y="162" width="6" height="6" rx="1"/><rect x="544" y="162" width="6" height="6" rx="1"/>
+    <rect x="554" y="162" width="6" height="6" rx="1"/><rect x="564" y="162" width="6" height="6" rx="1"/><rect x="574" y="162" width="6" height="6" rx="1"/>
+    <rect x="584" y="162" width="6" height="6" rx="1"/><rect x="594" y="162" width="6" height="6" rx="1"/><rect x="604" y="162" width="6" height="6" rx="1"/>
+    <rect x="614" y="162" width="6" height="6" rx="1"/><rect x="624" y="162" width="6" height="6" rx="1"/><rect x="634" y="162" width="6" height="6" rx="1"/>
+    <rect x="644" y="162" width="6" height="6" rx="1"/><rect x="654" y="162" width="6" height="6" rx="1"/><rect x="664" y="162" width="6" height="6" rx="1"/>
+    <rect x="674" y="162" width="6" height="6" rx="1"/><rect x="684" y="162" width="6" height="6" rx="1"/><rect x="694" y="162" width="6" height="6" rx="1"/>
+  </g>
+  <text x="611" y="193" text-anchor="middle" fill="#3aaa8a" font-size="9">100 000 threads</text>
+
+  <!-- Arrow KERNEL → SINK (DEVICE) for compute path -->
+  <line x1="716" y1="156" x2="734" y2="156" stroke="#3aaa8a" stroke-width="2" marker-end="url(#arrowTeal)"/>
+
+  <!-- Stage 5A: SINK ON DEVICE (compute path) -->
+  <rect x="736" y="116" width="130" height="80" rx="6" fill="url(#stageTeal)" stroke="#3aaa8a" stroke-width="1.5"/>
+  <text x="801" y="143" text-anchor="middle" fill="#3aaa8a" font-size="10" font-weight="bold">SINK</text>
+  <text x="801" y="157" text-anchor="middle" fill="#3aaa8a" font-size="9">(on device)</text>
+  <text x="801" y="171" text-anchor="middle" fill="#8FAAB8" font-size="9">aggregate</text>
+  <text x="801" y="185" text-anchor="middle" fill="#5a7a8a" font-size="8">no D2H needed</text>
+
+  <!-- Total time badge for compute path -->
+  <rect x="882" y="126" width="138" height="60" rx="8" fill="#1e3028" stroke="#3aaa8a" stroke-width="1.5"/>
+  <text x="951" y="147" text-anchor="middle" fill="#3aaa8a" font-size="11" font-weight="bold">TOTAL TIME</text>
+  <text x="951" y="164" text-anchor="middle" fill="#FFFFFF" font-size="18" font-weight="bold">23.4 ms</text>
+  <text x="951" y="178" text-anchor="middle" fill="#5aaa8a" font-size="9">Life 100k contracts</text>
+
+  <!-- ══════════════════════════════════════════
+       ROW: FULL PATH (y=290, h=80)
+       ══════════════════════════════════════════ -->
+
+  <!-- Contracts batch (shared, reference arrow down) -->
+  <line x1="151" y1="196" x2="151" y2="280" stroke="#4a6a7a" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+
+  <rect x="96" y="290" width="110" height="80" rx="6" fill="#1e2e40" stroke="#3a4f60" stroke-width="1.5"/>
+  <text x="151" y="323" text-anchor="middle" fill="#8FAAB8" font-size="10" font-weight="bold">CONTRACTS</text>
+  <text x="151" y="337" text-anchor="middle" fill="#8FAAB8" font-size="10" font-weight="bold">BATCH</text>
+  <text x="151" y="353" text-anchor="middle" fill="#5a7a8a" font-size="9">100k items</text>
+
+  <line x1="206" y1="330" x2="224" y2="330" stroke="#4a8ab5" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+  <!-- ON-RAMP (same as compute) -->
+  <rect x="226" y="290" width="120" height="80" rx="6" fill="url(#stageGold)" stroke="#D4891A" stroke-width="1.5"/>
+  <text x="286" y="319" text-anchor="middle" fill="#D4891A" font-size="10" font-weight="bold">ON-RAMP</text>
+  <text x="286" y="333" text-anchor="middle" fill="#8FAAB8" font-size="9">serialize &amp;</text>
+  <text x="286" y="345" text-anchor="middle" fill="#8FAAB8" font-size="9">flatten</text>
+  <text x="286" y="360" text-anchor="middle" fill="#5a7a8a" font-size="8">CPU → buffer</text>
+
+  <line x1="346" y1="330" x2="364" y2="330" stroke="#4a8ab5" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+  <!-- H2D TRANSFER (same) -->
+  <rect x="366" y="290" width="120" height="80" rx="6" fill="url(#stageBlue)" stroke="#4a8ab5" stroke-width="1.5"/>
+  <text x="426" y="319" text-anchor="middle" fill="#6ab0d8" font-size="10" font-weight="bold">H2D COPY</text>
+  <text x="426" y="333" text-anchor="middle" fill="#8FAAB8" font-size="9">host → device</text>
+  <text x="426" y="347" text-anchor="middle" fill="#8FAAB8" font-size="9">PCIe transfer</text>
+  <text x="426" y="360" text-anchor="middle" fill="#5a7a8a" font-size="8">RAM → VRAM</text>
+
+  <line x1="486" y1="330" x2="504" y2="330" stroke="#4a8ab5" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+  <!-- GPU KERNEL (full path — shared, arrow down from compute kernel) -->
+  <line x1="611" y1="214" x2="611" y2="284" stroke="#4a6a7a" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowGray)"/>
+
+  <rect x="506" y="272" width="210" height="116" rx="8" fill="url(#kernelGrad)" stroke="#3aaa8a" stroke-width="2" filter="url(#glowSoft)" opacity="0.85"/>
+  <text x="611" y="300" text-anchor="middle" fill="#3aaa8a" font-size="12" font-weight="bold" letter-spacing="1">GPU KERNEL</text>
+  <text x="611" y="316" text-anchor="middle" fill="#8FAAB8" font-size="9">same compute</text>
+  <g fill="#3aaa8a" opacity="0.4">
+    <rect x="524" y="326" width="6" height="5" rx="1"/><rect x="534" y="326" width="6" height="5" rx="1"/><rect x="544" y="326" width="6" height="5" rx="1"/>
+    <rect x="554" y="326" width="6" height="5" rx="1"/><rect x="564" y="326" width="6" height="5" rx="1"/><rect x="574" y="326" width="6" height="5" rx="1"/>
+    <rect x="584" y="326" width="6" height="5" rx="1"/><rect x="594" y="326" width="6" height="5" rx="1"/><rect x="604" y="326" width="6" height="5" rx="1"/>
+    <rect x="614" y="326" width="6" height="5" rx="1"/><rect x="624" y="326" width="6" height="5" rx="1"/><rect x="634" y="326" width="6" height="5" rx="1"/>
+    <rect x="644" y="326" width="6" height="5" rx="1"/><rect x="654" y="326" width="6" height="5" rx="1"/><rect x="664" y="326" width="6" height="5" rx="1"/>
+    <rect x="674" y="326" width="6" height="5" rx="1"/><rect x="684" y="326" width="6" height="5" rx="1"/><rect x="694" y="326" width="6" height="5" rx="1"/>
+  </g>
+  <text x="611" y="377" text-anchor="middle" fill="#3aaa8a" font-size="9">100 000 threads</text>
+
+  <!-- Arrow → D2H -->
+  <line x1="716" y1="330" x2="734" y2="330" stroke="#c04030" stroke-width="2" marker-end="url(#arrowRed)"/>
+
+  <!-- Stage D2H (EXPENSIVE — red) -->
+  <rect x="736" y="290" width="130" height="80" rx="6" fill="url(#stageRed)" stroke="#c04030" stroke-width="2"/>
+  <text x="801" y="317" text-anchor="middle" fill="#e06050" font-size="10" font-weight="bold">D2H COPY</text>
+  <text x="801" y="331" text-anchor="middle" fill="#8FAAB8" font-size="9">device → host</text>
+  <text x="801" y="345" text-anchor="middle" fill="#8FAAB8" font-size="9">zero-alloc D2H</text>
+  <text x="801" y="360" text-anchor="middle" fill="#c04030" font-size="8" font-weight="bold">+249.9 ms</text>
+
+  <!-- Arrow → CPU SINK -->
+  <line x1="866" y1="330" x2="884" y2="330" stroke="#4a8ab5" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+  <!-- CPU SINK -->
+  <rect x="886" y="290" width="130" height="80" rx="6" fill="url(#stageBlue)" stroke="#4a8ab5" stroke-width="1.5"/>
+  <text x="951" y="319" text-anchor="middle" fill="#6ab0d8" font-size="10" font-weight="bold">CPU SINK</text>
+  <text x="951" y="333" text-anchor="middle" fill="#8FAAB8" font-size="9">aggregate</text>
+  <text x="951" y="347" text-anchor="middle" fill="#8FAAB8" font-size="9">results</text>
+  <text x="951" y="360" text-anchor="middle" fill="#5a7a8a" font-size="8">VRAM → RAM</text>
+
+  <!-- Total time badge for full path -->
+  <rect x="1030" y="300" width="148" height="60" rx="8" fill="#2a1818" stroke="#c04030" stroke-width="1.5"/>
+  <text x="1104" y="321" text-anchor="middle" fill="#e06050" font-size="11" font-weight="bold">TOTAL TIME</text>
+  <text x="1104" y="340" text-anchor="middle" fill="#FFFFFF" font-size="18" font-weight="bold">273.3 ms</text>
+  <text x="1104" y="354" text-anchor="middle" fill="#e06050" font-size="9">Life 100k contracts</text>
+
+  <!-- ══════════════════════════════════════════
+       DELTA ANNOTATION
+       ══════════════════════════════════════════ -->
+  <!-- Brace showing cost difference -->
+  <line x1="1183" y1="156" x2="1183" y2="330" stroke="#8FAAB8" stroke-width="1.5"/>
+  <line x1="1178" y1="156" x2="1183" y2="156" stroke="#8FAAB8" stroke-width="1.5"/>
+  <line x1="1178" y1="330" x2="1183" y2="330" stroke="#8FAAB8" stroke-width="1.5"/>
+  <line x1="1183" y1="243" x2="1192" y2="243" stroke="#8FAAB8" stroke-width="1.5"/>
+  <text x="1196" y="239" fill="#c04030" font-size="10" font-weight="bold">D2H cost:</text>
+  <text x="1196" y="253" fill="#c04030" font-size="11" font-weight="bold">+249.9 ms</text>
+  <text x="1196" y="264" fill="#8FAAB8" font-size="8">(10.7× overhead)</text>
+
+  <!-- ══════════════════════════════════════════
+       BOTTOM: CPU comparison bar + legend
+       ══════════════════════════════════════════ -->
+  <line x1="30" y1="410" x2="1170" y2="410" stroke="#D4891A" stroke-width="0.8" opacity="0.35"/>
+
+  <!-- CPU comparison callout -->
+  <rect x="110" y="418" width="980" height="52" rx="6" fill="#1e2830" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- CPU bar (reference = 734.5 ms) -->
+  <text x="148" y="438" text-anchor="middle" fill="#8FAAB8" font-size="10" font-weight="bold">CPU BASELINE</text>
+  <text x="148" y="454" text-anchor="middle" fill="#8FAAB8" font-size="10">734.5 ms</text>
+
+  <!-- Visual time bars -->
+  <!-- CPU: 734.5ms (full width reference) -->
+  <rect x="225" y="428" width="440" height="14" rx="3" fill="#3a5060" opacity="0.8"/>
+  <text x="672" y="439" fill="#8FAAB8" font-size="9">CPU: 734.5 ms (sequential)</text>
+
+  <!-- GPU compute: 23.4ms -->
+  <rect x="225" y="446" width="14" height="14" rx="3" fill="#3aaa8a" filter="url(#glowSoft)"/>
+  <text x="245" y="457" fill="#3aaa8a" font-size="9" font-weight="bold">GPU compute: 23.4 ms</text>
+  <text x="370" y="457" fill="#5a7a8a" font-size="8">(31.4× faster)</text>
+
+  <!-- GPU full: 273.3ms -->
+  <rect x="480" y="446" width="164" height="14" rx="3" fill="#c04030" opacity="0.7"/>
+  <text x="651" y="457" fill="#c04030" font-size="9" font-weight="bold">GPU full: 273.3 ms</text>
+  <text x="748" y="457" fill="#5a7a8a" font-size="8">(2.7× faster)</text>
+
+  <!-- Key insight callout -->
+  <rect x="850" y="422" width="220" height="38" rx="6" fill="#1a3028" stroke="#3aaa8a" stroke-width="1"/>
+  <text x="960" y="438" text-anchor="middle" fill="#3aaa8a" font-size="9" font-weight="bold">💡 Keep results on-device!</text>
+  <text x="960" y="451" text-anchor="middle" fill="#8FAAB8" font-size="8">Avoid D2H when aggregation suffices</text>
+</svg>

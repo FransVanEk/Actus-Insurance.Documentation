@@ -1,0 +1,237 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" font-family="Trebuchet MS, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2836"/>
+      <stop offset="100%" style="stop-color:#243344"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#e6a040"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowMed">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Gradient fills under lines -->
+    <linearGradient id="lifeComputeFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#D4891A;stop-opacity:0.25"/>
+      <stop offset="100%" style="stop-color:#D4891A;stop-opacity:0.03"/>
+    </linearGradient>
+    <linearGradient id="pamComputeFill" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4a8ab5;stop-opacity:0.20"/>
+      <stop offset="100%" style="stop-color:#4a8ab5;stop-opacity:0.02"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="560" fill="url(#bgGrad)"/>
+  <rect x="0" y="0" width="1200" height="4" fill="url(#goldGrad)"/>
+  <rect x="0" y="556" width="1200" height="4" fill="url(#goldGrad)"/>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" fill="#FFFFFF" font-size="21" font-weight="bold" letter-spacing="2">ns/c/s EFFICIENCY SCALING — GPU vs CPU</text>
+  <text x="600" y="58" text-anchor="middle" fill="#8FAAB8" font-size="12" letter-spacing="1">NANOSECONDS PER CONTRACT PER SCENARIO · LOWER = FASTER · LOG₁₀ SCALE</text>
+
+  <!-- Chart background -->
+  <rect x="100" y="74" width="1066" height="388" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- ═══════════════════════════════════════════
+       Y AXIS: log₁₀ scale
+       Range: 100 – 2 000 000 (log 2 to 6.3)
+       y(v) = 440 − (log10(v) − 2) × 83.7
+       ═══════════════════════════════════════════ -->
+
+  <!-- Gridlines and Y labels -->
+  <!-- 100 ns/c/s → y=440 -->
+  <line x1="140" y1="440" x2="1158" y2="440" stroke="#253545" stroke-width="0.8"/>
+  <text x="136" y="444" text-anchor="end" fill="#4a6a7a" font-size="10">100</text>
+
+  <!-- 1 000 ns/c/s → y=356 -->
+  <line x1="140" y1="356" x2="1158" y2="356" stroke="#253545" stroke-width="0.8"/>
+  <text x="136" y="360" text-anchor="end" fill="#4a6a7a" font-size="10">1K</text>
+
+  <!-- 10 000 ns/c/s → y=272 -->
+  <line x1="140" y1="272" x2="1158" y2="272" stroke="#4a6a7a" stroke-width="0.8" stroke-dasharray="4,4"/>
+  <text x="136" y="276" text-anchor="end" fill="#4a6a7a" font-size="10">10K</text>
+
+  <!-- 100 000 ns/c/s → y=188 -->
+  <line x1="140" y1="188" x2="1158" y2="188" stroke="#253545" stroke-width="0.8"/>
+  <text x="136" y="192" text-anchor="end" fill="#4a6a7a" font-size="10">100K</text>
+
+  <!-- 1 000 000 ns/c/s → y=105 -->
+  <line x1="140" y1="105" x2="1158" y2="105" stroke="#253545" stroke-width="0.8"/>
+  <text x="136" y="109" text-anchor="end" fill="#4a6a7a" font-size="10">1M</text>
+
+  <!-- Y-axis label (rotated) -->
+  <text x="82" y="280" text-anchor="middle" fill="#8FAAB8" font-size="11" transform="rotate(-90 82 280)">ns / contract / scenario</text>
+
+  <!-- X-axis labels (batch sizes) -->
+  <!-- x positions: n=1→200, n=10k→530, n=100k→860, n=200k→1110 -->
+  <text x="200" y="460" text-anchor="middle" fill="#8FAAB8" font-size="11">n = 1</text>
+  <text x="530" y="460" text-anchor="middle" fill="#8FAAB8" font-size="11">n = 10 000</text>
+  <text x="860" y="460" text-anchor="middle" fill="#8FAAB8" font-size="11">n = 100 000</text>
+  <text x="1110" y="460" text-anchor="middle" fill="#8FAAB8" font-size="11">n = 200 000</text>
+
+  <!-- Vertical tick lines -->
+  <line x1="200" y1="440" x2="200" y2="446" stroke="#3a4f60" stroke-width="1"/>
+  <line x1="530" y1="440" x2="530" y2="446" stroke="#3a4f60" stroke-width="1"/>
+  <line x1="860" y1="440" x2="860" y2="446" stroke="#3a4f60" stroke-width="1"/>
+  <line x1="1110" y1="440" x2="1110" y2="446" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- Axes -->
+  <line x1="140" y1="80" x2="140" y2="440" stroke="#3a4f60" stroke-width="1.5"/>
+  <line x1="140" y1="440" x2="1158" y2="440" stroke="#3a4f60" stroke-width="1.5"/>
+
+  <!-- ═══════════════════════════════════════════
+       DATA POINTS (precomputed y values)
+       y(v) = 440 − (log10(v)−2) × 83.7
+       ─────────────────────────────────────────
+       Life CPU ~7400    → y ≈ 283  (all 4 pts)
+       Life GPU compute:
+         n=1:   573169  → y = 440−(5.758−2)×83.7 = 440−314.5 = 126
+         n=10k:    563  → y = 440−(2.751−2)×83.7 = 440−62.9  = 377
+         n=100k:   234  → y = 440−(2.369−2)×83.7 = 440−30.9  = 409
+         n=200k:   208  → y = 440−(2.318−2)×83.7 = 440−26.6  = 413
+       Life GPU full:
+         n=1:   626219  → y = 440−(5.797−2)×83.7 = 440−317.8 = 122
+         n=10k:   3464  → y = 440−(3.540−2)×83.7 = 440−128.9 = 311
+         n=100k:  2733  → y = 440−(3.437−2)×83.7 = 440−120.3 = 320
+         n=200k:  2768  → y = 440−(3.442−2)×83.7 = 440−120.7 = 319
+       PAM CPU ~140k     → y ≈ 175  (all 4 pts)
+       PAM GPU compute:
+         n=1:  1204844  → y = 440−(6.081−2)×83.7 = 440−341.6 =  98
+         n=10k:  89204  → y = 440−(4.950−2)×83.7 = 440−246.9 = 193
+         n=100k: 83230  → y = 440−(4.920−2)×83.7 = 440−244.4 = 196
+         n=200k:101352  → y = 440−(5.006−2)×83.7 = 440−251.6 = 188
+       ═══════════════════════════════════════════ -->
+
+  <!-- === FILL AREAS under Life GPU compute === -->
+  <polygon points="200,126 530,377 860,409 1110,413 1110,440 860,440 530,440 200,440"
+           fill="url(#lifeComputeFill)"/>
+
+  <!-- === FILL AREAS under PAM GPU compute === -->
+  <polygon points="200,98 530,193 860,196 1110,188 1110,440 860,440 530,440 200,440"
+           fill="url(#pamComputeFill)"/>
+
+  <!-- ── PAM CPU (flat, muted blue-gray dashed) ── -->
+  <polyline points="200,175 530,175 860,175 1110,175"
+            fill="none" stroke="#3a6a95" stroke-width="2" stroke-dasharray="8,4" opacity="0.8"/>
+
+  <!-- ── Life CPU (flat, muted gold dashed) ── -->
+  <polyline points="200,283 530,283 860,283 1110,283"
+            fill="none" stroke="#8a6010" stroke-width="2" stroke-dasharray="8,4" opacity="0.8"/>
+
+  <!-- ── Life GPU full path (orange, dashed) ── -->
+  <polyline points="200,122 530,311 860,320 1110,319"
+            fill="none" stroke="#c07030" stroke-width="2.5" stroke-dasharray="6,3" opacity="0.85"/>
+
+  <!-- ── PAM GPU compute (solid blue, moderate drop) ── -->
+  <polyline points="200,98 530,193 860,196 1110,188"
+            fill="none" stroke="#4a9ad8" stroke-width="3" stroke-linejoin="round"/>
+
+  <!-- ── Life GPU compute (GOLD, dramatic drop — hero line) ── -->
+  <polyline points="200,126 530,377 860,409 1110,413"
+            fill="none" stroke="#D4891A" stroke-width="4" stroke-linejoin="round" filter="url(#glowMed)"/>
+
+  <!-- ─── Data point dots ─── -->
+  <!-- Life CPU -->
+  <circle cx="200" cy="283" r="4" fill="#8a6010" stroke="#1a2836" stroke-width="1.5"/>
+  <circle cx="530" cy="283" r="4" fill="#8a6010" stroke="#1a2836" stroke-width="1.5"/>
+  <circle cx="860" cy="283" r="4" fill="#8a6010" stroke="#1a2836" stroke-width="1.5"/>
+  <circle cx="1110" cy="283" r="4" fill="#8a6010" stroke="#1a2836" stroke-width="1.5"/>
+
+  <!-- PAM CPU -->
+  <circle cx="200" cy="175" r="4" fill="#3a6a95" stroke="#1a2836" stroke-width="1.5"/>
+  <circle cx="530" cy="175" r="4" fill="#3a6a95" stroke="#1a2836" stroke-width="1.5"/>
+  <circle cx="860" cy="175" r="4" fill="#3a6a95" stroke="#1a2836" stroke-width="1.5"/>
+  <circle cx="1110" cy="175" r="4" fill="#3a6a95" stroke="#1a2836" stroke-width="1.5"/>
+
+  <!-- Life GPU full dots -->
+  <circle cx="200" cy="122" r="4" fill="#c07030" stroke="#1a2836" stroke-width="1.5"/>
+  <circle cx="530" cy="311" r="4" fill="#c07030" stroke="#1a2836" stroke-width="1.5"/>
+  <circle cx="860" cy="320" r="4" fill="#c07030" stroke="#1a2836" stroke-width="1.5"/>
+  <circle cx="1110" cy="319" r="4" fill="#c07030" stroke="#1a2836" stroke-width="1.5"/>
+
+  <!-- PAM GPU compute dots -->
+  <circle cx="200" cy="98" r="5" fill="#4a9ad8" stroke="#1a2836" stroke-width="1.5"/>
+  <circle cx="530" cy="193" r="5" fill="#4a9ad8" stroke="#1a2836" stroke-width="1.5"/>
+  <circle cx="860" cy="196" r="5" fill="#4a9ad8" stroke="#1a2836" stroke-width="1.5"/>
+  <circle cx="1110" cy="188" r="5" fill="#4a9ad8" stroke="#1a2836" stroke-width="1.5"/>
+
+  <!-- Life GPU compute dots (glowing gold) -->
+  <circle cx="200" cy="126" r="6" fill="#D4891A" stroke="#1a2836" stroke-width="1.5" filter="url(#glow)"/>
+  <circle cx="530" cy="377" r="6" fill="#D4891A" stroke="#1a2836" stroke-width="1.5" filter="url(#glow)"/>
+  <circle cx="860" cy="409" r="6" fill="#D4891A" stroke="#1a2836" stroke-width="1.5" filter="url(#glow)"/>
+  <circle cx="1110" cy="413" r="6" fill="#D4891A" stroke="#1a2836" stroke-width="1.5" filter="url(#glow)"/>
+
+  <!-- ─── Value callout labels (Life GPU compute) ─── -->
+  <rect x="153" y="108" width="90" height="16" rx="8" fill="#1a2530" stroke="#D4891A" stroke-width="1" opacity="0.9"/>
+  <text x="198" y="120" text-anchor="middle" fill="#D4891A" font-size="9" font-weight="bold">573 K ns/c/s</text>
+
+  <rect x="483" y="359" width="90" height="16" rx="8" fill="#1a2530" stroke="#D4891A" stroke-width="1" opacity="0.9"/>
+  <text x="528" y="371" text-anchor="middle" fill="#D4891A" font-size="9" font-weight="bold">563 ns/c/s</text>
+
+  <rect x="813" y="391" width="90" height="16" rx="8" fill="#1a2530" stroke="#D4891A" stroke-width="1" opacity="0.9"/>
+  <text x="858" y="403" text-anchor="middle" fill="#D4891A" font-size="9" font-weight="bold">234 ns/c/s</text>
+
+  <rect x="1063" y="395" width="90" height="16" rx="8" fill="#1a2530" stroke="#D4891A" stroke-width="1" opacity="0.9"/>
+  <text x="1108" y="407" text-anchor="middle" fill="#f0d060" font-size="9" font-weight="bold">208 ns/c/s ★</text>
+
+  <!-- ─── Speedup delta annotations on the Life GPU compute line ─── -->
+  <!-- Bracket n=1 → n=10k -->
+  <line x1="360" y1="376" x2="360" y2="285" stroke="#D4891A" stroke-width="1" stroke-dasharray="3,2" opacity="0.6"/>
+  <rect x="362" y="315" width="82" height="26" rx="4" fill="#1e3040" stroke="#D4891A" stroke-width="0.8" opacity="0.95"/>
+  <text x="403" y="325" text-anchor="middle" fill="#f0b040" font-size="9" font-weight="bold">13× faster</text>
+  <text x="403" y="336" text-anchor="middle" fill="#8FAAB8" font-size="8">than CPU</text>
+
+  <!-- Bracket n=10k → n=100k annotation -->
+  <rect x="688" y="305" width="82" height="26" rx="4" fill="#1e3040" stroke="#D4891A" stroke-width="0.8" opacity="0.95"/>
+  <text x="729" y="315" text-anchor="middle" fill="#f0b040" font-size="9" font-weight="bold">31× faster</text>
+  <text x="729" y="326" text-anchor="middle" fill="#8FAAB8" font-size="8">than CPU</text>
+
+  <!-- Final annotation at n=200k -->
+  <rect x="930" y="280" width="90" height="26" rx="4" fill="#1e3040" stroke="#f0d060" stroke-width="1" opacity="0.95" filter="url(#glowMed)"/>
+  <text x="975" y="290" text-anchor="middle" fill="#f0d060" font-size="10" font-weight="bold">35.7× faster</text>
+  <text x="975" y="301" text-anchor="middle" fill="#FFFFFF" font-size="8">★ peak speedup</text>
+  <!-- Line from annotation to data point -->
+  <line x1="1040" y1="293" x2="1110" y2="413" stroke="#f0d060" stroke-width="1" stroke-dasharray="3,2" opacity="0.7"/>
+
+  <!-- CPU "flat line" label -->
+  <text x="1125" y="279" fill="#8a6010" font-size="9" font-style="italic">CPU Life</text>
+  <text x="1125" y="172" fill="#3a6a95" font-size="9" font-style="italic">CPU PAM</text>
+
+  <!-- Divider line -->
+  <line x1="30" y1="490" x2="1170" y2="490" stroke="#D4891A" stroke-width="0.8" opacity="0.35"/>
+
+  <!-- Legend -->
+  <g transform="translate(0, 498)">
+    <!-- Life GPU compute (hero) -->
+    <line x1="110" y1="508" x2="145" y2="508" stroke="#D4891A" stroke-width="3"/>
+    <circle cx="127" cy="508" r="5" fill="#D4891A" filter="url(#glow)"/>
+    <text x="150" y="512" fill="#FFFFFF" font-size="11">Life GPU compute path</text>
+
+    <!-- Life GPU full -->
+    <line x1="330" y1="508" x2="365" y2="508" stroke="#c07030" stroke-width="2.5" stroke-dasharray="5,3"/>
+    <circle cx="347" cy="508" r="4" fill="#c07030"/>
+    <text x="370" y="512" fill="#FFFFFF" font-size="11">Life GPU full path (incl. D2H)</text>
+
+    <!-- Life CPU -->
+    <line x1="580" y1="508" x2="615" y2="508" stroke="#8a6010" stroke-width="2" stroke-dasharray="7,4"/>
+    <circle cx="597" cy="508" r="4" fill="#8a6010"/>
+    <text x="620" y="512" fill="#FFFFFF" font-size="11">Life CPU baseline</text>
+
+    <!-- PAM GPU compute -->
+    <line x1="790" y1="508" x2="825" y2="508" stroke="#4a9ad8" stroke-width="3"/>
+    <circle cx="807" cy="508" r="5" fill="#4a9ad8"/>
+    <text x="830" y="512" fill="#FFFFFF" font-size="11">PAM GPU compute path</text>
+
+    <!-- PAM CPU -->
+    <line x1="1030" y1="508" x2="1065" y2="508" stroke="#3a6a95" stroke-width="2" stroke-dasharray="7,4"/>
+    <circle cx="1047" cy="508" r="4" fill="#3a6a95"/>
+    <text x="1070" y="512" fill="#FFFFFF" font-size="11">PAM CPU baseline</text>
+  </g>
+</svg>
