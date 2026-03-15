@@ -2,7 +2,7 @@
 title: Personal Note
 description: A personal reflection on the journey from the CORA Summit in Zagreb to building a GPU-accelerated ACTUS engine and exploring insurance extensions.
 category: Hackathon
-order: 13
+order: 7
 ---
 
 # Personal Note

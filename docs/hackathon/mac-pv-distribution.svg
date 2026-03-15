@@ -1,0 +1,204 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" font-family="Trebuchet MS, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2836"/>
+      <stop offset="100%" style="stop-color:#243344"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#e6a040"/>
+    </linearGradient>
+    <!-- Liability curve fill — amber/orange -->
+    <linearGradient id="liabFill0" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#D4891A;stop-opacity:0.45"/>
+      <stop offset="100%" style="stop-color:#D4891A;stop-opacity:0.06"/>
+    </linearGradient>
+    <linearGradient id="liabFill1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e07030;stop-opacity:0.45"/>
+      <stop offset="100%" style="stop-color:#e07030;stop-opacity:0.06"/>
+    </linearGradient>
+    <filter id="glowSoft">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="560" fill="url(#bgGrad)"/>
+  <rect x="0" y="0" width="1200" height="4" fill="url(#goldGrad)"/>
+  <rect x="0" y="556" width="1200" height="4" fill="url(#goldGrad)"/>
+
+  <!-- Main title -->
+  <text x="600" y="36" text-anchor="middle" fill="#FFFFFF" font-size="21" font-weight="bold" letter-spacing="2">PORTFOLIO PV DISTRIBUTION — LIABILITY-WEIGHTED</text>
+  <text x="600" y="58" text-anchor="middle" fill="#8FAAB8" font-size="12" letter-spacing="1">PAM · 240-MONTH HORIZON · 100 VASICEK SCENARIOS · SEED 12345 · MAC DOCKER</text>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       LEFT PANEL — 1,000 contracts
+       All PV values are negative (liability portfolio)
+       Display range: −520M to −100M (420M span → 480px → 1.143px/M)
+       x(v_M) = 80 + (v_M + 520) × 1.143
+       Mean = −326.7M → x = 80 + 193.3×1.143 = 301
+       ══════════════════════════════════════════════════════════════ -->
+  <rect x="38" y="74" width="546" height="432" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+  <rect x="38" y="64" width="546" height="26" rx="4" fill="#281800" stroke="#D4891A" stroke-width="1.5"/>
+  <text x="311" y="82" text-anchor="middle" fill="#D4891A" font-size="13" font-weight="bold">1,000 CONTRACTS × 100 SCENARIOS — ALL OUTCOMES NEGATIVE</text>
+
+  <!-- Distribution curve polygon (right-skewed in negative territory)
+       mean at x=301, sigma_px≈110 -->
+  <path d="M 80,380
+    L 100,378 L 123,374 L 150,364 L 178,347
+    L 205,321 L 230,290 L 255,257 L 276,224
+    L 291,198 L 301,185 L 314,197 L 330,222
+    L 355,261 L 385,303 L 415,337 L 445,359
+    L 467,371 L 487,376 L 510,379 L 560,380 L 80,380 Z"
+    fill="url(#liabFill0)"/>
+
+  <!-- Curve stroke -->
+  <path d="M 80,380
+    L 100,378 L 123,374 L 150,364 L 178,347
+    L 205,321 L 230,290 L 255,257 L 276,224
+    L 291,198 L 301,185 L 314,197 L 330,222
+    L 355,261 L 385,303 L 415,337 L 445,359
+    L 467,371 L 487,376 L 510,379 L 560,380"
+    fill="none" stroke="#D4891A" stroke-width="1.5" opacity="0.85"/>
+
+  <!-- X-axis baseline -->
+  <line x1="80" y1="380" x2="560" y2="380" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- Full loss zone backdrop (everything is loss) -->
+  <rect x="80" y="100" width="480" height="20" rx="2" fill="#c04030" opacity="0.12"/>
+  <text x="311" y="114" text-anchor="middle" fill="#e06050" font-size="9" font-style="italic">⬛ entire distribution in negative PV (liability-weighted portfolio)</text>
+
+  <!-- P05 marker: x=123 (−482.6M) -->
+  <line x1="123" y1="162" x2="123" y2="380" stroke="#e06050" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.9"/>
+  <text x="123" y="156" text-anchor="middle" fill="#e06050" font-size="9" font-weight="bold">P05</text>
+  <text x="115" y="396" text-anchor="middle" fill="#e06050" font-size="8">−483m</text>
+
+  <!-- P50 marker: x=269 (−339.3M → 80+(339.3-100)*1.143... wait:
+       x(-339.3) = 80 + (-339.3+520)*1.143 = 80 + 180.7*1.143 = 287 -->
+  <line x1="287" y1="168" x2="287" y2="380" stroke="#D4891A" stroke-width="1.5" opacity="0.9"/>
+  <text x="287" y="162" text-anchor="middle" fill="#D4891A" font-size="9" font-weight="bold">P50</text>
+  <text x="280" y="396" text-anchor="middle" fill="#D4891A" font-size="8">−339m</text>
+
+  <!-- Mean marker: x=301 (−326.7M) -->
+  <line x1="301" y1="182" x2="301" y2="380" stroke="#FFFFFF" stroke-width="2" opacity="0.8" filter="url(#glowSoft)"/>
+  <text x="315" y="178" text-anchor="start" fill="#FFFFFF" font-size="9" font-weight="bold">Mean</text>
+  <text x="309" y="408" text-anchor="middle" fill="#FFFFFF" font-size="8">−327m</text>
+
+  <!-- P95 marker: x=487 (−163.7M → 80+(163.7-100+420...
+       x(-163.7) = 80 + (-163.7+520)*1.143 = 80 + 356.3*1.143 = 487 -->
+  <line x1="487" y1="178" x2="487" y2="380" stroke="#e8b040" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.9"/>
+  <text x="487" y="171" text-anchor="middle" fill="#e8b040" font-size="9" font-weight="bold">P95</text>
+  <text x="487" y="396" text-anchor="middle" fill="#e8b040" font-size="8">−164m</text>
+
+  <!-- P99 marker: x=507 (−146.7M) -->
+  <line x1="507" y1="200" x2="507" y2="380" stroke="#e8b040" stroke-width="1.0" stroke-dasharray="3,3" opacity="0.75"/>
+  <text x="507" y="193" text-anchor="middle" fill="#e8b040" font-size="9" font-weight="bold">P99</text>
+  <text x="507" y="408" text-anchor="middle" fill="#e8b040" font-size="8">−147m</text>
+
+  <!-- X-axis tick labels (all negative) -->
+  <text x="110" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">−500m</text>
+  <text x="196" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">−400m</text>
+  <text x="310" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">−300m</text>
+  <text x="424" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">−200m</text>
+
+  <!-- VaR annotation -->
+  <text x="185" y="143" fill="#D4891A" font-size="9" font-style="italic">VaR99 = 510m  (loss at 1% tail)</text>
+
+  <!-- 90% range bracket -->
+  <line x1="123" y1="430" x2="487" y2="430" stroke="#D4891A" stroke-width="1" opacity="0.5"/>
+  <line x1="123" y1="427" x2="123" y2="433" stroke="#D4891A" stroke-width="1" opacity="0.5"/>
+  <line x1="487" y1="427" x2="487" y2="433" stroke="#D4891A" stroke-width="1" opacity="0.5"/>
+  <text x="305" y="443" text-anchor="middle" fill="#D4891A" font-size="9">90% range: 319m   (P05 to P95)</text>
+  <text x="311" y="466" text-anchor="middle" fill="#5a7a8a" font-size="9" font-style="italic">σ = 96.5m   ·   1,000 contracts × 100 scenarios</text>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       RIGHT PANEL — 500,000 contracts
+       Display range: −260B to −60B (200B span → 480px → 2.4px/B)
+       x(v_B) = 660 + (v_B + 260) × 2.4
+       Mean = −161.5B → x = 660 + 98.5×2.4 = 896
+       ══════════════════════════════════════════════════════════════ -->
+  <rect x="618" y="74" width="544" height="432" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+  <rect x="618" y="64" width="544" height="26" rx="4" fill="#281800" stroke="#e07030" stroke-width="1.5"/>
+  <text x="890" y="82" text-anchor="middle" fill="#e07030" font-size="13" font-weight="bold">500,000 CONTRACTS × 100 SCENARIOS — ALL OUTCOMES NEGATIVE</text>
+
+  <!-- Distribution curve (right-skewed, mean at x=896, sigma_px≈116) -->
+  <path d="M 660,380
+    L 680,378 L 708,374 L 740,361 L 772,340
+    L 802,311 L 830,275 L 855,242 L 875,214
+    L 888,196 L 896,185 L 908,197 L 925,222
+    L 950,262 L 978,300 L 1007,332 L 1035,355
+    L 1055,368 L 1075,375 L 1095,378 L 1117,380 L 1140,380 L 660,380 Z"
+    fill="url(#liabFill1)"/>
+
+  <!-- Curve stroke -->
+  <path d="M 660,380
+    L 680,378 L 708,374 L 740,361 L 772,340
+    L 802,311 L 830,275 L 855,242 L 875,214
+    L 888,196 L 896,185 L 908,197 L 925,222
+    L 950,262 L 978,300 L 1007,332 L 1035,355
+    L 1055,368 L 1075,375 L 1095,378 L 1117,380 L 1140,380"
+    fill="none" stroke="#e07030" stroke-width="1.5" opacity="0.85"/>
+
+  <!-- X-axis baseline -->
+  <line x1="660" y1="380" x2="1140" y2="380" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- Full loss zone header -->
+  <rect x="660" y="100" width="480" height="20" rx="2" fill="#c04030" opacity="0.12"/>
+  <text x="890" y="114" text-anchor="middle" fill="#e06050" font-size="9" font-style="italic">⬛ entire distribution in negative PV — 500× contracts, same shape</text>
+
+  <!-- P05 marker: x=708 (−239.9B) -->
+  <line x1="708" y1="162" x2="708" y2="380" stroke="#e06050" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.9"/>
+  <text x="708" y="156" text-anchor="middle" fill="#e06050" font-size="9" font-weight="bold">P05</text>
+  <text x="700" y="396" text-anchor="middle" fill="#e06050" font-size="8">−240bn</text>
+
+  <!-- P50 marker: x=882 (−167.7B → 660+(167.7-100...
+       x(-167.7) = 660+(-167.7+260)*2.4 = 660+92.3*2.4 = 882 -->
+  <line x1="882" y1="168" x2="882" y2="380" stroke="#D4891A" stroke-width="1.5" opacity="0.9"/>
+  <text x="882" y="162" text-anchor="middle" fill="#D4891A" font-size="9" font-weight="bold">P50</text>
+  <text x="876" y="396" text-anchor="middle" fill="#D4891A" font-size="8">−168bn</text>
+
+  <!-- Mean marker: x=896 (−161.5B) -->
+  <line x1="896" y1="182" x2="896" y2="380" stroke="#FFFFFF" stroke-width="2" opacity="0.8" filter="url(#glowSoft)"/>
+  <text x="910" y="178" text-anchor="start" fill="#FFFFFF" font-size="9" font-weight="bold">Mean</text>
+  <text x="904" y="408" text-anchor="middle" fill="#FFFFFF" font-size="8">−162bn</text>
+
+  <!-- P95 marker: x=1095 (−78.9B → 660+(78.9-100+260)...
+       x(-78.9) = 660+(-78.9+260)*2.4 = 660+181.1*2.4 = 1095 -->
+  <line x1="1095" y1="178" x2="1095" y2="380" stroke="#e8b040" stroke-width="1.2" stroke-dasharray="4,3" opacity="0.9"/>
+  <text x="1095" y="171" text-anchor="middle" fill="#e8b040" font-size="9" font-weight="bold">P95</text>
+  <text x="1095" y="396" text-anchor="middle" fill="#e8b040" font-size="8">−79bn</text>
+
+  <!-- P99 marker: x=1117 (−69.4B) -->
+  <line x1="1117" y1="198" x2="1117" y2="380" stroke="#e8b040" stroke-width="1" stroke-dasharray="3,3" opacity="0.75"/>
+  <text x="1117" y="191" text-anchor="middle" fill="#e8b040" font-size="9" font-weight="bold">P99</text>
+  <text x="1117" y="408" text-anchor="middle" fill="#e8b040" font-size="8">−69bn</text>
+
+  <!-- X-axis labels (billions, all negative) -->
+  <text x="684" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">−250bn</text>
+  <text x="804" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">−200bn</text>
+  <text x="924" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">−150bn</text>
+  <text x="1044" y="420" text-anchor="middle" fill="#4a6a7a" font-size="8">−100bn</text>
+
+  <!-- VaR annotation -->
+  <text x="760" y="143" fill="#e07030" font-size="9" font-style="italic">VaR99 = 254bn  (loss at 1% tail)</text>
+
+  <!-- 90% range bracket -->
+  <line x1="708" y1="430" x2="1095" y2="430" stroke="#e07030" stroke-width="1" opacity="0.5"/>
+  <line x1="708" y1="427" x2="708" y2="433" stroke="#e07030" stroke-width="1" opacity="0.5"/>
+  <line x1="1095" y1="427" x2="1095" y2="433" stroke="#e07030" stroke-width="1" opacity="0.5"/>
+  <text x="900" y="443" text-anchor="middle" fill="#e07030" font-size="9">90% range: 161bn   (P05 to P95)</text>
+  <text x="890" y="466" text-anchor="middle" fill="#5a7a8a" font-size="9" font-style="italic">σ = 48.5bn   ·   500,000 contracts × 100 scenarios</text>
+
+  <!-- Divider + legend -->
+  <line x1="30" y1="510" x2="1170" y2="510" stroke="#D4891A" stroke-width="0.8" opacity="0.35"/>
+  <rect x="100" y="520" width="12" height="12" rx="2" fill="#D4891A" opacity="0.7"/>
+  <text x="118" y="530" fill="#FFFFFF" font-size="10">1k contracts (million USD)</text>
+  <rect x="310" y="520" width="12" height="12" rx="2" fill="#e07030" opacity="0.7"/>
+  <text x="328" y="530" fill="#FFFFFF" font-size="10">500k contracts (billion USD)</text>
+  <rect x="530" y="521" width="20" height="2" fill="#FFFFFF" opacity="0.8"/>
+  <text x="556" y="530" fill="#FFFFFF" font-size="10">Mean</text>
+  <rect x="610" y="521" width="14" height="2" fill="#D4891A" opacity="0.9"/>
+  <text x="630" y="530" fill="#D4891A" font-size="10">P50</text>
+  <text x="780" y="530" fill="#8FAAB8" font-size="10" font-style="italic">PV scales linearly with contracts: 500k/1k ≈ 494× ratio confirmed</text>
+</svg>

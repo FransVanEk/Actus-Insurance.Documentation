@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" font-family="Trebuchet MS, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2836"/>
+      <stop offset="100%" style="stop-color:#243344"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#e6a040"/>
+    </linearGradient>
+    <linearGradient id="barLow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5a90c0"/>
+      <stop offset="100%" style="stop-color:#2a4a70"/>
+    </linearGradient>
+    <linearGradient id="barMid" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#6aaad8"/>
+      <stop offset="100%" style="stop-color:#3a6090"/>
+    </linearGradient>
+    <linearGradient id="barHigh" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#80c8f0"/>
+      <stop offset="100%" style="stop-color:#4a80b8"/>
+    </linearGradient>
+    <linearGradient id="barPeak" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#a0e0ff"/>
+      <stop offset="100%" style="stop-color:#5aaae0"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowSoft">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowBlue" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#6ab0d8"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="580" fill="url(#bgGrad)"/>
+  <rect x="0" y="0" width="1200" height="4" fill="url(#goldGrad)"/>
+  <rect x="0" y="576" width="1200" height="4" fill="url(#goldGrad)"/>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" fill="#FFFFFF" font-size="21" font-weight="bold" letter-spacing="2">THROUGHPUT EFFICIENCY SCALING</text>
+  <text x="600" y="58" text-anchor="middle" fill="#8FAAB8" font-size="12" letter-spacing="1">PAM MONTE CARLO · 240 MONTHS (20 YEARS) · 100 SCENARIOS · MAC DOCKER · CPUAccelerator</text>
+
+  <!-- Panel -->
+  <rect x="60" y="74" width="1080" height="400" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+  <rect x="60" y="64" width="1080" height="26" rx="4" fill="#1e2a40" stroke="#4a8ab5" stroke-width="1.5"/>
+  <text x="600" y="82" text-anchor="middle" fill="#6ab0d8" font-size="13" font-weight="bold">PAM CONTRACTS · ILGPU CPUAccelerator · RELATIVE EFFICIENCY vs n=1,000 BASELINE</text>
+
+  <!-- Y-axis gridlines: 0–5×, y(v) = 440 − v×72 -->
+  <line x1="120" y1="440" x2="1100" y2="440" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="444" text-anchor="end" fill="#4a6a7a" font-size="9">0×</text>
+  <line x1="120" y1="368" x2="1100" y2="368" stroke="#D4891A" stroke-width="1.2" stroke-dasharray="6,3" opacity="0.9"/>
+  <text x="114" y="372" text-anchor="end" fill="#D4891A" font-size="10" font-weight="bold">1× base</text>
+  <line x1="120" y1="296" x2="1100" y2="296" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="300" text-anchor="end" fill="#4a6a7a" font-size="9">2×</text>
+  <line x1="120" y1="224" x2="1100" y2="224" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="228" text-anchor="end" fill="#4a6a7a" font-size="9">3×</text>
+  <line x1="120" y1="152" x2="1100" y2="152" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="156" text-anchor="end" fill="#4a6a7a" font-size="9">4×</text>
+  <line x1="120" y1="80" x2="1100" y2="80" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="84" text-anchor="end" fill="#4a6a7a" font-size="9">5×</text>
+
+  <!-- Axes -->
+  <line x1="120" y1="80" x2="120" y2="440" stroke="#3a4f60" stroke-width="1"/>
+  <line x1="120" y1="440" x2="1100" y2="440" stroke="#3a4f60" stroke-width="1"/>
+  <text x="75" y="200" fill="#6ab0d8" font-size="9" font-style="italic">More efficient ↑</text>
+
+  <!-- ── BAR 1: n=1,000 · 1.00× (baseline) ─────────────────────── -->
+  <!-- y(1.0) = 368, height = 72 -->
+  <rect x="160" y="368" width="160" height="72" rx="4" fill="url(#barLow)" opacity="0.7"/>
+  <text x="240" y="363" text-anchor="middle" fill="#6ab0d8" font-size="14" font-weight="bold">1.00×</text>
+  <text x="240" y="418" text-anchor="middle" fill="#FFFFFF" font-size="9" opacity="0.75">2.53 µs/c·s</text>
+  <text x="240" y="456" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">n = 1,000</text>
+  <text x="240" y="471" text-anchor="middle" fill="#5a7a8a" font-size="10">100k c·s pairs</text>
+  <text x="240" y="486" text-anchor="middle" fill="#5a7a8a" font-size="9">CALC: 253 ms</text>
+
+  <!-- ── BAR 2: n=5,000 · 1.86× ────────────────────────────────── -->
+  <!-- y(1.86) = 440 - 1.86×72 = 440 - 134 = 306, height = 134 -->
+  <rect x="400" y="306" width="160" height="134" rx="4" fill="url(#barMid)" opacity="0.80"/>
+  <text x="480" y="300" text-anchor="middle" fill="#6ab0d8" font-size="14" font-weight="bold">1.86×</text>
+  <text x="480" y="352" text-anchor="middle" fill="#FFFFFF" font-size="9" opacity="0.75">1.36 µs/c·s</text>
+  <text x="480" y="456" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">n = 5,000</text>
+  <text x="480" y="471" text-anchor="middle" fill="#5a7a8a" font-size="10">500k c·s pairs</text>
+  <text x="480" y="486" text-anchor="middle" fill="#5a7a8a" font-size="9">CALC: 681 ms</text>
+
+  <!-- ── BAR 3: n=50,000 · 3.24× ───────────────────────────────── -->
+  <!-- y(3.24) = 440 - 3.24×72 = 440 - 233 = 207, height = 233 -->
+  <rect x="640" y="207" width="160" height="233" rx="4" fill="url(#barHigh)" opacity="0.90"/>
+  <text x="720" y="201" text-anchor="middle" fill="#80c8f0" font-size="14" font-weight="bold">3.24×</text>
+  <text x="720" y="285" text-anchor="middle" fill="#FFFFFF" font-size="9" opacity="0.75">0.78 µs/c·s</text>
+  <text x="720" y="456" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">n = 50,000</text>
+  <text x="720" y="471" text-anchor="middle" fill="#5a7a8a" font-size="10">5M c·s pairs</text>
+  <text x="720" y="486" text-anchor="middle" fill="#5a7a8a" font-size="9">CALC: 3,902 ms</text>
+
+  <!-- ── BAR 4: n=500,000 · 4.44× (PEAK) ──────────────────────── -->
+  <!-- y(4.44) = 440 - 4.44×72 = 440 - 320 = 120, height = 320 -->
+  <rect x="880" y="120" width="160" height="320" rx="4" fill="url(#barPeak)" filter="url(#glow)"/>
+  <text x="960" y="113" text-anchor="middle" fill="#a0e0ff" font-size="16" font-weight="bold" filter="url(#glowSoft)">4.44×</text>
+  <!-- Peak badge -->
+  <rect x="933" y="91" width="54" height="16" rx="8" fill="#4a8ab5" opacity="0.9"/>
+  <text x="960" y="103" text-anchor="middle" fill="#FFFFFF" font-size="9" font-weight="bold">★ PEAK</text>
+  <text x="960" y="230" text-anchor="middle" fill="#FFFFFF" font-size="10" opacity="0.80">0.57 µs/c·s</text>
+  <text x="960" y="456" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">n = 500,000</text>
+  <text x="960" y="471" text-anchor="middle" fill="#5a7a8a" font-size="10">50M c·s pairs</text>
+  <text x="960" y="486" text-anchor="middle" fill="#5a7a8a" font-size="9">CALC: 28,562 ms</text>
+
+  <!-- Trend arc -->
+  <path d="M 320,363 Q 600,270 880,120" stroke="#6ab0d8" stroke-width="1.5" fill="none" stroke-dasharray="6,3" marker-end="url(#arrowBlue)" opacity="0.65"/>
+  <text x="600" y="265" text-anchor="middle" fill="#6ab0d8" font-size="10" font-style="italic">efficiency improves as GPU kernel saturates →</text>
+  <text x="600" y="278" text-anchor="middle" fill="#5a7a8a" font-size="9">500× more pairs → 4.4× lower µs/c·s</text>
+
+  <!-- CPUAccelerator notice -->
+  <rect x="350" y="100" width="500" height="22" rx="4" fill="#2a1800" stroke="#D4891A" stroke-width="1" opacity="0.85"/>
+  <text x="600" y="115" text-anchor="middle" fill="#D4891A" font-size="10">⚠  accelerator=CPUAccelerator  —  GPU code running on CPU (no CUDA on Apple Silicon Docker)</text>
+
+  <!-- Divider + legend -->
+  <line x1="30" y1="510" x2="1170" y2="510" stroke="#D4891A" stroke-width="0.8" opacity="0.35"/>
+  <rect x="280" y="520" width="14" height="14" rx="2" fill="url(#barPeak)"/>
+  <text x="300" y="531" fill="#FFFFFF" font-size="11">Relative throughput efficiency (1/µs·c·s, normalised to n=1k baseline)</text>
+  <text x="750" y="531" fill="#8FAAB8" font-size="11" font-style="italic">Scaling confirms GPU-architecture amortisation even on CPU</text>
+</svg>

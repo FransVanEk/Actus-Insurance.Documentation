@@ -26,10 +26,10 @@ export function toSentenceCase(text: string): string {
     result = result.replace(new RegExp(`\\b${acr.toLowerCase()}\\b`, 'g'), acr)
   })
 
-  // Restore curated proper nouns
+  // Restore curated proper nouns — only match whole words, never mid-word
   SORTED_PROPER_NOUNS.forEach(name => {
     const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    result = result.replace(new RegExp(escaped, 'gi'), name)
+    result = result.replace(new RegExp(`\\b${escaped}\\b`, 'gi'), name)
   })
 
   return result

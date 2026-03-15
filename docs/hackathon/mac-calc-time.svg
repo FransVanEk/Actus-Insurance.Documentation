@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 580" font-family="Trebuchet MS, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2836"/>
+      <stop offset="100%" style="stop-color:#243344"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#e6a040"/>
+    </linearGradient>
+    <linearGradient id="barGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#8a4a10"/>
+    </linearGradient>
+    <linearGradient id="barGradPeak" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0aa40"/>
+      <stop offset="100%" style="stop-color:#c06a10"/>
+    </linearGradient>
+    <!-- Sub-linear guide line gradient -->
+    <linearGradient id="idealGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6ab0d8;stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#6ab0d8;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#6ab0d8;stop-opacity:0"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowSoft">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowGold" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#D4891A"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="580" fill="url(#bgGrad)"/>
+  <rect x="0" y="0" width="1200" height="4" fill="url(#goldGrad)"/>
+  <rect x="0" y="576" width="1200" height="4" fill="url(#goldGrad)"/>
+
+  <!-- Title -->
+  <text x="600" y="36" text-anchor="middle" fill="#FFFFFF" font-size="21" font-weight="bold" letter-spacing="2">COMPUTATION TIME SCALING</text>
+  <text x="600" y="58" text-anchor="middle" fill="#8FAAB8" font-size="12" letter-spacing="1">PAM MONTE CARLO · 240 MONTHS · 100 SCENARIOS · MAC DOCKER · LOG₁₀ Y-AXIS</text>
+
+  <!-- Panel -->
+  <rect x="60" y="74" width="1080" height="400" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+  <rect x="60" y="64" width="1080" height="26" rx="4" fill="#1e2a40" stroke="#D4891A" stroke-width="1.5"/>
+  <text x="600" y="82" text-anchor="middle" fill="#D4891A" font-size="13" font-weight="bold">CALC PHASE DURATION vs PORTFOLIO SIZE · SUB-LINEAR SCALING OBSERVED</text>
+
+  <!-- Y-axis: log10 scale, 100ms to 100,000ms
+       y(v_ms) = 440 − (log10(v_ms) − 2) × 120
+       100ms=y440  1,000ms=y320  10,000ms=y200  100,000ms=y80 -->
+
+  <!-- Gridlines -->
+  <line x1="120" y1="440" x2="1100" y2="440" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="444" text-anchor="end" fill="#4a6a7a" font-size="9">100 ms</text>
+
+  <!-- 300ms: y = 440-(log10(300)-2)*120 = 440-0.477*120 = 440-57 = 383 -->
+  <line x1="120" y1="383" x2="1100" y2="383" stroke="#253545" stroke-width="0.5" opacity="0.5"/>
+  <text x="114" y="387" text-anchor="end" fill="#3a5a6a" font-size="8">300 ms</text>
+
+  <line x1="120" y1="320" x2="1100" y2="320" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="324" text-anchor="end" fill="#4a6a7a" font-size="9">1 s</text>
+
+  <!-- 3,000ms: y = 440-1.477*120 = 440-177 = 263 -->
+  <line x1="120" y1="263" x2="1100" y2="263" stroke="#253545" stroke-width="0.5" opacity="0.5"/>
+  <text x="114" y="267" text-anchor="end" fill="#3a5a6a" font-size="8">3 s</text>
+
+  <line x1="120" y1="200" x2="1100" y2="200" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="204" text-anchor="end" fill="#4a6a7a" font-size="9">10 s</text>
+
+  <!-- 30,000ms: y = 440-2.477*120 = 440-297 = 143 -->
+  <line x1="120" y1="143" x2="1100" y2="143" stroke="#253545" stroke-width="0.5" opacity="0.5"/>
+  <text x="114" y="147" text-anchor="end" fill="#3a5a6a" font-size="8">30 s</text>
+
+  <line x1="120" y1="80" x2="1100" y2="80" stroke="#253545" stroke-width="0.8"/>
+  <text x="114" y="84" text-anchor="end" fill="#4a6a7a" font-size="9">100 s</text>
+
+  <!-- Axes -->
+  <line x1="120" y1="80" x2="120" y2="440" stroke="#3a4f60" stroke-width="1"/>
+  <line x1="120" y1="440" x2="1100" y2="440" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- Ideal linear reference line (dashed blue):
+       If perfectly linear, 500k would be 500× 1k.
+       1k @ 253ms, so linear 500k = 126,500ms.
+       Showing the actual vs linear slope visually.
+       Draw a dashed line from bar1-top to the "linear" extrapolation
+       Bar1 top at (240, 392). If linear, bar4 would be at y=440-(log10(126500)-2)*120 = 440-3.102*120 = 440-372 = 68 (off chart)
+       Instead, show a simpler guide: draw a line indicating "linear would be here" -->
+  <!-- Sub-linear annotation band -->
+  <text x="75" y="340" fill="#6ab0d8" font-size="9" font-style="italic">Sub-linear ↑</text>
+  <text x="75" y="353" fill="#6ab0d8" font-size="9" font-style="italic">scaling</text>
+
+  <!-- ── BAR 1: n=1,000 · 253ms ─────────────────────────────────── -->
+  <!-- y(253) = 440-(log10(253)-2)*120 = 440-0.403*120 = 440-48.4 = 392 -->
+  <rect x="160" y="392" width="160" height="48" rx="4" fill="url(#barGrad)" opacity="0.70"/>
+  <text x="240" y="386" text-anchor="middle" fill="#D4891A" font-size="11" font-weight="bold">253 ms</text>
+  <text x="240" y="456" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">n = 1,000</text>
+  <text x="240" y="471" text-anchor="middle" fill="#5a7a8a" font-size="10">100k c·s pairs</text>
+  <text x="240" y="486" text-anchor="middle" fill="#5a7a8a" font-size="9">2.53 µs/c·s</text>
+
+  <!-- ── BAR 2: n=5,000 · 681ms ─────────────────────────────────── -->
+  <!-- y(681) = 440-(log10(681)-2)*120 = 440-0.833*120 = 440-100 = 340 -->
+  <rect x="400" y="340" width="160" height="100" rx="4" fill="url(#barGrad)" opacity="0.80"/>
+  <text x="480" y="334" text-anchor="middle" fill="#D4891A" font-size="11" font-weight="bold">681 ms</text>
+  <text x="480" y="456" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">n = 5,000</text>
+  <text x="480" y="471" text-anchor="middle" fill="#5a7a8a" font-size="10">500k c·s pairs</text>
+  <text x="480" y="486" text-anchor="middle" fill="#5a7a8a" font-size="9">1.36 µs/c·s</text>
+
+  <!-- Workload factor annotation between bar 1 and 2 -->
+  <text x="360" y="370" text-anchor="middle" fill="#5a8a9a" font-size="9">5× work</text>
+  <text x="360" y="381" text-anchor="middle" fill="#D4891A" font-size="9">2.7× time</text>
+
+  <!-- ── BAR 3: n=50,000 · 3,902ms ──────────────────────────────── -->
+  <!-- y(3902) = 440-(log10(3902)-2)*120 = 440-1.591*120 = 440-191 = 249 -->
+  <rect x="640" y="249" width="160" height="191" rx="4" fill="url(#barGrad)" opacity="0.90"/>
+  <text x="720" y="243" text-anchor="middle" fill="#e0a040" font-size="11" font-weight="bold">3,902 ms</text>
+  <text x="720" y="310" text-anchor="middle" fill="#FFFFFF" font-size="9" opacity="0.7">0.78 µs/c·s</text>
+  <text x="720" y="456" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">n = 50,000</text>
+  <text x="720" y="471" text-anchor="middle" fill="#5a7a8a" font-size="10">5M c·s pairs</text>
+  <text x="720" y="486" text-anchor="middle" fill="#5a7a8a" font-size="9">0.78 µs/c·s</text>
+
+  <!-- Workload factor annotation between bar 2 and 3 -->
+  <text x="595" y="306" text-anchor="middle" fill="#5a8a9a" font-size="9">10× work</text>
+  <text x="595" y="317" text-anchor="middle" fill="#D4891A" font-size="9">5.7× time</text>
+
+  <!-- ── BAR 4: n=500,000 · 28,562ms (PEAK) ────────────────────── -->
+  <!-- y(28562) = 440-(log10(28562)-2)*120 = 440-2.456*120 = 440-294.7 = 145 -->
+  <rect x="880" y="145" width="160" height="295" rx="4" fill="url(#barGradPeak)" filter="url(#glow)"/>
+  <text x="960" y="138" text-anchor="middle" fill="#f0c060" font-size="12" font-weight="bold" filter="url(#glowSoft)">28,562 ms</text>
+  <text x="960" y="247" text-anchor="middle" fill="#FFFFFF" font-size="10" opacity="0.80">0.57 µs/c·s</text>
+  <!-- Peak badge -->
+  <rect x="930" y="117" width="60" height="16" rx="8" fill="#D4891A" opacity="0.9"/>
+  <text x="960" y="129" text-anchor="middle" fill="#FFFFFF" font-size="9" font-weight="bold">★ LARGEST</text>
+  <text x="960" y="456" text-anchor="middle" fill="#8FAAB8" font-size="11" font-weight="bold">n = 500,000</text>
+  <text x="960" y="471" text-anchor="middle" fill="#5a7a8a" font-size="10">50M c·s pairs</text>
+  <text x="960" y="486" text-anchor="middle" fill="#5a7a8a" font-size="9">0.57 µs/c·s</text>
+
+  <!-- Workload factor annotation between bar 3 and 4 -->
+  <text x="835" y="214" text-anchor="middle" fill="#5a8a9a" font-size="9">10× work</text>
+  <text x="835" y="225" text-anchor="middle" fill="#D4891A" font-size="9">7.3× time</text>
+
+  <!-- Scale factor summary panel -->
+  <rect x="170" y="130" width="420" height="56" rx="6" fill="#1e2a3a" stroke="#4a6a7a" stroke-width="1" opacity="0.9"/>
+  <text x="380" y="150" text-anchor="middle" fill="#6ab0d8" font-size="10" font-weight="bold">SCALING RATIOS  (workload factor → runtime factor)</text>
+  <text x="380" y="166" text-anchor="middle" fill="#8FAAB8" font-size="10">1k→5k: 5× work → 2.7× time  ·  5k→50k: 10× work → 5.7× time  ·  50k→500k: 10× work → 7.3× time</text>
+  <text x="380" y="180" text-anchor="middle" fill="#3aaa8a" font-size="9" font-style="italic">Sub-linear at every step — GPU architecture amortises fixed overhead across larger batches</text>
+
+  <!-- Divider + legend -->
+  <line x1="30" y1="510" x2="1170" y2="510" stroke="#D4891A" stroke-width="0.8" opacity="0.35"/>
+  <rect x="280" y="520" width="14" height="14" rx="2" fill="url(#barGradPeak)"/>
+  <text x="300" y="531" fill="#FFFFFF" font-size="11">CALC phase duration (log₁₀ scale)  ·  100 scenarios  ·  240-month horizon</text>
+  <text x="750" y="531" fill="#8FAAB8" font-size="11" font-style="italic">~1.7M valuations/sec at 500k contracts</text>
+</svg>
