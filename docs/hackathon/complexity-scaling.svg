@@ -1,0 +1,260 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 580" font-family="Trebuchet MS, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a2836"/>
+      <stop offset="100%" style="stop-color:#243344"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D4891A"/>
+      <stop offset="100%" style="stop-color:#e6a040"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowSoft">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowTeal" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,1 L7,4 L0,7 Z" fill="#3aaa8a"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,1 L7,4 L0,7 Z" fill="#e6a040"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0,1 L7,4 L0,7 Z" fill="#e04040"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1300" height="580" fill="url(#bgGrad)"/>
+  <rect x="0" y="0" width="1300" height="4" fill="url(#goldGrad)"/>
+  <rect x="0" y="576" width="1300" height="4" fill="url(#goldGrad)"/>
+
+  <!-- Title -->
+  <text x="650" y="36" text-anchor="middle" fill="#FFFFFF" font-size="20" font-weight="bold" letter-spacing="2">GPU vs CPU SCALING BEHAVIOUR — BIG-O IN PRACTICE</text>
+  <text x="650" y="56" text-anchor="middle" fill="#8FAAB8" font-size="11" letter-spacing="1">ns/c/s = nanoseconds per contract-scenario pair  ·  empirical Life Insurance data  ·  RTX 3060 Ti</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LEFT PANEL: ns/c/s vs Batch Size (log-log)
+       x: 80 to 600  y: 80 to 450
+       x-axis: log10(n), n=1..200k → 5.3 decades, px/decade=98
+       y-axis: log10(v), v=100..1M  → 4 decades, px/decade=92.5
+       x(n)  = 80  + log10(n)*98
+       y(v)  = 450 - (log10(v)-2)*92.5
+       ═══════════════════════════════════════════════════════════════ -->
+
+  <!-- Panel background -->
+  <rect x="60" y="68" width="590" height="415" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- Panel title -->
+  <rect x="60" y="68" width="590" height="24" rx="8" fill="#1e2a40" stroke="#D4891A" stroke-width="1.2"/>
+  <text x="355" y="84" text-anchor="middle" fill="#D4891A" font-size="11" font-weight="bold">EFFICIENCY: ns/c/s vs BATCH SIZE  (log–log)</text>
+
+  <!-- Y gridlines & labels  y(100)=450  y(1k)=357.5  y(10k)=265  y(100k)=172.5  y(1M)=80 -->
+  <line x1="80" y1="450" x2="600" y2="450" stroke="#253545" stroke-width="0.8"/>
+  <text x="74" y="454" text-anchor="end" fill="#4a6a7a" font-size="8">10²</text>
+  <line x1="80" y1="358" x2="600" y2="358" stroke="#253545" stroke-width="0.8"/>
+  <text x="74" y="362" text-anchor="end" fill="#4a6a7a" font-size="8">10³</text>
+  <line x1="80" y1="265" x2="600" y2="265" stroke="#253545" stroke-width="0.8"/>
+  <text x="74" y="269" text-anchor="end" fill="#4a6a7a" font-size="8">10⁴</text>
+  <line x1="80" y1="173" x2="600" y2="173" stroke="#253545" stroke-width="0.8"/>
+  <text x="74" y="177" text-anchor="end" fill="#4a6a7a" font-size="8">10⁵</text>
+  <line x1="80" y1="80" x2="600" y2="80" stroke="#253545" stroke-width="0.8"/>
+  <text x="74" y="84" text-anchor="end" fill="#4a6a7a" font-size="8">10⁶</text>
+
+  <!-- X gridlines & labels  x(1)=80  x(10)=178  x(100)=276  x(1k)=374  x(10k)=472  x(100k)=570 -->
+  <line x1="80"  y1="80" x2="80"  y2="450" stroke="#253545" stroke-width="0.8"/>
+  <text x="80"  y="464" text-anchor="middle" fill="#4a6a7a" font-size="8">1</text>
+  <line x1="178" y1="80" x2="178" y2="450" stroke="#253545" stroke-width="0.6" opacity="0.5"/>
+  <text x="178" y="464" text-anchor="middle" fill="#4a6a7a" font-size="8">10</text>
+  <line x1="276" y1="80" x2="276" y2="450" stroke="#253545" stroke-width="0.6" opacity="0.5"/>
+  <text x="276" y="464" text-anchor="middle" fill="#4a6a7a" font-size="8">100</text>
+  <line x1="374" y1="80" x2="374" y2="450" stroke="#253545" stroke-width="0.8"/>
+  <text x="374" y="464" text-anchor="middle" fill="#4a6a7a" font-size="8">1k</text>
+  <line x1="472" y1="80" x2="472" y2="450" stroke="#253545" stroke-width="0.8"/>
+  <text x="472" y="464" text-anchor="middle" fill="#4a6a7a" font-size="8">10k</text>
+  <line x1="560" y1="80" x2="560" y2="450" stroke="#253545" stroke-width="0.8"/>
+  <text x="560" y="464" text-anchor="middle" fill="#4a6a7a" font-size="8">100k</text>
+
+  <!-- Axis labels -->
+  <text x="340" y="478" text-anchor="middle" fill="#8FAAB8" font-size="10">Batch Size (C)  →  log scale</text>
+  <text x="34" y="265" text-anchor="middle" fill="#8FAAB8" font-size="10" transform="rotate(-90,34,265)">ns / c·s  →  log scale</text>
+
+  <!-- ── CPU LINE: flat at ~7400 ns/c/s
+       y(7400) = 450-(log10(7400)-2)*92.5 = 450-(3.869-2)*92.5 = 450-172.9 = 277
+       Annotate with "flat = O(C·S) total"  -->
+  <line x1="80" y1="277" x2="580" y2="277" stroke="#e6a040" stroke-width="2.5" stroke-dasharray="8,3"/>
+  <!-- CPU dots -->
+  <!-- n=1: x=80, y(8152)=450-(3.911-2)*92.5=450-176.7=273 -->
+  <circle cx="80"  cy="273" r="7" fill="#e6a040" filter="url(#glowSoft)"/>
+  <!-- n=10k: x=472, y(7342)=450-(3.866-2)*92.5=450-172.6=277 -->
+  <circle cx="472" cy="277" r="7" fill="#e6a040" filter="url(#glowSoft)"/>
+  <!-- n=100k: x=560, y(7345)=277 -->
+  <circle cx="560" cy="277" r="7" fill="#e6a040" filter="url(#glowSoft)"/>
+  <!-- CPU label -->
+  <text x="320" y="265" text-anchor="middle" fill="#e6a040" font-size="10" font-weight="bold">CPU — O(1) per pair → flat line</text>
+  <text x="320" y="276" text-anchor="middle" fill="#8a6030" font-size="8">ns/c/s ≈ constant  →  total time ∝ C · S</text>
+
+  <!-- ── GPU CURVE: hyperbolic on log-log
+       GPU empirical: n=1→573169, n=10k→563, n=100k→234, n=200k→208
+       x(n)  = 80 + log10(n)*98
+       y(v)  = 450 - (log10(v)-2)*92.5
+       n=1:    x=80,  y=450-(5.758-2)*92.5=450-347.6=102
+       n=10k:  x=472, y=450-(2.751-2)*92.5=450-69.4=381
+       n=100k: x=560, y=450-(2.369-2)*92.5=450-34.1=416
+       n=200k: x=579, y=450-(2.318-2)*92.5=450-29.4=421  (capped at 580)  -->
+
+  <!-- Model curve (smooth hyperbola approximation via path) -->
+  <!-- from (80,102) through arc to (560,416) -->
+  <path d="M80,102 C150,102 180,280 250,350 C310,400 400,408 472,381 C510,370 540,416 560,416" stroke="#3aaa8a" stroke-width="2.5" fill="none" filter="url(#glowSoft)"/>
+
+  <!-- GPU empirical dots -->
+  <circle cx="80"  cy="102" r="8" fill="#3aaa8a" filter="url(#glow)"/>
+  <circle cx="472" cy="381" r="8" fill="#3aaa8a" filter="url(#glowSoft)"/>
+  <circle cx="560" cy="416" r="8" fill="#3aaa8a" filter="url(#glowSoft)"/>
+
+  <!-- Value labels -->
+  <text x="80"  y="93"  text-anchor="middle" fill="#3aaa8a" font-size="8">573k</text>
+  <text x="472" y="373" text-anchor="middle" fill="#3aaa8a" font-size="8">563</text>
+  <text x="560" y="408" text-anchor="middle" fill="#3aaa8a" font-size="8">234</text>
+
+  <!-- Asymptote line at 208 ns/c/s: y(208)=450-(2.318-2)*92.5=421 -->
+  <line x1="80" y1="421" x2="600" y2="421" stroke="#3aaa8a" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+  <text x="604" y="425" fill="#3aaa8a" font-size="8">asymptote</text>
+  <text x="604" y="435" fill="#3aaa8a" font-size="8">~208 ns/c·s</text>
+
+  <!-- k_launch annotation — the overhead that creates the "bump" -->
+  <rect x="82" y="100" width="130" height="40" rx="4" fill="#102820" stroke="#3a7050" stroke-width="0.8"/>
+  <text x="147" y="116" text-anchor="middle" fill="#5aaa7a" font-size="8" font-weight="bold">k_launch ≈ 573 µs</text>
+  <text x="147" y="128" text-anchor="middle" fill="#4a9060" font-size="8">fixed GPU overhead / 1 pair</text>
+  <text x="147" y="138" text-anchor="middle" fill="#4a9060" font-size="8">amortises over C·S</text>
+
+  <!-- Formula annotation -->
+  <rect x="200" y="380" width="240" height="50" rx="4" fill="#102820" stroke="#3a7050" stroke-width="0.8"/>
+  <text x="320" y="397" text-anchor="middle" fill="#5aaa7a" font-size="9" font-weight="bold">MODEL: k_launch/(C·S) + k_compute</text>
+  <text x="320" y="411" text-anchor="middle" fill="#4a9060" font-size="8">hyperbolic decay on log-log plot</text>
+  <text x="320" y="422" text-anchor="middle" fill="#4a9060" font-size="8">→ asymptotes to k_compute ≈ 200 ns/c·s</text>
+
+  <!-- GPU label -->
+  <text x="170" y="148" fill="#3aaa8a" font-size="10" font-weight="bold">GPU — O(C·S·T·R/G)</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       RIGHT PANEL: Total Wall Time vs C·S (linear scale)
+       x: 720 to 1250  y: 80 to 450
+       ═══════════════════════════════════════════════════════════════ -->
+
+  <!-- Panel background -->
+  <rect x="680" y="68" width="590" height="415" rx="8" fill="#1a2530" stroke="#3a4f60" stroke-width="1"/>
+
+  <!-- Panel title -->
+  <rect x="680" y="68" width="590" height="24" rx="8" fill="#1e2a40" stroke="#D4891A" stroke-width="1.2"/>
+  <text x="975" y="84" text-anchor="middle" fill="#D4891A" font-size="11" font-weight="bold">TOTAL WALL TIME vs WORKLOAD  (C · S pairs)</text>
+
+  <!-- y-axis: 0 to max_time_normalised (0..1 scale for illustration)
+       y = 450 - normalised * 350
+       x-axis: 0 to 200k pairs
+       x = 700 + (pairs/200000)*520 -->
+
+  <!-- Y gridlines (normalised time 0..1) -->
+  <line x1="700" y1="450" x2="1240" y2="450" stroke="#253545" stroke-width="0.8"/>
+  <line x1="700" y1="362" x2="1240" y2="362" stroke="#253545" stroke-width="0.6" opacity="0.5"/>
+  <line x1="700" y1="275" x2="1240" y2="275" stroke="#253545" stroke-width="0.8"/>
+  <line x1="700" y1="188" x2="1240" y2="188" stroke="#253545" stroke-width="0.6" opacity="0.5"/>
+  <line x1="700" y1="100" x2="1240" y2="100" stroke="#253545" stroke-width="0.8"/>
+
+  <!-- X gridlines: 0, 50k, 100k, 150k, 200k -->
+  <line x1="700"  y1="100" x2="700"  y2="450" stroke="#253545" stroke-width="0.8"/>
+  <line x1="830"  y1="100" x2="830"  y2="450" stroke="#253545" stroke-width="0.5" opacity="0.4"/>
+  <line x1="960"  y1="100" x2="960"  y2="450" stroke="#253545" stroke-width="0.8"/>
+  <line x1="1090" y1="100" x2="1090" y2="450" stroke="#253545" stroke-width="0.5" opacity="0.4"/>
+  <line x1="1220" y1="100" x2="1220" y2="450" stroke="#253545" stroke-width="0.8"/>
+
+  <text x="700"  y="464" text-anchor="middle" fill="#4a6a7a" font-size="8">0</text>
+  <text x="830"  y="464" text-anchor="middle" fill="#4a6a7a" font-size="8">50k</text>
+  <text x="960"  y="464" text-anchor="middle" fill="#4a6a7a" font-size="8">100k</text>
+  <text x="1090" y="464" text-anchor="middle" fill="#4a6a7a" font-size="8">150k</text>
+  <text x="1220" y="464" text-anchor="middle" fill="#4a6a7a" font-size="8">200k</text>
+  <text x="975"  y="478" text-anchor="middle" fill="#8FAAB8" font-size="10">C · S  (contract-scenario pairs)</text>
+
+  <!-- Y labels (normalised to CPU 200k = top) -->
+  <text x="694" y="454" text-anchor="end" fill="#4a6a7a" font-size="8">0</text>
+  <text x="694" y="366" text-anchor="end" fill="#4a6a7a" font-size="8">25%</text>
+  <text x="694" y="279" text-anchor="end" fill="#4a6a7a" font-size="8">50%</text>
+  <text x="694" y="192" text-anchor="end" fill="#4a6a7a" font-size="8">75%</text>
+  <text x="694" y="104" text-anchor="end" fill="#4a6a7a" font-size="8">100%</text>
+  <text x="666" y="275" text-anchor="middle" fill="#8FAAB8" font-size="10" transform="rotate(-90,666,275)">Wall Time  →</text>
+
+  <!-- CPU line: purely linear, slope=1481/200000 per pair
+       At 200k→y=100, at 100k→y=275, at 0→y=450
+       straight line from (700,450) to (1220,100) -->
+  <line x1="700" y1="450" x2="1220" y2="100" stroke="#e6a040" stroke-width="2.5"/>
+  <circle cx="700"  cy="450" r="5" fill="#e6a040"/>
+  <circle cx="960"  cy="275" r="5" fill="#e6a040"/>
+  <circle cx="1220" cy="100" r="5" fill="#e6a040" filter="url(#glowSoft)"/>
+  <text x="1230" y="96" fill="#e6a040" font-size="9" font-weight="bold">CPU</text>
+  <text x="1230" y="108" fill="#e6a040" font-size="8">1481 ms</text>
+
+  <!-- GPU COMPUTE: linear with small offset (k_launch)
+       At 200k → ~41.5ms ≈ 2.8% of 1481ms → y = 450 - 0.028*350 = 440
+       At 100k → ~23.4ms ≈ 1.6% → y = 450-0.016*350 = 444
+       At 0 → k_launch ≈ 0.04% → y≈449
+       Line from (700,449) to (1220,440) — very gentle slope -->
+  <line x1="700" y1="449" x2="1220" y2="440" stroke="#3aaa8a" stroke-width="2.5" filter="url(#glowSoft)"/>
+  <circle cx="700"  cy="449" r="5" fill="#3aaa8a"/>
+  <circle cx="960"  cy="444" r="5" fill="#3aaa8a"/>
+  <circle cx="1220" cy="440" r="5" fill="#3aaa8a" filter="url(#glow)"/>
+  <text x="1230" y="438" fill="#3aaa8a" font-size="9" font-weight="bold">GPU compute</text>
+  <text x="1230" y="450" fill="#3aaa8a" font-size="8">41 ms</text>
+
+  <!-- k_launch offset annotation -->
+  <line x1="700" y1="449" x2="700" y2="450" stroke="#8FAAB8" stroke-width="1"/>
+  <line x1="698" y1="449" x2="702" y2="449" stroke="#8FAAB8" stroke-width="1"/>
+  <line x1="698" y1="450" x2="702" y2="450" stroke="#8FAAB8" stroke-width="1"/>
+  <text x="705" y="447" fill="#8FAAB8" font-size="7">k_launch</text>
+
+  <!-- GPU FULL PATH: linear, slope between GPU compute and CPU
+       At 200k → ~553ms ≈ 37.3% → y = 450-0.373*350 = 319
+       At 100k → ~273ms ≈ 18.4% → y = 450-0.184*350 = 386
+       Line from (700,450) to (1220,319) -->
+  <line x1="700" y1="450" x2="1220" y2="319" stroke="#e04040" stroke-width="2.5" stroke-dasharray="8,3"/>
+  <circle cx="700"  cy="450" r="5" fill="#e04040"/>
+  <circle cx="960"  cy="386" r="5" fill="#e04040"/>
+  <circle cx="1220" cy="319" r="5" fill="#e04040" filter="url(#glowSoft)"/>
+  <text x="1230" y="317" fill="#e04040" font-size="9" font-weight="bold">GPU full path</text>
+  <text x="1230" y="329" fill="#e04040" font-size="8">553 ms</text>
+
+  <!-- D2H dominated annotation -->
+  <rect x="750" y="320" width="200" height="44" rx="4" fill="#2a1818" stroke="#e04040" stroke-width="0.8"/>
+  <text x="850" y="337" text-anchor="middle" fill="#e06060" font-size="9" font-weight="bold">Full path ≈ O(C·S) dominated by D2H</text>
+  <text x="850" y="350" text-anchor="middle" fill="#c04040" font-size="8">kernel is "free" — PCIe is the bottleneck</text>
+  <text x="850" y="361" text-anchor="middle" fill="#c04040" font-size="8">slope ≈ D2H bandwidth constant</text>
+
+  <!-- Speedup annotation at 200k -->
+  <rect x="870" y="112" width="200" height="70" rx="4" fill="#1a3028" stroke="#3aaa8a" stroke-width="1"/>
+  <text x="970" y="131" text-anchor="middle" fill="#3aaa8a" font-size="9" font-weight="bold">SPEEDUP at C=200k, S=1</text>
+  <text x="970" y="148" text-anchor="middle" fill="#FFFFFF" font-size="14" font-weight="bold">35.7× compute</text>
+  <text x="970" y="165" text-anchor="middle" fill="#e6a040" font-size="11">2.7× full path</text>
+  <text x="970" y="177" text-anchor="middle" fill="#5a9a7a" font-size="8">Life Insurance (Markov)</text>
+
+  <!-- Crossover annotation -->
+  <!-- Crossover at C·S ≈ 10k → x = 700 + (10000/200000)*520 = 700+26=726 -->
+  <line x1="726" y1="100" x2="726" y2="450" stroke="#D4891A" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.7"/>
+  <text x="726" y="95" text-anchor="middle" fill="#D4891A" font-size="8" font-weight="bold">C·S ≈ 10k</text>
+  <text x="726" y="106" text-anchor="middle" fill="#D4891A" font-size="8">crossover</text>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       BOTTOM LEGEND
+       ═══════════════════════════════════════════════════════════════ -->
+  <line x1="30" y1="500" x2="1270" y2="500" stroke="#D4891A" stroke-width="0.8" opacity="0.35"/>
+  <line x1="150" y1="525" x2="200" y2="525" stroke="#e6a040" stroke-width="2.5" stroke-dasharray="8,3"/>
+  <circle cx="175" cy="525" r="5" fill="#e6a040"/>
+  <text x="208" y="530" fill="#FFFFFF" font-size="11">CPU (sequential · linear total time · flat ns/c·s)</text>
+  <line x1="540" y1="525" x2="590" y2="525" stroke="#3aaa8a" stroke-width="2.5"/>
+  <circle cx="565" cy="525" r="5" fill="#3aaa8a"/>
+  <text x="598" y="530" fill="#FFFFFF" font-size="11">GPU compute (no D2H · dominant at scale)</text>
+  <line x1="900" y1="525" x2="950" y2="525" stroke="#e04040" stroke-width="2.5" stroke-dasharray="8,3"/>
+  <circle cx="925" cy="525" r="5" fill="#e04040"/>
+  <text x="958" y="530" fill="#FFFFFF" font-size="11">GPU full path (PCIe D2H dominated)</text>
+</svg>
