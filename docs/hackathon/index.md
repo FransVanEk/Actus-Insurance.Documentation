@@ -15,6 +15,8 @@ When I learned about the **ACTUS Algorithmic Financial Contracts Use Case Compet
 
 I started in December 2025. The competition deadline was March 16, 2026. This is the story of what I built.
 
+We started with nothing. No codebase, no framework, no prior experience with ACTUS — just a blank slate and a deadline. Every line of code, every architecture decision, every interface and integration was built from scratch over the course of the competition. Even this documentation site — the one you're reading right now — was conceived, designed, and written entirely within the hackathon window. From December 2025 to March 16, 2026, everything you see here was created for this competition and this competition alone.
+
 > A note on the Technical Concepts
 >
 > Before going deeper, it is worth acknowledging something important.
