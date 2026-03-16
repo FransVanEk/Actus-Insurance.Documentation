@@ -34,3 +34,5 @@ I hope you can appreciate both the effort and the results presented in this docu
 **Let's see where this can lead us.**
 
 Frans
+
+P.S. Everything presented in this documentation that is publicly available will remain so. The only proprietary element is the GPU-accelerated engine itself. The name Actus-I is simply a working name used throughout this project — it is not a trademark, a brand, or any kind of formal designation.

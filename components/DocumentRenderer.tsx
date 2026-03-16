@@ -9,7 +9,7 @@ import { DocContent } from '../lib/markdown'
 import 'highlight.js/styles/github-dark.css'
 import { TableOfContents } from './TableOfContents'
 import { MermaidChart } from './MermaidChart'
-import { ResourceList } from './ResourceList'
+import { ResourceList, ResourceItem } from './ResourceList'
 import { useLayout } from './LayoutContext'
 import { ChevronRightIcon, ChevronLeftIcon } from '@heroicons/react/24/outline'
 import { toSentenceCase, applyToReactChildren } from '../lib/sentenceCase'
@@ -76,14 +76,14 @@ function resolveDocLink(href: string, fileDir: string): string {
   return `/docs/${resultParts.join('/')}`
 }
 
-/** Convert <ResourceList ids="..." /> / <resourcelist> etc. to a plain div so ReactMarkdown can handle it. */
+/** Convert <ResourceList ids="..." /> and <ResourceItem id="..." /> to data-attr divs. */
 function preprocessContent(content: string): string {
-  // With ids attribute (self-closing or paired tags, any case)
+  // ResourceList with ids
   let result = content.replace(
     /<[Rr]esource[Ll]ist\s+ids=["']([^"']*)["']\s*\/?>/gi,
     (_match, ids: string) => `<div data-resourcelist="${ids}"></div>`
   )
-  // Without any ids attribute — show all resources
+  // ResourceList without ids — show all
   result = result.replace(
     /<[Rr]esource[Ll]ist\s*\/>/gi,
     () => `<div data-resourcelist=""></div>`
@@ -91,6 +91,23 @@ function preprocessContent(content: string): string {
   result = result.replace(
     /<[Rr]esource[Ll]ist\s*><\/[Rr]esource[Ll]ist>/gi,
     () => `<div data-resourcelist=""></div>`
+  )
+  // ResourceItem id="..." (self-closing or paired, with optional hideDescription/minimal)
+  result = result.replace(
+    /<[Rr]esource[Ii]tem\s+id=["']([^"']*)["']([^>]*)\/?>/gi,
+    (_match, id: string, attrs: string) => {
+      const hideDesc = /\bhideDescription\b/i.test(attrs)
+      const minimal = /\bminimal\b/i.test(attrs)
+      return `<div data-resourceitem="${id}"${hideDesc ? ' data-hide-description="true"' : ''}${minimal ? ' data-minimal="true"' : ''}></div>`
+    }
+  )
+  result = result.replace(
+    /<[Rr]esource[Ii]tem\s+id=["']([^"']*)["']([^>]*)><\/[Rr]esource[Ii]tem>/gi,
+    (_match, id: string, attrs: string) => {
+      const hideDesc = /\bhideDescription\b/i.test(attrs)
+      const minimal = /\bminimal\b/i.test(attrs)
+      return `<div data-resourceitem="${id}"${hideDesc ? ' data-hide-description="true"' : ''}${minimal ? ' data-minimal="true"' : ''}></div>`
+    }
   )
   return result
 }
@@ -244,10 +261,18 @@ export function DocumentRenderer({ doc }: DocumentRendererProps) {
             },
             // Transparent passthrough — styling is handled entirely in the code renderer above
             pre: ({ node, children }) => <>{children}</>,
-            // <div data-resourcelist="id1,id2"> → styled download card grid
+            // <div data-resourcelist="id1,id2"> → card grid
+            // <div data-resourceitem="id"> → compact inline item
             div: ({ node, children, ...props }) => {
-              const ids = (props as Record<string, unknown>)['data-resourcelist'] as string | undefined
-              if (ids !== undefined) return <ResourceList ids={ids} />
+              const attrs = props as Record<string, unknown>
+              const ids     = attrs['data-resourcelist'] as string | undefined
+              const itemId  = attrs['data-resourceitem'] as string | undefined
+              if (ids    !== undefined) return <ResourceList ids={ids} />
+              if (itemId !== undefined) {
+                const hideDesc = attrs['data-hide-description'] === 'true'
+                const minimal = attrs['data-minimal'] === 'true'
+                return <ResourceItem id={itemId} hideDescription={hideDesc} minimal={minimal} />
+              }
               return <div {...props}>{children}</div>
             },
             // Enhanced tables

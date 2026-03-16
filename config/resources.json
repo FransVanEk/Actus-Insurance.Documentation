@@ -17,7 +17,7 @@
     "url": "https://5zctpd9jyxecuidw.public.blob.vercel-storage.com/actus-Video-presentation-%20large.mp4",
     "viewUrl": "https://5zctpd9jyxecuidw.public.blob.vercel-storage.com/actus-Video-presentation-%20large.mp4"
   },
- {
+  {
     "id": "demo-video-webinterface",
     "title": "Showing the ACTUS Web Interface using GPU and CPU implementation",
     "description": "Video guide demonstrating the ACTUS web interface, showcasing both the GPU and CPU implementations in action for Monte Carlo simulations.",
@@ -79,7 +79,7 @@
     "size": "1.4 MB",
     "url": "/downloads/hackathon-documentation.pdf",
     "viewUrl": "/downloads/hackathon-documentation.pdf",
-    "generated": "2026-03-15T16:08:17.823Z",
+    "generated": "2026-03-16T17:01:59.104Z",
     "section": "hackathon"
   },
   {
@@ -90,7 +90,7 @@
     "size": "1.1 MB",
     "url": "/downloads/actus-org-documentation.pdf",
     "viewUrl": "/downloads/actus-org-documentation.pdf",
-    "generated": "2026-03-15T16:08:17.826Z",
+    "generated": "2026-03-16T17:01:59.107Z",
     "section": "actus-org"
   },
   {
@@ -101,7 +101,7 @@
     "size": "128 KB",
     "url": "/downloads/background-gpu-documentation.pdf",
     "viewUrl": "/downloads/background-gpu-documentation.pdf",
-    "generated": "2026-03-15T16:08:17.828Z",
+    "generated": "2026-03-16T17:01:59.110Z",
     "section": "background-gpu"
   },
   {
@@ -112,7 +112,7 @@
     "size": "638 KB",
     "url": "/downloads/technical-documentation.pdf",
     "viewUrl": "/downloads/technical-documentation.pdf",
-    "generated": "2026-03-15T16:08:17.830Z",
+    "generated": "2026-03-16T17:01:59.112Z",
     "section": "technical"
   },
   {
@@ -123,7 +123,7 @@
     "size": "498 KB",
     "url": "/downloads/actus-insurance-documentation.pdf",
     "viewUrl": "/downloads/actus-insurance-documentation.pdf",
-    "generated": "2026-03-15T16:08:17.832Z",
+    "generated": "2026-03-16T17:01:59.114Z",
     "section": "actus-insurance"
   }
 ]

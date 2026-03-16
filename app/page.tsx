@@ -19,6 +19,8 @@ import {
   SparklesIcon,
 } from "@heroicons/react/24/outline";
 import sectionsData from "../config/sections.json";
+import { ResourceItem } from "../components/ResourceList";
+
 
 // Map icon name strings to actual icon components
 const ICON_MAP: Record<string, React.ComponentType<React.SVGProps<SVGSVGElement>>> = {
@@ -49,20 +51,29 @@ export default function Home() {
       {/* Header */}
       <header className="relative">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
-            <div className="flex items-center">
+          <div className="grid grid-cols-1 items-center gap-3 py-3 md:grid-cols-[auto_1fr_auto]">
+            <div className="flex items-center justify-center md:justify-self-start">
               <img src="/logo_A_dark.svg" alt="ACTUS Logo" className="h-12 w-10 object-contain" />
               <span className="ml-3 text-2xl font-bold text-white">
                 ACTUS-I Documentation
               </span>
             </div>
-            <Link
-              href={`/docs/${currentSection.id}`}
-              className="inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors"
-              style={{ backgroundColor: '#D4891A' }}
-            >
-              View {currentSection.title}
-            </Link>
+
+            <div className="flex justify-center md:px-3">
+              <div className="max-w-[22rem]">
+                <ResourceItem id="demo-video" minimal />
+              </div>
+            </div>
+
+            <div className="flex justify-center md:justify-self-end">
+              <Link
+                href={`/docs/${currentSection.id}`}
+                className="inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors"
+                style={{ backgroundColor: '#D4891A' }}
+              >
+                View {currentSection.title}
+              </Link>
+            </div>
           </div>
         </div>
       </header>
