@@ -15,7 +15,7 @@ When I learned about the **ACTUS Algorithmic Financial Contracts Use Case Compet
 
 I started in December 2025. The competition deadline was March 16, 2026. This is the story of what I built.
 
-We started with nothing. No codebase, no framework, no prior experience with ACTUS — just a blank slate and a deadline. Every line of code, every architecture decision, every interface and integration was built from scratch over the course of the competition. Even this documentation site — the one you're reading right now — was conceived, designed, and written entirely within the hackathon window. From December 2025 to March 16, 2026, everything you see here was created for this competition and this competition alone.
+I started with nothing. No codebase, no framework, no prior experience with ACTUS — just a blank slate and a deadline. Every line of code, every architecture decision, every interface and integration was built from scratch over the course of the competition. Even this documentation site — the one you're reading right now — was conceived, designed, and written entirely within the hackathon window. From December 2025 to March 16, 2026, everything you see here was created for this competition and this competition alone.
 
 > A note on the Technical Concepts
 >
@@ -100,9 +100,20 @@ This is what makes the system trustworthy. It is not just fast — it is provabl
 
 Start with the car factory story — it explains everything else:
 
-1. [Understanding CPU and GPU](./cpu-vs-gpu-explained.md) — the full car factory analogy: single track, eight tracks, the highway, the on-ramp bottleneck, staying on the highway, sinks on the off-ramp
-2. [Development Timeline](./timeline.md) — how the facility was built, phase by phase
-3. [Key Decisions](./decisions.md) — why I built a new track, how I designed the highway, and other critical choices
-4. [Challenges & Solutions](./challenges.md) — the problems I ran into and how I solved them
-5. [Outcomes & Benchmarks](./results.md) — the test results: how fast, how correct, and what it means
-6. [Installation & Getting Started](./installation.md) — how to install and run the system: Docker demo, CLI tool, developer build, and documentation site
+1. [Competition Submission](./competition-submission.md) — the official competition submission: project description, key innovations, challenges, and next steps
+2. [Personal Note](./personal-note.md) — a personal reflection on the journey from the CORA Summit in Zagreb to building a GPU-accelerated ACTUS engine
+3. [Understanding CPU and GPU](./cpu-vs-gpu-explained.md) — the full car factory analogy: single track, eight tracks, the highway, the on-ramp bottleneck, staying on the highway, sinks on the off-ramp
+4. [Monte Carlo Test Sample](./monte-carlo-test-sample.md) — end-to-end PAM Monte Carlo 50-year demo run: CPU vs GPU on 10,000 contracts across 1,000 scenarios
+5. [Development Timeline](./timeline.md) — phase by phase, how a single test track became a thousand-lane highway
+6. [Key Decisions](./decisions.md) — the choices that shaped the project, explained through the car factory analogy
+7. [Mac Docker — PAM Monte Carlo Scaling Study](./mac-docker-monte-carlo.md) — portfolio scaling experiment on Apple Silicon Mac via Docker: 1k to 500k contracts over a 20-year horizon
+8. [Challenges & Solutions](./challenges.md) — the problems encountered while building the highway, and the solutions that kept the project on track
+9. [Computational Complexity Reference](./performance-complexity.md) — Big-O characterisation of every stage in the evaluation pipeline
+10. [Test Results](./results.md) — the final scorecard: correctness, speed, and what the results mean
+11. [Scenario / CPU-GPU / CalcDate Causality Demo](./scenario-calcdate-causality.md) — three-experiment causality demo: CPU≡GPU precision, scenario rate sensitivity, and CalcDate boundary logic
+12. [Benchmark Analysis Report](./benchmarkAnalysis.md) — detailed benchmarking of the GPU engine against the optimised CPU engine
+13. [Code Resources](./code-resources.md) — the GitHub repositories that make up the ACTUS Insurance extension: what each contains and how they fit together
+14. [Installation & Getting Started](./installation.md) — how to install, run, and explore the system: Docker demo, CLI tool, developer build, and documentation site
+15. [About This Documentation Site](./about-this-site.md) — how this site works: project structure, content organisation, and how to add pages or sections
+16. [Resources & Downloads](./resources.md) — presentation slides, architecture diagrams, demo recordings, and test data
+17. [Terminology & Glossary](./terminology.md) — reference glossary of all key terms, abbreviations, and concepts used throughout the documentation
