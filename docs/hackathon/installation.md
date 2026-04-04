@@ -35,7 +35,7 @@ graph TD
     DOCS -. "explains" .-> DEMO
 ```
 
-The GPU component is the only proprietary piece. It is **not publicly available** as source code or as a NuGet package. GPU acceleration is accessible exclusively through the pre-built Docker images on Docker Hub. All other components (`Core`, `DemoAndSamples`, `Documentation`) are open source and buildable without GPU access.
+The GPU component is the only proprietary piece. It is **not publicly available** as source code or as a NuGet package. GPU acceleration is accessible exclusively through the pre-built Docker images on Docker Hub. All other components are open source and buildable without GPU access.
 
 ---
 
@@ -62,11 +62,11 @@ If you do want GPU execution inside Docker, the requirements depend on your GPU 
 
 | Vendor | Technology | Minimum driver | Extra software |
 |---|---|---|---|
-| NVIDIA | CUDA | 525+ (for CUDA 12) | [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) |
-| AMD | ROCm / OpenCL | ROCm 5.4+ | ROCm drivers and `rocm-docker` |
+| NVIDIA | CUDA | 450+ (CUDA 11), 525+ recommended (CUDA 12) | [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) |
+| AMD | ROCm / OpenCL | ROCm 5.4+ | ROCm drivers (Linux only) |
 | Intel | OpenCL | Latest Intel GPU drivers | Intel compute-runtime / OpenCL ICD |
 
-See the full [GPU Access for Docker](#gpu-access-for-docker-containers) section below for step-by-step setup instructions for each vendor.
+See the [GPU Access for Docker Containers](#gpu-access-for-docker-containers) section below for step-by-step setup instructions.
 
 ### For the documentation site
 
@@ -81,10 +81,6 @@ By default, Docker containers are **completely isolated from the host's GPU**. E
 
 The engine uses [ILGPU](https://ilgpu.net/) for GPU acceleration. ILGPU supports three backends — NVIDIA CUDA, AMD ROCm/OpenCL, and Intel OpenCL. If no compatible device is found inside the container, ILGPU falls back transparently to `CPUAccelerator`, which runs the same GPU kernel code on CPU threads. **GPU setup is always optional**: the containers run correctly without it.
 
-> **How to tell if the GPU is actually being used:** Look for the `accelerator=` value in the container's startup log (see [Confirming the active backend](#confirming-the-active-backend) below).
-
----
-
 ### Platform support at a glance
 
 | Platform | NVIDIA (CUDA) | AMD (ROCm) | Intel (OpenCL) |
@@ -93,13 +89,13 @@ The engine uses [ILGPU](https://ilgpu.net/) for GPU acceleration. ILGPU supports
 | Windows (Docker Desktop + WSL 2) | ✅ Full support | ❌ Not supported | ⚠️ Limited |
 | macOS (Apple Silicon or Intel) | ❌ Not supported | ❌ Not supported | ❌ Not supported |
 
-> macOS does not expose GPU hardware to Docker containers — this is a platform limitation. On macOS, the engine always runs on `CPUAccelerator` regardless of flags. This is not an error.
+> macOS does not expose GPU hardware to Docker containers. The engine always runs on `CPUAccelerator` on macOS regardless of flags — this is a platform limitation, not a bug.
 
 ---
 
 ### NVIDIA GPU (CUDA) — step by step
 
-NVIDIA has the best Docker GPU support and is the recommended path. There are **three layers** that must all be in place before a container can use the GPU:
+NVIDIA has the best Docker GPU support and is the recommended path. There are three layers that must all be in place before a container can use the GPU:
 
 ```
 [Your NVIDIA GPU]
@@ -117,8 +113,6 @@ If any layer is missing, the engine falls back to CPU without an error.
 
 #### Step 1 — Install and verify the host driver
 
-The host machine needs an NVIDIA driver installed. Check it with:
-
 ```bash
 nvidia-smi
 ```
@@ -127,13 +121,9 @@ Expected output (example):
 
 ```
 +-----------------------------------------------------------------------------------------+
-| NVIDIA-SMI 537.13    Driver Version: 537.13    CUDA Version: 12.2                       |
-|-----------------------------------------+------------------------+----------------------+
-| GPU  Name                  Driver-Model | Bus-Id          Disp.A | Volatile Uncorr. ECC |
-| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
-|=========================================+========================+======================|
-|   0  NVIDIA GeForce RTX 3060 Ti   WDDM | 00000000:01:00.0   On |                  N/A |
-|  30%   45C    P8              11W / 200W|   1068MiB /  8192MiB  |      0%      Default |
+| NVIDIA-SMI 537.13    Driver Version: 537.13    CUDA Version: 12.2                      |
+|-----------------------------------------+------------------------+---------------------+
+|   0  NVIDIA GeForce RTX 3060 Ti   WDDM |   1068MiB /  8192MiB  |      0%      Default |
 +-----------------------------------------------------------------------------------------+
 ```
 
@@ -142,24 +132,21 @@ Expected output (example):
 | CUDA version | Minimum NVIDIA driver |
 |---|---|
 | CUDA 11.0 | ≥ 450.80 |
-| CUDA 11.8 | ≥ 520.61 |
 | CUDA 12.0 | ≥ 525.85 ← recommended |
 | CUDA 12.2 | ≥ 535.54 |
 
-The engine has been tested on an RTX 3060 Ti with driver 537.13 (CUDA 12.2) on Windows. Driver ≥ 525 is recommended.
-
-If `nvidia-smi` is not found or shows no GPU, install or update the NVIDIA driver before continuing:
-- **Windows:** Download from [nvidia.com/Download](https://www.nvidia.com/Download/index.aspx)
+The engine has been tested on an RTX 3060 Ti with driver 537.13 (CUDA 12.2) on Windows. Driver ≥ 525 is recommended. If `nvidia-smi` is not found, install the NVIDIA driver before continuing:
+- **Windows:** [nvidia.com/Download](https://www.nvidia.com/Download/index.aspx)
 - **Ubuntu/Debian:** `sudo apt-get install -y nvidia-driver-535`
 
 #### Step 2 — Install the NVIDIA Container Toolkit (Linux only)
 
-On Linux, Docker does not automatically see the GPU driver — the **NVIDIA Container Toolkit** is the bridge that makes it available inside containers. Without this, `--gpus all` has no effect.
+On Linux, the **NVIDIA Container Toolkit** is the bridge that makes the host GPU available inside containers. Without it, `--gpus all` has no effect.
 
 **Ubuntu / Debian:**
 
 ```bash
-# 1. Add the NVIDIA Container Toolkit repository
+# Add the NVIDIA Container Toolkit repository
 curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey \
   | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg
 
@@ -167,13 +154,12 @@ curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-contai
   | sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' \
   | sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 
-# 2. Install the toolkit
 sudo apt-get update && sudo apt-get install -y nvidia-container-toolkit
 
-# 3. Register the NVIDIA runtime with Docker
+# Register the NVIDIA runtime with Docker
 sudo nvidia-ctk runtime configure --runtime=docker
 
-# 4. Restart Docker to apply the change
+# Restart Docker to apply the change
 sudo systemctl restart docker
 ```
 
@@ -183,27 +169,27 @@ Verify the toolkit is working:
 docker run --gpus all --rm ubuntu nvidia-smi
 ```
 
-If this prints your GPU details, the toolkit is installed correctly. If it fails with `could not select device driver`, re-run step 3 and restart Docker again.
+If this prints your GPU details, the toolkit is installed correctly.
 
 **Windows (Docker Desktop + WSL 2):**
 
-On Windows, the NVIDIA Container Toolkit is **not needed** — Docker Desktop handles GPU passthrough automatically through WSL 2. You only need to:
-1. Install the [NVIDIA driver for Windows](https://www.nvidia.com/Download/index.aspx) on the host (do **not** install a driver inside WSL itself)
+The NVIDIA Container Toolkit is **not needed** on Windows. Docker Desktop handles GPU passthrough automatically through WSL 2. You only need to:
+1. Install the [NVIDIA driver for Windows](https://www.nvidia.com/Download/index.aspx) on the host — do **not** install a separate driver inside WSL
 2. Enable WSL 2 backend in Docker Desktop (Settings → General → "Use the WSL 2 based engine")
 3. Verify the GPU is visible inside WSL: `wsl nvidia-smi`
 
 #### Step 3 — Pass the GPU into the container with `--gpus all`
 
-This is the flag that actually connects the host GPU to the running container. **Without it, the container has no GPU access** even if all other setup is correct.
+This is the flag that connects the host GPU to the running container. **Without it, the container has no GPU access** even if all other setup is correct.
 
 ```bash
-# Linux / macOS — expose all GPUs
+# Linux / macOS
 docker run --gpus all --rm \
   -v $(pwd)/out-gpu:/app/out \
   neobluetechlabs/pam-monte-carlo:latest \
   --backend gpu
 
-# Windows (PowerShell) — expose all GPUs
+# Windows (PowerShell)
 docker run --gpus all --rm `
   -v c:/temp/actus-docker/output:/app/out `
   neobluetechlabs/pam-monte-carlo:latest `
@@ -216,29 +202,21 @@ On a multi-GPU machine, target a specific GPU by index:
 # Use only GPU 0
 docker run --gpus '"device=0"' --rm \
   -v $(pwd)/out-gpu:/app/out \
-  neobluetechlabs/pam-monte-carlo:latest \
-  --backend gpu
-
-# Use GPU 1
-docker run --gpus '"device=1"' --rm \
-  -v $(pwd)/out-gpu:/app/out \
-  neobluetechlabs/pam-monte-carlo:latest \
-  --backend gpu
+  neobluetechlabs/pam-monte-carlo:latest --backend gpu
 ```
 
-#### Step 4 — Confirm the GPU is being used (not CPU fallback)
+#### Step 4 — Confirm the GPU is being used
 
 Watch the container's startup log. The `accelerator=` value tells you exactly which backend ILGPU selected:
 
 ```bash
-# Run with visible output and check the log line
 docker run --gpus all --rm \
   -v $(pwd)/out:/app/out \
   neobluetechlabs/pam-monte-carlo:latest \
   --backend gpu --contracts 500 --scenarios 50
 ```
 
-**GPU is active** — look for `CudaAccelerator`:
+**GPU active** — look for `CudaAccelerator`:
 ```
 [run0_gpu] PROVISIONING started  (accelerator=CudaAccelerator, device=NVIDIA GeForce RTX 3060 Ti, ...)
 ```
@@ -248,9 +226,9 @@ docker run --gpus all --rm \
 [run0_gpu] PROVISIONING started  (accelerator=CPUAccelerator, ...)
 ```
 
-`CPUAccelerator` means Docker could not see the GPU. The most common reason is a missing `--gpus all` flag. Go back to Step 3.
+`CPUAccelerator` means Docker could not see the GPU. The most common reason is a missing `--gpus all` flag.
 
-The output summary file (`run0_gpu_summary.json`) also records the backend:
+The output summary file (`run0_gpu_summary.json`) also records the backend used:
 
 ```json
 {
@@ -263,30 +241,14 @@ The output summary file (`run0_gpu_summary.json`) also records the backend:
 
 ---
 
-### AMD GPU (ROCm / OpenCL)
-
-AMD GPU passthrough works differently from NVIDIA — there is no separate toolkit. Instead, the GPU's device files are passed directly into the container. **Linux only.**
-
-#### Step 1 — Install ROCm drivers on the host
-
-Follow the [official ROCm installation guide](https://docs.amd.com/en/latest/deploy/linux/installer/install.html). Minimum version: ROCm 5.4. Verify:
+### AMD GPU (ROCm / OpenCL) — Linux only
 
 ```bash
-rocm-smi
-```
-
-#### Step 2 — Add your user to the required groups
-
-```bash
+# Add your user to the required groups
 sudo usermod -aG video,render $USER
 # Log out and back in for the group to take effect
-```
 
-#### Step 3 — Pass the GPU device files into the container
-
-AMD does not use `--gpus`; instead, pass the `/dev/kfd` (compute device) and `/dev/dri` (render nodes) files:
-
-```bash
+# Run with device passthrough (AMD does not use --gpus)
 docker run --rm \
   --device /dev/kfd \
   --device /dev/dri \
@@ -297,39 +259,18 @@ docker run --rm \
   --backend gpu
 ```
 
-On a multi-GPU machine, target a specific render node:
-
-```bash
-docker run --rm \
-  --device /dev/kfd \
-  --device /dev/dri/renderD128 \
-  --group-add render \
-  -v $(pwd)/out-gpu:/app/out \
-  neobluetechlabs/pam-monte-carlo:latest \
-  --backend gpu
-```
-
-Look for `OpenCLAccelerator` (not `CPUAccelerator`) in the container log to confirm the GPU is active.
+Look for `OpenCLAccelerator` in the container log to confirm the GPU is active.
 
 ---
 
 ### Intel GPU (OpenCL)
 
-Intel integrated and discrete GPUs use the OpenCL path via the Intel compute-runtime package.
-
-#### Step 1 — Install Intel compute-runtime on the host
-
 ```bash
-# Ubuntu
+# Ubuntu — install Intel compute-runtime
 sudo apt-get install -y intel-opencl-icd
+clinfo | grep "Device Name"   # verify OpenCL devices are visible
 
-# Verify OpenCL devices are visible
-clinfo | grep "Device Name"
-```
-
-#### Step 2 — Pass the render device into the container
-
-```bash
+# Run with device passthrough
 docker run --rm \
   --device /dev/dri \
   -v $(pwd)/out-gpu:/app/out \
@@ -341,7 +282,7 @@ docker run --rm \
 
 ### Docker Compose with GPU (NVIDIA)
 
-When using Docker Compose, GPU access is declared with a `deploy.resources.reservations.devices` block. This requires **Compose v2** (`docker compose`, not `docker-compose`):
+Add a `deploy` block to any service that needs GPU access. Requires **Compose v2** (`docker compose`, not `docker-compose`):
 
 ```yaml
 version: '3.8'
@@ -374,59 +315,52 @@ services:
               capabilities: [gpu]
 ```
 
-> **Compose v1 (`docker-compose`)** does not support the `deploy.devices` syntax. If you are still on v1, use `docker run --gpus all` directly, or upgrade to Docker Desktop 4.x which ships Compose v2 by default. Check your version: `docker compose version`.
+> **Compose v1 (`docker-compose`)** does not support `deploy.devices`. Use `docker run --gpus all` directly, or upgrade to Docker Desktop 4.x which ships Compose v2 by default. Check your version: `docker compose version`.
 
 ---
 
 ### Confirming the active backend
 
-You can always check which backend the engine selected by reading the container's log output or the output summary file. The `accelerator=` value in the PROVISIONING log line is the definitive answer:
-
 | Log line | Meaning |
 |---|---|
-| `accelerator=CudaAccelerator` | NVIDIA GPU is active via CUDA |
-| `accelerator=OpenCLAccelerator` | AMD or Intel GPU is active via OpenCL |
+| `accelerator=CudaAccelerator` | NVIDIA GPU active via CUDA |
+| `accelerator=OpenCLAccelerator` | AMD or Intel GPU active via OpenCL |
 | `accelerator=CPUAccelerator` | No GPU found — running on CPU threads |
 
-A quick one-liner to check without running a full analysis:
+Quick one-liner to check without a full analysis run:
 
 ```bash
 # Linux
-docker run --gpus all --rm neobluetechlabs/pam-monte-carlo:latest --backend gpu --contracts 10 --scenarios 1 2>&1 | grep accelerator
+docker run --gpus all --rm neobluetechlabs/pam-monte-carlo:latest \
+  --backend gpu --contracts 10 --scenarios 1 2>&1 | grep accelerator
 
 # Windows (PowerShell)
-docker run --gpus all --rm neobluetechlabs/pam-monte-carlo:latest --backend gpu --contracts 10 --scenarios 1 2>&1 | Select-String "accelerator"
+docker run --gpus all --rm neobluetechlabs/pam-monte-carlo:latest `
+  --backend gpu --contracts 10 --scenarios 1 2>&1 | Select-String "accelerator"
 ```
 
 ---
 
 ### GPU troubleshooting
 
-**`unknown flag: --gpus`**
-Your Docker Engine is older than 19.03. Run `docker --version` and upgrade Docker Desktop.
+**`unknown flag: --gpus`** — Docker Engine is older than 19.03. Run `docker --version` and upgrade.
 
-**`could not select device driver "" with capabilities: [[gpu]]`**
-The NVIDIA Container Toolkit is not installed or Docker was not restarted after installation. Run:
+**`could not select device driver "" with capabilities: [[gpu]]`** — The NVIDIA Container Toolkit is not installed or Docker was not restarted after installation:
 ```bash
 sudo nvidia-ctk runtime configure --runtime=docker && sudo systemctl restart docker
 ```
-Then verify with `docker run --gpus all --rm ubuntu nvidia-smi`.
 
-**Log shows `CPUAccelerator` even though `--gpus all` was passed**
-The GPU is not visible inside the container. Verify the toolkit end-to-end:
+**Log shows `CPUAccelerator` even though `--gpus all` was passed** — Verify end-to-end:
 ```bash
 docker run --gpus all --rm ubuntu nvidia-smi
 ```
-If this also shows CPUAccelerator or fails, the toolkit is not correctly configured — check that the runtime was registered and Docker was restarted.
+If this also fails, the toolkit is not configured correctly. Reinstall it and restart Docker.
 
-**On Windows: `nvidia-smi` works in WSL 2 but the container still shows `CPUAccelerator`**
-Go to Docker Desktop → Settings → General and confirm "Use the WSL 2 based engine" is enabled. Then check Settings → Resources → WSL Integration and ensure your distro is listed. Restart Docker Desktop.
+**On Windows: container shows `CPUAccelerator` despite GPU working in WSL 2** — Go to Docker Desktop → Settings → General and confirm "Use the WSL 2 based engine" is enabled. Check Settings → Resources → WSL Integration and ensure your distro is listed. Restart Docker Desktop.
 
-**AMD: `Permission denied` on `/dev/kfd` or `/dev/dri`**
-The user running Docker is not in the `render` and `video` groups. Run `sudo usermod -aG video,render $USER`, log out, and log back in.
+**AMD: `Permission denied` on `/dev/kfd` or `/dev/dri`** — Run `sudo usermod -aG video,render $USER`, log out, and log back in.
 
-**macOS: engine always shows `CPUAccelerator`**
-This is expected. Docker on macOS (Apple Silicon and Intel) does not expose the host GPU to containers. There is no workaround — run on a Linux or Windows host to get real GPU execution.
+**macOS: engine always shows `CPUAccelerator`** — Expected. Docker on macOS does not expose the host GPU to containers. Run on a Linux or Windows host for real GPU execution.
 
 ---
 
@@ -436,24 +370,26 @@ Ready-to-use containerised applications are published to Docker Hub. Pull and ru
 
 ### Available images
 
+The following 5 images are published under the `neobluetechlabs` organisation on Docker Hub:
+
 | Image | Description |
 |---|---|
-| `neobluetechlabs/pam-monte-carlo:latest` | PAM Monte Carlo 50-Year Analysis |
+| `neobluetechlabs/actus-insurance-api:latest` | ACTUS Insurance REST API (FastEndpoints, port 8080) |
+| `neobluetechlabs/actus-designer:latest` | ACTUS Designer UI — contract design and portfolio management (port 3000) |
+| `neobluetechlabs/pam-monte-carlo:latest` | PAM Monte Carlo 50-Year Analysis CLI |
 | `neobluetechlabs/scenario-calc-demo:latest` | Scenario Calculation Demo |
-| `neobluetechlabs/actus-insurance-api:latest` | ACTUS Insurance REST API |
-| `neobluetechlabs/actus-insurance-designer:latest` | ACTUS Insurance Designer UI |
-| `neobluetechlabs/actus-designer:latest` | ACTUS Designer (core contract designer) |
+| `neobluetechlabs/actus-insurance-documentation:latest` | Documentation site |
 
-All images are published as multi-architecture manifests and support `linux/amd64` (Intel/AMD 64-bit) and `linux/arm64` (ARM 64-bit, including Apple Silicon). Docker automatically selects the correct variant for your system when pulling.
+All images support `linux/amd64` (Intel/AMD 64-bit) and `linux/arm64` (ARM 64-bit, including Apple Silicon). Docker automatically selects the correct variant for your system when pulling.
 
 Pull all images at once:
 
 ```bash
+docker pull neobluetechlabs/actus-insurance-api:latest
+docker pull neobluetechlabs/actus-designer:latest
 docker pull neobluetechlabs/pam-monte-carlo:latest
 docker pull neobluetechlabs/scenario-calc-demo:latest
-docker pull neobluetechlabs/actus-insurance-api:latest
-docker pull neobluetechlabs/actus-insurance-designer:latest
-docker pull neobluetechlabs/actus-designer:latest
+docker pull neobluetechlabs/actus-insurance-documentation:latest
 ```
 
 ---
@@ -492,13 +428,16 @@ By default this runs both CPU and GPU backends with 10 000 contracts, 1 000 scen
 
 ```bash
 # GPU only
-docker run --rm -v $(pwd)/out-monte-carlo:/app/out neobluetechlabs/pam-monte-carlo:latest --backend gpu
+docker run --gpus all --rm -v $(pwd)/out-monte-carlo:/app/out \
+  neobluetechlabs/pam-monte-carlo:latest --backend gpu
 
 # CPU only
-docker run --rm -v $(pwd)/out-monte-carlo:/app/out neobluetechlabs/pam-monte-carlo:latest --backend cpu
+docker run --rm -v $(pwd)/out-monte-carlo:/app/out \
+  neobluetechlabs/pam-monte-carlo:latest --backend cpu
 
 # Both (default)
-docker run --rm -v $(pwd)/out-monte-carlo:/app/out neobluetechlabs/pam-monte-carlo:latest --backend both
+docker run --gpus all --rm -v $(pwd)/out-monte-carlo:/app/out \
+  neobluetechlabs/pam-monte-carlo:latest --backend both
 ```
 
 #### Custom parameters
@@ -506,7 +445,7 @@ docker run --rm -v $(pwd)/out-monte-carlo:/app/out neobluetechlabs/pam-monte-car
 ```bash
 # Smaller test run
 docker run --rm -v $(pwd)/out-monte-carlo:/app/out neobluetechlabs/pam-monte-carlo:latest \
-  --backend gpu \
+  --backend cpu \
   --contracts 1000 \
   --scenarios 100 \
   --months 240
@@ -547,7 +486,7 @@ out-monte-carlo/
 
 ### Customising portfolio and contract type
 
-By default the container generates a synthetic portfolio of PAM (Principal-At-Maturity) contracts. You can control the portfolio composition and contract terms through command-line parameters and, for more advanced control, by mounting your own input files.
+By default the container generates a synthetic portfolio of PAM (Principal-At-Maturity) contracts. You can control portfolio composition and contract terms through CLI parameters, and for more advanced control by mounting your own input files.
 
 #### Changing portfolio size and contract type via parameters
 
@@ -567,11 +506,11 @@ docker run --rm -v c:/temp/actus-docker/output:/app/out \
   --export-portfolio true
 ```
 
-The exported `portfolio.csv` shows the generated contract terms. You can edit this file and feed it back in as a custom portfolio (see "Using a custom portfolio" below).
+The exported `portfolio.csv` shows the generated contract terms. The fastest way to get a working template is to run with `--export-portfolio true` — you can then edit the file and feed it back in as a custom portfolio.
 
 #### Using a custom portfolio
 
-Mount a directory that contains your own `portfolio.csv` using the `--input` flag:
+Mount a directory containing your own `portfolio.csv` using the `--input` flag:
 
 ```bash
 # Linux / macOS
@@ -591,7 +530,7 @@ docker run --rm `
   --backend cpu
 ```
 
-The input directory must follow this layout (see the full CLI reference for all optional files):
+The input directory must follow this layout:
 
 ```
 my-input/
@@ -622,7 +561,7 @@ Each row in `portfolio.csv` defines one PAM contract. The key columns that contr
 
 #### Changing the calculation date
 
-The `--calcDateIndex` parameter shifts the calculation date forward along the scenario timeline. Index `0` means "start of the scenario"; higher values advance the calculation date, allowing you to stress-test the portfolio at future points in time:
+The `--calcDateIndex` parameter shifts the calculation date forward along the scenario timeline. Index `0` means start of the scenario; higher values advance the date, allowing stress-testing at future points in time:
 
 ```bash
 # Calculate at month 12 (one year into the projection)
@@ -684,16 +623,14 @@ This runs three experiments and writes results to the output directory.
 
 #### Customising the scenario demo
 
-You can pass additional arguments to control which experiments run and how the portfolio is built:
-
 ```bash
-# Linux / macOS — run with a custom seed and 20 contracts
+# Custom seed and contract count — Linux / macOS
 docker run --rm -v $(pwd)/out-scenario:/app/out \
   neobluetechlabs/scenario-calc-demo:latest \
   --contracts 20 \
   --seed 99
 
-# Windows (PowerShell) — same run with Windows path
+# Windows (PowerShell)
 docker run --rm -v c:/temp/actus-docker/out-scenario:/app/out `
   neobluetechlabs/scenario-calc-demo:latest `
   --contracts 20 `
@@ -703,6 +640,7 @@ docker run --rm -v c:/temp/actus-docker/out-scenario:/app/out `
 Mount your own portfolio and scenarios by providing an `--input` directory (same layout as the `pam-monte-carlo` image):
 
 ```bash
+# Windows (PowerShell)
 docker run --rm `
   -v c:/temp/actus-docker/my-input:/app/input `
   -v c:/temp/actus-docker/out-scenario:/app/out `
@@ -723,20 +661,12 @@ out-scenario/
 
 ---
 
-### API and Frontend Services (Pre-built)
-
-There are two frontend images available:
-
-| Image | Use case |
-|---|---|
-| `neobluetechlabs/actus-insurance-designer:latest` | Insurance-specific UI with portfolio management, policy configuration, and risk visualisation |
-| `neobluetechlabs/actus-designer:latest` | Core ACTUS contract designer for general contract terms |
+### API and Designer UI (Pre-built)
 
 #### Pull the images
 
 ```bash
 docker pull neobluetechlabs/actus-insurance-api:latest
-docker pull neobluetechlabs/actus-insurance-designer:latest
 docker pull neobluetechlabs/actus-designer:latest
 ```
 
@@ -746,11 +676,8 @@ docker pull neobluetechlabs/actus-designer:latest
 # Start the ACTUS Insurance API server
 docker run --rm -p 8080:8080 neobluetechlabs/actus-insurance-api:latest
 
-# Start the Insurance Designer UI
-docker run --rm -p 3000:3000 neobluetechlabs/actus-insurance-designer:latest
-
-# Or start the core ACTUS Designer
-docker run --rm -p 3001:3000 neobluetechlabs/actus-designer:latest
+# Start the ACTUS Designer UI
+docker run --rm -p 3000:3000 neobluetechlabs/actus-designer:latest
 ```
 
 #### Run the complete stack with Docker Compose
@@ -767,19 +694,12 @@ services:
     volumes:
       - actus-data:/app/data
 
-  actus-insurance-designer:
-    image: neobluetechlabs/actus-insurance-designer:latest
-    ports:
-      - "3000:3000"
-    depends_on:
-      - actus-insurance-api
-    environment:
-      - API_BASE_URL=http://actus-insurance-api:8080
-
   actus-designer:
     image: neobluetechlabs/actus-designer:latest
     ports:
-      - "3001:3000"
+      - "3000:3000"
+    environment:
+      - API_BASE_URL=http://actus-insurance-api:8080
     depends_on:
       - actus-insurance-api
 
@@ -804,8 +724,7 @@ docker compose down
 
 | Service | URL |
 |---|---|
-| Insurance Designer UI | http://localhost:3000 |
-| ACTUS Designer (core) | http://localhost:3001 |
+| ACTUS Designer UI | http://localhost:3000 |
 | ACTUS Insurance API | http://localhost:8080 |
 | API documentation (Swagger) | http://localhost:8080/swagger |
 | Health check | http://localhost:8080/health |
@@ -840,7 +759,7 @@ docker run --rm -p 8080:8080 -v $(pwd)/api-data:/app/data neobluetechlabs/actus-
 | `Calculation__PreferGpu` | `false` | GPU preference |
 | `Logging__LogLevel__Default` | `Information` | Log level |
 
-#### Insurance Designer / ACTUS Designer (frontend images)
+#### ACTUS Designer UI (`actus-designer`)
 
 | Variable | Default | Description |
 |---|---|---|
@@ -862,7 +781,7 @@ docker run --rm --cpus="2.0" --memory="4g" \
 Run multiple containers in parallel for different parameter sets:
 
 ```bash
-docker run --rm -v $(pwd)/out-gpu:/app/out neobluetechlabs/pam-monte-carlo:latest --backend gpu --scenarios 500 &
+docker run --gpus all --rm -v $(pwd)/out-gpu:/app/out neobluetechlabs/pam-monte-carlo:latest --backend gpu --scenarios 500 &
 docker run --rm -v $(pwd)/out-cpu:/app/out neobluetechlabs/pam-monte-carlo:latest --backend cpu --scenarios 500 &
 wait
 ```
@@ -901,6 +820,13 @@ services:
     command: ["--backend", "gpu", "--contracts", "5000"]
     volumes:
       - ./monte-carlo-output:/app/out
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
 
   actus-insurance-api:
     image: neobluetechlabs/actus-insurance-api:latest
@@ -908,20 +834,20 @@ services:
       - "8080:8080"
     environment:
       - Calculation__PreferGpu=true
-
-  actus-insurance-designer:
-    image: neobluetechlabs/actus-insurance-designer:latest
-    ports:
-      - "3000:3000"
-    environment:
-      - API_BASE_URL=http://actus-insurance-api:8080
-    depends_on:
-      - actus-insurance-api
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
 
   actus-designer:
     image: neobluetechlabs/actus-designer:latest
     ports:
-      - "3001:3000"
+      - "3000:3000"
+    environment:
+      - API_BASE_URL=http://actus-insurance-api:8080
     depends_on:
       - actus-insurance-api
 ```
@@ -950,7 +876,7 @@ Copy or review the `.env` file in the repository root. The key variables are:
 | `PREFER_GPU` | `false` | Set to `true` to enable GPU acceleration |
 | `API_KEY` | — | Authentication key for API access |
 
-`API_KEY` is optional for local development. The `.env` file in the repository ships without a key set, meaning the API runs without authentication in development mode. Set it to a non-empty string to enable bearer-token authentication on all endpoints — required before any internet-facing deployment.
+`API_KEY` is optional for local development. The `.env` file ships without a key set, meaning the API runs without authentication in development mode. Set it to a non-empty string to enable bearer-token authentication on all endpoints — required before any internet-facing deployment.
 
 To use the default configuration, no changes are needed. To enable GPU execution, set `PREFER_GPU=true` — but see the GPU prerequisites above first.
 
@@ -1002,7 +928,7 @@ The `PamMonteCarlo50Y` CLI tool runs the full evaluation pipeline from the comma
 
 ### Location
 
-The CLI tool is located inside the DemoAndSamples repository:
+The CLI is pre-built and embedded in the `neobluetechlabs/pam-monte-carlo` Docker image — no local build is required. All arguments are passed directly to `docker run` as shown in the sections above. The source path below is provided for reference if you are browsing the repository:
 
 ```
 Actus-Insurance.DemoAndSamples/
@@ -1010,38 +936,44 @@ Actus-Insurance.DemoAndSamples/
     └── PamMonteCarlo50Y/
 ```
 
-The CLI is pre-built and embedded in the `neobluetechlabs/pam-monte-carlo` Docker image — no local build is required. All arguments are passed directly to `docker run` as shown in the sections below. The source path above is provided for reference if you are browsing the repository.
-
 ### Prerequisites for CLI
 
-The CLI tool is available pre-built inside the `neobluetechlabs/pam-monte-carlo` Docker image — no build step or NuGet authentication is required. The GPU engine is compiled into the image; it is proprietary and not distributed as a standalone package.
-
-To use the CLI, simply pull the image and run it with the parameters you need (see [Option A — PAM Monte Carlo Analysis](#pam-monte-carlo-analysis) above). If you want to build the CLI from source, note that the GPU dependency is not publicly available and the build will only produce a CPU-only binary from `Actus-Insurance.Core`.
+No build step or NuGet authentication is required. The GPU engine is compiled into the image; it is proprietary and not distributed as a standalone package. If you want to build the CLI from source, note that the GPU dependency is not publicly available and the build will only produce a CPU-only binary from `Actus-Insurance.Core`.
 
 ### Running the CLI
 
 **Synthetic mode** — generate a random portfolio and run the full Monte Carlo pipeline:
 
 ```bash
-PamMonteCarlo50Y --backend gpu --contracts 10000 --scenarios 1000 --months 600 --seed 42
+docker run --gpus all --rm -v $(pwd)/out:/app/out \
+  neobluetechlabs/pam-monte-carlo:latest \
+  --backend gpu --contracts 10000 --scenarios 1000 --months 600 --seed 42
 ```
 
 **Input-directory mode** — load an existing portfolio from files:
 
 ```bash
-PamMonteCarlo50Y --backend gpu --input ./samples/input --out ./results
+docker run --gpus all --rm \
+  -v $(pwd)/my-input:/app/input \
+  -v $(pwd)/out:/app/out \
+  neobluetechlabs/pam-monte-carlo:latest \
+  --backend gpu --input /app/input --out /app/out
 ```
 
 **CPU-only mode** (no GPU required):
 
 ```bash
-PamMonteCarlo50Y --backend cpu --contracts 10000 --scenarios 100
+docker run --rm -v $(pwd)/out:/app/out \
+  neobluetechlabs/pam-monte-carlo:latest \
+  --backend cpu --contracts 10000 --scenarios 100
 ```
 
 **Compare CPU and GPU** (runs both and reports timings):
 
 ```bash
-PamMonteCarlo50Y --backend both --contracts 10000 --scenarios 100
+docker run --gpus all --rm -v $(pwd)/out:/app/out \
+  neobluetechlabs/pam-monte-carlo:latest \
+  --backend both --contracts 10000 --scenarios 100
 ```
 
 ### Key CLI options
@@ -1063,10 +995,12 @@ PamMonteCarlo50Y --backend both --contracts 10000 --scenarios 100
 ### Example: benchmarking CPU vs GPU
 
 ```bash
-PamMonteCarlo50Y --backend both --contracts 100000 --scenarios 1000 --seed 42
+docker run --gpus all --rm -v $(pwd)/out:/app/out \
+  neobluetechlabs/pam-monte-carlo:latest \
+  --backend both --contracts 100000 --scenarios 1000 --seed 42
 ```
 
-This runs 100 million projections on both backends and prints timing results. Expected outcome on a modern workstation: GPU approximately 2× faster than CPU for this workload.
+This runs 100 million projections on both backends and prints timing results. Expected outcome on an RTX 3060 Ti: GPU approximately 5–7× faster than CPU at this scale.
 
 ### Expected output files
 
@@ -1097,7 +1031,7 @@ input_dir/
 └── contract_metadata.csv            — (optional) Extra contract attributes for reporting
 ```
 
-The fastest way to get a real sample is to run the container once with `--export-portfolio true` — it writes a `portfolio.csv` to your output directory using the same format required for `--input`. This gives you a working template you can edit directly rather than constructing one from scratch.
+The fastest way to get a working sample is to run the container once with `--export-portfolio true` — it writes a `portfolio.csv` to your output directory in the correct format, which you can then edit and use as your `--input`.
 
 ---
 
@@ -1133,15 +1067,13 @@ The solution contains three projects:
 dotnet test
 ```
 
-All 42 official ACTUS reference test cases should pass. These validate every event type, financial convention, and edge case against known-correct results to 10 decimal places.
+All 42 official ACTUS reference test cases pass with no skipped or pending cases. These validate every event type, financial convention, and edge case against known-correct results to 10 decimal places.
 
 ```
 Test run summary:
   Passed: 42
   Failed: 0
 ```
-
-All 42 tests pass with no skipped or pending cases. The test suite covers the full ACTUS PAM reference suite — every event type, financial convention, and edge case validated to 10 decimal places.
 
 ### 4. Explore the project structure
 
@@ -1194,7 +1126,7 @@ npm install
 npm run dev
 ```
 
-The site is available at [http://localhost:3000](http://localhost:3000). Changes to files in `docs/` are reflected immediately without restarting.
+The site is available at [http://localhost:3000](http://localhost:3000). Changes to files in `docs/` are reflected immediately without restarting. No environment variables are required — the site runs out of the box with no external services.
 
 ### 4. Build for production
 
@@ -1203,19 +1135,22 @@ npm run build
 npm run start
 ```
 
-No environment variables are required. The site runs with `npm run dev` out of the box — all content is file-based and no external services are needed for local development.
+You can also run the documentation as a Docker container using the pre-built image:
+
+```bash
+docker pull neobluetechlabs/actus-insurance-documentation:latest
+docker run --rm -p 3000:3000 neobluetechlabs/actus-insurance-documentation:latest
+```
 
 ---
 
 ## Using GPU Acceleration in Your Project
 
-The GPU component (`Actus-Insurance.GPU`) is **proprietary and not publicly available** as source code or as a NuGet package. There is no access request process — the GPU engine is distributed exclusively through the pre-built Docker images published on Docker Hub.
+The GPU component (`Actus-Insurance.GPU`) is **proprietary and not publicly available** as source code or as a NuGet package. GPU acceleration is distributed exclusively through the pre-built Docker images on Docker Hub.
 
-If you need GPU-accelerated ACTUS Insurance calculations in your own workflows, use the Docker images directly. They embed the compiled GPU engine and expose it through the CLI and API interfaces described in this guide.
+If you need GPU-accelerated ACTUS Insurance calculations in your own workflows, use the Docker images directly — they embed the compiled GPU engine and expose it through the CLI and API interfaces.
 
-### Running GPU calculations from your own code or pipeline
-
-#### Via the REST API
+### Via the REST API
 
 Start `actus-insurance-api` with GPU enabled and call it from any language or tool:
 
@@ -1227,9 +1162,7 @@ docker run --gpus all --rm -p 8080:8080 \
 
 Then send requests to `http://localhost:8080` — see the Swagger UI at `http://localhost:8080/swagger` for the full endpoint reference.
 
-#### Via the Monte Carlo CLI image
-
-Run the containerised CLI with your own portfolio mounted as an input directory:
+### Via the Monte Carlo CLI image
 
 ```bash
 # Linux / macOS
@@ -1237,35 +1170,17 @@ docker run --gpus all --rm \
   -v $(pwd)/my-portfolio:/app/input \
   -v $(pwd)/results:/app/out \
   neobluetechlabs/pam-monte-carlo:latest \
-  --input /app/input \
-  --backend gpu \
-  --scenarios 1000
+  --input /app/input --backend gpu --scenarios 1000
 
 # Windows (PowerShell)
 docker run --gpus all --rm `
   -v c:/temp/actus-docker/my-portfolio:/app/input `
   -v c:/temp/actus-docker/results:/app/out `
   neobluetechlabs/pam-monte-carlo:latest `
-  --input /app/input `
-  --backend gpu `
-  --scenarios 1000
+  --input /app/input --backend gpu --scenarios 1000
 ```
 
-Results are written to the mounted output directory as CSV and JSON files that you can consume in any downstream system.
-
-#### Via the Scenario Calculation Demo
-
-```bash
-docker run --gpus all --rm \
-  -v $(pwd)/my-portfolio:/app/input \
-  -v $(pwd)/results:/app/out \
-  neobluetechlabs/scenario-calc-demo:latest \
-  --input /app/input
-```
-
-#### Automating multi-run pipelines with Docker Compose
-
-For repeatable, parameterised runs you can drive the containers from a Compose file or a shell script:
+### Automating multi-run pipelines
 
 ```bash
 #!/bin/bash
@@ -1274,10 +1189,8 @@ for SCENARIOS in 100 500 1000; do
     -v $(pwd)/portfolio:/app/input \
     -v $(pwd)/results/s${SCENARIOS}:/app/out \
     neobluetechlabs/pam-monte-carlo:latest \
-    --input /app/input \
-    --backend gpu \
-    --scenarios $SCENARIOS \
-    --seed 42
+    --input /app/input --backend gpu \
+    --scenarios $SCENARIOS --seed 42
 done
 ```
 
@@ -1312,15 +1225,16 @@ docker ps
 
 ### Pre-built images: image cannot be pulled
 
-Verify the image name and tag, then try pulling explicitly:
-
-```bash
-docker pull neobluetechlabs/pam-monte-carlo:latest
-```
+Verify the image name and tag against the [Available images](#available-images) table, then try pulling explicitly. The five valid image names are:
+- `neobluetechlabs/actus-insurance-api:latest`
+- `neobluetechlabs/actus-designer:latest`
+- `neobluetechlabs/pam-monte-carlo:latest`
+- `neobluetechlabs/scenario-calc-demo:latest`
+- `neobluetechlabs/actus-insurance-documentation:latest`
 
 ### Pre-built images: GPU backend not producing GPU output files
 
-GPU acceleration uses a CPU fallback by default if no compatible GPU is detected. This is not an error — it is a silent performance difference. Verify which backend was used by checking for `*_gpu_*.csv` files in the output directory and reviewing the container logs. To force CPU-only execution: `--backend cpu`.
+GPU acceleration uses a CPU fallback if no compatible GPU is detected inside the container. Verify which backend was used by checking the `accelerator=` value in the container startup log (see [Confirming the active backend](#confirming-the-active-backend)). The most common cause is a missing `--gpus all` flag in the `docker run` command.
 
 ### Pre-built images: debugging container internals
 
@@ -1334,9 +1248,6 @@ docker run --rm neobluetechlabs/pam-monte-carlo:latest ls -la /app/
 # Monitor resource usage
 docker stats <container-name>
 
-# Inspect image layers
-docker history neobluetechlabs/pam-monte-carlo:latest
-
 # View available CLI options
 docker run --rm neobluetechlabs/pam-monte-carlo:latest --help
 ```
@@ -1346,8 +1257,8 @@ docker run --rm neobluetechlabs/pam-monte-carlo:latest --help
 Check the logs for the specific container that failed:
 
 ```bash
-docker-compose logs backend
-docker-compose logs frontend
+docker-compose logs actus-insurance-api
+docker-compose logs actus-designer
 ```
 
 Common causes:
@@ -1363,7 +1274,7 @@ If you are building only `Actus-Insurance.Core` from source, no NuGet authentica
 
 ### Tests fail with locale-related number formatting errors
 
-If test results show wildly incorrect values (interest rates of 525% instead of 5.25%), the system may be reading decimal numbers using the locale of the operating system rather than the fixed locale-independent format the engine enforces. This was an early challenge in the project and is described in detail in [Roadblocks](./challenges.md#roadblock-1-the-comma-vs-period-crash).
+If test results show wildly incorrect values (interest rates of 525% instead of 5.25%), the system may be reading decimal numbers using the OS locale rather than the fixed locale-independent format the engine enforces. This was an early challenge in the project and is described in detail in [Roadblocks](./challenges.md#roadblock-1-the-comma-vs-period-crash).
 
 Make sure you are running the latest version of the repository — this issue was resolved by enforcing invariant culture parsing throughout the engine.
 
@@ -1375,42 +1286,30 @@ If `--backend gpu` is set but the engine falls back to CPU, you will see this in
 [run0_gpu] PROVISIONING started  (accelerator=CPUAccelerator, ...)
 ```
 
-`CPUAccelerator` means ILGPU found no CUDA or OpenCL device and compiled the GPU kernel to run on CPU threads instead. Results are still correct — only performance is affected. This is the expected output on Apple Silicon Macs, CPU-only Linux hosts, and any machine where `--gpus all` was not passed to Docker.
+`CPUAccelerator` means ILGPU found no CUDA or OpenCL device. Results are still correct — only performance is affected.
 
 **Minimum driver versions required for a real GPU backend:**
 
 | Vendor | Backend | Minimum host driver | Notes |
 |---|---|---|---|
-| NVIDIA | CUDA | **≥ 450.80** (CUDA 11.0) | ≥ 525 recommended (CUDA 12). Tested on RTX 3060 Ti with Windows 64-bit |
-| AMD | ROCm / OpenCL | **ROCm 5.4+** | Linux only — no ROCm Docker support on Windows or macOS |
+| NVIDIA | CUDA | ≥ 450.80 (CUDA 11.0) | ≥ 525 recommended (CUDA 12). Tested on RTX 3060 Ti, driver 537.13 |
+| AMD | ROCm / OpenCL | ROCm 5.4+ | Linux only |
 | Intel | OpenCL | Latest Intel GPU driver + `intel-opencl-icd` | Integrated and discrete Arc GPUs |
 
 **How to confirm which backend the engine actually used:**
 
-The container log prints the accelerator name during the PROVISIONING phase:
 ```
-# GPU in use (CUDA):
+# GPU active (CUDA):
 [run0_gpu] PROVISIONING started  (accelerator=CudaAccelerator, device=NVIDIA GeForce RTX 3060 Ti, ...)
 
-# GPU in use (OpenCL):
+# GPU active (OpenCL):
 [run0_gpu] PROVISIONING started  (accelerator=OpenCLAccelerator, device=AMD Radeon RX 6800, ...)
 
 # Fallback — no GPU found:
 [run0_gpu] PROVISIONING started  (accelerator=CPUAccelerator, ...)
 ```
 
-The output summary file also records this:
-
-```json
-{
-  "backend": "CudaAccelerator",
-  "device": "NVIDIA GeForce RTX 3060 Ti",
-  "contracts": 10000,
-  "scenarios": 1000
-}
-```
-
-The most common cause of falling back to CPUAccelerator when you expect a GPU is **forgetting `--gpus all`** in the `docker run` command. Without that flag, Docker gives the container no GPU access at all, even if the NVIDIA Container Toolkit is installed. See the [GPU Access for Docker Containers](#gpu-access-for-docker-containers) section for the full setup checklist.
+The most common cause of falling back to `CPUAccelerator` when you expect GPU is **forgetting `--gpus all`** in the `docker run` command. See the [GPU Access for Docker Containers](#gpu-access-for-docker-containers) section for the full setup checklist.
 
 ---
 
